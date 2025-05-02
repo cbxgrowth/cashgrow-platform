@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -6,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Mail, Phone, Building, Globe, MapPin, Upload, Users, Bell, Shield, Palette } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 const CompanySettings: React.FC = () => {
   return (
@@ -218,10 +218,10 @@ const CompanySettings: React.FC = () => {
                   <Input 
                     id="cashback-message" 
                     placeholder="Mensagem exibida ao cliente"
-                    defaultValue="Obrigado por comprar no Mercado Verde! Você ganhou {cashback_amount} em cashback." 
+                    defaultValue="Obrigado por comprar no Mercado Verde! Você ganhou {valor_cashback} em cashback." 
                   />
                   <p className="text-xs text-muted-foreground">
-                    Use {cashback_amount} para inserir o valor do cashback e {cashback_percentage} para inserir a porcentagem.
+                    Use {'{valor_cashback}'} para inserir o valor do cashback e {'{porcentagem_cashback}'} para inserir a porcentagem.
                   </p>
                 </div>
               </div>
@@ -263,7 +263,7 @@ const CompanySettings: React.FC = () => {
                       <td className="p-4 align-middle">ana.maria@mercadoverde.com</td>
                       <td className="p-4 align-middle">Administrador</td>
                       <td className="p-4 align-middle">
-                        <Badge className="bg-green-500/20 text-green-600">Ativo</Badge>
+                        <Badge variant="default" className="bg-green-500/20 text-green-600">Ativo</Badge>
                       </td>
                       <td className="p-4 align-middle">
                         <div className="flex gap-2">
@@ -277,7 +277,7 @@ const CompanySettings: React.FC = () => {
                       <td className="p-4 align-middle">carlos.roberto@mercadoverde.com</td>
                       <td className="p-4 align-middle">Gerente</td>
                       <td className="p-4 align-middle">
-                        <Badge className="bg-green-500/20 text-green-600">Ativo</Badge>
+                        <Badge variant="default" className="bg-green-500/20 text-green-600">Ativo</Badge>
                       </td>
                       <td className="p-4 align-middle">
                         <div className="flex gap-2">
@@ -291,7 +291,7 @@ const CompanySettings: React.FC = () => {
                       <td className="p-4 align-middle">fernanda.lima@mercadoverde.com</td>
                       <td className="p-4 align-middle">Operador</td>
                       <td className="p-4 align-middle">
-                        <Badge className="bg-yellow-500/20 text-yellow-600">Pendente</Badge>
+                        <Badge variant="default" className="bg-yellow-500/20 text-yellow-600">Pendente</Badge>
                       </td>
                       <td className="p-4 align-middle">
                         <div className="flex gap-2">
