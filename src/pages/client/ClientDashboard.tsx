@@ -1,28 +1,53 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 import { 
   Calendar,
   CreditCard,
   Download,
   ArrowUp,
-  ArrowDown
+  ArrowDown,
+  TrendingUp,
+  Bell,
+  ChevronRight
 } from "lucide-react";
 
 const ClientDashboard: React.FC = () => {
+  // Adicionando efeitos de entrada animada aos elementos
+  useEffect(() => {
+    const animateTiming = (selector: string, delay: number) => {
+      const elements = document.querySelectorAll(selector);
+      elements.forEach((element, index) => {
+        setTimeout(() => {
+          element.classList.add('animate-slide-up', 'opacity-100');
+          element.classList.remove('opacity-0', 'translate-y-4');
+        }, delay + (index * 100));
+      });
+    };
+    
+    animateTiming('.dashboard-header', 100);
+    animateTiming('.dashboard-card', 300);
+    animateTiming('.transaction-item', 500);
+    animateTiming('.store-item', 700);
+  }, []);
+  
+  // Dados simulados para o progresso
+  const nextLevelProgress = 75;
+  
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 dashboard-header opacity-0 translate-y-4">
         <h1 className="text-3xl font-bold tracking-tight">Meu Cashback</h1>
-        <Button variant="outline" size="sm">
+        <Button variant="outline" size="sm" className="hover-scale">
           <Calendar className="mr-2 h-4 w-4" /> Últimos 30 dias
         </Button>
       </div>
       
-      {/* Balance Card */}
+      {/* Balance Card com efeito de gradiente */}
       <div className="grid gap-4 md:grid-cols-2">
-        <Card className="bg-gradient-to-br from-primary to-secondary text-white">
+        <Card className="bg-gradient-primary text-white shadow-lg dashboard-card opacity-0 translate-y-4 hover-scale">
           <CardHeader>
             <CardTitle className="flex justify-between items-center">
               <span>Saldo disponível</span>
@@ -34,15 +59,23 @@ const ClientDashboard: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="text-4xl font-bold">R$ 123,45</div>
+            <div className="mt-4 space-y-2">
+              <div className="flex items-center justify-between text-sm">
+                <span>Progresso para nível Gold</span>
+                <span>{nextLevelProgress}%</span>
+              </div>
+              <Progress value={nextLevelProgress} className="h-2 bg-white/20" />
+              <p className="text-xs text-white/70">Gaste mais R$ 150,00 para atingir o nível Gold e ganhar 10% de cashback.</p>
+            </div>
           </CardContent>
           <CardFooter>
-            <Button variant="secondary" className="w-full">
+            <Button variant="secondary" className="w-full hover-scale">
               Resgatar Saldo
             </Button>
           </CardFooter>
         </Card>
         
-        <Card>
+        <Card className="dashboard-card opacity-0 translate-y-4 hover-scale glass-card card-shadow">
           <CardHeader>
             <CardTitle>Resumo</CardTitle>
             <CardDescription>
@@ -59,6 +92,10 @@ const ClientDashboard: React.FC = () => {
                   </div>
                   <span className="text-xl font-medium text-green-600">R$ 76,25</span>
                 </div>
+                <p className="text-xs text-muted-foreground">
+                  <TrendingUp className="inline h-3 w-3 mr-1" />
+                  12% a mais que no mês anterior
+                </p>
               </div>
               <div className="space-y-1">
                 <p className="text-sm font-medium text-muted-foreground">Valores Resgatados</p>
@@ -68,19 +105,35 @@ const ClientDashboard: React.FC = () => {
                   </div>
                   <span className="text-xl font-medium text-orange-600">R$ 30,00</span>
                 </div>
+                <p className="text-xs text-muted-foreground">
+                  Último resgate em 15/04
+                </p>
+              </div>
+            </div>
+            
+            {/* Notificações */}
+            <div className="mt-6 p-3 bg-accent/10 rounded-lg border border-accent/20">
+              <div className="flex items-start gap-3">
+                <div className="bg-accent/20 rounded-full p-2">
+                  <Bell className="h-4 w-4 text-accent" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium">Oferta exclusiva!</p>
+                  <p className="text-xs text-muted-foreground">Ganhe cashback duplo em compras acima de R$ 200 na Tech Store até 30/05.</p>
+                </div>
               </div>
             </div>
           </CardContent>
           <CardFooter>
-            <Button variant="outline" className="w-full">
+            <Button variant="outline" className="w-full hover-scale">
               <Download className="mr-2 h-4 w-4" /> Extrato Completo
             </Button>
           </CardFooter>
         </Card>
       </div>
       
-      {/* Transactions */}
-      <Card>
+      {/* Transactions com hover e efeitos */}
+      <Card className="dashboard-card opacity-0 translate-y-4 card-shadow">
         <CardHeader>
           <CardTitle>Últimas transações</CardTitle>
           <CardDescription>
@@ -90,10 +143,13 @@ const ClientDashboard: React.FC = () => {
         <CardContent>
           <div className="space-y-3">
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="flex justify-between items-center p-3 bg-muted/30 rounded-lg">
+              <div 
+                key={i} 
+                className="flex justify-between items-center p-3 bg-muted/30 hover:bg-muted/50 transition-colors rounded-lg transaction-item opacity-0 translate-y-4 hover-scale cursor-pointer"
+              >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
-                    <img src="https://via.placeholder.com/40" alt="Loja" className="w-6 h-6 rounded-full" />
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
+                    <img src={`https://via.placeholder.com/40/8B5CF6/FFFFFF?text=${i+1}`} alt="Loja" className="w-6 h-6 rounded-full" />
                   </div>
                   <div>
                     <p className="text-sm font-medium">
@@ -104,23 +160,26 @@ const ClientDashboard: React.FC = () => {
                     </p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className="text-sm font-medium text-green-600">+R$ {(Math.random() * 20 + 5).toFixed(2)}</p>
-                  <p className="text-xs text-muted-foreground">{Math.floor(Math.random() * 10 + 1)}% cashback</p>
+                <div className="text-right flex items-center">
+                  <div>
+                    <p className="text-sm font-medium text-green-600">+R$ {(Math.random() * 20 + 5).toFixed(2)}</p>
+                    <p className="text-xs text-muted-foreground">{Math.floor(Math.random() * 10 + 1)}% cashback</p>
+                  </div>
+                  <ChevronRight className="h-4 w-4 ml-2 text-muted-foreground" />
                 </div>
               </div>
             ))}
           </div>
         </CardContent>
         <CardFooter>
-          <Button variant="link" className="w-full">
+          <Button variant="link" className="w-full hover-scale">
             Ver todas as transações
           </Button>
         </CardFooter>
       </Card>
       
-      {/* Connected Businesses */}
-      <Card>
+      {/* Connected Businesses com hover e estilo melhorado */}
+      <Card className="dashboard-card opacity-0 translate-y-4 card-shadow">
         <CardHeader>
           <CardTitle>Empresas Conectadas</CardTitle>
           <CardDescription>
@@ -130,9 +189,16 @@ const ClientDashboard: React.FC = () => {
         <CardContent>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="flex flex-col items-center text-center">
-                <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-2">
-                  <img src="https://via.placeholder.com/40" alt="Loja" className="w-8 h-8 rounded-full" />
+              <div 
+                key={i} 
+                className="flex flex-col items-center text-center store-item opacity-0 translate-y-4 hover-scale cursor-pointer"
+              >
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center mb-2">
+                  <img 
+                    src={`https://via.placeholder.com/40/8B5CF6/FFFFFF?text=${["MV", "FS", "ME", "TS", "PD"][i]}`} 
+                    alt="Loja" 
+                    className="w-8 h-8 rounded-full" 
+                  />
                 </div>
                 <p className="text-sm font-medium">
                   {["Mercado Verde", "Farmácia Saúde", "Moda Express", "Tech Store", "Padaria Delícia"][i]}
@@ -145,7 +211,7 @@ const ClientDashboard: React.FC = () => {
           </div>
         </CardContent>
         <CardFooter>
-          <Button variant="outline" className="w-full">
+          <Button variant="outline" className="w-full hover-scale">
             Descobrir mais lojas
           </Button>
         </CardFooter>

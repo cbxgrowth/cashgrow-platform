@@ -1,55 +1,59 @@
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import MainLayout from "./components/layouts/MainLayout";
-import AuthLayout from "./components/layouts/AuthLayout";
-import DashboardLayout from "./components/layouts/DashboardLayout";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ThemeProvider } from "@/components/ui/theme-provider";
+import { Toaster } from '@/components/ui/sonner';
 
-import Home from "./pages/Home";
-import Login from "./pages/auth/Login";
-import Register from "./pages/auth/Register";
-import CompanyDashboard from "./pages/company/CompanyDashboard";
-import CashbackRules from "./pages/company/CashbackRules";
-import ClientDashboard from "./pages/client/ClientDashboard";
-import NotFound from "./pages/NotFound";
+import MainLayout from './components/layouts/MainLayout';
+import AuthLayout from './components/layouts/AuthLayout';
+import DashboardLayout from './components/layouts/DashboardLayout';
 
-const queryClient = new QueryClient();
+import Index from './pages/Index';
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
+import ClientDashboard from './pages/client/ClientDashboard';
+import CompanyDashboard from './pages/company/CompanyDashboard';
+import CashbackRules from './pages/company/CashbackRules';
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
+function App() {
+  return (
+    <ThemeProvider defaultTheme="light" storageKey="cashback-theme">
+      <Router>
         <Routes>
+          {/* Páginas principais */}
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Home />} />
+            <Route path="home" element={<Home />} />
           </Route>
 
-          <Route path="/" element={<AuthLayout />}>
+          {/* Páginas de autenticação */}
+          <Route path="/auth" element={<AuthLayout />}>
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
           </Route>
-          
-          <Route path="/company" element={<DashboardLayout />}>
+
+          {/* Páginas de dashboard do cliente */}
+          <Route path="/client" element={<DashboardLayout userType="client" />}>
+            <Route path="dashboard" element={<ClientDashboard />} />
+          </Route>
+
+          {/* Páginas de dashboard da empresa */}
+          <Route path="/company" element={<DashboardLayout userType="company" />}>
             <Route path="dashboard" element={<CompanyDashboard />} />
             <Route path="cashback-rules" element={<CashbackRules />} />
-            {/* Outros componentes de empresa seriam adicionados aqui */}
           </Route>
-          
-          <Route path="/client" element={<DashboardLayout />}>
-            <Route path="dashboard" element={<ClientDashboard />} />
-            {/* Outros componentes de cliente seriam adicionados aqui */}
-          </Route>
-          
+
+          {/* Página de redirecionamento */}
+          <Route path="/index" element={<Index />} />
+
+          {/* Página 404 */}
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+      </Router>
+      <Toaster position="bottom-right" />
+    </ThemeProvider>
+  );
+}
 
 export default App;
