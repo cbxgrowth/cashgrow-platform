@@ -1,7 +1,16 @@
 
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import { 
+  Sidebar, 
+  SidebarContent, 
+  SidebarGroup, 
+  SidebarGroupContent, 
+  SidebarGroupLabel, 
+  SidebarMenu, 
+  SidebarMenuButton, 
+  SidebarMenuItem 
+} from '@/components/ui/sidebar';
 import { Home, ShoppingCart, User, Settings, FileText, CreditCard, BarChart2, Users, LogOut } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
