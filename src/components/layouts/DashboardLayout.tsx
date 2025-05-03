@@ -11,7 +11,22 @@ import {
   SidebarMenuButton, 
   SidebarMenuItem 
 } from '@/components/ui/sidebar';
-import { Home, ShoppingCart, User, Settings, FileText, CreditCard, BarChart2, Users, LogOut } from 'lucide-react';
+import { 
+  Home, 
+  ShoppingCart, 
+  User, 
+  Settings, 
+  FileText, 
+  CreditCard, 
+  BarChart2, 
+  Users, 
+  LogOut, 
+  Brain, 
+  Building2, 
+  Award, 
+  Gift, 
+  TrendingUp
+} from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
 interface DashboardLayoutProps {
@@ -26,6 +41,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
     { title: 'Transações', icon: CreditCard, url: '/client/transactions' },
     { title: 'Perfil', icon: User, url: '/client/profile' },
     { title: 'Empresas', icon: ShoppingCart, url: '/client/companies' },
+    { title: 'Recomendações', icon: Brain, url: '/client/recommendations' },
+    { title: 'Missões', icon: Award, url: '/client/missions' },
+    { title: 'Clube VIP', icon: Gift, url: '/client/vip-club' },
   ];
 
   const companyMenuItems = [
@@ -34,6 +52,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
     { title: 'Clientes', icon: Users, url: '/company/clients' },
     { title: 'Transações', icon: CreditCard, url: '/company/transactions' },
     { title: 'Relatórios', icon: BarChart2, url: '/company/reports' },
+    { title: 'Campanhas IA', icon: Brain, url: '/company/ai-campaigns' },
+    { title: 'B2B & Corporativo', icon: Building2, url: '/company/corporate' },
+    { title: 'Desempenho', icon: TrendingUp, url: '/company/performance' },
     { title: 'Configurações', icon: Settings, url: '/company/settings' },
   ];
 

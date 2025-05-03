@@ -17,6 +17,8 @@ import ClientDashboard from './pages/client/ClientDashboard';
 import ClientTransactions from './pages/client/transactions';
 import ClientProfile from './pages/client/profile';
 import ClientCompanies from './pages/client/companies';
+import ClientRecommendations from './pages/client/recommendations';
+import ClientMissions from './pages/client/missions';
 import CompanyDashboard from './pages/company/CompanyDashboard';
 import CompanyClients from './pages/company/clients';
 import CompanyTransactions from './pages/company/transactions';
@@ -48,6 +50,9 @@ function App() {
               <Route path="transactions" element={<ClientTransactions />} />
               <Route path="profile" element={<ClientProfile />} />
               <Route path="companies" element={<ClientCompanies />} />
+              <Route path="recommendations" element={<ClientRecommendations />} />
+              <Route path="missions" element={<ClientMissions />} />
+              <Route path="vip-club" element={<index />} />
             </Route>
 
             {/* Páginas de dashboard da empresa */}
@@ -57,6 +62,9 @@ function App() {
               <Route path="clients" element={<CompanyClients />} />
               <Route path="transactions" element={<CompanyTransactions />} />
               <Route path="reports" element={<CompanyReports />} />
+              <Route path="ai-campaigns" element={<index />} />
+              <Route path="corporate" element={<index />} />
+              <Route path="performance" element={<index />} />
               <Route path="settings" element={<CompanySettings />} />
             </Route>
 
