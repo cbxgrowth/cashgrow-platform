@@ -19,12 +19,16 @@ import ClientProfile from './pages/client/profile';
 import ClientCompanies from './pages/client/companies';
 import ClientRecommendations from './pages/client/recommendations';
 import ClientMissions from './pages/client/missions';
+import ClientVipClub from './pages/client/vip-club';
 import CompanyDashboard from './pages/company/CompanyDashboard';
 import CompanyClients from './pages/company/clients';
 import CompanyTransactions from './pages/company/transactions';
 import CompanyReports from './pages/company/reports';
 import CompanySettings from './pages/company/settings';
 import CashbackRules from './pages/company/CashbackRules';
+import CompanyAICampaigns from './pages/company/ai-campaigns';
+import CompanyCorporate from './pages/company/corporate';
+import CompanyPerformance from './pages/company/performance';
 
 function App() {
   return (
@@ -52,7 +56,7 @@ function App() {
               <Route path="companies" element={<ClientCompanies />} />
               <Route path="recommendations" element={<ClientRecommendations />} />
               <Route path="missions" element={<ClientMissions />} />
-              <Route path="vip-club" element={<Index />} />
+              <Route path="vip-club" element={<ClientVipClub />} />
             </Route>
 
             {/* Páginas de dashboard da empresa */}
@@ -62,9 +66,9 @@ function App() {
               <Route path="clients" element={<CompanyClients />} />
               <Route path="transactions" element={<CompanyTransactions />} />
               <Route path="reports" element={<CompanyReports />} />
-              <Route path="ai-campaigns" element={<Index />} />
-              <Route path="corporate" element={<Index />} />
-              <Route path="performance" element={<Index />} />
+              <Route path="ai-campaigns" element={<CompanyAICampaigns />} />
+              <Route path="corporate" element={<CompanyCorporate />} />
+              <Route path="performance" element={<CompanyPerformance />} />
               <Route path="settings" element={<CompanySettings />} />
             </Route>
 
