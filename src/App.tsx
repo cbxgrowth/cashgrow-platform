@@ -52,7 +52,7 @@ function App() {
               <Route path="companies" element={<ClientCompanies />} />
               <Route path="recommendations" element={<ClientRecommendations />} />
               <Route path="missions" element={<ClientMissions />} />
-              <Route path="vip-club" element={<index />} />
+              <Route path="vip-club" element={<Index />} />
             </Route>
 
             {/* Páginas de dashboard da empresa */}
@@ -62,9 +62,9 @@ function App() {
               <Route path="clients" element={<CompanyClients />} />
               <Route path="transactions" element={<CompanyTransactions />} />
               <Route path="reports" element={<CompanyReports />} />
-              <Route path="ai-campaigns" element={<index />} />
-              <Route path="corporate" element={<index />} />
-              <Route path="performance" element={<index />} />
+              <Route path="ai-campaigns" element={<Index />} />
+              <Route path="corporate" element={<Index />} />
+              <Route path="performance" element={<Index />} />
               <Route path="settings" element={<CompanySettings />} />
             </Route>
 
