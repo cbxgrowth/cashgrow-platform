@@ -1,5 +1,5 @@
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { Toaster } from '@/components/ui/sonner';
 import { SidebarProvider } from "@/components/ui/sidebar";
@@ -30,8 +30,32 @@ import CashbackRules from './pages/company/CashbackRules';
 import CompanyAICampaigns from './pages/company/ai-campaigns';
 import CompanyCorporate from './pages/company/corporate';
 import CompanyPerformance from './pages/company/performance';
+import { useEffect, useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 
 function App() {
+  const [initialized, setInitialized] = useState(false);
+
+  useEffect(() => {
+    const checkSession = async () => {
+      await supabase.auth.getSession();
+      setInitialized(true);
+    };
+
+    checkSession();
+  }, []);
+
+  if (!initialized) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="inline-block animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mb-4"></div>
+          <p>Carregando...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <ThemeProvider defaultTheme="light" storageKey="cashback-theme">
       <SidebarProvider>
@@ -52,6 +76,7 @@ function App() {
 
             {/* Páginas de dashboard do cliente */}
             <Route path="/client" element={<DashboardLayout userType="client" />}>
+              <Route index element={<Navigate to="/client/dashboard" replace />} />
               <Route path="dashboard" element={<ClientDashboard />} />
               <Route path="transactions" element={<ClientTransactions />} />
               <Route path="profile" element={<ClientProfile />} />
@@ -63,6 +88,7 @@ function App() {
 
             {/* Páginas de dashboard da empresa */}
             <Route path="/company" element={<DashboardLayout userType="company" />}>
+              <Route index element={<Navigate to="/company/dashboard" replace />} />
               <Route path="dashboard" element={<CompanyDashboard />} />
               <Route path="cashback-rules" element={<CashbackRules />} />
               <Route path="clients" element={<CompanyClients />} />

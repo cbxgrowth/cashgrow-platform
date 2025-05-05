@@ -1,6 +1,6 @@
 
-import React from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { 
   Sidebar, 
   SidebarContent, 
@@ -25,9 +25,12 @@ import {
   Building2, 
   Award, 
   Gift, 
-  TrendingUp
+  TrendingUp,
+  Loader2
 } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 interface DashboardLayoutProps {
   userType: 'client' | 'company';
@@ -35,6 +38,50 @@ interface DashboardLayoutProps {
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data, error } = await supabase.auth.getSession();
+      
+      if (error || !data.session) {
+        toast.error("Sessão expirada ou usuário não autenticado");
+        navigate('/auth/login');
+        return;
+      }
+      
+      // Verificar se o tipo de usuário corresponde à rota
+      const currentUserType = data.session.user.user_metadata?.user_type;
+      
+      if (currentUserType && currentUserType !== userType) {
+        toast.error(`Você não tem acesso ao painel de ${userType === 'client' ? 'cliente' : 'empresa'}`);
+        navigate(`/${currentUserType}/dashboard`);
+        return;
+      }
+      
+      setAuthenticated(true);
+      setLoading(false);
+    };
+    
+    checkAuth();
+  }, [navigate, userType]);
+
+  const handleLogout = async () => {
+    setLoading(true);
+    const { error } = await supabase.auth.signOut();
+    
+    if (error) {
+      toast.error("Erro ao sair", {
+        description: error.message,
+      });
+      setLoading(false);
+      return;
+    }
+    
+    toast.success("Logout realizado com sucesso");
+    navigate('/auth/login');
+  };
 
   const clientMenuItems = [
     { title: 'Dashboard', icon: Home, url: '/client/dashboard' },
@@ -60,6 +107,21 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
 
   const menuItems = userType === 'client' ? clientMenuItems : companyMenuItems;
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
+          <p>Carregando...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!authenticated) {
+    return null;
+  }
+
   return (
     <div className="flex min-h-screen">
       <Sidebar>
@@ -81,13 +143,15 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild className="text-destructive hover:text-destructive">
                     <button 
-                      onClick={() => {
-                        // Implementar logout aqui
-                        navigate('/auth/login');
-                      }} 
+                      onClick={handleLogout} 
                       className="flex items-center gap-2 w-full"
+                      disabled={loading}
                     >
-                      <LogOut className="h-5 w-5" />
+                      {loading ? (
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                      ) : (
+                        <LogOut className="h-5 w-5" />
+                      )}
                       <span>Sair</span>
                     </button>
                   </SidebarMenuButton>
