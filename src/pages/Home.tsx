@@ -1,122 +1,88 @@
 
-import React, { useEffect } from 'react';
+import React from 'react';
+import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Check, Users, LineChart, Wallet, ShieldCheck, Zap, ArrowRight } from "lucide-react";
+import { 
+  CheckCircle, 
+  TrendingUp, 
+  Users, 
+  ShoppingBag, 
+  CreditCard, 
+  Award, 
+  ArrowRight,
+  Building,
+  User
+} from 'lucide-react';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
 const Home: React.FC = () => {
-  // Adicionando efeitos de entrada animada aos elementos
-  useEffect(() => {
-    const animateTiming = (selector: string, delay: number) => {
-      const elements = document.querySelectorAll(selector);
-      elements.forEach((element) => {
-        setTimeout(() => {
-          element.classList.add('animate-slide-up', 'opacity-100');
-          element.classList.remove('opacity-0', 'translate-y-4');
-        }, delay);
-      });
-    };
-    
-    animateTiming('.hero-element', 100);
-    animateTiming('.feature-card', 300);
-    animateTiming('.pricing-card', 500);
-  }, []);
-
   return (
-    <div className="flex flex-col min-h-[calc(100vh-64px)]">
-      {/* Hero Section - com gradiente melhorado e visual */}
-      <section className="py-16 md:py-28 bg-gradient-surface">
+    <div className="flex flex-col min-h-screen">
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-r from-primary/80 to-accent/80 text-white py-20">
         <div className="container px-4 md:px-6">
-          <div className="grid gap-8 lg:grid-cols-[1fr_550px] lg:gap-12 xl:grid-cols-[1fr_650px]">
-            <div className="flex flex-col justify-center space-y-6 hero-element opacity-0 translate-y-4">
-              <div className="space-y-4">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
-                  Plataforma de Cashback <span className="text-gradient">Multissetorial</span>
+          <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
+            <div className="flex flex-col justify-center space-y-4">
+              <div className="space-y-2">
+                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
+                  Sistema de Cashback Inteligente
                 </h1>
-                <p className="mx-auto max-w-[700px] text-muted-foreground text-lg md:text-xl">
-                  Aumente a fidelidade dos seus clientes e impulsione as vendas com nossa solução completa de cashback personalizável.
+                <p className="max-w-[600px] text-muted-100 md:text-xl">
+                  Transforme suas compras em economia real e ajude empresas a fidelizar seus clientes. 
+                  Nossa plataforma conecta empresas e consumidores em uma experiência de cashback inovadora.
                 </p>
               </div>
-              <div className="flex flex-col gap-3 min-[400px]:flex-row">
-                <Link to="/register">
-                  <Button size="lg" className="bg-gradient-primary hover:opacity-90 hover-scale">
-                    Comece Agora <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </Link>
-                <Link to="/contact">
-                  <Button size="lg" variant="outline" className="hover-scale">
-                    Fale com Especialista
-                  </Button>
-                </Link>
+              <div className="flex flex-col gap-2 min-[400px]:flex-row">
+                <Button asChild size="lg" className="bg-white text-primary hover:bg-muted">
+                  <Link to="/auth/register">Começar agora</Link>
+                </Button>
+                <Button asChild variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-primary">
+                  <Link to="/about">Saiba mais</Link>
+                </Button>
+              </div>
+              <div className="flex items-center gap-4 text-sm">
+                <div className="flex items-center gap-1">
+                  <CheckCircle className="h-4 w-4" />
+                  <span>Fácil de usar</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <CheckCircle className="h-4 w-4" />
+                  <span>Gratuito para clientes</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <CheckCircle className="h-4 w-4" />
+                  <span>Resultados comprovados</span>
+                </div>
               </div>
             </div>
-            <div className="relative mt-8 lg:mt-0 hero-element opacity-0 translate-y-4">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 rounded-3xl blur-3xl" />
-              <div className="relative glass-card rounded-3xl overflow-hidden p-6 card-shadow">
-                <div className="flex justify-between mb-6">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">Total acumulado</p>
-                    <h3 className="text-2xl font-bold">R$ 423,58</h3>
-                  </div>
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Wallet className="h-6 w-6 text-primary" />
-                  </div>
-                </div>
-                
-                <div className="mt-6 space-y-3">
-                  <div className="flex justify-between items-center bg-muted/30 hover:bg-muted/40 transition-colors p-3 rounded-xl">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
-                        <img src="https://via.placeholder.com/40" alt="Loja" className="w-6 h-6 rounded-full" />
+            <div className="flex items-center justify-center">
+              <div className="relative w-full h-full min-h-[250px]">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg opacity-20 blur-xl"></div>
+                <div className="relative bg-background/80 backdrop-blur-sm border rounded-lg p-8 shadow-lg">
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center pb-4 border-b">
+                      <div>
+                        <p className="text-sm text-muted-foreground">Seu saldo de cashback</p>
+                        <p className="text-3xl font-bold">R$ 125,40</p>
+                      </div>
+                      <CreditCard className="h-12 w-12 text-primary opacity-80" />
+                    </div>
+                    <div className="flex justify-between items-center pb-2">
+                      <div>
+                        <p className="text-sm text-muted-foreground">Cashback mensal</p>
+                        <div className="flex items-center">
+                          <p className="text-base font-medium">R$ 86,50</p>
+                          <span className="flex items-center text-green-600 text-xs ml-2">
+                            <TrendingUp className="h-3 w-3 mr-1" /> 12%
+                          </span>
+                        </div>
                       </div>
                       <div>
-                        <p className="text-sm font-medium">Mercado Verde</p>
-                        <p className="text-xs text-muted-foreground">20 abr, 15:30</p>
+                        <p className="text-sm text-muted-foreground">Lojas parceiras</p>
+                        <p className="text-base font-medium">23</p>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <p className="text-sm font-medium text-green-600">+R$ 12,50</p>
-                      <p className="text-xs text-muted-foreground">5% cashback</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex justify-between items-center bg-muted/30 hover:bg-muted/40 transition-colors p-3 rounded-xl">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
-                        <img src="https://via.placeholder.com/40" alt="Loja" className="w-6 h-6 rounded-full" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium">Moda Express</p>
-                        <p className="text-xs text-muted-foreground">18 abr, 11:20</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm font-medium text-green-600">+R$ 30,25</p>
-                      <p className="text-xs text-muted-foreground">7% cashback</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex justify-between items-center bg-muted/30 hover:bg-muted/40 transition-colors p-3 rounded-xl">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
-                        <img src="https://via.placeholder.com/40" alt="Loja" className="w-6 h-6 rounded-full" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium">Tech Store</p>
-                        <p className="text-xs text-muted-foreground">15 abr, 09:45</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm font-medium text-green-600">+R$ 60,00</p>
-                      <p className="text-xs text-muted-foreground">3% cashback</p>
-                    </div>
-                  </div>
-                  
-                  <div className="mt-4">
-                    <Button variant="outline" className="w-full hover-scale">
-                      Ver todos
-                    </Button>
+                    <Button className="w-full" variant="outline">Simular ganhos</Button>
                   </div>
                 </div>
               </div>
@@ -124,266 +90,135 @@ const Home: React.FC = () => {
           </div>
         </div>
       </section>
-      
-      {/* Features Section - com cards melhorados */}
-      <section className="py-16 md:py-24">
+
+      {/* Features Section */}
+      <section className="py-16 bg-muted/30">
         <div className="container px-4 md:px-6">
-          <div className="text-center mb-12 hero-element opacity-0 translate-y-4">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-              Tudo o que você precisa para <span className="text-gradient">fidelizar seus clientes</span>
-            </h2>
-            <p className="mx-auto max-w-[700px] text-muted-foreground text-lg md:text-xl mt-4">
-              Uma plataforma completa de cashback que se adapta ao seu negócio, independentemente do setor
-            </p>
+          <div className="flex flex-col items-center justify-center space-y-4 text-center">
+            <div className="space-y-2">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Como Funciona</h2>
+              <p className="max-w-[700px] text-muted-foreground md:text-xl">
+                Nossa plataforma oferece uma experiência simples e eficiente para empresas e clientes
+              </p>
+            </div>
           </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Card className="border-none shadow-lg feature-card opacity-0 translate-y-4 hover-scale">
-              <CardContent className="p-6">
-                <div className="w-12 h-12 rounded-full bg-gradient-primary flex items-center justify-center mb-4">
-                  <Wallet className="h-6 w-6 text-white" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+            <Card className="hover:shadow-lg transition-all bg-background/60">
+              <CardHeader className="pb-2">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                  <Building className="h-6 w-6 text-primary" />
                 </div>
-                <h3 className="text-xl font-bold mb-2">Cashback Personalizado</h3>
-                <p className="text-muted-foreground">
-                  Configure regras de cashback por valor, categoria ou dia da semana para aumentar as vendas.
-                </p>
+                <CardTitle>Para Empresas</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <p>Crie seu perfil empresarial e configure suas regras de cashback para começar a oferecer recompensas aos seus clientes.</p>
               </CardContent>
+              <CardFooter>
+                <Button variant="ghost" className="flex gap-1" asChild>
+                  <Link to="/auth/register">
+                    Cadastre sua empresa <ArrowRight className="h-4 w-4 ml-1" />
+                  </Link>
+                </Button>
+              </CardFooter>
             </Card>
-            
-            <Card className="border-none shadow-lg feature-card opacity-0 translate-y-4 hover-scale">
-              <CardContent className="p-6">
-                <div className="w-12 h-12 rounded-full bg-gradient-primary flex items-center justify-center mb-4">
-                  <Users className="h-6 w-6 text-white" />
+            <Card className="hover:shadow-lg transition-all bg-background/60">
+              <CardHeader className="pb-2">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                  <User className="h-6 w-6 text-primary" />
                 </div>
-                <h3 className="text-xl font-bold mb-2">Multitenancy</h3>
-                <p className="text-muted-foreground">
-                  Solução white-label adaptável à identidade visual e necessidades de cada empresa.
-                </p>
+                <CardTitle>Para Clientes</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <p>Registre-se gratuitamente e comece a acumular cashback em suas compras em diversas empresas parceiras.</p>
               </CardContent>
+              <CardFooter>
+                <Button variant="ghost" className="flex gap-1" asChild>
+                  <Link to="/auth/register">
+                    Crie sua conta <ArrowRight className="h-4 w-4 ml-1" />
+                  </Link>
+                </Button>
+              </CardFooter>
             </Card>
-            
-            <Card className="border-none shadow-lg feature-card opacity-0 translate-y-4 hover-scale">
-              <CardContent className="p-6">
-                <div className="w-12 h-12 rounded-full bg-gradient-primary flex items-center justify-center mb-4">
-                  <LineChart className="h-6 w-6 text-white" />
+            <Card className="hover:shadow-lg transition-all bg-background/60">
+              <CardHeader className="pb-2">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                  <CreditCard className="h-6 w-6 text-primary" />
                 </div>
-                <h3 className="text-xl font-bold mb-2">Relatórios Avançados</h3>
-                <p className="text-muted-foreground">
-                  Análises detalhadas sobre desempenho, cashback emitido e comportamento dos clientes.
-                </p>
+                <CardTitle>Ganhe e Resgate</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <p>Acumule seu cashback em cada compra e resgate quando quiser, transformando em dinheiro ou descontos.</p>
               </CardContent>
-            </Card>
-            
-            <Card className="border-none shadow-lg feature-card opacity-0 translate-y-4 hover-scale">
-              <CardContent className="p-6">
-                <div className="w-12 h-12 rounded-full bg-gradient-primary flex items-center justify-center mb-4">
-                  <Zap className="h-6 w-6 text-white" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">Integração Rápida</h3>
-                <p className="text-muted-foreground">
-                  API completa para integração com seu sistema atual em poucos dias, sem interrupções.
-                </p>
-              </CardContent>
-            </Card>
-            
-            <Card className="border-none shadow-lg feature-card opacity-0 translate-y-4 hover-scale">
-              <CardContent className="p-6">
-                <div className="w-12 h-12 rounded-full bg-gradient-primary flex items-center justify-center mb-4">
-                  <ShieldCheck className="h-6 w-6 text-white" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">Segurança Total</h3>
-                <p className="text-muted-foreground">
-                  Proteção de dados e transações com criptografia de ponta a ponta e autenticação segura.
-                </p>
-              </CardContent>
-            </Card>
-            
-            <Card className="border-none shadow-lg feature-card opacity-0 translate-y-4 hover-scale">
-              <CardContent className="p-6">
-                <div className="w-12 h-12 rounded-full bg-gradient-primary flex items-center justify-center mb-4">
-                  <Users className="h-6 w-6 text-white" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">Suporte Especializado</h3>
-                <p className="text-muted-foreground">
-                  Equipe dedicada para implementação e suporte contínuo para a sua empresa.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-      
-      {/* Pricing Section - com cards melhorados e efeitos */}
-      <section className="py-16 md:py-24 bg-gradient-surface">
-        <div className="container px-4 md:px-6">
-          <div className="text-center mb-12 hero-element opacity-0 translate-y-4">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-              Planos <span className="text-gradient">Flexíveis</span>
-            </h2>
-            <p className="mx-auto max-w-[700px] text-muted-foreground text-lg md:text-xl mt-4">
-              Escolha o plano ideal para o tamanho do seu negócio
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="border-none shadow-lg pricing-card opacity-0 translate-y-4 hover-scale">
-              <CardContent className="p-6">
-                <div className="text-center mb-4">
-                  <h3 className="text-lg font-medium">Startup</h3>
-                  <p className="text-4xl font-bold mt-2">R$ 299<span className="text-lg font-normal text-muted-foreground">/mês</span></p>
-                  <p className="text-muted-foreground text-sm mt-1">Ideal para pequenos negócios</p>
-                </div>
-                
-                <ul className="mt-6 space-y-3">
-                  <li className="flex items-center">
-                    <div className="bg-primary/10 rounded-full p-1 mr-2">
-                      <Check className="h-3 w-3 text-primary" />
-                    </div>
-                    <span className="text-sm">Até 500 clientes</span>
-                  </li>
-                  <li className="flex items-center">
-                    <div className="bg-primary/10 rounded-full p-1 mr-2">
-                      <Check className="h-3 w-3 text-primary" />
-                    </div>
-                    <span className="text-sm">Regras de cashback básicas</span>
-                  </li>
-                  <li className="flex items-center">
-                    <div className="bg-primary/10 rounded-full p-1 mr-2">
-                      <Check className="h-3 w-3 text-primary" />
-                    </div>
-                    <span className="text-sm">Relatórios mensais</span>
-                  </li>
-                  <li className="flex items-center">
-                    <div className="bg-primary/10 rounded-full p-1 mr-2">
-                      <Check className="h-3 w-3 text-primary" />
-                    </div>
-                    <span className="text-sm">Suporte por e-mail</span>
-                  </li>
-                </ul>
-                
-                <Button className="w-full mt-6 hover-scale">Começar</Button>
-              </CardContent>
-            </Card>
-            
-            <Card className="border-primary/20 shadow-xl relative pricing-card opacity-0 translate-y-4 hover-scale glass-card">
-              <div className="absolute top-0 right-0 left-0 h-1 bg-gradient-primary" />
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-primary text-primary-foreground text-xs px-3 py-1 rounded-full animate-bounce-subtle">
-                Mais popular
-              </div>
-              <CardContent className="p-6 pt-8">
-                <div className="text-center mb-4">
-                  <h3 className="text-lg font-medium">Business</h3>
-                  <p className="text-4xl font-bold mt-2">R$ 799<span className="text-lg font-normal text-muted-foreground">/mês</span></p>
-                  <p className="text-muted-foreground text-sm mt-1">Para empresas em crescimento</p>
-                </div>
-                
-                <ul className="mt-6 space-y-3">
-                  <li className="flex items-center">
-                    <div className="bg-primary/10 rounded-full p-1 mr-2">
-                      <Check className="h-3 w-3 text-primary" />
-                    </div>
-                    <span className="text-sm">Até 2.000 clientes</span>
-                  </li>
-                  <li className="flex items-center">
-                    <div className="bg-primary/10 rounded-full p-1 mr-2">
-                      <Check className="h-3 w-3 text-primary" />
-                    </div>
-                    <span className="text-sm">Regras de cashback avançadas</span>
-                  </li>
-                  <li className="flex items-center">
-                    <div className="bg-primary/10 rounded-full p-1 mr-2">
-                      <Check className="h-3 w-3 text-primary" />
-                    </div>
-                    <span className="text-sm">Relatórios semanais</span>
-                  </li>
-                  <li className="flex items-center">
-                    <div className="bg-primary/10 rounded-full p-1 mr-2">
-                      <Check className="h-3 w-3 text-primary" />
-                    </div>
-                    <span className="text-sm">Suporte prioritário</span>
-                  </li>
-                  <li className="flex items-center">
-                    <div className="bg-primary/10 rounded-full p-1 mr-2">
-                      <Check className="h-3 w-3 text-primary" />
-                    </div>
-                    <span className="text-sm">API para integração</span>
-                  </li>
-                </ul>
-                
-                <Button className="w-full mt-6 bg-gradient-primary hover:opacity-90 hover-scale">Começar</Button>
-              </CardContent>
-            </Card>
-            
-            <Card className="border-none shadow-lg pricing-card opacity-0 translate-y-4 hover-scale">
-              <CardContent className="p-6">
-                <div className="text-center mb-4">
-                  <h3 className="text-lg font-medium">Enterprise</h3>
-                  <p className="text-4xl font-bold mt-2">R$ 1.999<span className="text-lg font-normal text-muted-foreground">/mês</span></p>
-                  <p className="text-muted-foreground text-sm mt-1">Para grandes organizações</p>
-                </div>
-                
-                <ul className="mt-6 space-y-3">
-                  <li className="flex items-center">
-                    <div className="bg-primary/10 rounded-full p-1 mr-2">
-                      <Check className="h-3 w-3 text-primary" />
-                    </div>
-                    <span className="text-sm">Clientes ilimitados</span>
-                  </li>
-                  <li className="flex items-center">
-                    <div className="bg-primary/10 rounded-full p-1 mr-2">
-                      <Check className="h-3 w-3 text-primary" />
-                    </div>
-                    <span className="text-sm">Regras de cashback personalizáveis</span>
-                  </li>
-                  <li className="flex items-center">
-                    <div className="bg-primary/10 rounded-full p-1 mr-2">
-                      <Check className="h-3 w-3 text-primary" />
-                    </div>
-                    <span className="text-sm">Relatórios em tempo real</span>
-                  </li>
-                  <li className="flex items-center">
-                    <div className="bg-primary/10 rounded-full p-1 mr-2">
-                      <Check className="h-3 w-3 text-primary" />
-                    </div>
-                    <span className="text-sm">Suporte 24/7</span>
-                  </li>
-                  <li className="flex items-center">
-                    <div className="bg-primary/10 rounded-full p-1 mr-2">
-                      <Check className="h-3 w-3 text-primary" />
-                    </div>
-                    <span className="text-sm">API completa e webhooks</span>
-                  </li>
-                  <li className="flex items-center">
-                    <div className="bg-primary/10 rounded-full p-1 mr-2">
-                      <Check className="h-3 w-3 text-primary" />
-                    </div>
-                    <span className="text-sm">Gerente de conta dedicado</span>
-                  </li>
-                </ul>
-                
-                <Button variant="outline" className="w-full mt-6 hover-scale">Contato</Button>
-              </CardContent>
+              <CardFooter>
+                <Button variant="ghost" className="flex gap-1" asChild>
+                  <Link to="/about">
+                    Saiba mais <ArrowRight className="h-4 w-4 ml-1" />
+                  </Link>
+                </Button>
+              </CardFooter>
             </Card>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 md:py-24">
+      {/* Benefits Section */}
+      <section className="py-16">
         <div className="container px-4 md:px-6">
-          <div className="max-w-3xl mx-auto text-center space-y-6 hero-element opacity-0 translate-y-4">
-            <h2 className="text-3xl font-bold sm:text-4xl">
-              Pronto para aumentar a <span className="text-gradient">fidelidade dos seus clientes</span>?
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Junte-se a centenas de empresas que já aumentaram suas vendas e fidelizaram seus clientes com nossa plataforma de cashback.
+          <div className="flex flex-col items-center justify-center space-y-4 text-center">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Benefícios</h2>
+            <p className="max-w-[700px] text-muted-foreground md:text-xl">
+              Nossa plataforma traz vantagens para todos os envolvidos
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-gradient-primary hover:opacity-90 hover-scale">
-                Agendar Demonstração
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12">
+            <div className="flex flex-col items-center text-center space-y-2">
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                <ShoppingBag className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="font-bold">Aumente suas Vendas</h3>
+              <p className="text-muted-foreground">Incentive a recorrência e aumente o ticket médio com programas de cashback personalizados.</p>
+            </div>
+            <div className="flex flex-col items-center text-center space-y-2">
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                <Users className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="font-bold">Fidelize Clientes</h3>
+              <p className="text-muted-foreground">Crie relacionamentos duradouros através de recompensas e benefícios exclusivos.</p>
+            </div>
+            <div className="flex flex-col items-center text-center space-y-2">
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                <TrendingUp className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="font-bold">Análise de Dados</h3>
+              <p className="text-muted-foreground">Obtenha insights valiosos sobre o comportamento de seus clientes para tomadas de decisão.</p>
+            </div>
+            <div className="flex flex-col items-center text-center space-y-2">
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                <Award className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="font-bold">Cashback VIP</h3>
+              <p className="text-muted-foreground">Ofereça experiências premium para seus melhores clientes através do clube VIP.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="py-16 bg-primary/10">
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center">
+            <div className="space-y-2">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Comece Agora Mesmo</h2>
+              <p className="max-w-[700px] text-muted-foreground md:text-xl">
+                Junte-se a milhares de empresas e clientes que já estão aproveitando os benefícios do nosso sistema de cashback.
+              </p>
+            </div>
+            <div className="flex flex-col gap-2 min-[400px]:flex-row">
+              <Button asChild size="lg">
+                <Link to="/auth/register">Criar conta</Link>
               </Button>
-              <Button size="lg" variant="outline" className="hover-scale">
-                Ver Planos
+              <Button asChild variant="outline" size="lg">
+                <Link to="/contact">Falar com um consultor</Link>
               </Button>
             </div>
           </div>

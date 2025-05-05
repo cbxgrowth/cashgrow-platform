@@ -10,6 +10,8 @@ import DashboardLayout from './components/layouts/DashboardLayout';
 
 import Index from './pages/Index';
 import Home from './pages/Home';
+import About from './pages/About';
+import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
@@ -65,6 +67,8 @@ function App() {
             <Route path="/" element={<MainLayout />}>
               <Route index element={<Home />} />
               <Route path="home" element={<Home />} />
+              <Route path="about" element={<About />} />
+              <Route path="contact" element={<Contact />} />
             </Route>
 
             {/* Páginas de autenticação */}
