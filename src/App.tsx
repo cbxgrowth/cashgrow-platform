@@ -13,6 +13,7 @@ import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
+import AuthCallback from './pages/auth/callback';
 import ClientDashboard from './pages/client/ClientDashboard';
 import ClientTransactions from './pages/client/transactions';
 import ClientProfile from './pages/client/profile';
@@ -46,6 +47,7 @@ function App() {
             <Route path="/auth" element={<AuthLayout />}>
               <Route path="login" element={<Login />} />
               <Route path="register" element={<Register />} />
+              <Route path="callback" element={<AuthCallback />} />
             </Route>
 
             {/* Páginas de dashboard do cliente */}
