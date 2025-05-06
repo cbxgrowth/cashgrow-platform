@@ -13,7 +13,7 @@ interface NotificationListProps {
 }
 
 const NotificationList: React.FC<NotificationListProps> = ({ onClose }) => {
-  const { notifications, markAsRead, markAllAsRead } = useNotifications();
+  const { notifications, markAsRead, markAllAsRead, executeAction } = useNotifications();
   const navigate = useNavigate();
 
   const getIcon = (type: string) => {
@@ -31,9 +31,16 @@ const NotificationList: React.FC<NotificationListProps> = ({ onClose }) => {
 
   const handleNotificationClick = (notification: any) => {
     markAsRead(notification.id);
-    if (notification.link) {
+    
+    // Verificar se a notificação tem uma ação personalizada
+    if (notification.metadata?.hasAction) {
+      executeAction(notification.id);
+    } 
+    // Caso contrário, se tiver um link, navegar para ele
+    else if (notification.link) {
       navigate(notification.link);
     }
+    
     if (onClose) {
       onClose();
     }

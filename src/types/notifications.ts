@@ -8,4 +8,8 @@ export interface Notification {
   isRead: boolean;
   createdAt: string;
   link?: string;
+  metadata?: {
+    hasAction?: boolean;
+    [key: string]: any;
+  };
 }

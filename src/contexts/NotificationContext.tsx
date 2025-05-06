@@ -9,7 +9,9 @@ interface NotificationContextType {
   unreadCount: number;
   markAsRead: (id: string) => void;
   markAllAsRead: () => void;
-  addNotification: (notification: Omit<Notification, 'id' | 'createdAt' | 'isRead'>) => void;
+  addNotification: (notification: Omit<Notification, 'id' | 'createdAt' | 'isRead'>) => string;
+  registerActionHandler: (notificationId: string, handler: () => void) => void;
+  executeAction: (notificationId: string) => void;
 }
 
 const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
@@ -25,6 +27,7 @@ export const useNotifications = () => {
 export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [actionHandlers, setActionHandlers] = useState<Record<string, () => void>>({});
 
   // Function to fetch user's notifications
   const fetchNotifications = async () => {
@@ -92,9 +95,10 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
   };
 
   const addNotification = (notification: Omit<Notification, 'id' | 'createdAt' | 'isRead'>) => {
+    const id = Date.now().toString();
     const newNotification: Notification = {
       ...notification,
-      id: Date.now().toString(),
+      id,
       createdAt: new Date().toISOString(),
       isRead: false,
     };
@@ -106,6 +110,26 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     toast(notification.title, {
       description: notification.message,
     });
+    
+    return id;
+  };
+  
+  const registerActionHandler = (notificationId: string, handler: () => void) => {
+    setActionHandlers(prev => ({
+      ...prev,
+      [notificationId]: handler
+    }));
+  };
+  
+  const executeAction = (notificationId: string) => {
+    if (actionHandlers[notificationId]) {
+      actionHandlers[notificationId]();
+      // Remove the handler after execution
+      setActionHandlers(prev => {
+        const { [notificationId]: _, ...rest } = prev;
+        return rest;
+      });
+    }
   };
 
   return (
@@ -116,6 +140,8 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         markAsRead,
         markAllAsRead,
         addNotification,
+        registerActionHandler,
+        executeAction
       }}
     >
       {children}

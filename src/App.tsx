@@ -34,6 +34,7 @@ import CompanyAICampaigns from './pages/company/ai-campaigns';
 import CompanyCorporate from './pages/company/corporate';
 import CompanyPerformance from './pages/company/performance';
 import NotificationsPage from './pages/notifications';
+import ExampleNotifications from './pages/notifications/ExampleNotifications';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -92,6 +93,7 @@ function App() {
                 <Route path="missions" element={<ClientMissions />} />
                 <Route path="vip-club" element={<ClientVipClub />} />
                 <Route path="notifications" element={<NotificationsPage />} />
+                <Route path="notifications/examples" element={<ExampleNotifications />} />
               </Route>
 
               {/* Páginas de dashboard da empresa */}
@@ -107,6 +109,7 @@ function App() {
                 <Route path="performance" element={<CompanyPerformance />} />
                 <Route path="settings" element={<CompanySettings />} />
                 <Route path="notifications" element={<NotificationsPage />} />
+                <Route path="notifications/examples" element={<ExampleNotifications />} />
               </Route>
 
               {/* Página de redirecionamento */}
