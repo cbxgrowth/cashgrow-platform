@@ -1,46 +1,59 @@
 
 import { useNotifications } from '@/contexts/NotificationContext';
 import { Notification } from '@/types/notifications';
+import { supabase } from '@/integrations/supabase/client';
 
 export interface NotificationOptions {
   /**
-   * Tempo em milissegundos após o qual a notificação será automaticamente marcada como lida
-   * Se não for fornecido, a notificação permanecerá até o usuário interagir com ela
+   * Time in milliseconds after which the notification will be automatically marked as read
+   * If not provided, the notification will remain until the user interacts with it
    */
   autoDismissAfter?: number;
   
   /**
-   * Função a ser executada quando o usuário clicar na notificação
+   * Function to be executed when the user clicks on the notification
    */
   onClick?: () => void;
+  
+  /**
+   * Additional data related to the notification action
+   */
+  actionData?: any;
 }
 
 export const useAddNotification = () => {
   const { addNotification, markAsRead } = useNotifications();
   
-  const sendNotification = (
+  const sendNotification = async (
     title: string, 
     message: string, 
     type: 'info' | 'success' | 'warning' | 'error' = 'info',
     linkOrOptions?: string | NotificationOptions,
     options?: NotificationOptions
   ) => {
-    // Determinar se o parâmetro linkOrOptions é um link ou opções
+    // Get current user session
+    const { data: { session } } = await supabase.auth.getSession();
+    const userId = session?.user?.id || 'anonymous';
+    
+    // Determine if the parameter linkOrOptions is a link or options
     const link = typeof linkOrOptions === 'string' ? linkOrOptions : undefined;
     const finalOptions = typeof linkOrOptions === 'object' ? linkOrOptions : options;
     
     const notification: Omit<Notification, 'id' | 'createdAt' | 'isRead'> = {
-      userId: 'current-user', // Em uma implementação real, este seria o ID do usuário atual
+      userId,
       title,
       message,
       type,
       link,
-      metadata: finalOptions?.onClick ? { hasAction: true } : undefined
+      metadata: finalOptions?.onClick || finalOptions?.actionData ? {
+        hasAction: !!finalOptions.onClick,
+        actionData: finalOptions?.actionData
+      } : undefined
     };
     
     const notificationId = addNotification(notification);
     
-    // Configurar auto-dismiss se especificado
+    // Configure auto-dismiss if specified
     if (finalOptions?.autoDismissAfter && finalOptions.autoDismissAfter > 0) {
       setTimeout(() => {
         markAsRead(notificationId);

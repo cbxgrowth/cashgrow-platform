@@ -4,9 +4,22 @@ import { useNotifications } from '@/contexts/NotificationContext';
 import { Button } from '@/components/ui/button';
 import { Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { formatDistanceToNow } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 const NotificationsPage: React.FC = () => {
-  const { notifications, markAllAsRead } = useNotifications();
+  const { notifications, markAsRead, markAllAsRead, executeAction } = useNotifications();
+
+  const handleNotificationClick = (notificationId: string) => {
+    markAsRead(notificationId);
+    
+    const notification = notifications.find(n => n.id === notificationId);
+    
+    // Execute action if exists
+    if (notification?.metadata?.hasAction) {
+      executeAction(notificationId);
+    }
+  };
 
   return (
     <div className="container max-w-4xl mx-auto py-8">
@@ -42,21 +55,36 @@ const NotificationsPage: React.FC = () => {
             <div
               key={notification.id}
               className={`p-4 border rounded-lg ${
-                !notification.isRead ? 'bg-muted/20' : 'bg-card'
-              }`}
+                !notification.isRead ? 'bg-muted/20 border-primary/30' : 'bg-card'
+              } cursor-pointer hover:border-primary/30 transition-colors`}
+              onClick={() => handleNotificationClick(notification.id)}
             >
               <h4 className="text-lg font-medium">{notification.title}</h4>
               <p className="text-muted-foreground mt-2">{notification.message}</p>
               <div className="flex justify-between items-center mt-4">
                 <span className="text-xs text-muted-foreground">
-                  {new Date(notification.createdAt).toLocaleDateString('pt-BR', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
+                  {formatDistanceToNow(new Date(notification.createdAt), {
+                    addSuffix: true,
+                    locale: ptBR
                   })}
                 </span>
+                {notification.link && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    asChild
+                    className="text-xs"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      markAsRead(notification.id);
+                    }}
+                  >
+                    <Link to={notification.link}>Ver detalhes</Link>
+                  </Button>
+                )}
+                {!notification.isRead && (
+                  <span className="inline-block w-2 h-2 bg-primary rounded-full" />
+                )}
               </div>
             </div>
           ))

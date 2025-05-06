@@ -10,6 +10,7 @@ export interface Notification {
   link?: string;
   metadata?: {
     hasAction?: boolean;
+    actionData?: any;
     [key: string]: any;
   };
 }

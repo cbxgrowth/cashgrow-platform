@@ -9,10 +9,16 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import NotificationList from './NotificationList';
+import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const NotificationBell: React.FC = () => {
   const [open, setOpen] = useState(false);
   const { unreadCount } = useNotifications();
+  const location = useLocation();
+  
+  const userType = location.pathname.includes('/client/') ? 'client' : 'company';
+  const notificationsPath = `/${userType}/notifications`;
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -27,7 +33,16 @@ const NotificationBell: React.FC = () => {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-80 p-0" align="end">
-        <NotificationList onClose={() => setOpen(false)} />
+        <div className="flex flex-col">
+          <NotificationList onClose={() => setOpen(false)} />
+          <div className="p-2 border-t">
+            <Button variant="ghost" size="sm" className="w-full" asChild>
+              <Link to={notificationsPath} onClick={() => setOpen(false)}>
+                Ver todas notificações
+              </Link>
+            </Button>
+          </div>
+        </div>
       </PopoverContent>
     </Popover>
   );
