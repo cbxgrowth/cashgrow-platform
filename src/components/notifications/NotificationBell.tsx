@@ -1,24 +1,27 @@
 
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Bell } from 'lucide-react';
 import { useNotifications } from '@/contexts/NotificationContext';
 
 const NotificationBell = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { unreadCount } = useNotifications();
+
+  const handleClick = () => {
+    // Determine user type based on current path
+    const path = location.pathname;
+    const userType = path.includes('/client/') ? 'client' : 'company';
+    navigate(`/${userType}/notifications`);
+  };
 
   return (
     <Button
       variant="ghost"
       size="icon"
-      onClick={() => {
-        // Detecta automaticamente se é cliente ou empresa com base na URL atual
-        const path = window.location.pathname;
-        const userType = path.includes('/client/') ? 'client' : 'company';
-        navigate(`/${userType}/notifications`);
-      }}
+      onClick={handleClick}
       className="relative"
     >
       <Bell className="h-5 w-5" />

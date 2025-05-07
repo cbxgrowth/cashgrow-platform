@@ -8,11 +8,12 @@ interface SidebarProviderProps {
 }
 
 interface SidebarContextValue {
-  isOpen: boolean
-  isCollapsed: boolean
-  toggle: () => void
-  expand: () => void
-  collapse: () => void
+  isOpen: boolean;
+  isCollapsed: boolean;
+  toggle: () => void;
+  expand: () => void;
+  collapse: () => void;
+  setCollapsed: (collapsed: boolean) => void; // Add this line to fix the error
 }
 
 const SidebarContext = React.createContext<SidebarContextValue>({
@@ -21,7 +22,8 @@ const SidebarContext = React.createContext<SidebarContextValue>({
   toggle: () => undefined,
   expand: () => undefined,
   collapse: () => undefined,
-})
+  setCollapsed: () => undefined, // Add implementation
+});
 
 export function SidebarProvider({ children }: SidebarProviderProps) {
   const [isOpen, setIsOpen] = React.useState(true)
@@ -39,8 +41,13 @@ export function SidebarProvider({ children }: SidebarProviderProps) {
     setIsCollapsed(true)
   }, [])
 
+  // Add setCollapsed function to allow direct setting
+  const setCollapsed = React.useCallback((collapsed: boolean) => {
+    setIsCollapsed(collapsed)
+  }, [])
+
   return (
-    <SidebarContext.Provider value={{ isOpen, isCollapsed, toggle, expand, collapse }}>
+    <SidebarContext.Provider value={{ isOpen, isCollapsed, toggle, expand, collapse, setCollapsed }}>
       {children}
     </SidebarContext.Provider>
   )
