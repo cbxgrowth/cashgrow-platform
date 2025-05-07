@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, Link } from 'react-router-dom';
 import { 
   Sidebar, 
   SidebarContent, 
@@ -8,8 +8,9 @@ import {
   SidebarGroupContent, 
   SidebarGroupLabel, 
   SidebarMenu, 
-  SidebarMenuButton, 
-  SidebarMenuItem 
+  SidebarMenuItem, 
+  SidebarMenuButton,
+  useSidebar
 } from '@/components/ui/sidebar';
 import { 
   Home, 
@@ -29,9 +30,9 @@ import {
   Loader2,
   Sun,
   Moon,
-  Bell
+  Bell,
+  Menu
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -47,6 +48,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
   const { theme, setTheme } = useTheme();
+  const { isCollapsed, setCollapsed } = useSidebar();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -94,6 +96,10 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
 
+  const toggleSidebar = () => {
+    setCollapsed(!isCollapsed);
+  };
+
   const clientMenuItems = [
     { title: 'Dashboard', icon: Home, url: '/client/dashboard' },
     { title: 'Transações', icon: CreditCard, url: '/client/transactions' },
@@ -134,11 +140,26 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
   }
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen bg-background">
+      {/* Sidebar responsiva com toggle */}
       <Sidebar>
         <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel>{userType === 'client' ? 'Cliente' : 'Empresa'}</SidebarGroupLabel>
+            <div className="p-4 flex items-center justify-between">
+              <SidebarGroupLabel className="text-lg font-bold">
+                {isCollapsed ? null : (userType === 'client' ? 'Cliente' : 'Empresa')}
+              </SidebarGroupLabel>
+              {!isCollapsed && (
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="md:hidden"
+                  onClick={toggleSidebar}
+                >
+                  <Menu className="h-4 w-4" />
+                </Button>
+              )}
+            </div>
             <SidebarGroupContent>
               <SidebarMenu>
                 {menuItems.map((item) => (
@@ -146,7 +167,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
                     <SidebarMenuButton asChild>
                       <Link to={item.url} className="flex items-center gap-2">
                         <item.icon className="h-5 w-5" />
-                        <span>{item.title}</span>
+                        {!isCollapsed && <span>{item.title}</span>}
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -162,12 +183,12 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
                       {theme === 'dark' ? (
                         <>
                           <Sun className="h-5 w-5" />
-                          <span>Modo claro</span>
+                          {!isCollapsed && <span>Modo claro</span>}
                         </>
                       ) : (
                         <>
                           <Moon className="h-5 w-5" />
-                          <span>Modo escuro</span>
+                          {!isCollapsed && <span>Modo escuro</span>}
                         </>
                       )}
                     </button>
@@ -179,7 +200,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
                   <SidebarMenuButton asChild>
                     <Link to={`/${userType}/notifications`} className="flex items-center gap-2">
                       <Bell className="h-5 w-5" />
-                      <span>Notificações</span>
+                      {!isCollapsed && <span>Notificações</span>}
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -196,7 +217,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
                       ) : (
                         <LogOut className="h-5 w-5" />
                       )}
-                      <span>Sair</span>
+                      {!isCollapsed && <span>Sair</span>}
                     </button>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -205,11 +226,29 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
           </SidebarGroup>
         </SidebarContent>
       </Sidebar>
-      <main className="flex-1 p-6">
-        <header className="flex items-center justify-end mb-6">
-          <NotificationBell />
+
+      {/* Main content */}
+      <main className="flex-1 overflow-auto">
+        <header className="sticky top-0 z-10 h-16 border-b bg-background/95 backdrop-blur flex items-center px-4 gap-4">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={toggleSidebar} 
+            className="md:flex hidden"
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
+          
+          <div className="ml-auto flex items-center gap-2">
+            <NotificationBell />
+            <Button variant="ghost" size="sm" className="font-medium">
+              {userType === 'client' ? 'Área do Cliente' : 'Área da Empresa'}
+            </Button>
+          </div>
         </header>
-        <Outlet />
+        <div className="p-6">
+          <Outlet />
+        </div>
       </main>
     </div>
   );
