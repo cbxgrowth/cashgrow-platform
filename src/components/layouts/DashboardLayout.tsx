@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate, Link } from 'react-router-dom';
 import { 
@@ -37,7 +36,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/components/ui/theme-provider';
-import NotificationBell from '@/components/notifications/NotificationBell';
+import NotificationPopover from '@/components/notifications/NotificationPopover';
 
 interface DashboardLayoutProps {
   userType: 'client' | 'company';
@@ -240,7 +239,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
           </Button>
           
           <div className="ml-auto flex items-center gap-2">
-            <NotificationBell />
+            <NotificationPopover />
             <Button variant="ghost" size="sm" className="font-medium">
               {userType === 'client' ? 'Área do Cliente' : 'Área da Empresa'}
             </Button>

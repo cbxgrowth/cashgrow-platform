@@ -1,11 +1,11 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { User, Mail, Phone, Lock, CreditCard, Shield } from "lucide-react";
+import { User, Mail, Phone, Lock, CreditCard, Shield, Bell } from "lucide-react";
+import NotificationSettings from '@/components/notifications/NotificationSettings';
 
 const ClientProfile: React.FC = () => {
   return (
@@ -15,9 +15,10 @@ const ClientProfile: React.FC = () => {
       </div>
 
       <Tabs defaultValue="personal" className="w-full">
-        <TabsList className="grid w-full grid-cols-3 mb-6">
+        <TabsList className="grid w-full grid-cols-4 mb-6">
           <TabsTrigger value="personal">Dados Pessoais</TabsTrigger>
           <TabsTrigger value="payment">Métodos de Pagamento</TabsTrigger>
+          <TabsTrigger value="notifications">Notificações</TabsTrigger>
           <TabsTrigger value="security">Segurança</TabsTrigger>
         </TabsList>
         
@@ -154,6 +155,20 @@ const ClientProfile: React.FC = () => {
               <Button className="hover-scale">Salvar Preferências</Button>
             </CardFooter>
           </Card>
+        </TabsContent>
+        
+        <TabsContent value="notifications">
+          <NotificationSettings 
+            initialSettings={{
+              enableEmailNotifications: true,
+              enablePushNotifications: false,
+              notifyOnTransactions: true,
+              notifyOnPromotions: true,
+              notifyOnAccountChanges: true,
+              notifyOnSystemUpdates: true
+            }}
+            onSave={(settings) => console.log('Settings saved:', settings)}
+          />
         </TabsContent>
         
         <TabsContent value="security">

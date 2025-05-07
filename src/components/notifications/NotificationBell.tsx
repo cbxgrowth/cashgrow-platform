@@ -1,28 +1,23 @@
 
 import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Bell } from 'lucide-react';
 import { useNotifications } from '@/contexts/NotificationContext';
 
-const NotificationBell = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { unreadCount } = useNotifications();
+interface NotificationBellProps {
+  onClick?: () => void;
+}
 
-  const handleClick = () => {
-    // Determine user type based on current path
-    const path = location.pathname;
-    const userType = path.includes('/client/') ? 'client' : 'company';
-    navigate(`/${userType}/notifications`);
-  };
+const NotificationBell: React.FC<NotificationBellProps> = ({ onClick }) => {
+  const { unreadCount } = useNotifications();
 
   return (
     <Button
       variant="ghost"
       size="icon"
-      onClick={handleClick}
+      onClick={onClick}
       className="relative"
+      aria-label="Notifications"
     >
       <Bell className="h-5 w-5" />
       {unreadCount > 0 && (

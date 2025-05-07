@@ -20,6 +20,7 @@ import AuthCallback from './pages/auth/callback';
 import ClientDashboard from './pages/client/ClientDashboard';
 import ClientTransactions from './pages/client/transactions';
 import ClientProfile from './pages/client/profile';
+import CompanyProfile from './pages/company/profile';
 import ClientCompanies from './pages/client/companies';
 import ClientRecommendations from './pages/client/recommendations';
 import ClientMissions from './pages/client/missions';
@@ -104,6 +105,7 @@ function App() {
                 <Route path="clients" element={<CompanyClients />} />
                 <Route path="transactions" element={<CompanyTransactions />} />
                 <Route path="reports" element={<CompanyReports />} />
+                <Route path="profile" element={<CompanyProfile />} />
                 <Route path="ai-campaigns" element={<CompanyAICampaigns />} />
                 <Route path="corporate" element={<CompanyCorporate />} />
                 <Route path="performance" element={<CompanyPerformance />} />

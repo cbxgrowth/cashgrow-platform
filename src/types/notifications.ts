@@ -10,7 +10,19 @@ export interface Notification {
   link?: string;
   metadata?: {
     hasAction?: boolean;
-    actionData?: any;
-    [key: string]: any;
+    actionParams?: Record<string, any>;
+    icon?: string;
+    category?: 'transaction' | 'account' | 'promotion' | 'system';
+    priority?: 'low' | 'medium' | 'high';
+    expiresAt?: string;
   };
+}
+
+export interface NotificationSettings {
+  enableEmailNotifications: boolean;
+  enablePushNotifications: boolean;
+  notifyOnTransactions: boolean;
+  notifyOnPromotions: boolean;
+  notifyOnAccountChanges: boolean;
+  notifyOnSystemUpdates: boolean;
 }
