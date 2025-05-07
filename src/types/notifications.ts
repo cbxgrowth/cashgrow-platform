@@ -15,6 +15,7 @@ export interface Notification {
     category?: 'transaction' | 'account' | 'promotion' | 'system';
     priority?: 'low' | 'medium' | 'high';
     expiresAt?: string;
+    actionData?: any; // Adding the missing actionData property
   };
 }
 
