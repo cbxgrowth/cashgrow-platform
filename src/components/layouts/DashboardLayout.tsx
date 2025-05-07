@@ -26,11 +26,16 @@ import {
   Award, 
   Gift, 
   TrendingUp,
-  Loader2
+  Loader2,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
+import { useTheme } from '@/components/ui/theme-provider';
+import NotificationBell from '@/components/notifications/NotificationBell';
 
 interface DashboardLayoutProps {
   userType: 'client' | 'company';
@@ -40,6 +45,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -81,6 +87,10 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
     
     toast.success("Logout realizado com sucesso");
     navigate('/auth/login');
+  };
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
   };
 
   const clientMenuItems = [
@@ -140,6 +150,39 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
+                
+                {/* Theme toggle button */}
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <button 
+                      onClick={toggleTheme} 
+                      className="flex items-center gap-2 w-full"
+                    >
+                      {theme === 'dark' ? (
+                        <>
+                          <Sun className="h-5 w-5" />
+                          <span>Modo claro</span>
+                        </>
+                      ) : (
+                        <>
+                          <Moon className="h-5 w-5" />
+                          <span>Modo escuro</span>
+                        </>
+                      )}
+                    </button>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                
+                {/* Notifications */}
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <Link to={`/${userType}/notifications`} className="flex items-center gap-2">
+                      <Bell className="h-5 w-5" />
+                      <span>Notificações</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild className="text-destructive hover:text-destructive">
                     <button 
@@ -162,6 +205,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
         </SidebarContent>
       </Sidebar>
       <main className="flex-1 p-6">
+        <header className="flex items-center justify-end mb-6">
+          <NotificationBell />
+        </header>
         <Outlet />
       </main>
     </div>
