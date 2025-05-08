@@ -6,7 +6,7 @@ import Logo from './Logo';
 import { supabase } from "@/integrations/supabase/client";
 import { useState, useEffect } from 'react';
 import { User } from '@supabase/supabase-js';
-import { Loader2 } from 'lucide-react';
+import { Loader2, LogIn, UserPlus } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const location = useLocation();
@@ -50,29 +50,30 @@ const Navbar: React.FC = () => {
   return (
     <nav className="border-b border-border bg-background/95 backdrop-blur supports-backdrop-blur:bg-background/60 sticky top-0 z-50 w-full">
       <div className="container flex h-16 items-center justify-between">
-        <Logo />
+        <Logo variant="default" className="hover-scale transition-transform" />
         
         <div className="hidden md:flex gap-6 items-center">
-          <Link to="/" className="text-sm font-medium hover:text-primary transition-colors">
+          <Link to="/" className="text-sm font-medium relative after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300">
             Home
           </Link>
-          <Link to="/about" className="text-sm font-medium hover:text-primary transition-colors">
+          <Link to="/about" className="text-sm font-medium relative after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300">
             Sobre
           </Link>
-          <Link to="/contact" className="text-sm font-medium hover:text-primary transition-colors">
+          <Link to="/contact" className="text-sm font-medium relative after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300">
             Contato
           </Link>
         </div>
         
         <div className="flex gap-2 items-center">
           {loading ? (
-            <Loader2 className="h-5 w-5 animate-spin" />
+            <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
           ) : user ? (
             <>
               <Button 
-                variant="outline" 
+                variant="glow" 
                 size="sm"
                 onClick={handleNavigateToDashboard}
+                className="shadow-float"
               >
                 Meu Dashboard
               </Button>
@@ -80,10 +81,14 @@ const Navbar: React.FC = () => {
           ) : (
             <>
               <Link to="/auth/login">
-                <Button variant="outline" size="sm">Entrar</Button>
+                <Button variant="outline" size="sm" className="hover-scale">
+                  <LogIn className="h-4 w-4 mr-1" /> Entrar
+                </Button>
               </Link>
               <Link to="/auth/register">
-                <Button size="sm">Registrar</Button>
+                <Button size="sm" variant="glow" className="shadow-float">
+                  <UserPlus className="h-4 w-4 mr-1" /> Registrar
+                </Button>
               </Link>
             </>
           )}
