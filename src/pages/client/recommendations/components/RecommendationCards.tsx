@@ -3,8 +3,9 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingBag, TrendingUp, MapPin, Clock } from "lucide-react";
+import { ShoppingBag, TrendingUp, MapPin, Clock, Percent } from "lucide-react";
 import { toast } from "sonner";
+import PromotionCard from "@/components/PromotionCard";
 
 import { 
   PersonalizedRecommendation, 
@@ -14,13 +15,41 @@ import {
 
 interface RecommendationCardsProps {
   recommendations: PersonalizedRecommendation[] | TrendingRecommendation[] | UpcomingRecommendation[];
-  type: 'personalized' | 'trending' | 'upcoming';
+  type: 'personalized' | 'trending' | 'upcoming' | 'products';
 }
 
 export const RecommendationCards: React.FC<RecommendationCardsProps> = ({ recommendations, type }) => {
   const handleClick = () => {
     toast.success("Oferta salva nas suas favoritas!");
   };
+  
+  const handleRedeemCashback = (name: string) => {
+    toast.success(`Cashback aplicado com sucesso para ${name}!`);
+  };
+
+  if (type === 'products') {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {recommendations.map((rec: any) => (
+          <PromotionCard
+            key={rec.id}
+            id={rec.id.toString()}
+            name={rec.name}
+            description={rec.reasoning || rec.trendingReason || "Produto recomendado para você"}
+            imageUrl={`https://via.placeholder.com/300x300/8B5CF6/FFFFFF?text=${rec.logo}`}
+            price={99.90}
+            originalPrice={rec.originalPrice || 129.90}
+            cashbackPercentage={rec.cashbackPercentage}
+            categoryName={rec.category}
+            isNew={rec.isNew}
+            isBestseller={rec.isBestseller}
+            isPromotion={true}
+            onRedeemCashback={() => handleRedeemCashback(rec.name)}
+          />
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

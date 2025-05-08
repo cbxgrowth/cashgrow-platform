@@ -20,12 +20,16 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent/20 hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         glow: "btn-glow hover:shadow-button-hover hover:translate-y-[-2px]",
+        promotion: "bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:opacity-90 hover:translate-y-[-2px] shadow-lg",
+        cashback: "bg-gradient-to-r from-green-500 to-emerald-500 text-white hover:opacity-90 hover:translate-y-[-2px] shadow-lg",
+        redeem: "bg-gradient-to-r from-blue-500 to-indigo-500 text-white hover:opacity-90 hover:translate-y-[-2px] shadow-lg",
       },
       size: {
         default: "h-10 px-4 py-2",
         sm: "h-9 rounded-md px-3",
         lg: "h-11 rounded-md px-8",
         icon: "h-10 w-10",
+        xl: "h-12 rounded-md px-10 text-base",
       },
     },
     defaultVariants: {

@@ -6,7 +6,7 @@ import Logo from './Logo';
 import { supabase } from "@/integrations/supabase/client";
 import { useState, useEffect } from 'react';
 import { User } from '@supabase/supabase-js';
-import { Loader2, LogIn, UserPlus } from 'lucide-react';
+import { Loader2, LogIn, UserPlus, Store, UserCircle } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const location = useLocation();
@@ -50,7 +50,7 @@ const Navbar: React.FC = () => {
   return (
     <nav className="border-b border-border bg-background/95 backdrop-blur supports-backdrop-blur:bg-background/60 sticky top-0 z-50 w-full">
       <div className="container flex h-16 items-center justify-between">
-        <Logo variant="default" className="hover-scale transition-transform" />
+        <Logo variant="corporate" className="hover-scale transition-transform" />
         
         <div className="hidden md:flex gap-8 items-center">
           <Link to="/" className="nav-item after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300">
@@ -75,7 +75,15 @@ const Navbar: React.FC = () => {
                 onClick={handleNavigateToDashboard}
                 className="shadow-float"
               >
-                Meu Dashboard
+                {user.user_metadata?.user_type === 'company' ? (
+                  <>
+                    <Store className="h-4 w-4 mr-1.5" /> Painel da Empresa
+                  </>
+                ) : (
+                  <>
+                    <UserCircle className="h-4 w-4 mr-1.5" /> Meu Painel
+                  </>
+                )}
               </Button>
             </>
           ) : (
