@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ShoppingBag, Tag, Database, Code, RefreshCw, Save, CheckCircle2, ArrowRightLeft } from "lucide-react";
+import { ShoppingBag, Tag, Database, Code, RefreshCw, Save, CheckCircle2, ArrowRightLeft, Plus } from "lucide-react";
 import { toast } from "sonner";
 
 const StoreIntegrationTab: React.FC = () => {

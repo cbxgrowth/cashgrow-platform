@@ -14,7 +14,7 @@ import {
 } from '../data/recommendationData';
 
 interface RecommendationCardsProps {
-  recommendations: PersonalizedRecommendation[] | TrendingRecommendation[] | UpcomingRecommendation[];
+  recommendations: PersonalizedRecommendation[] | TrendingRecommendation[] | UpcomingRecommendation[] | Array<PersonalizedRecommendation | TrendingRecommendation | UpcomingRecommendation>;
   type: 'personalized' | 'trending' | 'upcoming' | 'products';
 }
 

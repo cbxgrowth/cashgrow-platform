@@ -23,6 +23,7 @@ const buttonVariants = cva(
         promotion: "bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:opacity-90 hover:translate-y-[-2px] shadow-lg",
         cashback: "bg-gradient-to-r from-green-500 to-emerald-500 text-white hover:opacity-90 hover:translate-y-[-2px] shadow-lg",
         redeem: "bg-gradient-to-r from-blue-500 to-indigo-500 text-white hover:opacity-90 hover:translate-y-[-2px] shadow-lg",
+        premium: "bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:opacity-90 hover:translate-y-[-2px] shadow-lg border border-white/20",
       },
       size: {
         default: "h-10 px-4 py-2",
