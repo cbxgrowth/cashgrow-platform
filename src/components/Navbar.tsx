@@ -52,19 +52,19 @@ const Navbar: React.FC = () => {
       <div className="container flex h-16 items-center justify-between">
         <Logo variant="default" className="hover-scale transition-transform" />
         
-        <div className="hidden md:flex gap-6 items-center">
-          <Link to="/" className="text-sm font-medium relative after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300">
+        <div className="hidden md:flex gap-8 items-center">
+          <Link to="/" className="nav-item after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300">
             Home
           </Link>
-          <Link to="/about" className="text-sm font-medium relative after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300">
+          <Link to="/about" className="nav-item after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300">
             Sobre
           </Link>
-          <Link to="/contact" className="text-sm font-medium relative after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300">
+          <Link to="/contact" className="nav-item after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300">
             Contato
           </Link>
         </div>
         
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-3 items-center">
           {loading ? (
             <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
           ) : user ? (
@@ -82,12 +82,12 @@ const Navbar: React.FC = () => {
             <>
               <Link to="/auth/login">
                 <Button variant="outline" size="sm" className="hover-scale">
-                  <LogIn className="h-4 w-4 mr-1" /> Entrar
+                  <LogIn className="h-4 w-4 mr-1.5" /> Entrar
                 </Button>
               </Link>
               <Link to="/auth/register">
                 <Button size="sm" variant="glow" className="shadow-float">
-                  <UserPlus className="h-4 w-4 mr-1" /> Registrar
+                  <UserPlus className="h-4 w-4 mr-1.5" /> Registrar
                 </Button>
               </Link>
             </>

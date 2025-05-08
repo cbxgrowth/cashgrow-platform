@@ -87,6 +87,14 @@ export default {
 				'shimmer': {
 					'0%': { backgroundPosition: '-500px 0' },
 					'100%': { backgroundPosition: '500px 0' }
+				},
+				'blur-in': {
+					'0%': { filter: 'blur(12px)', opacity: '0' },
+					'100%': { filter: 'blur(0)', opacity: '1' }
+				},
+				'scale-in': {
+					'0%': { transform: 'scale(0.95)', opacity: '0' },
+					'100%': { transform: 'scale(1)', opacity: '1' }
 				}
 			},
 			animation: {
@@ -94,20 +102,24 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'float': 'float 6s ease-in-out infinite',
 				'pulse-soft': 'pulse-soft 3s ease-in-out infinite',
-				'shimmer': 'shimmer 2s infinite linear'
+				'shimmer': 'shimmer 2s infinite linear',
+				'blur-in': 'blur-in 0.4s ease-out forwards',
+				'scale-in': 'scale-in 0.3s ease-out forwards'
 			},
 			boxShadow: {
 				'soft': '0 10px 25px -3px rgba(0, 0, 0, 0.05)',
 				'card': '0 8px 25px rgba(0, 0, 0, 0.06)',
 				'card-hover': '0 12px 30px rgba(0, 0, 0, 0.08)',
 				'button': '0 4px 14px 0 rgba(0, 0, 0, 0.15)',
-				'button-hover': '0 6px 20px rgba(0, 0, 0, 0.12)'
+				'button-hover': '0 6px 20px rgba(0, 0, 0, 0.12)',
+				'focus-ring': '0 0 0 2px rgba(139, 92, 246, 0.35)'
 			},
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
 				'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
 				'gradient-shine': 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%)',
-				'card-gradient': 'linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%)'
+				'card-gradient': 'linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%)',
+				'subtle-gradient': 'linear-gradient(to right, rgba(255,255,255,0.05), rgba(255,255,255,0.1), rgba(255,255,255,0.05))'
 			},
 			fontFamily: {
 				'sans': ['Inter', 'system-ui', 'sans-serif'],
