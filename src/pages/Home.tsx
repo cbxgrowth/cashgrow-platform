@@ -27,7 +27,14 @@ import {
   Shield,
   Settings,
   Smartphone,
-  Globe
+  Globe,
+  Utensils,
+  ShoppingCart,
+  Scissors,
+  Package,
+  Monitor,
+  Search,
+  Home
 } from 'lucide-react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -74,7 +81,7 @@ const Home: React.FC = () => {
             <div className="flex items-center justify-center">
               <div className="relative w-full h-full min-h-[250px]">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg opacity-20 blur-xl"></div>
-                <div className="relative bg-background/80 backdrop-blur-sm border rounded-lg p-8 shadow-lg">
+                <div className="relative bg-background/80 backdrop-blur-sm border rounded-xl p-8 shadow-lg">
                   <div className="space-y-4">
                     <div className="flex justify-between items-center pb-4 border-b">
                       <div>
@@ -172,6 +179,288 @@ const Home: React.FC = () => {
                   </Link>
                 </Button>
               </CardFooter>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Segmentos Section */}
+      <section className="py-16">
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Segmentos</h2>
+            <p className="max-w-[700px] text-muted-foreground md:text-xl">
+              Atendemos diversos segmentos de negócio com soluções personalizadas
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Alimentação */}
+            <Card className="hover:shadow-lg transition-all">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center mb-4">
+                  <Utensils className="h-6 w-6 text-orange-600" />
+                </div>
+                <CardTitle className="text-orange-600">Alimentação</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-orange-600 rounded-full"></div>
+                  <span className="text-sm">Restaurantes</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-orange-600 rounded-full"></div>
+                  <span className="text-sm">Sushi & Temakeria</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-orange-600 rounded-full"></div>
+                  <span className="text-sm">Sorveteria & Açaí</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-orange-600 rounded-full"></div>
+                  <span className="text-sm">Cafeterias</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-orange-600 rounded-full"></div>
+                  <span className="text-sm">Lojas de Suplementos</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Varejo em Geral */}
+            <Card className="hover:shadow-lg transition-all">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-4">
+                  <ShoppingCart className="h-6 w-6 text-blue-600" />
+                </div>
+                <CardTitle className="text-blue-600">Varejo em Geral</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                  <span className="text-sm">Super Mercados</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                  <span className="text-sm">Lojas de Roupas</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                  <span className="text-sm">Farmácias</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                  <span className="text-sm">Perfumaria & Cosméticos</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                  <span className="text-sm">Construção & Decoração</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Serviços */}
+            <Card className="hover:shadow-lg transition-all">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-4">
+                  <Scissors className="h-6 w-6 text-green-600" />
+                </div>
+                <CardTitle className="text-green-600">Serviços</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-600 rounded-full"></div>
+                  <span className="text-sm">Clínicas Diversas</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-600 rounded-full"></div>
+                  <span className="text-sm">Salões de Beleza & Barbearias</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-600 rounded-full"></div>
+                  <span className="text-sm">Petshop</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-600 rounded-full"></div>
+                  <span className="text-sm">Automotivo</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-600 rounded-full"></div>
+                  <span className="text-sm">Lojas de Informática</span>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Integrações Section */}
+      <section className="py-16 bg-muted/30">
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Integrações</h2>
+            <p className="max-w-[700px] text-muted-foreground md:text-xl">
+              Conecte-se facilmente com as principais plataformas do mercado
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Gestão */}
+            <Card className="hover:shadow-lg transition-all">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center mb-4">
+                  <Package className="h-6 w-6 text-yellow-600" />
+                </div>
+                <CardTitle className="text-yellow-600">Gestão</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-yellow-600 rounded-full"></div>
+                  <span className="text-sm">Bling</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-yellow-600 rounded-full"></div>
+                  <span className="text-sm">Gestão Click</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-yellow-600 rounded-full"></div>
+                  <span className="text-sm">Tiny ERP</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-yellow-600 rounded-full"></div>
+                  <span className="text-sm">Vhsys</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-yellow-600 rounded-full"></div>
+                  <span className="text-sm">Varejonline</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-yellow-600 rounded-full"></div>
+                  <span className="text-sm">Tagplus</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-yellow-600 rounded-full"></div>
+                  <span className="text-sm">Sige Cloud</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Lojas Virtuais */}
+            <Card className="hover:shadow-lg transition-all">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-4">
+                  <Globe className="h-6 w-6 text-purple-600" />
+                </div>
+                <CardTitle className="text-purple-600">Lojas Virtuais</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
+                  <span className="text-sm">Tray</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
+                  <span className="text-sm">Nuvemshop</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
+                  <span className="text-sm">Loja Integrada</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
+                  <span className="text-sm">VTEX</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
+                  <span className="text-sm">Woocommerce</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
+                  <span className="text-sm">Wake</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
+                  <span className="text-sm">Zapier</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* PDV */}
+            <Card className="hover:shadow-lg transition-all">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mb-4">
+                  <Monitor className="h-6 w-6 text-indigo-600" />
+                </div>
+                <CardTitle className="text-indigo-600">PDV</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-indigo-600 rounded-full"></div>
+                  <span className="text-sm">Raffinato</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-indigo-600 rounded-full"></div>
+                  <span className="text-sm">iFood</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-indigo-600 rounded-full"></div>
+                  <span className="text-sm">TOTVS Chef</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-indigo-600 rounded-full"></div>
+                  <span className="text-sm">Delivery Direto</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-indigo-600 rounded-full"></div>
+                  <span className="text-sm">Omie</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-indigo-600 rounded-full"></div>
+                  <span className="text-sm">CPlug</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-indigo-600 rounded-full"></div>
+                  <span className="text-sm">Sischef</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* E mais */}
+            <Card className="hover:shadow-lg transition-all">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+                  <Search className="h-6 w-6 text-gray-600" />
+                </div>
+                <CardTitle className="text-gray-600">E mais...</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-gray-600 rounded-full"></div>
+                  <span className="text-sm">Pipedrive</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-gray-600 rounded-full"></div>
+                  <span className="text-sm">SHX</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-gray-600 rounded-full"></div>
+                  <span className="text-sm">Galileu</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-gray-600 rounded-full"></div>
+                  <span className="text-sm">Hubsoft</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-gray-600 rounded-full"></div>
+                  <span className="text-sm">Cloudbeds</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-gray-600 rounded-full"></div>
+                  <span className="text-sm">Doação Solutions</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-gray-600 rounded-full"></div>
+                  <span className="text-sm">E muito mais...</span>
+                </div>
+              </CardContent>
             </Card>
           </div>
         </div>
