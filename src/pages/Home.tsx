@@ -11,7 +11,23 @@ import {
   Award, 
   ArrowRight,
   Building,
-  User
+  User,
+  Megaphone,
+  MessageSquare,
+  Bell,
+  Calendar,
+  Gift,
+  Star,
+  Smile,
+  Target,
+  Heart,
+  Zap,
+  Crown,
+  Rocket,
+  Shield,
+  Settings,
+  Smartphone,
+  Globe
 } from 'lucide-react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -91,7 +107,7 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* How it Works Section */}
       <section className="py-16 bg-muted/30">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
@@ -161,8 +177,105 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Benefits Section */}
+      {/* Features Section */}
       <section className="py-16">
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Funcionalidades</h2>
+            <p className="max-w-[700px] text-muted-foreground md:text-xl">
+              Tudo que você precisa para criar um programa de fidelidade completo e eficaz
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+            {/* Marketing Features */}
+            <Card className="hover:shadow-lg transition-all">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center mb-4">
+                  <Megaphone className="h-6 w-6 text-orange-600" />
+                </div>
+                <CardTitle className="text-orange-600">Marketing</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <MessageSquare className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm">WhatsApp Marketing</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Bell className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm">E-mail & SMS Marketing</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Bell className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm">Notificações Automáticas</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Calendar className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm">Campanhas Agendadas</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Engagement Features */}
+            <Card className="hover:shadow-lg transition-all">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center mb-4">
+                  <Smile className="h-6 w-6 text-yellow-600" />
+                </div>
+                <CardTitle className="text-yellow-600">Engajamento</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <Star className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm">Pesquisa de Satisfação</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Heart className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm">Indicação de Amigos</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Users className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm">Categorias de Clientes</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Target className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm">Sorteios</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Incentive Features */}
+            <Card className="hover:shadow-lg transition-all">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-4">
+                  <Gift className="h-6 w-6 text-green-600" />
+                </div>
+                <CardTitle className="text-green-600">Incentivos</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <Gift className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm">Vale Presente</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Zap className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm">Pontos Extras</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CreditCard className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm">Vouchers</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Calendar className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm">Aniversário do Cliente</span>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits Section */}
+      <section className="py-16 bg-muted/30">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Benefícios</h2>
@@ -199,6 +312,210 @@ const Home: React.FC = () => {
               <h3 className="font-bold">Cashback VIP</h3>
               <p className="text-muted-foreground">Ofereça experiências premium para seus melhores clientes através do clube VIP.</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section className="py-16">
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Preços</h2>
+            <p className="max-w-[700px] text-muted-foreground md:text-xl">
+              Escolha o plano ideal para o seu negócio
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+            {/* Plano Start */}
+            <Card className="hover:shadow-lg transition-all border-2 border-transparent hover:border-primary/20">
+              <CardHeader className="text-center pb-4">
+                <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
+                  <Rocket className="h-8 w-8 text-blue-600" />
+                </div>
+                <CardTitle className="text-2xl">Plano START</CardTitle>
+                <p className="text-muted-foreground text-sm">O jeito mais rápido e econômico de fidelizar seus clientes!</p>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="text-center">
+                  <div className="flex items-center justify-center gap-2">
+                    <span className="text-sm text-muted-foreground line-through">R$ 2.557</span>
+                    <span className="text-2xl font-bold text-blue-600">R$ 1.999</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">Implementação</p>
+                  <div className="mt-2">
+                    <span className="text-lg font-semibold">R$ 279</span>
+                    <span className="text-sm text-muted-foreground">/mês</span>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <h4 className="font-semibold text-sm">Principais Benefícios:</h4>
+                  <ul className="space-y-1 text-sm text-muted-foreground">
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-3 w-3 text-green-500" />
+                      Até 10.000 clientes cadastrados
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-3 w-3 text-green-500" />
+                      Integrações nativas
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-3 w-3 text-green-500" />
+                      Campanhas promocionais
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-3 w-3 text-green-500" />
+                      Consultor Dedicado
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-3 w-3 text-green-500" />
+                      Engenharia de Pontos
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-3 w-3 text-green-500" />
+                      Gatilhos Mentais
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-3 w-3 text-green-500" />
+                      Cashback ou Pontos
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-3 w-3 text-green-500" />
+                      Estratégia de Prêmios
+                    </li>
+                  </ul>
+                </div>
+                <div className="bg-yellow-50 p-3 rounded-lg">
+                  <p className="text-xs text-yellow-800">
+                    <strong>Observação:</strong> O Plano START não inclui API. Para integrações personalizadas, opte pelo Plano PRO ou GROWTH.
+                  </p>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button className="w-full" asChild>
+                  <Link to="/auth/register">Escolher Plano</Link>
+                </Button>
+              </CardFooter>
+            </Card>
+
+            {/* Plano Pro */}
+            <Card className="hover:shadow-lg transition-all border-2 border-primary/50 relative">
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                <span className="bg-primary text-white px-4 py-1 rounded-full text-xs font-medium">Mais Popular</span>
+              </div>
+              <CardHeader className="text-center pb-4">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                  <Crown className="h-8 w-8 text-primary" />
+                </div>
+                <CardTitle className="text-2xl">Plano PRO</CardTitle>
+                <p className="text-muted-foreground text-sm">Para empresas em crescimento que buscam a solução completa.</p>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="text-center">
+                  <div className="flex items-center justify-center gap-2">
+                    <span className="text-sm text-muted-foreground line-through">R$ 3.917</span>
+                    <span className="text-2xl font-bold text-primary">R$ 2.890</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">Implementação</p>
+                  <div className="mt-2">
+                    <span className="text-lg font-semibold">R$ 399</span>
+                    <span className="text-sm text-muted-foreground">/mês</span>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <h4 className="font-semibold text-sm">Principais Vantagens:</h4>
+                  <ul className="space-y-1 text-sm text-muted-foreground">
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-3 w-3 text-green-500" />
+                      Processo completo de implementação
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-3 w-3 text-green-500" />
+                      Estratégia única para seu nicho
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-3 w-3 text-green-500" />
+                      Suporte total à API
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-3 w-3 text-green-500" />
+                      Até 50.000 clientes cadastrados
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-3 w-3 text-green-500" />
+                      Todas as funcionalidades do START
+                    </li>
+                  </ul>
+                </div>
+                <div className="bg-blue-50 p-3 rounded-lg">
+                  <p className="text-xs text-blue-800">
+                    <strong>Observação:</strong> A implementação já inclui a primeira mensalidade e Mentoria.
+                  </p>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button className="w-full" variant="glow" asChild>
+                  <Link to="/auth/register">Escolher Plano</Link>
+                </Button>
+              </CardFooter>
+            </Card>
+
+            {/* Plano Growth */}
+            <Card className="hover:shadow-lg transition-all border-2 border-transparent hover:border-purple-500/20">
+              <CardHeader className="text-center pb-4">
+                <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-4">
+                  <Zap className="h-8 w-8 text-purple-600" />
+                </div>
+                <CardTitle className="text-2xl">Plano GROWTH</CardTitle>
+                <p className="text-muted-foreground text-sm">Solução completa com automação via WhatsApp Oficial e apps personalizados.</p>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="text-center">
+                  <div className="flex items-center justify-center gap-2">
+                    <span className="text-sm text-muted-foreground line-through">R$ 4.615</span>
+                    <span className="text-2xl font-bold text-purple-600">R$ 3.999</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">Implementação</p>
+                  <div className="mt-2">
+                    <span className="text-lg font-semibold">R$ 849</span>
+                    <span className="text-sm text-muted-foreground">/mês</span>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <h4 className="font-semibold text-sm">Recursos Destacados:</h4>
+                  <ul className="space-y-1 text-sm text-muted-foreground">
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-3 w-3 text-green-500" />
+                      Até 350 mil clientes (e mais)
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-3 w-3 text-green-500" />
+                      Infraestrutura dedicada
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-3 w-3 text-green-500" />
+                      Customização completa
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Smartphone className="h-3 w-3 text-green-500" />
+                      Apps iOS e Android personalizados
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <MessageSquare className="h-3 w-3 text-green-500" />
+                      WhatsApp API Oficial
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Shield className="h-3 w-3 text-green-500" />
+                      Mentoria para implementação
+                    </li>
+                  </ul>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button className="w-full" variant="premium" asChild>
+                  <Link to="/auth/register">Escolher Plano</Link>
+                </Button>
+              </CardFooter>
+            </Card>
           </div>
         </div>
       </section>

@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 interface LogoProps {
@@ -11,7 +10,7 @@ interface LogoProps {
 }
 
 const Logo: React.FC<LogoProps> = ({ 
-  companyName = "CashbackBloom", 
+  companyName = "Bloom", 
   customLogo, 
   size = "md",
   className,
@@ -49,7 +48,7 @@ const Logo: React.FC<LogoProps> = ({
       return (
         <div className="relative group">
           <div className={`bg-gradient-to-br from-blue-500 to-indigo-600 rounded-md p-2 text-white overflow-hidden ${logoSizes[size]} flex items-center justify-center shadow-xl group-hover:shadow-2xl transition-all duration-300`}>
-            <span className="font-bold relative z-10">CB</span>
+            <span className="font-bold relative z-10">B</span>
             <div className={`absolute inset-0 bg-white opacity-10 ${animated ? 'animate-pulse-soft' : ''}`}></div>
           </div>
           <div className="absolute -inset-1 bg-gradient-to-r from-blue-400/30 to-indigo-500/30 rounded-lg blur-sm opacity-70 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -61,7 +60,7 @@ const Logo: React.FC<LogoProps> = ({
       return (
         <div className="relative group">
           <div className={`bg-gradient-to-br from-purple-600 to-indigo-600 rounded-md p-2 text-white overflow-hidden ${logoSizes[size]} flex items-center justify-center shadow-xl group-hover:shadow-2xl transition-all duration-300 border border-white/20`}>
-            <span className="font-bold relative z-10">CB</span>
+            <span className="font-bold relative z-10">B</span>
             <div className={`absolute inset-0 bg-white opacity-10 ${animated ? 'animate-pulse-soft' : ''}`}></div>
           </div>
           <div className="absolute -inset-1 bg-gradient-to-r from-purple-500/30 to-indigo-600/30 rounded-lg blur-sm opacity-70 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -72,7 +71,7 @@ const Logo: React.FC<LogoProps> = ({
     return (
       <div className="relative group">
         <div className={`bg-gradient-to-br from-primary to-accent rounded-lg p-2 text-white overflow-hidden ${logoSizes[size]} flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300`}>
-          <span className="font-bold relative z-10">CB</span>
+          <span className="font-bold relative z-10">B</span>
           <div className={`absolute inset-0 bg-white opacity-10 ${animated ? 'animate-pulse-soft' : ''}`}></div>
         </div>
         <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 to-accent/30 rounded-lg blur-sm opacity-70 group-hover:opacity-100 transition-opacity duration-300"></div>
