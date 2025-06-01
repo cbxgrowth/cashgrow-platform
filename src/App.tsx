@@ -20,6 +20,7 @@ import AuthCallback from './pages/auth/callback';
 import ClientDashboard from './pages/client/ClientDashboard';
 import ClientTransactions from './pages/client/transactions';
 import ClientProfile from './pages/client/profile';
+import ClientWallet from './pages/client/wallet';
 import CompanyProfile from './pages/company/profile';
 import ClientCompanies from './pages/client/companies';
 import ClientRecommendations from './pages/client/recommendations';
@@ -27,6 +28,7 @@ import ClientMissions from './pages/client/missions';
 import ClientVipClub from './pages/client/vip-club';
 import CompanyDashboard from './pages/company/CompanyDashboard';
 import CompanyClients from './pages/company/clients';
+import CompanyProducts from './pages/company/products';
 import CompanyTransactions from './pages/company/transactions';
 import CompanyReports from './pages/company/reports';
 import CompanySettings from './pages/company/settings';
@@ -89,6 +91,7 @@ function App() {
                 <Route path="dashboard" element={<ClientDashboard />} />
                 <Route path="transactions" element={<ClientTransactions />} />
                 <Route path="profile" element={<ClientProfile />} />
+                <Route path="wallet" element={<ClientWallet />} />
                 <Route path="companies" element={<ClientCompanies />} />
                 <Route path="recommendations" element={<ClientRecommendations />} />
                 <Route path="missions" element={<ClientMissions />} />
@@ -103,6 +106,7 @@ function App() {
                 <Route path="dashboard" element={<CompanyDashboard />} />
                 <Route path="cashback-rules" element={<CashbackRules />} />
                 <Route path="clients" element={<CompanyClients />} />
+                <Route path="products" element={<CompanyProducts />} />
                 <Route path="transactions" element={<CompanyTransactions />} />
                 <Route path="reports" element={<CompanyReports />} />
                 <Route path="profile" element={<CompanyProfile />} />

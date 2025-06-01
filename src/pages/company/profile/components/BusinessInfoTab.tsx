@@ -1,138 +1,188 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Building2, Mail, Phone, MapPin, Globe, Save } from "lucide-react";
-import { Textarea } from '@/components/ui/textarea';
+import { Textarea } from "@/components/ui/textarea";
+import { Building, MapPin, Phone, Mail, Globe, Save } from "lucide-react";
+import { toast } from "sonner";
 
 const BusinessInfoTab: React.FC = () => {
+  const [formData, setFormData] = useState({
+    companyName: 'Tech Store Ltda',
+    cnpj: '12.345.678/0001-90',
+    email: 'contato@techstore.com.br',
+    phone: '(11) 98765-4321',
+    website: 'https://techstore.com.br',
+    address: 'Rua das Flores, 123',
+    city: 'São Paulo',
+    state: 'SP',
+    zipCode: '01234-567',
+    description: 'Loja especializada em tecnologia e eletrônicos com foco em oferecer os melhores produtos e atendimento aos nossos clientes.'
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSave = () => {
+    toast.success('Informações do negócio atualizadas com sucesso!');
+  };
+
   return (
     <Card className="shadow-md enhanced-card">
       <CardHeader className="border-b bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
         <CardTitle className="flex items-center gap-2">
-          <Building2 className="h-5 w-5 text-accent" />
-          <span>Informações da Empresa</span>
+          <Building className="h-5 w-5 text-accent" />
+          <span>Informações do Negócio</span>
         </CardTitle>
         <CardDescription>
-          Atualize os dados da sua empresa
+          Configure as informações básicas da sua empresa
         </CardDescription>
       </CardHeader>
+
       <CardContent className="space-y-6 pt-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="company-name" className="text-sm font-medium">Nome da Empresa</Label>
-              <div className="relative">
-                <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input 
-                  id="company-name" 
-                  placeholder="Nome da empresa" 
-                  defaultValue="Tech Store" 
-                  className="pl-10 transition-all duration-200 border-muted focus:border-primary" 
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-medium">E-mail de Contato</Label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input 
-                  id="email" 
-                  type="email" 
-                  placeholder="contato@empresa.com" 
-                  defaultValue="contato@techstore.com" 
-                  className="pl-10 transition-all duration-200 border-muted focus:border-primary" 
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="phone" className="text-sm font-medium">Telefone de Contato</Label>
-              <div className="relative">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input 
-                  id="phone" 
-                  placeholder="(00) 00000-0000" 
-                  defaultValue="(11) 3456-7890" 
-                  className="pl-10 transition-all duration-200 border-muted focus:border-primary" 
-                />
-              </div>
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="companyName">Nome da Empresa</Label>
+            <Input
+              id="companyName"
+              name="companyName"
+              value={formData.companyName}
+              onChange={handleInputChange}
+              placeholder="Nome da sua empresa"
+            />
           </div>
           
-          <div className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="cnpj">CNPJ</Label>
+            <Input
+              id="cnpj"
+              name="cnpj"
+              value={formData.cnpj}
+              onChange={handleInputChange}
+              placeholder="00.000.000/0000-00"
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="email" className="flex items-center gap-1">
+              <Mail className="h-4 w-4" />
+              E-mail
+            </Label>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              placeholder="contato@empresa.com"
+            />
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="phone" className="flex items-center gap-1">
+              <Phone className="h-4 w-4" />
+              Telefone
+            </Label>
+            <Input
+              id="phone"
+              name="phone"
+              value={formData.phone}
+              onChange={handleInputChange}
+              placeholder="(11) 99999-9999"
+            />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="website" className="flex items-center gap-1">
+            <Globe className="h-4 w-4" />
+            Website
+          </Label>
+          <Input
+            id="website"
+            name="website"
+            value={formData.website}
+            onChange={handleInputChange}
+            placeholder="https://www.empresa.com"
+          />
+        </div>
+
+        <div className="space-y-4 p-4 border rounded-lg bg-slate-50 dark:bg-slate-900">
+          <h3 className="text-lg font-medium flex items-center gap-2">
+            <MapPin className="h-5 w-5 text-accent" />
+            Endereço
+          </h3>
+          
+          <div className="space-y-2">
+            <Label htmlFor="address">Endereço</Label>
+            <Input
+              id="address"
+              name="address"
+              value={formData.address}
+              onChange={handleInputChange}
+              placeholder="Rua, Avenida, número"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="cnpj" className="text-sm font-medium">CNPJ</Label>
-              <Input 
-                id="cnpj" 
-                placeholder="00.000.000/0000-00" 
-                defaultValue="12.345.678/0001-90" 
-                disabled 
-                className="bg-muted/50" 
+              <Label htmlFor="city">Cidade</Label>
+              <Input
+                id="city"
+                name="city"
+                value={formData.city}
+                onChange={handleInputChange}
+                placeholder="Cidade"
               />
-              <p className="text-xs text-muted-foreground">O CNPJ não pode ser alterado</p>
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="website" className="text-sm font-medium">Website</Label>
-              <div className="relative">
-                <Globe className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input 
-                  id="website" 
-                  placeholder="https://www.empresa.com" 
-                  defaultValue="https://www.techstore.com" 
-                  className="pl-10 transition-all duration-200 border-muted focus:border-primary" 
-                />
-              </div>
+              <Label htmlFor="state">Estado</Label>
+              <Input
+                id="state"
+                name="state"
+                value={formData.state}
+                onChange={handleInputChange}
+                placeholder="UF"
+                maxLength={2}
+              />
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="address" className="text-sm font-medium">Endereço</Label>
-              <div className="relative">
-                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input 
-                  id="address" 
-                  placeholder="Endereço completo" 
-                  defaultValue="Av. Paulista, 1000 - São Paulo/SP" 
-                  className="pl-10 transition-all duration-200 border-muted focus:border-primary" 
-                />
-              </div>
+              <Label htmlFor="zipCode">CEP</Label>
+              <Input
+                id="zipCode"
+                name="zipCode"
+                value={formData.zipCode}
+                onChange={handleInputChange}
+                placeholder="00000-000"
+              />
             </div>
           </div>
         </div>
-        
-        <div className="space-y-2 p-4 border rounded-lg bg-slate-50 dark:bg-slate-900">
-          <Label htmlFor="description" className="text-sm font-medium">Descrição da Empresa</Label>
-          <Textarea 
-            id="description" 
-            placeholder="Descreva sua empresa em poucas palavras" 
-            defaultValue="A Tech Store é uma loja especializada em produtos de tecnologia, oferecendo os melhores produtos com cashback exclusivo para nossos clientes."
-            className="min-h-[120px] resize-none transition-all duration-200 border-muted focus:border-primary"
+
+        <div className="space-y-2">
+          <Label htmlFor="description">Descrição da Empresa</Label>
+          <Textarea
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleInputChange}
+            placeholder="Descreva sua empresa, produtos e serviços..."
+            rows={4}
           />
         </div>
-        
-        <div className="space-y-2">
-          <Label htmlFor="sector" className="text-sm font-medium">Setor de Atuação</Label>
-          <select 
-            id="sector"
-            className="w-full p-2 border rounded-md bg-background transition-all duration-200 border-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring"
-            defaultValue="tecnologia"
-          >
-            <option value="tecnologia">Tecnologia</option>
-            <option value="alimentacao">Alimentação</option>
-            <option value="moda">Moda e Vestuário</option>
-            <option value="saude">Saúde e Bem-estar</option>
-            <option value="servicos">Serviços</option>
-            <option value="outro">Outro</option>
-          </select>
-        </div>
       </CardContent>
+
       <CardFooter className="flex justify-end border-t bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 p-4">
-        <Button variant="glow" className="hover-scale">
-          <Save className="h-4 w-4 mr-1" /> Salvar Alterações
+        <Button variant="glow" className="hover-scale" onClick={handleSave}>
+          <Save className="h-4 w-4 mr-1" /> Salvar Informações
         </Button>
       </CardFooter>
     </Card>
