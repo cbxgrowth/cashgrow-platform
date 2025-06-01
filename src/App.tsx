@@ -1,4 +1,3 @@
-
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { Toaster } from '@/components/ui/sonner';
@@ -76,6 +75,9 @@ function App() {
                 <Route path="home" element={<Home />} />
                 <Route path="about" element={<About />} />
                 <Route path="contact" element={<Contact />} />
+                <Route path="funcionalidades" element={<Features />} />
+                <Route path="precos" element={<Pricing />} />
+                <Route path="integracoes" element={<Integrations />} />
               </Route>
 
               {/* Páginas de autenticação */}

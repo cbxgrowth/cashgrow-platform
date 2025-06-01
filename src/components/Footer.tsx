@@ -19,17 +19,17 @@ const Footer: React.FC = () => {
             <h3 className="text-sm font-medium mb-4">Plataforma</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/features" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/funcionalidades" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Funcionalidades
                 </Link>
               </li>
               <li>
-                <Link to="/pricing" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/precos" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Preços
                 </Link>
               </li>
               <li>
-                <Link to="/integrations" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/integracoes" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Integrações
                 </Link>
               </li>
@@ -81,7 +81,7 @@ const Footer: React.FC = () => {
         
         <div className="border-t border-border mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} CashbackBloom. Todos os direitos reservados.
+            &copy; {new Date().getFullYear()} Bloom. Todos os direitos reservados.
           </p>
           <div className="flex space-x-4 mt-4 md:mt-0">
             <Link to="#" className="text-muted-foreground hover:text-primary">

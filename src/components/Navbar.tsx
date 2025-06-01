@@ -2,11 +2,19 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
+import { 
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
 import Logo from './Logo';
 import { supabase } from "@/integrations/supabase/client";
 import { useState, useEffect } from 'react';
 import { User } from '@supabase/supabase-js';
-import { Loader2, LogIn, UserPlus, Store, UserCircle } from 'lucide-react';
+import { Loader2, LogIn, UserPlus, Store, UserCircle, ChevronDown } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const location = useLocation();
@@ -52,16 +60,73 @@ const Navbar: React.FC = () => {
       <div className="container flex h-16 items-center justify-between">
         <Logo variant="corporate" className="hover-scale transition-transform" />
         
-        <div className="hidden md:flex gap-8 items-center">
-          <Link to="/" className="nav-item after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300">
-            Home
-          </Link>
-          <Link to="/about" className="nav-item after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300">
-            Sobre
-          </Link>
-          <Link to="/contact" className="nav-item after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300">
-            Contato
-          </Link>
+        <div className="hidden md:flex items-center">
+          <NavigationMenu>
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <Link to="/" className="nav-item after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300 px-4 py-2">
+                  Home
+                </Link>
+              </NavigationMenuItem>
+              
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>Plataforma</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <div className="grid gap-3 p-6 w-[400px] lg:w-[500px] lg:grid-cols-2">
+                    <div className="row-span-3">
+                      <NavigationMenuLink asChild>
+                        <Link
+                          className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                          to="/funcionalidades"
+                        >
+                          <div className="mb-2 mt-4 text-lg font-medium">
+                            Funcionalidades
+                          </div>
+                          <p className="text-sm leading-tight text-muted-foreground">
+                            Descubra todos os recursos da nossa plataforma
+                          </p>
+                        </Link>
+                      </NavigationMenuLink>
+                    </div>
+                    <NavigationMenuLink asChild>
+                      <Link
+                        className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        to="/integracoes"
+                      >
+                        <div className="text-sm font-medium leading-none">Integrações</div>
+                        <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                          Conecte com ERPs, e-commerce e PDVs
+                        </p>
+                      </Link>
+                    </NavigationMenuLink>
+                    <NavigationMenuLink asChild>
+                      <Link
+                        className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        to="/precos"
+                      >
+                        <div className="text-sm font-medium leading-none">Preços</div>
+                        <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                          Planos flexíveis para todos os tamanhos
+                        </p>
+                      </Link>
+                    </NavigationMenuLink>
+                  </div>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              
+              <NavigationMenuItem>
+                <Link to="/about" className="nav-item after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300 px-4 py-2">
+                  Sobre
+                </Link>
+              </NavigationMenuItem>
+              
+              <NavigationMenuItem>
+                <Link to="/contact" className="nav-item after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300 px-4 py-2">
+                  Contato
+                </Link>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
         </div>
         
         <div className="flex gap-3 items-center">
