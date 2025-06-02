@@ -35,7 +35,10 @@ import {
   Bell,
   Menu,
   X,
-  ChevronRight
+  ChevronRight,
+  ChevronLeft,
+  PanelLeftClose,
+  PanelLeft
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
@@ -44,6 +47,7 @@ import { useTheme } from '@/components/ui/theme-provider';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import NotificationPopover from '@/components/notifications/NotificationPopover';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface DashboardLayoutProps {
   userType: 'client' | 'company';
@@ -57,6 +61,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
   const [userInfo, setUserInfo] = useState<any>(null);
   const { theme, setTheme } = useTheme();
   const { isOpen, isCollapsed, toggle, setCollapsed } = useSidebar();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -104,6 +109,13 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
 
+  const handleMenuItemClick = () => {
+    // Fechar menu automaticamente no mobile
+    if (isMobile && isOpen) {
+      toggle();
+    }
+  };
+
   const clientMenuItems = [
     { title: 'Dashboard', icon: Home, url: '/client/dashboard', badge: null },
     { title: 'Transações', icon: CreditCard, url: '/client/transactions', badge: null },
@@ -123,6 +135,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
     { title: 'Campanhas IA', icon: Brain, url: '/company/ai-campaigns', badge: 'Beta' },
     { title: 'B2B & Corporativo', icon: Building2, url: '/company/corporate', badge: null },
     { title: 'Desempenho', icon: TrendingUp, url: '/company/performance', badge: null },
+    { title: 'Integrações', icon: Settings, url: '/company/integrations', badge: null },
     { title: 'Configurações', icon: Settings, url: '/company/settings', badge: null },
   ];
 
@@ -171,7 +184,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
       {/* Mobile Overlay */}
-      {isOpen && (
+      {isOpen && isMobile && (
         <div 
           className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
           onClick={toggle}
@@ -179,7 +192,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
       )}
 
       {/* Sidebar */}
-      <Sidebar className="z-50 border-r border-border/40 bg-card/95 backdrop-blur-xl shadow-2xl">
+      <Sidebar className={`z-50 border-r border-border/40 bg-card/95 backdrop-blur-xl shadow-2xl transition-all duration-300 ${
+        isCollapsed ? 'lg:w-16' : 'lg:w-64'
+      }`}>
         <SidebarHeader className="border-b border-border/40 bg-gradient-to-r from-primary/5 to-accent/5">
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center gap-3">
@@ -198,14 +213,34 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
                 </div>
               )}
             </div>
-            <Button 
-              variant="ghost" 
-              size="icon"
-              className="lg:hidden h-8 w-8 hover:bg-primary/10"
-              onClick={toggle}
-            >
-              <X className="h-4 w-4" />
-            </Button>
+            
+            {/* Desktop Collapse Button */}
+            {!isMobile && (
+              <Button 
+                variant="ghost" 
+                size="icon"
+                className="hidden lg:flex h-8 w-8 hover:bg-primary/10"
+                onClick={() => setCollapsed(!isCollapsed)}
+              >
+                {isCollapsed ? (
+                  <PanelLeft className="h-4 w-4" />
+                ) : (
+                  <PanelLeftClose className="h-4 w-4" />
+                )}
+              </Button>
+            )}
+            
+            {/* Mobile Close Button */}
+            {isMobile && (
+              <Button 
+                variant="ghost" 
+                size="icon"
+                className="lg:hidden h-8 w-8 hover:bg-primary/10"
+                onClick={toggle}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            )}
           </div>
         </SidebarHeader>
 
@@ -226,15 +261,19 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
                           isActive 
                             ? 'bg-gradient-to-r from-primary to-primary/80 text-primary-foreground shadow-lg shadow-primary/25' 
                             : 'hover:bg-accent/50 hover:text-accent-foreground'
-                        }`}
+                        } ${isCollapsed ? 'justify-center px-2' : ''}`}
                       >
-                        <Link to={item.url} className="flex items-center gap-3 p-3">
-                          <item.icon className={`h-5 w-5 transition-transform group-hover:scale-110 ${
+                        <Link 
+                          to={item.url} 
+                          className={`flex items-center gap-3 p-3 ${isCollapsed ? 'justify-center' : ''}`}
+                          onClick={handleMenuItemClick}
+                        >
+                          <item.icon className={`h-5 w-5 transition-transform group-hover:scale-110 flex-shrink-0 ${
                             isActive ? 'text-primary-foreground' : 'text-muted-foreground group-hover:text-foreground'
                           }`} />
                           {!isCollapsed && (
                             <>
-                              <span className="font-medium flex-1">{item.title}</span>
+                              <span className="font-medium flex-1 truncate">{item.title}</span>
                               <div className="flex items-center gap-2">
                                 {item.badge && (
                                   <Badge 
@@ -270,19 +309,19 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
             <SidebarGroupContent className="mt-2">
               <SidebarMenu className="space-y-1">
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild className="group rounded-xl transition-all duration-200 hover:bg-accent/50">
+                  <SidebarMenuButton asChild className={`group rounded-xl transition-all duration-200 hover:bg-accent/50 ${isCollapsed ? 'justify-center px-2' : ''}`}>
                     <button 
                       onClick={toggleTheme} 
-                      className="flex items-center gap-3 p-3 w-full"
+                      className={`flex items-center gap-3 p-3 w-full ${isCollapsed ? 'justify-center' : ''}`}
                     >
                       {theme === 'dark' ? (
                         <>
-                          <Sun className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-transform group-hover:scale-110" />
+                          <Sun className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-transform group-hover:scale-110 flex-shrink-0" />
                           {!isCollapsed && <span className="font-medium">Modo Claro</span>}
                         </>
                       ) : (
                         <>
-                          <Moon className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-transform group-hover:scale-110" />
+                          <Moon className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-transform group-hover:scale-110 flex-shrink-0" />
                           {!isCollapsed && <span className="font-medium">Modo Escuro</span>}
                         </>
                       )}
@@ -291,9 +330,13 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
                 </SidebarMenuItem>
                 
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild className="group rounded-xl transition-all duration-200 hover:bg-accent/50">
-                    <Link to={`/${userType}/notifications`} className="flex items-center gap-3 p-3">
-                      <Bell className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-transform group-hover:scale-110" />
+                  <SidebarMenuButton asChild className={`group rounded-xl transition-all duration-200 hover:bg-accent/50 ${isCollapsed ? 'justify-center px-2' : ''}`}>
+                    <Link 
+                      to={`/${userType}/notifications`} 
+                      className={`flex items-center gap-3 p-3 ${isCollapsed ? 'justify-center' : ''}`}
+                      onClick={handleMenuItemClick}
+                    >
+                      <Bell className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-transform group-hover:scale-110 flex-shrink-0" />
                       {!isCollapsed && (
                         <>
                           <span className="font-medium flex-1">Notificações</span>
@@ -325,20 +368,31 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
               </div>
             )}
             
+            {/* User Avatar when collapsed */}
+            {isCollapsed && (
+              <div className="flex justify-center">
+                <Avatar className="h-8 w-8 ring-2 ring-primary/20">
+                  <AvatarFallback className="bg-gradient-to-br from-primary to-accent text-primary-foreground font-bold text-xs">
+                    {getUserInitials()}
+                  </AvatarFallback>
+                </Avatar>
+              </div>
+            )}
+            
             {/* Logout Button */}
             <SidebarMenuButton 
               asChild 
-              className="group rounded-xl transition-all duration-200 hover:bg-destructive/10 hover:text-destructive"
+              className={`group rounded-xl transition-all duration-200 hover:bg-destructive/10 hover:text-destructive ${isCollapsed ? 'justify-center px-2' : ''}`}
             >
               <button 
                 onClick={handleLogout} 
-                className="flex items-center gap-3 p-3 w-full"
+                className={`flex items-center gap-3 p-3 w-full ${isCollapsed ? 'justify-center' : ''}`}
                 disabled={loading}
               >
                 {loading ? (
-                  <Loader2 className="h-5 w-5 animate-spin" />
+                  <Loader2 className="h-5 w-5 animate-spin flex-shrink-0" />
                 ) : (
-                  <LogOut className="h-5 w-5 transition-transform group-hover:scale-110" />
+                  <LogOut className="h-5 w-5 transition-transform group-hover:scale-110 flex-shrink-0" />
                 )}
                 {!isCollapsed && <span className="font-medium">Sair</span>}
               </button>
@@ -357,7 +411,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
                 variant="ghost" 
                 size="icon"
                 onClick={toggle} 
-                className="hover:bg-accent/50 transition-colors"
+                className="hover:bg-accent/50 transition-colors lg:hidden"
               >
                 <Menu className="h-5 w-5" />
               </Button>
