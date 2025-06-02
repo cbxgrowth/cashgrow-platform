@@ -1,4 +1,5 @@
 
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { Toaster } from '@/components/ui/sonner';
@@ -43,7 +44,6 @@ import CompanyCorporate from './pages/company/corporate';
 import CompanyPerformance from './pages/company/performance';
 import NotificationsPage from './pages/notifications';
 import ExampleNotifications from './pages/notifications/ExampleNotifications';
-import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 
 function App() {
@@ -51,8 +51,13 @@ function App() {
 
   useEffect(() => {
     const checkSession = async () => {
-      await supabase.auth.getSession();
-      setInitialized(true);
+      try {
+        await supabase.auth.getSession();
+        setInitialized(true);
+      } catch (error) {
+        console.error('Error checking session:', error);
+        setInitialized(true);
+      }
     };
 
     checkSession();
