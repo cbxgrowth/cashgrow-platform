@@ -1,3 +1,4 @@
+
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { Toaster } from '@/components/ui/sonner';
@@ -12,6 +13,9 @@ import Index from './pages/Index';
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import Features from './pages/Features';
+import Pricing from './pages/Pricing';
+import Integrations from './pages/Integrations';
 import NotFound from './pages/NotFound';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';

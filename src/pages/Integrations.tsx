@@ -21,7 +21,8 @@ import {
   Code,
   Webhook,
   Lock,
-  Clock
+  Clock,
+  Shield
 } from 'lucide-react';
 
 const Integrations: React.FC = () => {
