@@ -58,7 +58,7 @@ const ClientLoginForm: React.FC<ClientLoginFormProps> = ({ onGoogleLogin }) => {
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <Label htmlFor="client-password">Senha</Label>
-          <Link to="/forgot-password" className="text-xs text-primary hover:underline">
+          <Link to="/auth/forgot-password" className="text-xs text-primary hover:underline">
             Esqueceu a senha?
           </Link>
         </div>
@@ -108,7 +108,7 @@ const ClientLoginForm: React.FC<ClientLoginFormProps> = ({ onGoogleLogin }) => {
             fill="#EA4335"
           />
         </svg>
-        Google
+        Continuar com Google
       </Button>
     </form>
   );

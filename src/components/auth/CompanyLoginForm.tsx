@@ -59,7 +59,7 @@ const CompanyLoginForm: React.FC<CompanyLoginFormProps> = ({ onGoogleLogin }) =>
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <Label htmlFor="company-password">Senha</Label>
-          <Link to="/forgot-password" className="text-xs text-primary hover:underline">
+          <Link to="/auth/forgot-password" className="text-xs text-primary hover:underline">
             Esqueceu a senha?
           </Link>
         </div>
@@ -109,7 +109,7 @@ const CompanyLoginForm: React.FC<CompanyLoginFormProps> = ({ onGoogleLogin }) =>
             fill="#EA4335"
           />
         </svg>
-        Google
+        Continuar com Google
       </Button>
     </form>
   );

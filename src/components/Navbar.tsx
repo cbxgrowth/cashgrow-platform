@@ -11,34 +11,24 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import Logo from './Logo';
-import { supabase } from "@/integrations/supabase/client";
 import { useState, useEffect } from 'react';
 import { User } from '@supabase/supabase-js';
-import { Loader2, LogIn, UserPlus, Store, UserCircle, ChevronDown } from 'lucide-react';
+import { Loader2, LogIn, UserPlus, Store, UserCircle, LogOut } from 'lucide-react';
+import { useAuth } from '@/hooks/auth/useAuth';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Navbar: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { user, loading, signOut } = useAuth();
   
   const isAuthPage = location.pathname.startsWith('/auth/');
-  
-  useEffect(() => {
-    const checkUser = async () => {
-      const { data } = await supabase.auth.getSession();
-      setUser(data.session?.user || null);
-      setLoading(false);
-    };
-    
-    checkUser();
-    
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user || null);
-    });
-    
-    return () => subscription.unsubscribe();
-  }, []);
   
   if (isAuthPage) {
     return null;
@@ -133,24 +123,40 @@ const Navbar: React.FC = () => {
           {loading ? (
             <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
           ) : user ? (
-            <>
-              <Button 
-                variant="glow" 
-                size="sm"
-                onClick={handleNavigateToDashboard}
-                className="shadow-float"
-              >
-                {user.user_metadata?.user_type === 'company' ? (
-                  <>
-                    <Store className="h-4 w-4 mr-1.5" /> Painel da Empresa
-                  </>
-                ) : (
-                  <>
-                    <UserCircle className="h-4 w-4 mr-1.5" /> Meu Painel
-                  </>
-                )}
-              </Button>
-            </>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="hover-scale">
+                  {user.user_metadata?.user_type === 'company' ? (
+                    <>
+                      <Store className="h-4 w-4 mr-1.5" /> 
+                      {user.user_metadata?.company_name || user.email?.split('@')[0]}
+                    </>
+                  ) : (
+                    <>
+                      <UserCircle className="h-4 w-4 mr-1.5" /> 
+                      {user.user_metadata?.full_name || user.email?.split('@')[0]}
+                    </>
+                  )}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={handleNavigateToDashboard}>
+                  {user.user_metadata?.user_type === 'company' ? (
+                    <>
+                      <Store className="h-4 w-4 mr-2" /> Painel da Empresa
+                    </>
+                  ) : (
+                    <>
+                      <UserCircle className="h-4 w-4 mr-2" /> Meu Painel
+                    </>
+                  )}
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={signOut}>
+                  <LogOut className="h-4 w-4 mr-2" /> Sair
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : (
             <>
               <Link to="/auth/login">
