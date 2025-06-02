@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from "@/components/ui/theme-provider";
@@ -41,6 +42,7 @@ import CashbackRules from './pages/company/CashbackRules';
 import CompanyAICampaigns from './pages/company/ai-campaigns';
 import CompanyCorporate from './pages/company/corporate';
 import CompanyPerformance from './pages/company/performance';
+import CompanyIntegrations from './pages/company/integrations';
 import NotificationsPage from './pages/notifications';
 import ExampleNotifications from './pages/notifications/ExampleNotifications';
 import { supabase } from '@/integrations/supabase/client';
