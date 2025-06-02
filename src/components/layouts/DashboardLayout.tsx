@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Outlet, useNavigate, Link } from 'react-router-dom';
+import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
 import { 
   Sidebar, 
   SidebarContent, 
@@ -10,6 +10,8 @@ import {
   SidebarMenu, 
   SidebarMenuItem, 
   SidebarMenuButton,
+  SidebarHeader,
+  SidebarFooter,
   useSidebar
 } from '@/components/ui/sidebar';
 import { 
@@ -31,12 +33,16 @@ import {
   Sun,
   Moon,
   Bell,
-  Menu
+  Menu,
+  X,
+  ChevronRight
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/components/ui/theme-provider';
+import { Badge } from '@/components/ui/badge';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import NotificationPopover from '@/components/notifications/NotificationPopover';
 
 interface DashboardLayoutProps {
@@ -45,10 +51,12 @@ interface DashboardLayoutProps {
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
+  const [userInfo, setUserInfo] = useState<any>(null);
   const { theme, setTheme } = useTheme();
-  const { isCollapsed, setCollapsed } = useSidebar();
+  const { isOpen, isCollapsed, toggle, setCollapsed } = useSidebar();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -60,7 +68,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
         return;
       }
       
-      // Verificar se o tipo de usuário corresponde à rota
       const currentUserType = data.session.user.user_metadata?.user_type;
       
       if (currentUserType && currentUserType !== userType) {
@@ -69,6 +76,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
         return;
       }
       
+      setUserInfo(data.session.user);
       setAuthenticated(true);
       setLoading(false);
     };
@@ -96,40 +104,61 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
 
-  const toggleSidebar = () => {
-    setCollapsed(!isCollapsed);
-  };
-
   const clientMenuItems = [
-    { title: 'Dashboard', icon: Home, url: '/client/dashboard' },
-    { title: 'Transações', icon: CreditCard, url: '/client/transactions' },
-    { title: 'Perfil', icon: User, url: '/client/profile' },
-    { title: 'Empresas', icon: ShoppingCart, url: '/client/companies' },
-    { title: 'Recomendações', icon: Brain, url: '/client/recommendations' },
-    { title: 'Missões', icon: Award, url: '/client/missions' },
-    { title: 'Clube VIP', icon: Gift, url: '/client/vip-club' },
+    { title: 'Dashboard', icon: Home, url: '/client/dashboard', badge: null },
+    { title: 'Transações', icon: CreditCard, url: '/client/transactions', badge: null },
+    { title: 'Perfil', icon: User, url: '/client/profile', badge: null },
+    { title: 'Empresas', icon: ShoppingCart, url: '/client/companies', badge: 'Novo' },
+    { title: 'Recomendações', icon: Brain, url: '/client/recommendations', badge: null },
+    { title: 'Missões', icon: Award, url: '/client/missions', badge: '3' },
+    { title: 'Clube VIP', icon: Gift, url: '/client/vip-club', badge: null },
   ];
 
   const companyMenuItems = [
-    { title: 'Dashboard', icon: Home, url: '/company/dashboard' },
-    { title: 'Regras de Cashback', icon: FileText, url: '/company/cashback-rules' },
-    { title: 'Clientes', icon: Users, url: '/company/clients' },
-    { title: 'Transações', icon: CreditCard, url: '/company/transactions' },
-    { title: 'Relatórios', icon: BarChart2, url: '/company/reports' },
-    { title: 'Campanhas IA', icon: Brain, url: '/company/ai-campaigns' },
-    { title: 'B2B & Corporativo', icon: Building2, url: '/company/corporate' },
-    { title: 'Desempenho', icon: TrendingUp, url: '/company/performance' },
-    { title: 'Configurações', icon: Settings, url: '/company/settings' },
+    { title: 'Dashboard', icon: Home, url: '/company/dashboard', badge: null },
+    { title: 'Regras de Cashback', icon: FileText, url: '/company/cashback-rules', badge: null },
+    { title: 'Clientes', icon: Users, url: '/company/clients', badge: null },
+    { title: 'Transações', icon: CreditCard, url: '/company/transactions', badge: null },
+    { title: 'Relatórios', icon: BarChart2, url: '/company/reports', badge: null },
+    { title: 'Campanhas IA', icon: Brain, url: '/company/ai-campaigns', badge: 'Beta' },
+    { title: 'B2B & Corporativo', icon: Building2, url: '/company/corporate', badge: null },
+    { title: 'Desempenho', icon: TrendingUp, url: '/company/performance', badge: null },
+    { title: 'Configurações', icon: Settings, url: '/company/settings', badge: null },
   ];
 
   const menuItems = userType === 'client' ? clientMenuItems : companyMenuItems;
 
+  const isActiveRoute = (url: string) => {
+    return location.pathname === url;
+  };
+
+  const getUserDisplayName = () => {
+    if (!userInfo) return 'Usuário';
+    
+    if (userType === 'company') {
+      return userInfo.user_metadata?.company_name || 
+             userInfo.user_metadata?.full_name || 
+             userInfo.email?.split('@')[0] || 'Empresa';
+    } else {
+      return userInfo.user_metadata?.full_name || 
+             userInfo.email?.split('@')[0] || 'Cliente';
+    }
+  };
+
+  const getUserInitials = () => {
+    const name = getUserDisplayName();
+    return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+  };
+
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
-          <p>Carregando...</p>
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-background to-muted/30">
+        <div className="text-center space-y-4">
+          <div className="relative">
+            <Loader2 className="h-12 w-12 animate-spin mx-auto text-primary" />
+            <div className="absolute inset-0 h-12 w-12 rounded-full border-2 border-primary/20 mx-auto"></div>
+          </div>
+          <p className="text-lg font-medium text-muted-foreground">Carregando sua área...</p>
         </div>
       </div>
     );
@@ -140,113 +169,224 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
   }
 
   return (
-    <div className="flex min-h-screen bg-background">
-      {/* Sidebar responsiva com toggle */}
-      <Sidebar>
-        <SidebarContent>
-          <SidebarGroup>
-            <div className="p-4 flex items-center justify-between">
-              <SidebarGroupLabel className="text-lg font-bold">
-                {isCollapsed ? null : (userType === 'client' ? 'Cliente' : 'Empresa')}
-              </SidebarGroupLabel>
+    <div className="flex min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+      {/* Mobile Overlay */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+          onClick={toggle}
+        />
+      )}
+
+      {/* Sidebar */}
+      <Sidebar className="z-50 border-r border-border/40 bg-card/95 backdrop-blur-xl shadow-2xl">
+        <SidebarHeader className="border-b border-border/40 bg-gradient-to-r from-primary/5 to-accent/5">
+          <div className="flex items-center justify-between p-4">
+            <div className="flex items-center gap-3">
+              <div className={`w-8 h-8 rounded-xl bg-gradient-to-br ${
+                userType === 'client' 
+                  ? 'from-blue-500 to-cyan-500' 
+                  : 'from-purple-500 to-pink-500'
+              } flex items-center justify-center text-white font-bold text-sm shadow-lg`}>
+                {userType === 'client' ? 'C' : 'E'}
+              </div>
               {!isCollapsed && (
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="md:hidden"
-                  onClick={toggleSidebar}
-                >
-                  <Menu className="h-4 w-4" />
-                </Button>
+                <div>
+                  <h2 className="font-bold text-lg bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
+                    {userType === 'client' ? 'Área do Cliente' : 'Área da Empresa'}
+                  </h2>
+                </div>
               )}
             </div>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {menuItems.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <Link to={item.url} className="flex items-center gap-2">
-                        <item.icon className="h-5 w-5" />
-                        {!isCollapsed && <span>{item.title}</span>}
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-                
-                {/* Theme toggle button */}
+            <Button 
+              variant="ghost" 
+              size="icon"
+              className="lg:hidden h-8 w-8 hover:bg-primary/10"
+              onClick={toggle}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        </SidebarHeader>
+
+        <SidebarContent className="px-2 py-4">
+          <SidebarGroup>
+            <SidebarGroupLabel className={`px-4 text-xs font-semibold tracking-wider text-muted-foreground uppercase ${isCollapsed ? 'sr-only' : ''}`}>
+              Navegação Principal
+            </SidebarGroupLabel>
+            <SidebarGroupContent className="mt-2">
+              <SidebarMenu className="space-y-1">
+                {menuItems.map((item) => {
+                  const isActive = isActiveRoute(item.url);
+                  return (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton 
+                        asChild 
+                        className={`group relative overflow-hidden rounded-xl transition-all duration-200 hover:shadow-md ${
+                          isActive 
+                            ? 'bg-gradient-to-r from-primary to-primary/80 text-primary-foreground shadow-lg shadow-primary/25' 
+                            : 'hover:bg-accent/50 hover:text-accent-foreground'
+                        }`}
+                      >
+                        <Link to={item.url} className="flex items-center gap-3 p-3">
+                          <item.icon className={`h-5 w-5 transition-transform group-hover:scale-110 ${
+                            isActive ? 'text-primary-foreground' : 'text-muted-foreground group-hover:text-foreground'
+                          }`} />
+                          {!isCollapsed && (
+                            <>
+                              <span className="font-medium flex-1">{item.title}</span>
+                              <div className="flex items-center gap-2">
+                                {item.badge && (
+                                  <Badge 
+                                    variant={isActive ? "secondary" : "outline"} 
+                                    className="text-xs px-2 py-0.5"
+                                  >
+                                    {item.badge}
+                                  </Badge>
+                                )}
+                                {isActive && (
+                                  <ChevronRight className="h-4 w-4 text-primary-foreground/70" />
+                                )}
+                              </div>
+                            </>
+                          )}
+                          {isActive && (
+                            <div className="absolute inset-y-0 left-0 w-1 bg-primary-foreground/30 rounded-r-full"></div>
+                          )}
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  );
+                })}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+
+          {/* Quick Actions */}
+          <SidebarGroup className="mt-8">
+            <SidebarGroupLabel className={`px-4 text-xs font-semibold tracking-wider text-muted-foreground uppercase ${isCollapsed ? 'sr-only' : ''}`}>
+              Ações Rápidas
+            </SidebarGroupLabel>
+            <SidebarGroupContent className="mt-2">
+              <SidebarMenu className="space-y-1">
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild className="group rounded-xl transition-all duration-200 hover:bg-accent/50">
                     <button 
                       onClick={toggleTheme} 
-                      className="flex items-center gap-2 w-full"
+                      className="flex items-center gap-3 p-3 w-full"
                     >
                       {theme === 'dark' ? (
                         <>
-                          <Sun className="h-5 w-5" />
-                          {!isCollapsed && <span>Modo claro</span>}
+                          <Sun className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-transform group-hover:scale-110" />
+                          {!isCollapsed && <span className="font-medium">Modo Claro</span>}
                         </>
                       ) : (
                         <>
-                          <Moon className="h-5 w-5" />
-                          {!isCollapsed && <span>Modo escuro</span>}
+                          <Moon className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-transform group-hover:scale-110" />
+                          {!isCollapsed && <span className="font-medium">Modo Escuro</span>}
                         </>
                       )}
                     </button>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 
-                {/* Notifications */}
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild>
-                    <Link to={`/${userType}/notifications`} className="flex items-center gap-2">
-                      <Bell className="h-5 w-5" />
-                      {!isCollapsed && <span>Notificações</span>}
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-                
-                <SidebarMenuItem>
-                  <SidebarMenuButton asChild className="text-destructive hover:text-destructive">
-                    <button 
-                      onClick={handleLogout} 
-                      className="flex items-center gap-2 w-full"
-                      disabled={loading}
-                    >
-                      {loading ? (
-                        <Loader2 className="h-5 w-5 animate-spin" />
-                      ) : (
-                        <LogOut className="h-5 w-5" />
+                  <SidebarMenuButton asChild className="group rounded-xl transition-all duration-200 hover:bg-accent/50">
+                    <Link to={`/${userType}/notifications`} className="flex items-center gap-3 p-3">
+                      <Bell className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-transform group-hover:scale-110" />
+                      {!isCollapsed && (
+                        <>
+                          <span className="font-medium flex-1">Notificações</span>
+                          <Badge variant="destructive" className="text-xs px-2 py-0.5">3</Badge>
+                        </>
                       )}
-                      {!isCollapsed && <span>Sair</span>}
-                    </button>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
+
+        <SidebarFooter className="border-t border-border/40 bg-gradient-to-r from-muted/50 to-muted/30">
+          <div className="p-4 space-y-3">
+            {/* User Info */}
+            {!isCollapsed && (
+              <div className="flex items-center gap-3 p-3 rounded-xl bg-background/50 border border-border/50">
+                <Avatar className="h-10 w-10 ring-2 ring-primary/20">
+                  <AvatarFallback className="bg-gradient-to-br from-primary to-accent text-primary-foreground font-bold">
+                    {getUserInitials()}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-sm truncate">{getUserDisplayName()}</p>
+                  <p className="text-xs text-muted-foreground truncate">{userInfo?.email}</p>
+                </div>
+              </div>
+            )}
+            
+            {/* Logout Button */}
+            <SidebarMenuButton 
+              asChild 
+              className="group rounded-xl transition-all duration-200 hover:bg-destructive/10 hover:text-destructive"
+            >
+              <button 
+                onClick={handleLogout} 
+                className="flex items-center gap-3 p-3 w-full"
+                disabled={loading}
+              >
+                {loading ? (
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                ) : (
+                  <LogOut className="h-5 w-5 transition-transform group-hover:scale-110" />
+                )}
+                {!isCollapsed && <span className="font-medium">Sair</span>}
+              </button>
+            </SidebarMenuButton>
+          </div>
+        </SidebarFooter>
       </Sidebar>
 
-      {/* Main content */}
+      {/* Main Content */}
       <main className="flex-1 overflow-auto">
-        <header className="sticky top-0 z-10 h-16 border-b bg-background/95 backdrop-blur flex items-center px-4 gap-4">
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={toggleSidebar} 
-            className="md:flex hidden"
-          >
-            <Menu className="h-5 w-5" />
-          </Button>
-          
-          <div className="ml-auto flex items-center gap-2">
-            <NotificationPopover />
-            <Button variant="ghost" size="sm" className="font-medium">
-              {userType === 'client' ? 'Área do Cliente' : 'Área da Empresa'}
-            </Button>
+        {/* Header */}
+        <header className="sticky top-0 z-30 h-16 border-b border-border/40 bg-background/95 backdrop-blur-xl shadow-sm">
+          <div className="flex items-center justify-between h-full px-6">
+            <div className="flex items-center gap-4">
+              <Button 
+                variant="ghost" 
+                size="icon"
+                onClick={toggle} 
+                className="hover:bg-accent/50 transition-colors"
+              >
+                <Menu className="h-5 w-5" />
+              </Button>
+              
+              <div className="hidden md:block">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Home className="h-4 w-4" />
+                  <ChevronRight className="h-3 w-3" />
+                  <span className="font-medium text-foreground">
+                    {menuItems.find(item => isActiveRoute(item.url))?.title || 'Dashboard'}
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-4">
+              <NotificationPopover />
+              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20">
+                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                <span className="text-xs font-medium text-primary">
+                  {userType === 'client' ? 'Cliente Ativo' : 'Empresa Verificada'}
+                </span>
+              </div>
+            </div>
           </div>
         </header>
-        <div className="p-6">
+
+        {/* Page Content */}
+        <div className="p-6 max-w-7xl mx-auto">
           <Outlet />
         </div>
       </main>
