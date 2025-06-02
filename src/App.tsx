@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from "@/components/ui/theme-provider";
@@ -129,6 +128,7 @@ function App() {
                 <Route path="corporate" element={<CompanyCorporate />} />
                 <Route path="performance" element={<CompanyPerformance />} />
                 <Route path="settings" element={<CompanySettings />} />
+                <Route path="integrations" element={<CompanyIntegrations />} />
                 <Route path="notifications" element={<NotificationsPage />} />
                 <Route path="notifications/examples" element={<ExampleNotifications />} />
               </Route>
