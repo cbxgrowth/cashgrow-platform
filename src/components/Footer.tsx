@@ -1,18 +1,13 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Logo from './Logo';
-
 const Footer: React.FC = () => {
-  return (
-    <footer className="border-t border-border bg-background py-8 mt-auto">
+  return <footer className="border-t border-border bg-background py-8 mt-auto">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <Logo size="sm" />
-            <p className="mt-4 text-sm text-muted-foreground">
-              Plataforma white-label de cashback para empresas de todos os setores.
-            </p>
+            <p className="mt-4 text-sm text-muted-foreground">Plataforma inteligente de cashback para empresas de todos os setores e consumdores.</p>
           </div>
           
           <div>
@@ -105,8 +100,6 @@ const Footer: React.FC = () => {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
