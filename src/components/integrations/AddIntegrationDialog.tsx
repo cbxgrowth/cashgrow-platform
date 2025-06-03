@@ -7,7 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ShoppingBag, Database, CreditCard, Users } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { defaultIntegrations, integrationCategories } from '@/data/integrations';
 import { toast } from "sonner";
 
 interface AddIntegrationDialogProps {
@@ -22,41 +23,42 @@ const AddIntegrationDialog: React.FC<AddIntegrationDialogProps> = ({
   onAdd
 }) => {
   const [selectedPlatform, setSelectedPlatform] = useState('');
+  const [isCustom, setIsCustom] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     apiUrl: '',
     apiKey: '',
     apiSecret: '',
-    syncFrequency: 'hourly'
+    syncFrequency: 'hourly',
+    category: 'ecommerce' as any,
+    webhookSupport: false
   });
 
-  const platforms = [
-    {
-      id: 'woocommerce',
-      name: 'WooCommerce',
-      description: 'E-commerce WordPress',
-      icon: <ShoppingBag className="h-6 w-6 text-purple-600" />
-    },
-    {
-      id: 'shopify',
-      name: 'Shopify',
-      description: 'Plataforma de e-commerce',
-      icon: <ShoppingBag className="h-6 w-6 text-green-600" />
-    },
-    {
-      id: 'magento',
-      name: 'Magento',
-      description: 'Commerce platform',
-      icon: <ShoppingBag className="h-6 w-6 text-orange-600" />
-    },
-    {
-      id: 'custom',
-      name: 'API Personalizada',
-      description: 'Integração customizada',
-      icon: <Database className="h-6 w-6 text-blue-600" />
+  const handlePlatformSelect = (platformId: string) => {
+    setSelectedPlatform(platformId);
+    
+    if (platformId === 'custom') {
+      setIsCustom(true);
+      setFormData(prev => ({
+        ...prev,
+        name: '',
+        description: '',
+        category: 'ecommerce'
+      }));
+    } else {
+      setIsCustom(false);
+      const platform = defaultIntegrations.find(p => p.id === platformId);
+      if (platform) {
+        setFormData(prev => ({
+          ...prev,
+          name: platform.name,
+          description: platform.description,
+          category: platform.category
+        }));
+      }
     }
-  ];
+  };
 
   const handleSubmit = () => {
     if (!selectedPlatform || !formData.name || !formData.apiUrl) {
@@ -64,33 +66,52 @@ const AddIntegrationDialog: React.FC<AddIntegrationDialogProps> = ({
       return;
     }
 
-    const platform = platforms.find(p => p.id === selectedPlatform);
+    let platform;
+    if (isCustom) {
+      platform = {
+        name: formData.name,
+        description: formData.description,
+        icon: null
+      };
+    } else {
+      platform = defaultIntegrations.find(p => p.id === selectedPlatform);
+    }
     
     onAdd({
       ...formData,
       platform: platform?.name,
       platformId: selectedPlatform,
-      icon: platform?.icon
+      icon: platform?.icon,
+      setupInstructions: `Configure a integração ${formData.name}`
     });
 
     // Reset form
     setSelectedPlatform('');
+    setIsCustom(false);
     setFormData({
       name: '',
       description: '',
       apiUrl: '',
       apiKey: '',
       apiSecret: '',
-      syncFrequency: 'hourly'
+      syncFrequency: 'hourly',
+      category: 'ecommerce',
+      webhookSupport: false
     });
 
     onOpenChange(false);
     toast.success('Integração adicionada com sucesso!');
   };
 
+  // Group platforms by category
+  const platformsByCategory = integrationCategories.map(category => ({
+    ...category,
+    platforms: defaultIntegrations.filter(p => p.category === category.id)
+  }));
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Adicionar Nova Integração</DialogTitle>
           <DialogDescription>
@@ -100,28 +121,53 @@ const AddIntegrationDialog: React.FC<AddIntegrationDialogProps> = ({
 
         <div className="space-y-6">
           {/* Platform Selection */}
-          <div className="space-y-3">
+          <div className="space-y-4">
             <Label className="text-base font-medium">Selecione a Plataforma</Label>
-            <div className="grid grid-cols-2 gap-3">
-              {platforms.map((platform) => (
-                <Card 
-                  key={platform.id}
-                  className={`cursor-pointer transition-all hover:shadow-md ${
-                    selectedPlatform === platform.id ? 'ring-2 ring-primary border-primary' : ''
-                  }`}
-                  onClick={() => setSelectedPlatform(platform.id)}
-                >
-                  <CardHeader className="pb-2">
-                    <div className="flex items-center gap-3">
-                      {platform.icon}
-                      <div>
-                        <CardTitle className="text-sm">{platform.name}</CardTitle>
-                        <CardDescription className="text-xs">{platform.description}</CardDescription>
-                      </div>
-                    </div>
-                  </CardHeader>
-                </Card>
-              ))}
+            
+            {platformsByCategory.map((category) => (
+              <div key={category.id} className="space-y-3">
+                <h3 className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                  <category.icon className="h-4 w-4" />
+                  {category.name}
+                </h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                  {category.platforms.map((platform) => (
+                    <Card 
+                      key={platform.id}
+                      className={`cursor-pointer transition-all hover:shadow-md ${
+                        selectedPlatform === platform.id ? 'ring-2 ring-primary border-primary' : ''
+                      }`}
+                      onClick={() => handlePlatformSelect(platform.id)}
+                    >
+                      <CardHeader className="pb-2 px-3 pt-3">
+                        <div className="flex items-center gap-2">
+                          {platform.icon}
+                          <div className="min-w-0">
+                            <CardTitle className="text-xs truncate">{platform.name}</CardTitle>
+                            <CardDescription className="text-xs truncate">{platform.platform}</CardDescription>
+                          </div>
+                        </div>
+                      </CardHeader>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            ))}
+            
+            {/* Custom Integration Option */}
+            <div className="space-y-3">
+              <h3 className="text-sm font-medium text-muted-foreground">Personalizada</h3>
+              <Card 
+                className={`cursor-pointer transition-all hover:shadow-md ${
+                  selectedPlatform === 'custom' ? 'ring-2 ring-primary border-primary' : ''
+                }`}
+                onClick={() => handlePlatformSelect('custom')}
+              >
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm">API Personalizada</CardTitle>
+                  <CardDescription className="text-xs">Integração customizada</CardDescription>
+                </CardHeader>
+              </Card>
             </div>
           </div>
 
@@ -135,23 +181,25 @@ const AddIntegrationDialog: React.FC<AddIntegrationDialogProps> = ({
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
                     placeholder="Ex: Loja Principal"
+                    disabled={!isCustom}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="syncFrequency">Frequência de Sincronização</Label>
+                  <Label htmlFor="category">Categoria</Label>
                   <Select 
-                    value={formData.syncFrequency} 
-                    onValueChange={(value) => setFormData({...formData, syncFrequency: value})}
+                    value={formData.category} 
+                    onValueChange={(value: any) => setFormData({...formData, category: value})}
+                    disabled={!isCustom}
                   >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="real-time">Tempo Real</SelectItem>
-                      <SelectItem value="hourly">A cada hora</SelectItem>
-                      <SelectItem value="daily">Diário</SelectItem>
-                      <SelectItem value="weekly">Semanal</SelectItem>
-                      <SelectItem value="manual">Manual</SelectItem>
+                      {integrationCategories.map((cat) => (
+                        <SelectItem key={cat.id} value={cat.id}>
+                          {cat.name}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
@@ -165,6 +213,7 @@ const AddIntegrationDialog: React.FC<AddIntegrationDialogProps> = ({
                   onChange={(e) => setFormData({...formData, description: e.target.value})}
                   placeholder="Descreva esta integração..."
                   rows={2}
+                  disabled={!isCustom}
                 />
               </div>
 
@@ -198,6 +247,39 @@ const AddIntegrationDialog: React.FC<AddIntegrationDialogProps> = ({
                     onChange={(e) => setFormData({...formData, apiSecret: e.target.value})}
                     placeholder="Seu secret da API"
                   />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="syncFrequency">Frequência de Sincronização</Label>
+                  <Select 
+                    value={formData.syncFrequency} 
+                    onValueChange={(value) => setFormData({...formData, syncFrequency: value})}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="real-time">Tempo Real</SelectItem>
+                      <SelectItem value="hourly">A cada hora</SelectItem>
+                      <SelectItem value="daily">Diário</SelectItem>
+                      <SelectItem value="weekly">Semanal</SelectItem>
+                      <SelectItem value="manual">Manual</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium">Suporte a Webhooks</Label>
+                  <div className="flex items-center space-x-2 pt-2">
+                    <Switch
+                      checked={formData.webhookSupport}
+                      onCheckedChange={(checked) => setFormData({...formData, webhookSupport: checked})}
+                    />
+                    <Label className="text-sm text-muted-foreground">
+                      {formData.webhookSupport ? 'Ativado' : 'Desativado'}
+                    </Label>
+                  </div>
                 </div>
               </div>
             </div>

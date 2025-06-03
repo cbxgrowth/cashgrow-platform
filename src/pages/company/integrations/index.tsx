@@ -3,59 +3,36 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Settings, BarChart3, RefreshCw } from "lucide-react";
-import { ShoppingBag, Database, CreditCard } from "lucide-react";
-import { toast } from "sonner";
+import { Badge } from "@/components/ui/badge";
+import { Plus, Settings, BarChart3, RefreshCw, Filter } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import ApiIntegrationCard from '@/components/integrations/ApiIntegrationCard';
 import SyncHistoryTable from '@/components/integrations/SyncHistoryTable';
 import AddIntegrationDialog from '@/components/integrations/AddIntegrationDialog';
+import { useIntegrations } from '@/hooks/useIntegrations';
+import { integrationCategories } from '@/data/integrations';
 
 const CompanyIntegrations: React.FC = () => {
   const [showAddDialog, setShowAddDialog] = useState(false);
-  const [integrations, setIntegrations] = useState([
-    {
-      id: '1',
-      name: 'Loja Principal WooCommerce',
-      description: 'Sincronização com loja WordPress',
-      platform: 'WooCommerce',
-      status: 'connected' as const,
-      lastSync: '2 min atrás',
-      enabled: true,
-      syncFrequency: 'A cada hora',
-      recordsSynced: 1250,
-      icon: <ShoppingBag className="h-5 w-5 text-purple-600" />
-    },
-    {
-      id: '2',
-      name: 'Sistema ERP Interno',
-      description: 'Integração com sistema interno',
-      platform: 'API Custom',
-      status: 'error' as const,
-      lastSync: '1 hora atrás',
-      enabled: true,
-      syncFrequency: 'Tempo real',
-      recordsSynced: 890,
-      icon: <Database className="h-5 w-5 text-blue-600" />
-    },
-    {
-      id: '3',
-      name: 'Gateway de Pagamento',
-      description: 'Sincronização de transações',
-      platform: 'Stripe',
-      status: 'syncing' as const,
-      lastSync: 'Agora',
-      enabled: true,
-      syncFrequency: 'Tempo real',
-      recordsSynced: 2340,
-      icon: <CreditCard className="h-5 w-5 text-green-600" />
-    }
-  ]);
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedStatus, setSelectedStatus] = useState<string>('all');
+
+  const {
+    integrations,
+    isLoading,
+    handleConfigureIntegration,
+    handleSyncIntegration,
+    handleToggleIntegration,
+    handleDeleteIntegration,
+    handleAddIntegration,
+    handleSyncAll
+  } = useIntegrations();
 
   const [syncHistory] = useState([
     {
       id: '1',
-      integrationName: 'Loja Principal WooCommerce',
+      integrationName: 'WooCommerce',
       timestamp: '02/06/2025 15:30',
       status: 'success' as const,
       recordsProcessed: 45,
@@ -63,7 +40,7 @@ const CompanyIntegrations: React.FC = () => {
     },
     {
       id: '2',
-      integrationName: 'Sistema ERP Interno',
+      integrationName: 'Stone Pagamentos',
       timestamp: '02/06/2025 14:45',
       status: 'error' as const,
       recordsProcessed: 0,
@@ -72,7 +49,7 @@ const CompanyIntegrations: React.FC = () => {
     },
     {
       id: '3',
-      integrationName: 'Gateway de Pagamento',
+      integrationName: 'WhatsApp Business',
       timestamp: '02/06/2025 15:31',
       status: 'running' as const,
       recordsProcessed: 23,
@@ -80,65 +57,30 @@ const CompanyIntegrations: React.FC = () => {
     }
   ]);
 
-  const handleConfigureIntegration = (id: string) => {
-    toast.info(`Configurando integração ${id}`);
-  };
-
-  const handleSyncIntegration = async (id: string) => {
-    const integration = integrations.find(i => i.id === id);
-    if (integration) {
-      setIntegrations(prev => 
-        prev.map(i => i.id === id ? { ...i, status: 'syncing' as const } : i)
-      );
-
-      // Simulate sync process
-      setTimeout(() => {
-        setIntegrations(prev => 
-          prev.map(i => i.id === id ? { 
-            ...i, 
-            status: 'connected' as const,
-            lastSync: 'Agora'
-          } : i)
-        );
-      }, 3000);
-    }
-  };
-
-  const handleToggleIntegration = (id: string, enabled: boolean) => {
-    setIntegrations(prev => 
-      prev.map(i => i.id === id ? { ...i, enabled } : i)
-    );
-  };
-
-  const handleDeleteIntegration = (id: string) => {
-    setIntegrations(prev => prev.filter(i => i.id !== id));
-    toast.success('Integração removida');
-  };
-
-  const handleAddIntegration = (newIntegration: any) => {
-    const integration = {
-      id: Date.now().toString(),
-      ...newIntegration,
-      status: 'disconnected' as const,
-      lastSync: 'Nunca',
-      enabled: false,
-      recordsSynced: 0
-    };
-
-    setIntegrations(prev => [...prev, integration]);
-  };
-
   const handleViewSyncDetails = (id: string) => {
-    toast.info(`Visualizando detalhes da sincronização ${id}`);
+    console.log(`Visualizando detalhes da sincronização ${id}`);
   };
 
-  const handleSyncAll = () => {
-    const enabledIntegrations = integrations.filter(i => i.enabled);
-    enabledIntegrations.forEach(integration => {
-      handleSyncIntegration(integration.id);
-    });
-    toast.success(`Sincronização iniciada para ${enabledIntegrations.length} integrações`);
+  const filteredIntegrations = integrations.filter(integration => {
+    const categoryMatch = selectedCategory === 'all' || integration.category === selectedCategory;
+    const statusMatch = selectedStatus === 'all' || integration.status === selectedStatus;
+    return categoryMatch && statusMatch;
+  });
+
+  const getStatsForCategory = (category: string) => {
+    const categoryIntegrations = category === 'all' 
+      ? integrations 
+      : integrations.filter(i => i.category === category);
+    
+    return {
+      total: categoryIntegrations.length,
+      connected: categoryIntegrations.filter(i => i.status === 'connected').length,
+      enabled: categoryIntegrations.filter(i => i.enabled).length,
+      totalRecords: categoryIntegrations.reduce((sum, i) => sum + i.recordsSynced, 0)
+    };
   };
+
+  const stats = getStatsForCategory(selectedCategory);
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -150,8 +92,8 @@ const CompanyIntegrations: React.FC = () => {
           </p>
         </div>
         <div className="flex gap-2">
-          <Button onClick={handleSyncAll} variant="outline">
-            <RefreshCw className="h-4 w-4 mr-2" />
+          <Button onClick={handleSyncAll} variant="outline" disabled={isLoading}>
+            <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
             Sincronizar Tudo
           </Button>
           <Button onClick={() => setShowAddDialog(true)}>
@@ -159,6 +101,39 @@ const CompanyIntegrations: React.FC = () => {
             Nova Integração
           </Button>
         </div>
+      </div>
+
+      {/* Filters */}
+      <div className="flex gap-4 items-center">
+        <div className="flex items-center gap-2">
+          <Filter className="h-4 w-4 text-muted-foreground" />
+          <span className="text-sm font-medium">Filtros:</span>
+        </div>
+        <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+          <SelectTrigger className="w-48">
+            <SelectValue placeholder="Todas as categorias" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Todas as categorias</SelectItem>
+            {integrationCategories.map((category) => (
+              <SelectItem key={category.id} value={category.id}>
+                {category.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select value={selectedStatus} onValueChange={setSelectedStatus}>
+          <SelectTrigger className="w-48">
+            <SelectValue placeholder="Todos os status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Todos os status</SelectItem>
+            <SelectItem value="connected">Conectado</SelectItem>
+            <SelectItem value="disconnected">Desconectado</SelectItem>
+            <SelectItem value="error">Erro</SelectItem>
+            <SelectItem value="syncing">Sincronizando</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Stats Cards */}
@@ -169,24 +144,24 @@ const CompanyIntegrations: React.FC = () => {
             <Settings className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{integrations.length}</div>
+            <div className="text-2xl font-bold">{stats.total}</div>
             <p className="text-xs text-muted-foreground">
-              {integrations.filter(i => i.enabled).length} ativas
+              {stats.enabled} ativas
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Status</CardTitle>
+            <CardTitle className="text-sm font-medium">Conectadas</CardTitle>
             <BarChart3 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-green-600">
-              {integrations.filter(i => i.status === 'connected').length}
+              {stats.connected}
             </div>
             <p className="text-xs text-muted-foreground">
-              conectadas
+              funcionando
             </p>
           </CardContent>
         </Card>
@@ -198,7 +173,7 @@ const CompanyIntegrations: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {integrations.reduce((sum, i) => sum + i.recordsSynced, 0).toLocaleString()}
+              {stats.totalRecords.toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground">
               no total
@@ -220,6 +195,24 @@ const CompanyIntegrations: React.FC = () => {
         </Card>
       </div>
 
+      {/* Category Badges */}
+      <div className="flex gap-2 flex-wrap">
+        {integrationCategories.map((category) => {
+          const categoryStats = getStatsForCategory(category.id);
+          return (
+            <Badge 
+              key={category.id}
+              variant={selectedCategory === category.id ? "default" : "outline"}
+              className="cursor-pointer"
+              onClick={() => setSelectedCategory(category.id)}
+            >
+              <category.icon className="h-3 w-3 mr-1" />
+              {category.name} ({categoryStats.total})
+            </Badge>
+          );
+        })}
+      </div>
+
       <Tabs defaultValue="integrations" className="space-y-4">
         <TabsList>
           <TabsTrigger value="integrations">Integrações Ativas</TabsTrigger>
@@ -228,7 +221,7 @@ const CompanyIntegrations: React.FC = () => {
 
         <TabsContent value="integrations" className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {integrations.map((integration) => (
+            {filteredIntegrations.map((integration) => (
               <ApiIntegrationCard
                 key={integration.id}
                 integration={integration}
@@ -239,6 +232,26 @@ const CompanyIntegrations: React.FC = () => {
               />
             ))}
           </div>
+          
+          {filteredIntegrations.length === 0 && (
+            <Card className="p-8 text-center">
+              <CardContent>
+                <p className="text-muted-foreground">
+                  Nenhuma integração encontrada com os filtros selecionados.
+                </p>
+                <Button 
+                  onClick={() => {
+                    setSelectedCategory('all');
+                    setSelectedStatus('all');
+                  }}
+                  variant="outline"
+                  className="mt-4"
+                >
+                  Limpar Filtros
+                </Button>
+              </CardContent>
+            </Card>
+          )}
         </TabsContent>
 
         <TabsContent value="history">

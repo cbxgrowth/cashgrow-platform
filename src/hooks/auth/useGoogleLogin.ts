@@ -13,18 +13,23 @@ export const useGoogleLogin = () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`
+          redirectTo: `${window.location.origin}/auth/callback`,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          }
         }
       });
       
       if (error) {
+        console.error('Google login error:', error);
         toast.error("Erro ao fazer login com Google", {
           description: error.message,
         });
       }
     } catch (error) {
-      toast.error("Ocorreu um erro ao fazer login com Google");
       console.error("Google login error:", error);
+      toast.error("Ocorreu um erro ao fazer login com Google");
     } finally {
       setIsLoading(false);
     }
