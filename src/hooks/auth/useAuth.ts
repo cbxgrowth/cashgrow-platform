@@ -16,6 +16,12 @@ export const useAuth = () => {
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
+        
+        if (event === 'SIGNED_IN') {
+          toast.success('Login realizado com sucesso!');
+        } else if (event === 'SIGNED_OUT') {
+          toast.success('Logout realizado com sucesso!');
+        }
       }
     );
 
@@ -33,8 +39,23 @@ export const useAuth = () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
       toast.error("Erro ao fazer logout", { description: error.message });
-    } else {
-      toast.success("Logout realizado com sucesso!");
+    }
+  };
+
+  const signInWithGoogle = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        }
+      }
+    });
+    
+    if (error) {
+      toast.error("Erro ao fazer login com Google", { description: error.message });
     }
   };
 
@@ -43,6 +64,7 @@ export const useAuth = () => {
     session,
     loading,
     signOut,
+    signInWithGoogle,
     isAuthenticated: !!user
   };
 };
