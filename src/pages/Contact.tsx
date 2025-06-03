@@ -51,7 +51,7 @@ const Contact: React.FC = () => {
                   <Mail className="h-5 w-5 mr-3 text-primary" />
                   <div>
                     <h3 className="font-medium">Email</h3>
-                    <p className="text-sm text-muted-foreground">contato@cashbacksystem.com</p>
+                    <p className="text-sm text-muted-foreground">contato@cbxgrowth.com.br</p>
                   </div>
                 </div>
                 <div className="flex items-start">
