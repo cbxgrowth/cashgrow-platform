@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <Logo size="sm" />
-            <p className="mt-4 text-sm text-muted-foreground">Plataforma inteligente de cashback para empresas de todos os setores e consumdores.</p>
+            <p className="mt-4 text-sm text-muted-foreground">Plataforma inteligente de cashback para empresas de todos os setores e consumidores.</p>
           </div>
           
           <div>
