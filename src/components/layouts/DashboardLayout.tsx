@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
 import { 
@@ -191,8 +190,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
         />
       )}
 
-      {/* Sidebar */}
-      <Sidebar className={`z-50 border-r border-border/40 bg-card/95 backdrop-blur-xl shadow-2xl transition-all duration-300 ${
+      {/* Sidebar - Agora fixo e estático */}
+      <Sidebar className={`z-50 border-r border-border/40 bg-card/95 backdrop-blur-xl shadow-2xl transition-all duration-300 fixed inset-y-0 left-0 ${
         isCollapsed ? 'lg:w-16' : 'lg:w-64'
       }`}>
         <SidebarHeader className="border-b border-border/40 bg-gradient-to-r from-primary/5 to-accent/5">
@@ -244,7 +243,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
           </div>
         </SidebarHeader>
 
-        <SidebarContent className="px-2 py-4">
+        <SidebarContent className="px-2 py-4 overflow-y-auto">
           <SidebarGroup>
             <SidebarGroupLabel className={`px-4 text-xs font-semibold tracking-wider text-muted-foreground uppercase ${isCollapsed ? 'sr-only' : ''}`}>
               Navegação Principal
@@ -401,8 +400,10 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
         </SidebarFooter>
       </Sidebar>
 
-      {/* Main Content */}
-      <main className="flex-1 overflow-auto">
+      {/* Main Content - Ajustado para compensar o sidebar fixo */}
+      <main className={`flex-1 transition-all duration-300 ${
+        isCollapsed ? 'lg:ml-16' : 'lg:ml-64'
+      } ${isMobile ? 'ml-0' : ''}`}>
         {/* Header */}
         <header className="sticky top-0 z-30 h-16 border-b border-border/40 bg-background/95 backdrop-blur-xl shadow-sm">
           <div className="flex items-center justify-between h-full px-6">
