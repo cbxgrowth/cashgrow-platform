@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -7,22 +6,20 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Mail, Phone, MapPin } from "lucide-react";
-
 const Contact: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     // Simulando envio de mensagem
     setTimeout(() => {
       toast.success("Mensagem enviada com sucesso!", {
-        description: "Entraremos em contato em breve.",
+        description: "Entraremos em contato em breve."
       });
       setName('');
       setEmail('');
@@ -31,9 +28,7 @@ const Contact: React.FC = () => {
       setIsSubmitting(false);
     }, 1500);
   };
-
-  return (
-    <div className="container py-10">
+  return <div className="container py-10">
       <div className="max-w-5xl mx-auto">
         <div className="text-center space-y-2 mb-10">
           <h1 className="text-4xl font-bold tracking-tight">Entre em Contato</h1>
@@ -63,7 +58,7 @@ const Contact: React.FC = () => {
                   <Phone className="h-5 w-5 mr-3 text-primary" />
                   <div>
                     <h3 className="font-medium">Telefone</h3>
-                    <p className="text-sm text-muted-foreground">(11) 3456-7890</p>
+                    <p className="text-sm text-muted-foreground">(88) 98843-2310-7890</p>
                   </div>
                 </div>
                 <div className="flex items-start">
@@ -93,52 +88,22 @@ const Contact: React.FC = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="name">Nome</Label>
-                    <Input 
-                      id="name" 
-                      placeholder="Seu nome"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      required
-                    />
+                    <Input id="name" placeholder="Seu nome" value={name} onChange={e => setName(e.target.value)} required />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
-                    <Input 
-                      id="email" 
-                      type="email"
-                      placeholder="seu@email.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
+                    <Input id="email" type="email" placeholder="seu@email.com" value={email} onChange={e => setEmail(e.target.value)} required />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="subject">Assunto</Label>
-                  <Input 
-                    id="subject" 
-                    placeholder="Assunto da mensagem"
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
-                    required
-                  />
+                  <Input id="subject" placeholder="Assunto da mensagem" value={subject} onChange={e => setSubject(e.target.value)} required />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="message">Mensagem</Label>
-                  <Textarea 
-                    id="message" 
-                    placeholder="Digite sua mensagem aqui..."
-                    rows={5}
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    required
-                  />
+                  <Textarea id="message" placeholder="Digite sua mensagem aqui..." rows={5} value={message} onChange={e => setMessage(e.target.value)} required />
                 </div>
-                <Button 
-                  type="submit" 
-                  className="w-full"
-                  disabled={isSubmitting}
-                >
+                <Button type="submit" className="w-full" disabled={isSubmitting}>
                   {isSubmitting ? "Enviando..." : "Enviar mensagem"}
                 </Button>
               </form>
@@ -149,8 +114,6 @@ const Contact: React.FC = () => {
           </Card>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Contact;
