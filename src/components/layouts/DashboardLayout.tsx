@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
 import { 
@@ -109,7 +110,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
   };
 
   const handleMenuItemClick = () => {
-    // Fechar menu automaticamente no mobile
     if (isMobile && isOpen) {
       toggle();
     }
@@ -190,10 +190,10 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
         />
       )}
 
-      {/* Sidebar - Agora fixo e estático */}
+      {/* Sidebar - Fixo e estático */}
       <Sidebar className={`z-50 border-r border-border/40 bg-card/95 backdrop-blur-xl shadow-2xl transition-all duration-300 fixed inset-y-0 left-0 ${
-        isCollapsed ? 'lg:w-16' : 'lg:w-64'
-      }`}>
+        isCollapsed ? 'w-16' : 'w-64'
+      } ${isMobile && !isOpen ? '-translate-x-full' : 'translate-x-0'}`}>
         <SidebarHeader className="border-b border-border/40 bg-gradient-to-r from-primary/5 to-accent/5">
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center gap-3">
@@ -260,12 +260,13 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
                           isActive 
                             ? 'bg-gradient-to-r from-primary to-primary/80 text-primary-foreground shadow-lg shadow-primary/25' 
                             : 'hover:bg-accent/50 hover:text-accent-foreground'
-                        } ${isCollapsed ? 'justify-center px-2' : ''}`}
+                        } ${isCollapsed ? 'justify-center px-2 w-12 h-12 mx-auto' : ''}`}
                       >
                         <Link 
                           to={item.url} 
                           className={`flex items-center gap-3 p-3 ${isCollapsed ? 'justify-center' : ''}`}
                           onClick={handleMenuItemClick}
+                          title={isCollapsed ? item.title : undefined}
                         >
                           <item.icon className={`h-5 w-5 transition-transform group-hover:scale-110 flex-shrink-0 ${
                             isActive ? 'text-primary-foreground' : 'text-muted-foreground group-hover:text-foreground'
@@ -308,10 +309,11 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
             <SidebarGroupContent className="mt-2">
               <SidebarMenu className="space-y-1">
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild className={`group rounded-xl transition-all duration-200 hover:bg-accent/50 ${isCollapsed ? 'justify-center px-2' : ''}`}>
+                  <SidebarMenuButton asChild className={`group rounded-xl transition-all duration-200 hover:bg-accent/50 ${isCollapsed ? 'justify-center px-2 w-12 h-12 mx-auto' : ''}`}>
                     <button 
                       onClick={toggleTheme} 
                       className={`flex items-center gap-3 p-3 w-full ${isCollapsed ? 'justify-center' : ''}`}
+                      title={isCollapsed ? (theme === 'dark' ? 'Modo Claro' : 'Modo Escuro') : undefined}
                     >
                       {theme === 'dark' ? (
                         <>
@@ -329,13 +331,19 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
                 </SidebarMenuItem>
                 
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild className={`group rounded-xl transition-all duration-200 hover:bg-accent/50 ${isCollapsed ? 'justify-center px-2' : ''}`}>
+                  <SidebarMenuButton asChild className={`group rounded-xl transition-all duration-200 hover:bg-accent/50 ${isCollapsed ? 'justify-center px-2 w-12 h-12 mx-auto' : ''}`}>
                     <Link 
                       to={`/${userType}/notifications`} 
                       className={`flex items-center gap-3 p-3 ${isCollapsed ? 'justify-center' : ''}`}
                       onClick={handleMenuItemClick}
+                      title={isCollapsed ? 'Notificações' : undefined}
                     >
-                      <Bell className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-transform group-hover:scale-110 flex-shrink-0" />
+                      <div className="relative">
+                        <Bell className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-transform group-hover:scale-110 flex-shrink-0" />
+                        <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full text-[10px] text-white flex items-center justify-center">
+                          3
+                        </div>
+                      </div>
                       {!isCollapsed && (
                         <>
                           <span className="font-medium flex-1">Notificações</span>
@@ -370,7 +378,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
             {/* User Avatar when collapsed */}
             {isCollapsed && (
               <div className="flex justify-center">
-                <Avatar className="h-8 w-8 ring-2 ring-primary/20">
+                <Avatar className="h-10 w-10 ring-2 ring-primary/20" title={getUserDisplayName()}>
                   <AvatarFallback className="bg-gradient-to-br from-primary to-accent text-primary-foreground font-bold text-xs">
                     {getUserInitials()}
                   </AvatarFallback>
@@ -381,12 +389,13 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
             {/* Logout Button */}
             <SidebarMenuButton 
               asChild 
-              className={`group rounded-xl transition-all duration-200 hover:bg-destructive/10 hover:text-destructive ${isCollapsed ? 'justify-center px-2' : ''}`}
+              className={`group rounded-xl transition-all duration-200 hover:bg-destructive/10 hover:text-destructive ${isCollapsed ? 'justify-center px-2 w-12 h-12 mx-auto' : ''}`}
             >
               <button 
                 onClick={handleLogout} 
                 className={`flex items-center gap-3 p-3 w-full ${isCollapsed ? 'justify-center' : ''}`}
                 disabled={loading}
+                title={isCollapsed ? 'Sair' : undefined}
               >
                 {loading ? (
                   <Loader2 className="h-5 w-5 animate-spin flex-shrink-0" />
