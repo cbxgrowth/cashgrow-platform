@@ -32,6 +32,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
   const [userInfo, setUserInfo] = useState<any>(null);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -122,20 +123,18 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
       {/* Mobile Overlay */}
-      {isMobile && (
+      {isMobile && sidebarCollapsed && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden" />
       )}
 
       <DashboardSidebar
         userType={userType}
-        menuItems={menuItems}
-        userInfo={userInfo}
-        onLogout={handleLogout}
-        loading={loading}
+        isCollapsed={sidebarCollapsed}
+        onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
       />
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col lg:ml-64">
+      <main className={`flex-1 flex flex-col transition-all duration-300 ${sidebarCollapsed ? 'lg:ml-16' : 'lg:ml-64'}`}>
         <DashboardHeader
           userType={userType}
           menuItems={menuItems}
