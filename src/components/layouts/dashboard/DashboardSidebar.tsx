@@ -33,7 +33,7 @@ interface DashboardSidebarProps {
   onToggle: () => void;
 }
 
-const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ 
+export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ 
   userType, 
   isCollapsed, 
   onToggle 

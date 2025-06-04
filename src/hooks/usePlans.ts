@@ -40,7 +40,15 @@ export const usePlans = () => {
         .single();
 
       if (error && error.code !== 'PGRST116') throw error;
-      setUserPlan(data);
+      
+      // Garantir que o status seja do tipo correto
+      if (data) {
+        const userPlanData = {
+          ...data,
+          status: data.status as 'active' | 'canceled' | 'expired'
+        };
+        setUserPlan(userPlanData);
+      }
     } catch (error) {
       console.error('Error fetching user plan:', error);
     }
