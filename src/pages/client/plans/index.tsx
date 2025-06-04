@@ -1,35 +1,32 @@
 
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import PlanCard from '@/components/plans/PlanCard';
 import CashbackCalculator from '@/components/plans/CashbackCalculator';
-import UserPlanStatus from '@/components/plans/UserPlanStatus';
+import SubscriptionManager from '@/components/plans/SubscriptionManager';
+import StripeCheckoutButton from '@/components/plans/StripeCheckoutButton';
 import { usePlans } from '@/hooks/usePlans';
+import { useStripeSubscription } from '@/hooks/useStripeSubscription';
 import { Crown, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 
 const ClientPlans: React.FC = () => {
-  const navigate = useNavigate();
-  const { plans, userPlan, loading } = usePlans();
+  const [searchParams] = useSearchParams();
+  const { plans, loading: plansLoading } = usePlans();
+  const { subscriptionData, checkSubscription } = useStripeSubscription();
 
-  const handleSubscribe = async (planId: number) => {
-    try {
-      // TODO: Implementar integração com Stripe
-      toast.info('Redirecionando para checkout...');
-      console.log('Subscribe to plan:', planId);
-    } catch (error) {
-      toast.error('Erro ao processar assinatura');
+  // Verificar parâmetros de retorno do Stripe
+  useEffect(() => {
+    if (searchParams.get('success') === 'true') {
+      toast.success('Assinatura realizada com sucesso!');
+      checkSubscription(); // Atualizar status da assinatura
+    } else if (searchParams.get('canceled') === 'true') {
+      toast.info('Checkout cancelado. Você pode tentar novamente quando quiser.');
     }
-  };
+  }, [searchParams, checkSubscription]);
 
-  const handleManagePlan = () => {
-    // TODO: Implementar gerenciamento de plano
-    toast.info('Funcionalidade em desenvolvimento');
-  };
-
-  if (loading) {
+  if (plansLoading) {
     return (
       <div className="container mx-auto py-8">
         <div className="text-center">
@@ -53,9 +50,9 @@ const ClientPlans: React.FC = () => {
         </p>
       </div>
 
-      {/* User Plan Status */}
+      {/* Subscription Manager */}
       <div className="max-w-md mx-auto">
-        <UserPlanStatus userPlan={userPlan} onManagePlan={handleManagePlan} />
+        <SubscriptionManager />
       </div>
 
       {/* Benefits Highlight */}
@@ -87,13 +84,85 @@ const ClientPlans: React.FC = () => {
       {/* Plans Grid */}
       <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
         {plans.map((plan) => (
-          <PlanCard
-            key={plan.id}
-            plan={plan}
-            isCurrentPlan={userPlan?.plan_id === plan.id}
-            onSubscribe={handleSubscribe}
-            loading={loading}
-          />
+          <Card key={plan.id} className={`relative transition-all duration-300 hover:shadow-lg ${
+            subscriptionData.plan_id === plan.id ? 'ring-2 ring-primary' : ''
+          }`}>
+            {subscriptionData.plan_id === plan.id && (
+              <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-medium">
+                Seu Plano Atual
+              </div>
+            )}
+            
+            <CardHeader className="text-center">
+              <div className="flex justify-center mb-2">
+                <Crown className={`h-6 w-6 ${
+                  plan.name === 'Premium' ? 'text-yellow-500' : 
+                  plan.name === 'Essencial' ? 'text-blue-500' : 
+                  'text-gray-500'
+                }`} />
+              </div>
+              <CardTitle className="text-2xl">{plan.name}</CardTitle>
+              <div className="text-3xl font-bold text-primary">
+                {plan.price === 0 ? 'Gratuito' : `R$ ${plan.price.toFixed(2)}`}
+                {plan.price > 0 && <span className="text-sm text-muted-foreground">/mês</span>}
+              </div>
+              <p className="text-sm text-muted-foreground">{plan.description}</p>
+            </CardHeader>
+
+            <CardContent>
+              <ul className="space-y-3 mb-6">
+                <li className="flex items-start gap-2">
+                  <Crown className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-sm">Cashback padrão em todas as compras</span>
+                </li>
+                {plan.cashback_multiplier > 1 && (
+                  <li className="flex items-start gap-2">
+                    <Crown className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm">
+                      Cashback {Math.round((plan.cashback_multiplier - 1) * 100)}% maior
+                    </span>
+                  </li>
+                )}
+                {plan.pix_limit_per_month > 1 && (
+                  <li className="flex items-start gap-2">
+                    <Crown className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm">
+                      {plan.pix_limit_per_month === 999999 ? 'Resgates PIX ilimitados' : `${plan.pix_limit_per_month} resgates PIX/mês`}
+                    </span>
+                  </li>
+                )}
+                {plan.has_exclusive_campaigns && (
+                  <li className="flex items-start gap-2">
+                    <Crown className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm">Vouchers e cupons exclusivos</span>
+                  </li>
+                )}
+                {plan.has_early_access && (
+                  <li className="flex items-start gap-2">
+                    <Crown className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm">Acesso antecipado a promoções</span>
+                  </li>
+                )}
+                {plan.priority_support && (
+                  <li className="flex items-start gap-2">
+                    <Crown className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm">Atendimento prioritário</span>
+                  </li>
+                )}
+                {plan.has_bonus_dates && (
+                  <li className="flex items-start gap-2">
+                    <Crown className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm">Cashback em dobro em datas especiais</span>
+                  </li>
+                )}
+              </ul>
+
+              <StripeCheckoutButton 
+                plan={plan}
+                isCurrentPlan={subscriptionData.plan_id === plan.id}
+              />
+            </CardContent>
+          </Card>
         ))}
       </div>
 
@@ -118,7 +187,7 @@ const ClientPlans: React.FC = () => {
           <div>
             <h4 className="font-semibold mb-2">Posso cancelar a qualquer momento?</h4>
             <p className="text-sm text-muted-foreground">
-              Sim! Você pode cancelar seu plano a qualquer momento. 
+              Sim! Você pode cancelar seu plano a qualquer momento através do portal de gerenciamento. 
               Os benefícios continuam até o final do período pago.
             </p>
           </div>
@@ -127,6 +196,13 @@ const ClientPlans: React.FC = () => {
             <p className="text-sm text-muted-foreground">
               Você pode resgatar seu saldo acumulado via PIX. O plano Gratuito permite 1 resgate/mês, 
               Essencial 2 resgates/mês e Premium resgates ilimitados.
+            </p>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-2">O pagamento é seguro?</h4>
+            <p className="text-sm text-muted-foreground">
+              Sim! Utilizamos o Stripe, uma das plataformas de pagamento mais seguras do mundo, 
+              com certificação PCI DSS e criptografia de ponta a ponta.
             </p>
           </div>
         </CardContent>
