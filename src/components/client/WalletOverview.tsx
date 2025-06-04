@@ -1,155 +1,142 @@
 
 import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Wallet, TrendingUp, Clock, DollarSign, ArrowUpRight, Gift } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Wallet, TrendingUp, DollarSign, Gift, Crown } from "lucide-react";
+import { usePlans } from '@/hooks/usePlans';
 
 const WalletOverview: React.FC = () => {
-  const walletData = {
-    availableBalance: 125.40,
-    pendingBalance: 45.80,
-    monthlyEarnings: 86.50,
-    totalEarnings: 1250.90,
-    nextPayment: '15/01/2025',
-    recentTransactions: [
-      { id: 1, store: 'Tech Store', amount: 12.50, date: '12/01', status: 'confirmed' },
-      { id: 2, store: 'Fashion Shop', amount: 8.90, date: '11/01', status: 'pending' },
-      { id: 3, store: 'Beauty Plus', amount: 15.30, date: '10/01', status: 'confirmed' }
-    ]
-  };
+  const { userPlan, canRescuePix } = usePlans();
+  
+  // Mock data - substituir por dados reais
+  const balance = 127.50;
+  const monthlyEarnings = 45.20;
+  const totalEarnings = 890.75;
+  
+  const plan = userPlan?.plan;
+  const cashbackBonus = plan?.cashback_multiplier ? Math.round((plan.cashback_multiplier - 1) * 100) : 0;
+  const canPixRescue = canRescuePix(userPlan);
 
   return (
     <div className="space-y-6">
-      {/* Saldo Principal */}
-      <Card className="shadow-md hover-scale">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Wallet className="h-5 w-5 text-primary" />
-            Carteira de Cashback
-          </CardTitle>
-          <CardDescription>
-            Acompanhe seus ganhos e resgate quando quiser
-          </CardDescription>
-        </CardHeader>
-        
-        <CardContent className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <DollarSign className="h-4 w-4 text-green-600" />
-                <span className="text-sm font-medium">Saldo Disponível</span>
+      {/* Plan Status Banner */}
+      {plan && plan.name !== 'Gratuito' && (
+        <Card className="bg-gradient-to-r from-primary/10 to-primary/5 border-primary/20">
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Crown className="h-8 w-8 text-primary" />
+                <div>
+                  <h3 className="font-semibold">Plano {plan.name} Ativo</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Você está ganhando {cashbackBonus}% a mais em cashback!
+                  </p>
+                </div>
               </div>
-              <div className="text-3xl font-bold text-green-600">
-                R$ {walletData.availableBalance.toFixed(2)}
-              </div>
-              <p className="text-sm text-muted-foreground">
-                Pronto para resgate
-              </p>
-            </div>
-            
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <Clock className="h-4 w-4 text-orange-600" />
-                <span className="text-sm font-medium">Saldo Pendente</span>
-              </div>
-              <div className="text-3xl font-bold text-orange-600">
-                R$ {walletData.pendingBalance.toFixed(2)}
-              </div>
-              <p className="text-sm text-muted-foreground">
-                Será liberado em {walletData.nextPayment}
-              </p>
-            </div>
-          </div>
-          
-          <div className="flex gap-2">
-            <Button className="flex-1">
-              <Gift className="h-4 w-4 mr-2" />
-              Resgatar Cashback
-            </Button>
-            <Button variant="outline">
-              Ver Histórico
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Estatísticas */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Card className="hover-scale">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base flex items-center gap-2">
-              <TrendingUp className="h-4 w-4 text-primary" />
-              Ganhos Mensais
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">R$ {walletData.monthlyEarnings.toFixed(2)}</div>
-            <div className="flex items-center gap-1 text-sm text-green-600 mt-1">
-              <ArrowUpRight className="h-3 w-3" />
-              +12% vs mês anterior
+              <Badge variant="secondary" className="bg-primary/20 text-primary">
+                +{cashbackBonus}%
+              </Badge>
             </div>
           </CardContent>
         </Card>
-        
-        <Card className="hover-scale">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base flex items-center gap-2">
-              <Wallet className="h-4 w-4 text-primary" />
-              Total Acumulado
-            </CardTitle>
+      )}
+
+      {/* Balance Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Saldo Disponível</CardTitle>
+            <Wallet className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">R$ {walletData.totalEarnings.toFixed(2)}</div>
-            <p className="text-sm text-muted-foreground mt-1">
-              Desde o primeiro cashback
+            <div className="text-2xl font-bold text-primary">R$ {balance.toFixed(2)}</div>
+            <div className="flex items-center gap-2 mt-2">
+              <Button 
+                size="sm" 
+                disabled={!canPixRescue}
+                className="flex-1"
+              >
+                Resgatar PIX
+              </Button>
+              {!canPixRescue && (
+                <Badge variant="outline" className="text-xs">
+                  Limite atingido
+                </Badge>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Ganhos Este Mês</CardTitle>
+            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">R$ {monthlyEarnings.toFixed(2)}</div>
+            {cashbackBonus > 0 && (
+              <p className="text-xs text-green-600 mt-1">
+                +R$ {(monthlyEarnings * (cashbackBonus / 100)).toFixed(2)} bônus do plano
+              </p>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Acumulado</CardTitle>
+            <DollarSign className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">R$ {totalEarnings.toFixed(2)}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              Desde o início
             </p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Transações Recentes */}
-      <Card className="hover-scale">
+      {/* Recent Transactions */}
+      <Card>
         <CardHeader>
-          <CardTitle>Transações Recentes</CardTitle>
-          <CardDescription>
-            Últimos cashbacks recebidos
-          </CardDescription>
+          <CardTitle className="flex items-center gap-2">
+            <Gift className="h-5 w-5" />
+            Últimas Transações
+          </CardTitle>
         </CardHeader>
-        
         <CardContent>
           <div className="space-y-3">
-            {walletData.recentTransactions.map((transaction) => (
-              <div key={transaction.id} className="flex items-center justify-between p-3 border rounded-lg">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
-                    <DollarSign className="h-5 w-5 text-primary" />
-                  </div>
+            {[
+              { store: 'Loja ABC', amount: 15.50, cashback: 2.10, date: '2024-01-15' },
+              { store: 'Mercado XYZ', amount: 89.90, cashback: 8.99, date: '2024-01-14' },
+              { store: 'Farmácia 123', amount: 45.00, cashback: 4.50, date: '2024-01-13' }
+            ].map((transaction, index) => {
+              const bonusCashback = plan ? transaction.cashback * (cashbackBonus / 100) : 0;
+              const totalCashback = transaction.cashback + bonusCashback;
+              
+              return (
+                <div key={index} className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
                   <div>
                     <p className="font-medium">{transaction.store}</p>
-                    <p className="text-sm text-muted-foreground">{transaction.date}</p>
+                    <p className="text-sm text-muted-foreground">
+                      Compra: R$ {transaction.amount.toFixed(2)}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-medium text-green-600">
+                      +R$ {totalCashback.toFixed(2)}
+                    </p>
+                    {bonusCashback > 0 && (
+                      <p className="text-xs text-primary">
+                        (+R$ {bonusCashback.toFixed(2)} bônus)
+                      </p>
+                    )}
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className="font-bold text-green-600">
-                    +R$ {transaction.amount.toFixed(2)}
-                  </p>
-                  <Badge 
-                    className={transaction.status === 'confirmed' ? 
-                      'bg-green-500/20 text-green-600' : 
-                      'bg-orange-500/20 text-orange-600'
-                    }
-                  >
-                    {transaction.status === 'confirmed' ? 'Confirmado' : 'Pendente'}
-                  </Badge>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
-          
-          <Button variant="outline" className="w-full mt-4">
-            Ver Todas as Transações
-          </Button>
         </CardContent>
       </Card>
     </div>

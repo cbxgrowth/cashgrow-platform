@@ -1,13 +1,18 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Logo from './Logo';
+
 const Footer: React.FC = () => {
-  return <footer className="border-t border-border bg-background py-8 mt-auto">
+  return (
+    <footer className="border-t border-border bg-background py-8 mt-auto">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <Logo size="sm" />
-            <p className="mt-4 text-sm text-muted-foreground">Plataforma inteligente de cashback para empresas de todos os setores e consumidores.</p>
+            <p className="mt-4 text-sm text-muted-foreground">
+              Plataforma inteligente de cashback para empresas de todos os setores e consumidores.
+            </p>
           </div>
           
           <div>
@@ -76,7 +81,7 @@ const Footer: React.FC = () => {
         
         <div className="border-t border-border mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} Bloom. Todos os direitos reservados.
+            &copy; {new Date().getFullYear()} CashGrow. Todos os direitos reservados.
           </p>
           <div className="flex space-x-4 mt-4 md:mt-0">
             <Link to="#" className="text-muted-foreground hover:text-primary">
@@ -100,6 +105,8 @@ const Footer: React.FC = () => {
           </div>
         </div>
       </div>
-    </footer>;
+    </footer>
+  );
 };
+
 export default Footer;

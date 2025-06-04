@@ -9,7 +9,98 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      plans: {
+        Row: {
+          cashback_multiplier: number | null
+          created_at: string | null
+          description: string | null
+          has_bonus_dates: boolean | null
+          has_early_access: boolean | null
+          has_exclusive_campaigns: boolean | null
+          id: number
+          name: string
+          pix_limit_per_month: number | null
+          price: number
+          priority_support: boolean | null
+        }
+        Insert: {
+          cashback_multiplier?: number | null
+          created_at?: string | null
+          description?: string | null
+          has_bonus_dates?: boolean | null
+          has_early_access?: boolean | null
+          has_exclusive_campaigns?: boolean | null
+          id?: number
+          name: string
+          pix_limit_per_month?: number | null
+          price: number
+          priority_support?: boolean | null
+        }
+        Update: {
+          cashback_multiplier?: number | null
+          created_at?: string | null
+          description?: string | null
+          has_bonus_dates?: boolean | null
+          has_early_access?: boolean | null
+          has_exclusive_campaigns?: boolean | null
+          id?: number
+          name?: string
+          pix_limit_per_month?: number | null
+          price?: number
+          priority_support?: boolean | null
+        }
+        Relationships: []
+      }
+      user_plans: {
+        Row: {
+          created_at: string | null
+          current_month_pix_count: number | null
+          id: number
+          last_pix_rescue: string | null
+          plan_id: number | null
+          renewal_date: string | null
+          start_date: string
+          status: string | null
+          stripe_subscription_id: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          current_month_pix_count?: number | null
+          id?: number
+          last_pix_rescue?: string | null
+          plan_id?: number | null
+          renewal_date?: string | null
+          start_date: string
+          status?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          current_month_pix_count?: number | null
+          id?: number
+          last_pix_rescue?: string | null
+          plan_id?: number | null
+          renewal_date?: string | null
+          start_date?: string
+          status?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_plans_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

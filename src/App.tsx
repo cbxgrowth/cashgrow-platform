@@ -1,154 +1,125 @@
 
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { ThemeProvider } from "@/components/ui/theme-provider";
-import { Toaster } from '@/components/ui/sonner';
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { NotificationProvider } from "@/contexts/NotificationContext";
-import ErrorBoundary from '@/components/common/ErrorBoundary';
+import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ThemeProvider } from "next-themes";
+import MainLayout from "./components/layouts/MainLayout";
+import DashboardLayout from "./components/layouts/DashboardLayout";
+import AuthLayout from "./components/layouts/AuthLayout";
+import Index from "./pages/Index";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Features from "./pages/Features";
+import Pricing from "./pages/Pricing";
+import Integrations from "./pages/Integrations";
+import Contact from "./pages/Contact";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
+import AuthCallback from "./pages/auth/callback";
+import CompanyDashboard from "./pages/company/CompanyDashboard";
+import ClientDashboard from "./pages/client/ClientDashboard";
+import NotFound from "./pages/NotFound";
 
-import MainLayout from './components/layouts/MainLayout';
-import AuthLayout from './components/layouts/AuthLayout';
-import DashboardLayout from './components/layouts/DashboardLayout';
+// Client pages
+import ClientWallet from "./pages/client/wallet";
+import ClientTransactions from "./pages/client/transactions";
+import ClientMissions from "./pages/client/missions";
+import ClientRecommendations from "./pages/client/recommendations";
+import ClientVipClub from "./pages/client/vip-club";
+import ClientCompanies from "./pages/client/companies";
+import ClientProfile from "./pages/client/profile";
+import ClientPlans from "./pages/client/plans";
 
-import Index from './pages/Index';
-import Home from './pages/Home';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import Features from './pages/Features';
-import Pricing from './pages/Pricing';
-import Integrations from './pages/Integrations';
-import NotFound from './pages/NotFound';
-import Login from './pages/auth/Login';
-import Register from './pages/auth/Register';
-import ForgotPassword from './pages/auth/ForgotPassword';
-import ResetPassword from './pages/auth/ResetPassword';
-import AuthCallback from './pages/auth/callback';
-import ClientDashboard from './pages/client/ClientDashboard';
-import ClientTransactions from './pages/client/transactions';
-import ClientProfile from './pages/client/profile';
-import ClientWallet from './pages/client/wallet';
-import CompanyProfile from './pages/company/profile';
-import ClientCompanies from './pages/client/companies';
-import ClientRecommendations from './pages/client/recommendations';
-import ClientMissions from './pages/client/missions';
-import ClientVipClub from './pages/client/vip-club';
-import CompanyDashboard from './pages/company/CompanyDashboard';
-import CompanyClients from './pages/company/clients';
-import CompanyProducts from './pages/company/products';
-import CompanyTransactions from './pages/company/transactions';
-import CompanyReports from './pages/company/reports';
-import CompanySettings from './pages/company/settings';
-import CashbackRules from './pages/company/CashbackRules';
-import CompanyAICampaigns from './pages/company/ai-campaigns';
-import CompanyCorporate from './pages/company/corporate';
-import CompanyPerformance from './pages/company/performance';
-import CompanyIntegrations from './pages/company/integrations';
-import NotificationsPage from './pages/notifications';
-import ExampleNotifications from './pages/notifications/ExampleNotifications';
-import { supabase } from '@/integrations/supabase/client';
+// Company pages
+import CompanyProducts from "./pages/company/products";
+import CompanyClients from "./pages/company/clients";
+import CompanyTransactions from "./pages/company/transactions";
+import CompanyReports from "./pages/company/reports";
+import CompanyIntegrations from "./pages/company/integrations";
+import CompanyProfile from "./pages/company/profile";
+import CompanySettings from "./pages/company/settings";
+import CompanyPerformance from "./pages/company/performance";
+import CompanyCorporate from "./pages/company/corporate";
+import CompanyAiCampaigns from "./pages/company/ai-campaigns";
+import CashbackRules from "./pages/company/CashbackRules";
+
+// Notifications
+import NotificationsPage from "./pages/notifications";
+
+import "./App.css";
+
+const queryClient = new QueryClient();
 
 function App() {
-  const [initialized, setInitialized] = useState(false);
-
-  useEffect(() => {
-    const checkSession = async () => {
-      try {
-        await supabase.auth.getSession();
-        setInitialized(true);
-      } catch (error) {
-        console.error('Error checking session:', error);
-        setInitialized(true);
-      }
-    };
-
-    checkSession();
-  }, []);
-
-  if (!initialized) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="inline-block animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mb-4"></div>
-          <p>Carregando...</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <ErrorBoundary>
-      <ThemeProvider defaultTheme="light" storageKey="cashback-theme">
-        <NotificationProvider>
-          <SidebarProvider>
-            <Router>
-              <Routes>
-                {/* Páginas principais */}
-                <Route path="/" element={<MainLayout />}>
-                  <Route index element={<Index />} />
-                  <Route path="home" element={<Home />} />
-                  <Route path="about" element={<About />} />
-                  <Route path="contact" element={<Contact />} />
-                  <Route path="funcionalidades" element={<Features />} />
-                  <Route path="precos" element={<Pricing />} />
-                  <Route path="integracoes" element={<Integrations />} />
-                </Route>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+        <TooltipProvider>
+          <Toaster />
+          <BrowserRouter>
+            <Routes>
+              {/* Public routes with MainLayout */}
+              <Route path="/" element={<MainLayout />}>
+                <Route index element={<Index />} />
+                <Route path="home" element={<Home />} />
+                <Route path="about" element={<About />} />
+                <Route path="features" element={<Features />} />
+                <Route path="funcionalidades" element={<Features />} />
+                <Route path="pricing" element={<Pricing />} />
+                <Route path="precos" element={<Pricing />} />
+                <Route path="integrations" element={<Integrations />} />
+                <Route path="integracoes" element={<Integrations />} />
+                <Route path="contact" element={<Contact />} />
+              </Route>
 
-                {/* Páginas de autenticação */}
-                <Route path="/auth" element={<AuthLayout />}>
-                  <Route path="login" element={<Login />} />
-                  <Route path="register" element={<Register />} />
-                  <Route path="forgot-password" element={<ForgotPassword />} />
-                  <Route path="reset-password" element={<ResetPassword />} />
-                  <Route path="callback" element={<AuthCallback />} />
-                </Route>
+              {/* Auth routes */}
+              <Route path="/auth" element={<AuthLayout />}>
+                <Route path="login" element={<Login />} />
+                <Route path="register" element={<Register />} />
+                <Route path="forgot-password" element={<ForgotPassword />} />
+                <Route path="reset-password" element={<ResetPassword />} />
+                <Route path="callback" element={<AuthCallback />} />
+              </Route>
 
-                {/* Páginas de dashboard do cliente */}
-                <Route path="/client" element={<DashboardLayout userType="client" />}>
-                  <Route index element={<Navigate to="/client/dashboard" replace />} />
-                  <Route path="dashboard" element={<ClientDashboard />} />
-                  <Route path="transactions" element={<ClientTransactions />} />
-                  <Route path="profile" element={<ClientProfile />} />
-                  <Route path="wallet" element={<ClientWallet />} />
-                  <Route path="companies" element={<ClientCompanies />} />
-                  <Route path="recommendations" element={<ClientRecommendations />} />
-                  <Route path="missions" element={<ClientMissions />} />
-                  <Route path="vip-club" element={<ClientVipClub />} />
-                  <Route path="notifications" element={<NotificationsPage />} />
-                  <Route path="notifications/examples" element={<ExampleNotifications />} />
-                </Route>
+              {/* Dashboard routes */}
+              <Route path="/company" element={<DashboardLayout userType="company" />}>
+                <Route path="dashboard" element={<CompanyDashboard />} />
+                <Route path="products" element={<CompanyProducts />} />
+                <Route path="clients" element={<CompanyClients />} />
+                <Route path="transactions" element={<CompanyTransactions />} />
+                <Route path="reports" element={<CompanyReports />} />
+                <Route path="integrations" element={<CompanyIntegrations />} />
+                <Route path="profile" element={<CompanyProfile />} />
+                <Route path="settings" element={<CompanySettings />} />
+                <Route path="performance" element={<CompanyPerformance />} />
+                <Route path="corporate" element={<CompanyCorporate />} />
+                <Route path="ai-campaigns" element={<CompanyAiCampaigns />} />
+                <Route path="cashback-rules" element={<CashbackRules />} />
+              </Route>
 
-                {/* Páginas de dashboard da empresa */}
-                <Route path="/company" element={<DashboardLayout userType="company" />}>
-                  <Route index element={<Navigate to="/company/dashboard" replace />} />
-                  <Route path="dashboard" element={<CompanyDashboard />} />
-                  <Route path="cashback-rules" element={<CashbackRules />} />
-                  <Route path="clients" element={<CompanyClients />} />
-                  <Route path="products" element={<CompanyProducts />} />
-                  <Route path="transactions" element={<CompanyTransactions />} />
-                  <Route path="reports" element={<CompanyReports />} />
-                  <Route path="profile" element={<CompanyProfile />} />
-                  <Route path="ai-campaigns" element={<CompanyAICampaigns />} />
-                  <Route path="corporate" element={<CompanyCorporate />} />
-                  <Route path="performance" element={<CompanyPerformance />} />
-                  <Route path="settings" element={<CompanySettings />} />
-                  <Route path="integrations" element={<CompanyIntegrations />} />
-                  <Route path="notifications" element={<NotificationsPage />} />
-                  <Route path="notifications/examples" element={<ExampleNotifications />} />
-                </Route>
+              <Route path="/client" element={<DashboardLayout userType="client" />}>
+                <Route path="dashboard" element={<ClientDashboard />} />
+                <Route path="wallet" element={<ClientWallet />} />
+                <Route path="transactions" element={<ClientTransactions />} />
+                <Route path="missions" element={<ClientMissions />} />
+                <Route path="recommendations" element={<ClientRecommendations />} />
+                <Route path="vip-club" element={<ClientVipClub />} />
+                <Route path="companies" element={<ClientCompanies />} />
+                <Route path="profile" element={<ClientProfile />} />
+                <Route path="plans" element={<ClientPlans />} />
+                <Route path="notifications" element={<NotificationsPage />} />
+              </Route>
 
-                {/* Página de redirecionamento */}
-                <Route path="/index" element={<Index />} />
-
-                {/* Página 404 */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Router>
-            <Toaster position="bottom-right" />
-          </SidebarProvider>
-        </NotificationProvider>
+              {/* 404 */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
       </ThemeProvider>
-    </ErrorBoundary>
+    </QueryClientProvider>
   );
 }
 
