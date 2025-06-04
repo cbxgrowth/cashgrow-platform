@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Crown } from "lucide-react";
 import { useState } from 'react';
 import Logo from './Logo';
 
@@ -12,8 +12,8 @@ const Navbar = () => {
   const navigation = [
     { name: 'Início', href: '/' },
     { name: 'Funcionalidades', href: '/features' },
-    { name: 'Preços', href: '/pricing' },
     { name: 'Integrações', href: '/integrations' },
+    { name: 'Planos', href: '/pricing', icon: Crown, highlight: true },
     { name: 'Sobre', href: '/about' },
     { name: 'Contato', href: '/contact' },
   ];
@@ -32,8 +32,13 @@ const Navbar = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                className={`flex items-center gap-2 transition-colors ${
+                  item.highlight 
+                    ? 'text-primary hover:text-primary/80 font-semibold' 
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
               >
+                {item.icon && <item.icon className="h-4 w-4" />}
                 {item.name}
               </Link>
             ))}
@@ -41,12 +46,12 @@ const Navbar = () => {
 
           <div className="hidden md:flex items-center space-x-4">
             <Link to="/auth/login">
-              <Button className="hover-scale">
+              <Button variant="outline" className="hover-scale">
                 Entrar
               </Button>
             </Link>
             <Link to="/auth/register">
-              <Button className="hover-scale">
+              <Button className="hover-scale bg-gradient-to-r from-primary to-primary/80">
                 Começar Grátis
               </Button>
             </Link>
@@ -72,20 +77,25 @@ const Navbar = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className="block px-3 py-2 text-muted-foreground hover:text-foreground transition-colors"
+                className={`flex items-center gap-2 px-3 py-2 transition-colors ${
+                  item.highlight 
+                    ? 'text-primary hover:text-primary/80 font-semibold' 
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
                 onClick={() => setIsOpen(false)}
               >
+                {item.icon && <item.icon className="h-4 w-4" />}
                 {item.name}
               </Link>
             ))}
             <div className="flex flex-col space-y-2 pt-4">
               <Link to="/auth/login" onClick={() => setIsOpen(false)}>
-                <Button className="w-full">
+                <Button variant="outline" className="w-full">
                   Entrar
                 </Button>
               </Link>
               <Link to="/auth/register" onClick={() => setIsOpen(false)}>
-                <Button className="w-full">
+                <Button className="w-full bg-gradient-to-r from-primary to-primary/80">
                   Começar Grátis
                 </Button>
               </Link>
