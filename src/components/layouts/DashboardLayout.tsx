@@ -1,4 +1,4 @@
-// Layout refatorado com melhor organização e tratamento de erro
+
 import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { 
@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { DashboardSidebar } from './dashboard/DashboardSidebar';
-import { DashboardHeader } from './dashboard/DashboardHeader';
+import { EnhancedDashboardHeader } from './dashboard/EnhancedDashboardHeader';
 import { 
   getCurrentSession, 
   validateUserType, 
@@ -95,7 +95,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
     }
   };
 
-  // Handler de logout melhorado
   const handleLogout = async () => {
     setLoading(true);
     
@@ -108,28 +107,33 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
     }
   };
 
-  // Effect para verificação inicial
   useEffect(() => {
     checkAuthentication();
   }, [navigate, userType]);
 
-  // Componente de loading melhorado
+  // Enhanced Loading Screen
   const LoadingScreen = () => (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-background to-muted/30">
-      <div className="text-center space-y-4">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-background via-background to-muted/10">
+      <div className="text-center space-y-6">
         <div className="relative">
-          <Loader2 className="h-12 w-12 animate-spin mx-auto text-primary" />
-          <div className="absolute inset-0 h-12 w-12 rounded-full border-2 border-primary/20 mx-auto"></div>
+          <Loader2 className="h-16 w-16 animate-spin mx-auto text-primary" />
+          <div className="absolute inset-0 h-16 w-16 rounded-full border-2 border-primary/20 mx-auto animate-pulse"></div>
         </div>
-        <div>
-          <p className="text-lg font-medium text-muted-foreground">Carregando sua área...</p>
-          <p className="text-sm text-muted-foreground mt-1">Verificando permissões</p>
+        <div className="space-y-2">
+          <p className="text-xl font-semibold text-foreground">Carregando sua área...</p>
+          <p className="text-sm text-muted-foreground">Verificando permissões e preparando dashboard</p>
+          <div className="flex justify-center mt-4">
+            <div className="flex space-x-1">
+              <div className="w-2 h-2 bg-primary rounded-full animate-bounce"></div>
+              <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+              <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 
-  // Estados de carregamento e não autenticado
   if (loading) {
     return <LoadingScreen />;
   }
@@ -141,11 +145,11 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
   const menuItems = userType === 'client' ? clientMenuItems : companyMenuItems;
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-      {/* Overlay para mobile */}
+    <div className="flex min-h-screen bg-gradient-to-br from-background via-background to-muted/5">
+      {/* Mobile Overlay */}
       {isMobile && !sidebarCollapsed && (
         <div 
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden" 
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden transition-opacity" 
           onClick={() => setSidebarCollapsed(true)}
           aria-label="Fechar menu"
         />
@@ -157,18 +161,20 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
         onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
       />
 
-      {/* Conteúdo principal */}
+      {/* Main Content */}
       <main className={`flex-1 flex flex-col transition-all duration-300 ${
         sidebarCollapsed ? 'lg:ml-16' : 'lg:ml-64'
       }`}>
-        <DashboardHeader
+        <EnhancedDashboardHeader
           userType={userType}
           menuItems={menuItems}
         />
 
-        {/* Conteúdo da página */}
+        {/* Page Content */}
         <div className="flex-1 p-6 max-w-7xl mx-auto w-full">
-          <Outlet />
+          <div className="animate-fade-in">
+            <Outlet />
+          </div>
         </div>
       </main>
     </div>
