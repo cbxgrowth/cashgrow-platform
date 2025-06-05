@@ -1,13 +1,7 @@
 
+// Hook refatorado para usar serviço centralizado - melhora testabilidade e manutenção
 import { useState, useEffect } from 'react';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-
-interface SubscriptionData {
-  subscribed: boolean;
-  plan_id: number | null;
-  subscription_end: string | null;
-}
+import { stripeService, type SubscriptionData } from '@/services/stripe.service';
 
 export const useStripeSubscription = () => {
   const [subscriptionData, setSubscriptionData] = useState<SubscriptionData>({
@@ -16,59 +10,53 @@ export const useStripeSubscription = () => {
     subscription_end: null
   });
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
+  // Função para verificar assinatura com tratamento de erro melhorado
   const checkSubscription = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase.functions.invoke('check-subscription');
+      setError(null);
       
-      if (error) throw error;
-      
+      const data = await stripeService.checkSubscription();
       setSubscriptionData(data);
     } catch (error) {
-      console.error('Erro ao verificar assinatura:', error);
-      toast.error('Erro ao verificar status da assinatura');
+      const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido';
+      setError(errorMessage);
+      console.error('Erro na verificação da assinatura:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const createCheckout = async (planId: number) => {
+  // Função para criar checkout com validação melhorada
+  const createCheckout = async (planId: number): Promise<string | null> => {
     try {
-      const { data, error } = await supabase.functions.invoke('create-checkout', {
-        body: { planId }
-      });
-      
-      if (error) throw error;
-      
-      // Abrir checkout em nova aba
-      window.open(data.url, '_blank');
-      
-      return data.url;
+      // Validação de entrada
+      if (!planId || planId <= 0) {
+        throw new Error('ID do plano inválido');
+      }
+
+      const url = await stripeService.createCheckout({ planId });
+      return url;
     } catch (error) {
       console.error('Erro ao criar checkout:', error);
-      toast.error('Erro ao processar checkout');
       throw error;
     }
   };
 
-  const openCustomerPortal = async () => {
+  // Função para abrir portal do cliente
+  const openCustomerPortal = async (): Promise<string | null> => {
     try {
-      const { data, error } = await supabase.functions.invoke('customer-portal');
-      
-      if (error) throw error;
-      
-      // Abrir portal em nova aba
-      window.open(data.url, '_blank');
-      
-      return data.url;
+      const url = await stripeService.openCustomerPortal();
+      return url;
     } catch (error) {
-      console.error('Erro ao abrir portal do cliente:', error);
-      toast.error('Erro ao abrir portal de gerenciamento');
+      console.error('Erro ao abrir portal:', error);
       throw error;
     }
   };
 
+  // Effect para carregar dados iniciais
   useEffect(() => {
     checkSubscription();
   }, []);
@@ -76,6 +64,7 @@ export const useStripeSubscription = () => {
   return {
     subscriptionData,
     loading,
+    error,
     checkSubscription,
     createCheckout,
     openCustomerPortal

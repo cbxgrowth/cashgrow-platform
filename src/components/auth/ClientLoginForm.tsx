@@ -1,10 +1,9 @@
-
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { supabase } from "@/integrations/supabase/client";
+import { authService } from "@/services/auth.service";
 import { toast } from "sonner";
 
 interface ClientLoginFormProps {
@@ -14,63 +13,120 @@ interface ClientLoginFormProps {
 const ClientLoginForm: React.FC<ClientLoginFormProps> = ({ onGoogleLogin }) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
+  // Validação de entrada
+  const validateForm = (): boolean => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email é obrigatório';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Email inválido';
+    }
+
+    if (!formData.password.trim()) {
+      newErrors.password = 'Senha é obrigatória';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Handler do formulário
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+
     setIsLoading(true);
     
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+      const result = await authService.signIn({
+        email: formData.email,
+        password: formData.password
       });
 
-      if (error) {
-        toast.error("Erro ao fazer login", {
-          description: error.message,
-        });
-      } else {
+      if (result.success) {
         toast.success("Login realizado com sucesso!");
         navigate("/client/dashboard");
+      } else {
+        toast.error("Erro ao fazer login", {
+          description: result.error,
+        });
       }
     } catch (error) {
-      toast.error("Ocorreu um erro ao fazer login");
-      console.error("Login error:", error);
+      console.error("Erro inesperado no login:", error);
+      toast.error("Erro inesperado. Tente novamente.");
     } finally {
       setIsLoading(false);
     }
   };
 
+  // Handler para mudanças nos inputs
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    
+    // Limpar erro específico quando usuário começar a digitar
+    if (errors[field]) {
+      setErrors(prev => ({ ...prev, [field]: '' }));
+    }
+  };
+
   return (
-    <form onSubmit={handleLogin} className="space-y-4">
+    <form onSubmit={handleLogin} className="space-y-4" noValidate>
       <div className="space-y-2">
         <Label htmlFor="client-email">E-mail ou CPF</Label>
         <Input 
           id="client-email" 
           placeholder="nome@email.com ou CPF"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={formData.email}
+          onChange={(e) => handleInputChange('email', e.target.value)}
+          className={errors.email ? 'border-destructive' : ''}
           required
+          disabled={isLoading}
         />
+        {errors.email && (
+          <p className="text-sm text-destructive">{errors.email}</p>
+        )}
       </div>
+      
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <Label htmlFor="client-password">Senha</Label>
-          <Link to="/auth/forgot-password" className="text-xs text-primary hover:underline">
+          <Link 
+            to="/auth/forgot-password" 
+            className="text-xs text-primary hover:underline"
+            tabIndex={isLoading ? -1 : 0}
+          >
             Esqueceu a senha?
           </Link>
         </div>
         <Input 
           id="client-password" 
           type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={formData.password}
+          onChange={(e) => handleInputChange('password', e.target.value)}
+          className={errors.password ? 'border-destructive' : ''}
           required
+          disabled={isLoading}
         />
+        {errors.password && (
+          <p className="text-sm text-destructive">{errors.password}</p>
+        )}
       </div>
-      <Button type="submit" className="w-full" disabled={isLoading}>
+      
+      <Button 
+        type="submit" 
+        className="w-full" 
+        disabled={isLoading}
+      >
         {isLoading ? 'Entrando...' : 'Entrar'}
       </Button>
       
@@ -79,7 +135,9 @@ const ClientLoginForm: React.FC<ClientLoginFormProps> = ({ onGoogleLogin }) => {
           <span className="w-full border-t" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">Ou continue com</span>
+          <span className="bg-background px-2 text-muted-foreground">
+            Ou continue com
+          </span>
         </div>
       </div>
       
