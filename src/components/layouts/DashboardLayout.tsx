@@ -1,4 +1,3 @@
-
 // Layout refatorado com melhor organização e tratamento de erro
 import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
@@ -41,7 +40,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const isMobile = useIsMobile();
 
-  // Configuração dos menus com tipagem melhorada
+  // Configuração dos menus com tipagem melhorada - removido 'as const' para compatibilidade
   const clientMenuItems = [
     { title: 'Dashboard', icon: Home, url: '/client/dashboard', badge: null },
     { title: 'Transações', icon: CreditCard, url: '/client/transactions', badge: null },
@@ -50,7 +49,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
     { title: 'Recomendações', icon: Brain, url: '/client/recommendations', badge: null },
     { title: 'Missões', icon: Award, url: '/client/missions', badge: '3' },
     { title: 'Clube VIP', icon: Gift, url: '/client/vip-club', badge: null },
-  ] as const;
+  ];
 
   const companyMenuItems = [
     { title: 'Dashboard', icon: Home, url: '/company/dashboard', badge: null },
@@ -63,7 +62,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
     { title: 'Desempenho', icon: TrendingUp, url: '/company/performance', badge: null },
     { title: 'Integrações', icon: Settings, url: '/company/integrations', badge: null },
     { title: 'Configurações', icon: Settings, url: '/company/settings', badge: null },
-  ] as const;
+  ];
 
   // Função de verificação de autenticação melhorada
   const checkAuthentication = async () => {
