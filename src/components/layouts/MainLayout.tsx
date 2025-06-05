@@ -1,19 +1,14 @@
 
-import React from 'react';
-import Navbar from '../Navbar';
-import Footer from '../Footer';
-import { Outlet } from 'react-router-dom';
+import { Outlet } from "react-router-dom";
+import EnhancedNavbar from "../navigation/EnhancedNavbar";
+import Footer from "../Footer";
 
-const MainLayout: React.FC = () => {
+const MainLayout = () => {
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-background via-background to-muted/10">
-      <Navbar />
-      <main className="flex-1 relative">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 bg-grid-pattern opacity-[0.02] pointer-events-none"></div>
-        <div className="relative z-10">
-          <Outlet />
-        </div>
+    <div className="min-h-screen flex flex-col">
+      <EnhancedNavbar />
+      <main className="flex-1">
+        <Outlet />
       </main>
       <Footer />
     </div>

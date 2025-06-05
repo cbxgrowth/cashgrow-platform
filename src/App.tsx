@@ -12,6 +12,8 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Features from "./pages/Features";
 import Pricing from "./pages/Pricing";
+import PersonalPlans from "./pages/pricing/PersonalPlans";
+import BusinessPlans from "./pages/pricing/BusinessPlans";
 import Integrations from "./pages/Integrations";
 import Contact from "./pages/Contact";
 import Login from "./pages/auth/Login";
@@ -69,6 +71,8 @@ function App() {
                 <Route path="features" element={<Features />} />
                 <Route path="funcionalidades" element={<Features />} />
                 <Route path="pricing" element={<Pricing />} />
+                <Route path="pricing/personal" element={<PersonalPlans />} />
+                <Route path="pricing/business" element={<BusinessPlans />} />
                 <Route path="precos" element={<Pricing />} />
                 <Route path="integrations" element={<Integrations />} />
                 <Route path="integracoes" element={<Integrations />} />
