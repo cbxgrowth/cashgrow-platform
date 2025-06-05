@@ -26,6 +26,8 @@ interface ApiIntegration {
   syncFrequency: string;
   recordsSynced: number;
   icon: React.ReactNode;
+  logoUrl?: string;
+  brandColor: string;
 }
 
 interface ApiIntegrationCardProps {
@@ -93,15 +95,46 @@ const ApiIntegrationCard: React.FC<ApiIntegrationCardProps> = ({
   };
 
   return (
-    <Card className="hover:shadow-md transition-all duration-200">
+    <Card className="hover:shadow-md transition-all duration-200 group">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-              {integration.icon}
+            <div 
+              className="w-12 h-12 rounded-lg flex items-center justify-center relative overflow-hidden"
+              style={{ backgroundColor: `${integration.brandColor}20` }}
+            >
+              {integration.logoUrl ? (
+                <img 
+                  src={integration.logoUrl} 
+                  alt={`${integration.name} logo`}
+                  className="w-8 h-8 object-cover rounded"
+                  onError={(e) => {
+                    // Fallback to icon if image fails to load
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    target.parentElement!.appendChild(
+                      Object.assign(document.createElement('div'), {
+                        innerHTML: integration.icon as any,
+                        className: 'flex items-center justify-center'
+                      })
+                    );
+                  }}
+                />
+              ) : (
+                <div style={{ color: integration.brandColor }}>
+                  {integration.icon}
+                </div>
+              )}
             </div>
             <div>
-              <CardTitle className="text-lg">{integration.name}</CardTitle>
+              <CardTitle className="text-lg flex items-center gap-2">
+                {integration.name}
+                <div 
+                  className="w-3 h-3 rounded-full" 
+                  style={{ backgroundColor: integration.brandColor }}
+                  title={`Cor da marca: ${integration.brandColor}`}
+                />
+              </CardTitle>
               <CardDescription>{integration.description}</CardDescription>
             </div>
           </div>

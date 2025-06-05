@@ -1,5 +1,5 @@
 
-import { ShoppingBag, Database, CreditCard, Users, MessageSquare, Monitor, Settings, Globe, Smartphone, Mail, Phone, Zap, Building, Package, BarChart3 } from "lucide-react";
+import { ShoppingBag, Database, CreditCard, Users, MessageSquare, Monitor, Settings, Globe, Smartphone, Mail, Phone, Zap, Building, Package, BarChart3, Store, Truck, ShoppingCart, Wallet, Send, Headphones, Calendar } from "lucide-react";
 
 export interface Integration {
   id: string;
@@ -16,6 +16,8 @@ export interface Integration {
   setupInstructions: string;
   apiEndpoint?: string;
   webhookSupport: boolean;
+  logoUrl?: string;
+  brandColor: string;
 }
 
 export const defaultIntegrations: Integration[] = [
@@ -31,9 +33,11 @@ export const defaultIntegrations: Integration[] = [
     enabled: false,
     syncFrequency: 'A cada hora',
     recordsSynced: 0,
-    icon: <ShoppingBag className="h-5 w-5 text-purple-600" />,
+    icon: <ShoppingBag className="h-5 w-5" />,
     setupInstructions: 'Configure as credenciais da API REST do WooCommerce',
-    webhookSupport: true
+    webhookSupport: true,
+    logoUrl: 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=100&h=100&fit=crop&crop=center',
+    brandColor: '#96588A'
   },
   {
     id: 'shopify',
@@ -46,9 +50,11 @@ export const defaultIntegrations: Integration[] = [
     enabled: false,
     syncFrequency: 'Tempo real',
     recordsSynced: 0,
-    icon: <ShoppingBag className="h-5 w-5 text-green-600" />,
+    icon: <Store className="h-5 w-5" />,
     setupInstructions: 'Instale o app do Bloom na Shopify Store',
-    webhookSupport: true
+    webhookSupport: true,
+    logoUrl: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=100&h=100&fit=crop&crop=center',
+    brandColor: '#7AB55C'
   },
   {
     id: 'magento',
@@ -61,9 +67,11 @@ export const defaultIntegrations: Integration[] = [
     enabled: false,
     syncFrequency: 'A cada hora',
     recordsSynced: 0,
-    icon: <ShoppingBag className="h-5 w-5 text-orange-600" />,
+    icon: <ShoppingCart className="h-5 w-5" />,
     setupInstructions: 'Configure a extensão Bloom para Magento',
-    webhookSupport: true
+    webhookSupport: true,
+    logoUrl: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=100&h=100&fit=crop&crop=center',
+    brandColor: '#EE672F'
   },
   {
     id: 'vtex',
@@ -76,9 +84,11 @@ export const defaultIntegrations: Integration[] = [
     enabled: false,
     syncFrequency: 'Tempo real',
     recordsSynced: 0,
-    icon: <ShoppingBag className="h-5 w-5 text-blue-600" />,
+    icon: <Truck className="h-5 w-5" />,
     setupInstructions: 'Instale o app na VTEX App Store',
-    webhookSupport: true
+    webhookSupport: true,
+    logoUrl: 'https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?w=100&h=100&fit=crop&crop=center',
+    brandColor: '#F71963'
   },
   {
     id: 'nuvemshop',
@@ -91,9 +101,11 @@ export const defaultIntegrations: Integration[] = [
     enabled: false,
     syncFrequency: 'A cada hora',
     recordsSynced: 0,
-    icon: <Globe className="h-5 w-5 text-indigo-600" />,
+    icon: <Globe className="h-5 w-5" />,
     setupInstructions: 'Configure a API da Nuvemshop',
-    webhookSupport: true
+    webhookSupport: true,
+    logoUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=100&h=100&fit=crop&crop=center',
+    brandColor: '#00D4FF'
   },
   {
     id: 'tray',
@@ -106,9 +118,11 @@ export const defaultIntegrations: Integration[] = [
     enabled: false,
     syncFrequency: 'A cada hora',
     recordsSynced: 0,
-    icon: <Package className="h-5 w-5 text-cyan-600" />,
+    icon: <Package className="h-5 w-5" />,
     setupInstructions: 'Integre via API REST do Tray',
-    webhookSupport: false
+    webhookSupport: false,
+    logoUrl: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop&crop=center',
+    brandColor: '#007ACC'
   },
 
   // PDV (Pontos de Venda)
@@ -123,9 +137,11 @@ export const defaultIntegrations: Integration[] = [
     enabled: false,
     syncFrequency: 'Tempo real',
     recordsSynced: 0,
-    icon: <CreditCard className="h-5 w-5 text-green-700" />,
+    icon: <CreditCard className="h-5 w-5" />,
     setupInstructions: 'Configure as credenciais da API Stone',
-    webhookSupport: true
+    webhookSupport: true,
+    logoUrl: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=100&h=100&fit=crop&crop=center',
+    brandColor: '#00D851'
   },
   {
     id: 'pagseguro',
@@ -138,9 +154,11 @@ export const defaultIntegrations: Integration[] = [
     enabled: false,
     syncFrequency: 'Tempo real',
     recordsSynced: 0,
-    icon: <CreditCard className="h-5 w-5 text-blue-700" />,
+    icon: <Wallet className="h-5 w-5" />,
     setupInstructions: 'Integre com a API do PagSeguro',
-    webhookSupport: true
+    webhookSupport: true,
+    logoUrl: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=100&h=100&fit=crop&crop=center',
+    brandColor: '#00AEEF'
   },
   {
     id: 'cielo',
@@ -153,9 +171,11 @@ export const defaultIntegrations: Integration[] = [
     enabled: false,
     syncFrequency: 'Tempo real',
     recordsSynced: 0,
-    icon: <Monitor className="h-5 w-5 text-blue-800" />,
+    icon: <Monitor className="h-5 w-5" />,
     setupInstructions: 'Configure a integração Cielo LIO',
-    webhookSupport: true
+    webhookSupport: true,
+    logoUrl: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=100&h=100&fit=crop&crop=center',
+    brandColor: '#0066CC'
   },
   {
     id: 'rede',
@@ -168,9 +188,11 @@ export const defaultIntegrations: Integration[] = [
     enabled: false,
     syncFrequency: 'Tempo real',
     recordsSynced: 0,
-    icon: <CreditCard className="h-5 w-5 text-red-600" />,
+    icon: <CreditCard className="h-5 w-5" />,
     setupInstructions: 'Integre com a API da Rede',
-    webhookSupport: true
+    webhookSupport: true,
+    logoUrl: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=100&h=100&fit=crop&crop=center',
+    brandColor: '#E20613'
   },
   {
     id: 'getnet',
@@ -183,9 +205,11 @@ export const defaultIntegrations: Integration[] = [
     enabled: false,
     syncFrequency: 'Tempo real',
     recordsSynced: 0,
-    icon: <Monitor className="h-5 w-5 text-orange-700" />,
+    icon: <Monitor className="h-5 w-5" />,
     setupInstructions: 'Configure o terminal GetNet',
-    webhookSupport: true
+    webhookSupport: true,
+    logoUrl: 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=100&h=100&fit=crop&crop=center',
+    brandColor: '#FF6F00'
   },
   {
     id: 'mercadopago',
@@ -198,9 +222,11 @@ export const defaultIntegrations: Integration[] = [
     enabled: false,
     syncFrequency: 'Tempo real',
     recordsSynced: 0,
-    icon: <Smartphone className="h-5 w-5 text-blue-500" />,
+    icon: <Smartphone className="h-5 w-5" />,
     setupInstructions: 'Integre com a API do Mercado Pago',
-    webhookSupport: true
+    webhookSupport: true,
+    logoUrl: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=100&h=100&fit=crop&crop=center',
+    brandColor: '#009EE3'
   },
 
   // Comunicação
@@ -215,9 +241,11 @@ export const defaultIntegrations: Integration[] = [
     enabled: false,
     syncFrequency: 'Tempo real',
     recordsSynced: 0,
-    icon: <MessageSquare className="h-5 w-5 text-green-600" />,
+    icon: <MessageSquare className="h-5 w-5" />,
     setupInstructions: 'Configure a API oficial do WhatsApp',
-    webhookSupport: true
+    webhookSupport: true,
+    logoUrl: 'https://images.unsplash.com/photo-1611605698335-8b1569810432?w=100&h=100&fit=crop&crop=center',
+    brandColor: '#25D366'
   },
   {
     id: 'telegram',
@@ -230,9 +258,11 @@ export const defaultIntegrations: Integration[] = [
     enabled: false,
     syncFrequency: 'Tempo real',
     recordsSynced: 0,
-    icon: <MessageSquare className="h-5 w-5 text-blue-500" />,
+    icon: <Send className="h-5 w-5" />,
     setupInstructions: 'Crie um bot no Telegram e configure',
-    webhookSupport: true
+    webhookSupport: true,
+    logoUrl: 'https://images.unsplash.com/photo-1611605698335-8b1569810432?w=100&h=100&fit=crop&crop=center',
+    brandColor: '#229ED9'
   },
   {
     id: 'mailchimp',
@@ -245,9 +275,11 @@ export const defaultIntegrations: Integration[] = [
     enabled: false,
     syncFrequency: 'Diário',
     recordsSynced: 0,
-    icon: <Mail className="h-5 w-5 text-yellow-600" />,
+    icon: <Mail className="h-5 w-5" />,
     setupInstructions: 'Conecte sua conta Mailchimp',
-    webhookSupport: true
+    webhookSupport: true,
+    logoUrl: 'https://images.unsplash.com/photo-1596526131543-6d24b84c0d17?w=100&h=100&fit=crop&crop=center',
+    brandColor: '#FFE01B'
   },
   {
     id: 'rdstation',
@@ -260,9 +292,11 @@ export const defaultIntegrations: Integration[] = [
     enabled: false,
     syncFrequency: 'Tempo real',
     recordsSynced: 0,
-    icon: <BarChart3 className="h-5 w-5 text-blue-600" />,
+    icon: <BarChart3 className="h-5 w-5" />,
     setupInstructions: 'Configure a integração RD Station',
-    webhookSupport: true
+    webhookSupport: true,
+    logoUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=100&h=100&fit=crop&crop=center',
+    brandColor: '#4285F4'
   },
   {
     id: 'twilio',
@@ -275,9 +309,11 @@ export const defaultIntegrations: Integration[] = [
     enabled: false,
     syncFrequency: 'Tempo real',
     recordsSynced: 0,
-    icon: <Phone className="h-5 w-5 text-red-500" />,
+    icon: <Phone className="h-5 w-5" />,
     setupInstructions: 'Configure as credenciais do Twilio',
-    webhookSupport: true
+    webhookSupport: true,
+    logoUrl: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop&crop=center',
+    brandColor: '#F22F46'
   },
   {
     id: 'zendesk',
@@ -290,9 +326,11 @@ export const defaultIntegrations: Integration[] = [
     enabled: false,
     syncFrequency: 'Tempo real',
     recordsSynced: 0,
-    icon: <Users className="h-5 w-5 text-green-700" />,
+    icon: <Headphones className="h-5 w-5" />,
     setupInstructions: 'Integre com a API do Zendesk',
-    webhookSupport: true
+    webhookSupport: true,
+    logoUrl: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=100&h=100&fit=crop&crop=center',
+    brandColor: '#17494D'
   },
 
   // Sistemas de Gestão
@@ -307,9 +345,11 @@ export const defaultIntegrations: Integration[] = [
     enabled: false,
     syncFrequency: 'A cada hora',
     recordsSynced: 0,
-    icon: <Building className="h-5 w-5 text-blue-800" />,
+    icon: <Building className="h-5 w-5" />,
     setupInstructions: 'Configure a conexão SAP RFC/API',
-    webhookSupport: false
+    webhookSupport: false,
+    logoUrl: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=100&h=100&fit=crop&crop=center',
+    brandColor: '#0FAAFF'
   },
   {
     id: 'oracle',
@@ -322,9 +362,11 @@ export const defaultIntegrations: Integration[] = [
     enabled: false,
     syncFrequency: 'A cada hora',
     recordsSynced: 0,
-    icon: <Database className="h-5 w-5 text-red-700" />,
+    icon: <Database className="h-5 w-5" />,
     setupInstructions: 'Configure a conexão Oracle',
-    webhookSupport: false
+    webhookSupport: false,
+    logoUrl: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=100&h=100&fit=crop&crop=center',
+    brandColor: '#F80000'
   },
   {
     id: 'dynamics',
@@ -337,9 +379,11 @@ export const defaultIntegrations: Integration[] = [
     enabled: false,
     syncFrequency: 'Tempo real',
     recordsSynced: 0,
-    icon: <Settings className="h-5 w-5 text-blue-600" />,
+    icon: <Settings className="h-5 w-5" />,
     setupInstructions: 'Integre com Microsoft Graph API',
-    webhookSupport: true
+    webhookSupport: true,
+    logoUrl: 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=100&h=100&fit=crop&crop=center',
+    brandColor: '#0078D4'
   },
   {
     id: 'totvs',
@@ -352,9 +396,11 @@ export const defaultIntegrations: Integration[] = [
     enabled: false,
     syncFrequency: 'A cada hora',
     recordsSynced: 0,
-    icon: <Building className="h-5 w-5 text-green-700" />,
+    icon: <Building className="h-5 w-5" />,
     setupInstructions: 'Configure o webservice TOTVS',
-    webhookSupport: false
+    webhookSupport: false,
+    logoUrl: 'https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?w=100&h=100&fit=crop&crop=center',
+    brandColor: '#004B87'
   },
   {
     id: 'senior',
@@ -367,9 +413,11 @@ export const defaultIntegrations: Integration[] = [
     enabled: false,
     syncFrequency: 'A cada hora',
     recordsSynced: 0,
-    icon: <Database className="h-5 w-5 text-purple-700" />,
+    icon: <Database className="h-5 w-5" />,
     setupInstructions: 'Configure a API Senior X',
-    webhookSupport: false
+    webhookSupport: false,
+    logoUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=100&h=100&fit=crop&crop=center',
+    brandColor: '#6B46C1'
   },
   {
     id: 'sankhya',
@@ -382,9 +430,11 @@ export const defaultIntegrations: Integration[] = [
     enabled: false,
     syncFrequency: 'A cada hora',
     recordsSynced: 0,
-    icon: <Settings className="h-5 w-5 text-orange-600" />,
+    icon: <Settings className="h-5 w-5" />,
     setupInstructions: 'Configure os webservices Sankhya',
-    webhookSupport: false
+    webhookSupport: false,
+    logoUrl: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop&crop=center',
+    brandColor: '#EA580C'
   }
 ];
 
