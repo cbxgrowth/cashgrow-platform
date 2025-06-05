@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -285,7 +284,7 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({
                         {step.title}
                       </span>
                     </div>
-                    <Badge variant="outline" size="sm">
+                    <Badge variant="outline">
                       +{step.points}
                     </Badge>
                   </div>
