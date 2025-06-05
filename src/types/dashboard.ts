@@ -15,3 +15,27 @@ export interface DashboardUser {
     name?: string;
   };
 }
+
+// Adicionando tipos faltantes para o hook useDashboard
+export interface DashboardStats {
+  totalBalance: number;
+  cashbackReceived: number;
+  amountWithdrawn: number;
+  nextLevelProgress: number;
+}
+
+export interface Transaction {
+  id: string;
+  store: string;
+  amount: number;
+  cashback: number;
+  date: Date;
+  percentage: number;
+}
+
+export interface Business {
+  id: string;
+  name: string;
+  initials: string;
+  cashbackRate: number;
+}
