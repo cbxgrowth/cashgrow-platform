@@ -29,7 +29,7 @@ const StatCard: React.FC<StatCardProps> = ({
     neutral: 'text-gray-600'
   }[changeType];
 
-  const changeIcon = changeType === 'positive' ? TrendingUp : 
+  const ChangeIcon = changeType === 'positive' ? TrendingUp : 
                     changeType === 'negative' ? TrendingDown : null;
 
   return (
@@ -41,7 +41,7 @@ const StatCard: React.FC<StatCardProps> = ({
       <CardContent>
         <div className="text-2xl font-bold mb-1">{value}</div>
         <div className="flex items-center gap-1">
-          {changeIcon && <changeIcon className={`h-3 w-3 ${changeColor}`} />}
+          {ChangeIcon && <ChangeIcon className={`h-3 w-3 ${changeColor}`} />}
           <span className={`text-xs ${changeColor}`}>{change}</span>
           {subtitle && <span className="text-xs text-muted-foreground ml-1">{subtitle}</span>}
         </div>
