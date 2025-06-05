@@ -27,6 +27,7 @@ import {
   performLogout,
   type AuthSession 
 } from '@/utils/auth.utils';
+import { MenuItem } from '@/types/dashboard';
 
 interface DashboardLayoutProps {
   userType: 'client' | 'company';
@@ -40,8 +41,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const isMobile = useIsMobile();
 
-  // Configuração dos menus com tipagem melhorada - removido 'as const' para compatibilidade
-  const clientMenuItems = [
+  // Configuração dos menus com tipagem corrigida
+  const clientMenuItems: MenuItem[] = [
     { title: 'Dashboard', icon: Home, url: '/client/dashboard', badge: null },
     { title: 'Transações', icon: CreditCard, url: '/client/transactions', badge: null },
     { title: 'Perfil', icon: User, url: '/client/profile', badge: null },
@@ -51,7 +52,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
     { title: 'Clube VIP', icon: Gift, url: '/client/vip-club', badge: null },
   ];
 
-  const companyMenuItems = [
+  const companyMenuItems: MenuItem[] = [
     { title: 'Dashboard', icon: Home, url: '/company/dashboard', badge: null },
     { title: 'Regras de Cashback', icon: FileText, url: '/company/cashback-rules', badge: null },
     { title: 'Clientes', icon: Users, url: '/company/clients', badge: null },
@@ -142,10 +143,10 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
       {/* Overlay para mobile */}
-      {isMobile && sidebarCollapsed && (
+      {isMobile && !sidebarCollapsed && (
         <div 
           className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden" 
-          onClick={() => setSidebarCollapsed(false)}
+          onClick={() => setSidebarCollapsed(true)}
           aria-label="Fechar menu"
         />
       )}

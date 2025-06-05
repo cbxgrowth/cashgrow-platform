@@ -3,32 +3,66 @@ import { useState, useEffect } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { UserType } from '@/types/auth';
 
-export const useAuth = () => {
+interface UseAuthReturn {
+  user: User | null;
+  session: Session | null;
+  loading: boolean;
+  isAuthenticated: boolean;
+  userType: UserType | null;
+  signOut: () => Promise<void>;
+  signInWithGoogle: () => Promise<void>;
+  refreshAuth: () => Promise<void>;
+}
+
+export const useAuth = (): UseAuthReturn => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // Função para atualizar estado de auth de forma segura
+  const updateAuthState = (newSession: Session | null) => {
+    setSession(newSession);
+    setUser(newSession?.user ?? null);
+  };
+
+  // Função para refresh manual da auth
+  const refreshAuth = async () => {
+    try {
+      const { data: { session }, error } = await supabase.auth.getSession();
+      if (error) {
+        console.error('Erro ao refresh auth:', error);
+        return;
+      }
+      updateAuthState(session);
+    } catch (error) {
+      console.error('Erro inesperado no refresh auth:', error);
+    }
+  };
+
   useEffect(() => {
-    // Set up auth state listener
+    // Configurar listener de mudanças de auth
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        setLoading(false);
+      async (event, session) => {
+        console.log('Auth state change:', event, session?.user?.email);
         
-        if (event === 'SIGNED_IN') {
+        updateAuthState(session);
+        
+        // Não usar toast para eventos de token refresh para evitar spam
+        if (event === 'SIGNED_IN' && session?.user) {
           toast.success('Login realizado com sucesso!');
         } else if (event === 'SIGNED_OUT') {
           toast.success('Logout realizado com sucesso!');
         }
+        
+        setLoading(false);
       }
     );
 
-    // Check for existing session
+    // Verificar sessão existente
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
+      updateAuthState(session);
       setLoading(false);
     });
 
@@ -36,35 +70,50 @@ export const useAuth = () => {
   }, []);
 
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      toast.error("Erro ao fazer logout", { description: error.message });
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        toast.error("Erro ao fazer logout", { description: error.message });
+      }
+    } catch (error) {
+      console.error('Erro no signOut:', error);
+      toast.error("Erro inesperado ao fazer logout");
     }
   };
 
   const signInWithGoogle = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-        queryParams: {
-          access_type: 'offline',
-          prompt: 'consent',
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          }
         }
+      });
+      
+      if (error) {
+        toast.error("Erro ao fazer login com Google", { description: error.message });
       }
-    });
-    
-    if (error) {
-      toast.error("Erro ao fazer login com Google", { description: error.message });
+    } catch (error) {
+      console.error('Erro no signInWithGoogle:', error);
+      toast.error("Erro inesperado ao fazer login com Google");
     }
   };
+
+  // Extrair tipo de usuário dos metadados
+  const userType: UserType | null = user?.user_metadata?.user_type || null;
 
   return {
     user,
     session,
     loading,
+    isAuthenticated: !!user,
+    userType,
     signOut,
     signInWithGoogle,
-    isAuthenticated: !!user
+    refreshAuth
   };
 };
