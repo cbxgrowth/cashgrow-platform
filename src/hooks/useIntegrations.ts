@@ -77,7 +77,9 @@ export const useIntegrations = () => {
       icon: newIntegration.icon || null,
       setupInstructions: newIntegration.setupInstructions || '',
       apiEndpoint: newIntegration.apiEndpoint,
-      webhookSupport: newIntegration.webhookSupport || false
+      webhookSupport: newIntegration.webhookSupport || false,
+      logoUrl: newIntegration.logoUrl,
+      brandColor: newIntegration.brandColor || '#6B7280'
     };
 
     setIntegrations(prev => [...prev, integration]);
