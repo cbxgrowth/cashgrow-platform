@@ -33,7 +33,8 @@ import {
   Activity,
   Layers,
   PieChart,
-  Workflow
+  Workflow,
+  CalendarIcon
 } from "lucide-react";
 import { Link } from 'react-router-dom';
 
@@ -629,7 +630,7 @@ const BusinessSolutions = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link to="/contact">
                   <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600">
-                    <Calendar className="mr-2 h-5 w-5" />
+                    <CalendarIcon className="mr-2 h-5 w-5" />
                     Agendar Demonstração
                   </Button>
                 </Link>
