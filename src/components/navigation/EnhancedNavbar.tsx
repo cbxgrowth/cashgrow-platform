@@ -37,25 +37,25 @@ const EnhancedNavbar = () => {
     {
       title: "Cashback Inteligente",
       description: "Ganhe dinheiro de volta em suas compras favoritas",
-      href: "/features/cashback",
+      href: "/solutions/consumer#cashback",
       icon: Gift
     },
     {
       title: "Missões Gamificadas",
       description: "Complete desafios e ganhe recompensas extras",
-      href: "/features/missions",
+      href: "/solutions/consumer#missions",
       icon: Target
     },
     {
       title: "Clube VIP",
       description: "Benefícios exclusivos para membros premium",
-      href: "/features/vip",
+      href: "/solutions/consumer#vip",
       icon: Crown
     },
     {
       title: "Recomendações IA",
       description: "Sugestões personalizadas baseadas em IA",
-      href: "/features/ai-recommendations",
+      href: "/solutions/consumer#ai",
       icon: Zap
     }
   ];
@@ -64,25 +64,25 @@ const EnhancedNavbar = () => {
     {
       title: "Dashboard Empresarial",
       description: "Gerencie campanhas e analise performance",
-      href: "/business/dashboard",
+      href: "/solutions/business#dashboard",
       icon: TrendingUp
     },
     {
       title: "Campanhas IA",
       description: "Crie campanhas inteligentes automatizadas",
-      href: "/business/ai-campaigns",
+      href: "/solutions/business#ai-campaigns",
       icon: Rocket
     },
     {
       title: "Integrações API",
       description: "Conecte com seus sistemas existentes",
-      href: "/business/integrations",
+      href: "/solutions/business#integrations",
       icon: Puzzle
     },
     {
       title: "Análises Avançadas",
       description: "Relatórios detalhados e insights em tempo real",
-      href: "/business/analytics",
+      href: "/solutions/business#analytics",
       icon: Star
     }
   ];

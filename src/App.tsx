@@ -25,6 +25,10 @@ import CompanyDashboard from "./pages/company/CompanyDashboard";
 import ClientDashboard from "./pages/client/ClientDashboard";
 import NotFound from "./pages/NotFound";
 
+// Solution pages
+import ConsumerSolutions from "./pages/solutions/ConsumerSolutions";
+import BusinessSolutions from "./pages/solutions/BusinessSolutions";
+
 // Client pages
 import ClientWallet from "./pages/client/wallet";
 import ClientTransactions from "./pages/client/transactions";
@@ -77,6 +81,12 @@ function App() {
                 <Route path="integrations" element={<Integrations />} />
                 <Route path="integracoes" element={<Integrations />} />
                 <Route path="contact" element={<Contact />} />
+                
+                {/* New solution pages */}
+                <Route path="solutions/consumer" element={<ConsumerSolutions />} />
+                <Route path="solutions/business" element={<BusinessSolutions />} />
+                <Route path="solucoes/consumidor" element={<ConsumerSolutions />} />
+                <Route path="solucoes/empresa" element={<BusinessSolutions />} />
               </Route>
 
               {/* Auth routes */}
