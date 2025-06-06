@@ -9,6 +9,157 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      client_invitations: {
+        Row: {
+          accepted_at: string | null
+          client_id: string
+          company_id: string
+          created_at: string
+          email_sent_at: string | null
+          expires_at: string
+          id: string
+          invitation_token: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          client_id: string
+          company_id: string
+          created_at?: string
+          email_sent_at?: string | null
+          expires_at: string
+          id?: string
+          invitation_token: string
+        }
+        Update: {
+          accepted_at?: string | null
+          client_id?: string
+          company_id?: string
+          created_at?: string
+          email_sent_at?: string | null
+          expires_at?: string
+          id?: string
+          invitation_token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_invitations_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "company_clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      client_transactions: {
+        Row: {
+          amount: number
+          cashback_amount: number
+          cashback_percentage: number
+          client_id: string
+          company_id: string
+          created_at: string
+          description: string | null
+          id: string
+          transaction_date: string
+          transaction_type: string | null
+        }
+        Insert: {
+          amount: number
+          cashback_amount: number
+          cashback_percentage: number
+          client_id: string
+          company_id: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          transaction_date?: string
+          transaction_type?: string | null
+        }
+        Update: {
+          amount?: number
+          cashback_amount?: number
+          cashback_percentage?: number
+          client_id?: string
+          company_id?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          transaction_date?: string
+          transaction_type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_transactions_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "company_clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      company_clients: {
+        Row: {
+          account_status: string | null
+          address: Json | null
+          birth_date: string | null
+          company_id: string
+          cpf: string
+          created_at: string
+          created_by_integration: boolean | null
+          email: string
+          full_name: string
+          id: string
+          integration_source: string | null
+          last_purchase_at: string | null
+          password_reset_required: boolean | null
+          phone: string | null
+          temporary_password: string | null
+          total_cashback: number | null
+          total_spent: number | null
+          updated_at: string
+        }
+        Insert: {
+          account_status?: string | null
+          address?: Json | null
+          birth_date?: string | null
+          company_id: string
+          cpf: string
+          created_at?: string
+          created_by_integration?: boolean | null
+          email: string
+          full_name: string
+          id?: string
+          integration_source?: string | null
+          last_purchase_at?: string | null
+          password_reset_required?: boolean | null
+          phone?: string | null
+          temporary_password?: string | null
+          total_cashback?: number | null
+          total_spent?: number | null
+          updated_at?: string
+        }
+        Update: {
+          account_status?: string | null
+          address?: Json | null
+          birth_date?: string | null
+          company_id?: string
+          cpf?: string
+          created_at?: string
+          created_by_integration?: boolean | null
+          email?: string
+          full_name?: string
+          id?: string
+          integration_source?: string | null
+          last_purchase_at?: string | null
+          password_reset_required?: boolean | null
+          phone?: string | null
+          temporary_password?: string | null
+          total_cashback?: number | null
+          total_spent?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       plans: {
         Row: {
           cashback_multiplier: number | null
@@ -156,7 +307,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      generate_invitation_token: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
+      generate_temp_password: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never
