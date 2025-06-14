@@ -8,11 +8,16 @@ interface ClientSupportButtonProps {
 }
 
 const ClientSupportButton: React.FC<ClientSupportButtonProps> = ({ onClick }) => {
+  const handleClick = () => {
+    console.log('ClientSupportButton clicked'); // Debug log
+    onClick();
+  };
+
   return (
     <div className="fixed bottom-6 left-6 z-50">
       <div className="relative">
         <Button
-          onClick={onClick}
+          onClick={handleClick}
           size="lg"
           className="group relative overflow-hidden bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-110 rounded-full w-16 h-16"
         >
@@ -27,7 +32,7 @@ const ClientSupportButton: React.FC<ClientSupportButtonProps> = ({ onClick }) =>
         
         {/* Pulse animation */}
         <div className="absolute inset-0 rounded-full bg-emerald-500/30 animate-ping" />
-        <div className="absolute inset-0 rounded-full bg-emerald-500/20 animate-ping animation-delay-1000" />
+        <div className="absolute inset-0 rounded-full bg-emerald-500/20 animate-ping" style={{ animationDelay: '1s' }} />
       </div>
     </div>
   );

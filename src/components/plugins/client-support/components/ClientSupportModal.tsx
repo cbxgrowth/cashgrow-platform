@@ -26,17 +26,24 @@ const ClientSupportModal: React.FC<ClientSupportModalProps> = ({
   selectedTab, 
   onTabChange 
 }) => {
+  console.log('ClientSupportModal render - isOpen:', isOpen); // Debug log
+
   if (!isOpen) return null;
 
+  const handleClose = () => {
+    console.log('Modal close clicked'); // Debug log
+    onClose();
+  };
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
-      <Card className="w-full max-w-4xl bg-background/95 backdrop-blur-md border-0 shadow-2xl animate-scale-in rounded-2xl overflow-hidden max-h-[90vh]">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
+      <Card className="w-full max-w-4xl bg-white dark:bg-gray-900 border shadow-2xl animate-scale-in rounded-2xl overflow-hidden max-h-[90vh]">
         <CardHeader className="relative bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-950/20 dark:to-green-950/20">
           <Button
             variant="ghost"
             size="icon"
-            onClick={onClose}
-            className="absolute right-4 top-4 hover:bg-destructive/10 hover:text-destructive transition-all duration-300"
+            onClick={handleClose}
+            className="absolute right-4 top-4 hover:bg-red-100 hover:text-red-600 transition-all duration-300 z-10"
           >
             <X className="w-5 h-5" />
           </Button>
@@ -91,7 +98,7 @@ const ClientSupportModal: React.FC<ClientSupportModalProps> = ({
         <CardContent className="p-8 space-y-8 overflow-y-auto max-h-96">
           <div className="grid md:grid-cols-3 gap-6">
             {supportTabs[selectedTab as keyof typeof supportTabs].options.map((option, index) => (
-              <Card key={index} className="group hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer border-0 bg-gradient-to-br from-background to-muted/30 relative overflow-hidden">
+              <Card key={index} className="group hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer border bg-white dark:bg-gray-800 relative overflow-hidden">
                 {option.available && (
                   <div className="absolute top-3 right-3">
                     <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
@@ -104,7 +111,7 @@ const ClientSupportModal: React.FC<ClientSupportModalProps> = ({
                   <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
                     {option.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground mb-4">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                     {option.description}
                   </p>
                   <Button size="sm" className="w-full">
@@ -129,7 +136,7 @@ const ClientSupportModal: React.FC<ClientSupportModalProps> = ({
               ))}
             </div>
             <div className="text-center">
-              <p className="text-muted-foreground mb-4">
+              <p className="text-gray-600 dark:text-gray-400 mb-4">
                 Você sabia que pode ganhar <span className="text-primary font-semibold">cashback duplo</span> aos domingos?
               </p>
               <Button size="lg" className="bg-gradient-to-r from-emerald-500 to-green-600 hover:opacity-90">
