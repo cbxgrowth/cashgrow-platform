@@ -47,7 +47,7 @@ export interface AuditLog {
   resource_id: string | null;
   old_values: any;
   new_values: any;
-  ip_address: string | null;
+  ip_address: unknown | null;
   user_agent: string | null;
   created_at: string;
 }
