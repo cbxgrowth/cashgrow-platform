@@ -28,6 +28,13 @@ import {
   SheetContent,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -36,7 +43,7 @@ import { performLogout } from '@/utils/auth.utils';
 import { MenuItem } from '@/types/dashboard';
 import { UserType } from '@/types/auth';
 import { toast } from 'sonner';
-import { useTheme } from 'next-themes';
+import { useTheme } from '@/components/ui/theme-provider';
 import { useIsMobile } from '@/hooks/use-mobile';
 import Logo from '@/components/Logo';
 
@@ -54,6 +61,7 @@ export const EnhancedDashboardHeader: React.FC<EnhancedDashboardHeaderProps> = (
   const isMobile = useIsMobile();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -69,20 +77,27 @@ export const EnhancedDashboardHeader: React.FC<EnhancedDashboardHeaderProps> = (
   };
 
   const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    toast.success(`Modo ${newTheme === 'dark' ? 'escuro' : 'claro'} ativado`);
   };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       toast.info(`Buscando por: ${searchQuery}`);
-      // Implementar lógica de busca aqui
+      setMobileSearchOpen(false);
+      setSearchQuery('');
     }
+  };
+
+  const handleMobileSearch = () => {
+    setMobileSearchOpen(true);
   };
 
   const userInitials = userType === 'company' ? 'EM' : 'CL';
   const userLabel = userType === 'company' ? 'Empresa' : 'Cliente';
-  const userEmail = 'usuario@exemplo.com'; // Pegar do contexto de auth
+  const userEmail = 'usuario@exemplo.com';
 
   return (
     <header className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full">
@@ -134,7 +149,7 @@ export const EnhancedDashboardHeader: React.FC<EnhancedDashboardHeaderProps> = (
           {/* Mobile Logo */}
           {isMobile && <Logo size="sm" />}
 
-          {/* Search Bar - Hidden on mobile */}
+          {/* Desktop Search Bar */}
           {!isMobile && (
             <form onSubmit={handleSearch} className="flex items-center gap-2 max-w-sm min-w-0 flex-1">
               <div className="relative flex-1 min-w-0">
@@ -152,11 +167,35 @@ export const EnhancedDashboardHeader: React.FC<EnhancedDashboardHeaderProps> = (
 
         {/* Right Side */}
         <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
-          {/* Mobile Search Button */}
+          {/* Mobile Search Dialog */}
           {isMobile && (
-            <Button variant="ghost" size="icon" className="flex-shrink-0">
-              <Search className="h-5 w-5" />
-            </Button>
+            <Dialog open={mobileSearchOpen} onOpenChange={setMobileSearchOpen}>
+              <DialogTrigger asChild>
+                <Button variant="ghost" size="icon" className="flex-shrink-0" onClick={handleMobileSearch}>
+                  <Search className="h-5 w-5" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="w-[95vw] max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Buscar</DialogTitle>
+                </DialogHeader>
+                <form onSubmit={handleSearch} className="space-y-4">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input 
+                      placeholder="Digite sua busca..." 
+                      className="pl-10"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      autoFocus
+                    />
+                  </div>
+                  <Button type="submit" className="w-full">
+                    Buscar
+                  </Button>
+                </form>
+              </DialogContent>
+            </Dialog>
           )}
 
           {/* Theme Toggle */}
