@@ -26,7 +26,8 @@ import {
   Mail,
   Webhook,
   Key,
-  Download
+  Download,
+  Headphones
 } from "lucide-react";
 
 const Integrations = () => {
