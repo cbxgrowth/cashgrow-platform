@@ -19,7 +19,9 @@ import {
   Clock,
   Star,
   BookOpen,
-  Video
+  Video,
+  Award,
+  ArrowUp
 } from "lucide-react";
 
 const CompanySupport = () => {
@@ -72,7 +74,7 @@ const CompanySupport = () => {
           responseTime: "< 24h"
         },
         {
-          icon: TrendingUp,
+          icon: ArrowUp,
           title: "Account Manager",
           description: "Seu gerente de conta dedicado",
           action: "Falar com AM",
@@ -237,7 +239,7 @@ const CompanySupport = () => {
               
               <div className="bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-purple-500/10 rounded-xl p-6 text-center border border-blue-200/50 dark:border-blue-800/50">
                 <div className="flex items-center justify-center gap-2 mb-4">
-                  <Crown className="w-6 h-6 text-blue-600" />
+                  <Award className="w-6 h-6 text-blue-600" />
                   <h3 className="text-xl font-bold text-blue-600">Suporte Premium 24/7</h3>
                 </div>
                 <p className="text-muted-foreground mb-4">
