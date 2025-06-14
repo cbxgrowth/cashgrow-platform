@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -31,6 +30,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import SalesSupport from "@/components/plugins/SalesSupport";
 
 const Home = () => {
   const features = [
@@ -387,6 +387,9 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Sales Support Plugin */}
+      <SalesSupport />
     </div>
   );
 };
