@@ -19,17 +19,17 @@ const Footer: React.FC = () => {
             <h3 className="text-sm font-medium mb-4">Plataforma</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/funcionalidades" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/features" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Funcionalidades
                 </Link>
               </li>
               <li>
-                <Link to="/precos" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/pricing" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Preços
                 </Link>
               </li>
               <li>
-                <Link to="/integracoes" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/integrations" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Integrações
                 </Link>
               </li>
@@ -50,7 +50,7 @@ const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/blog" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Blog
                 </Link>
               </li>
@@ -61,17 +61,17 @@ const Footer: React.FC = () => {
             <h3 className="text-sm font-medium mb-4">Legal</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/terms" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Termos de Uso
                 </Link>
               </li>
               <li>
-                <Link to="/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Política de Privacidade
                 </Link>
               </li>
               <li>
-                <Link to="/cookies" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Política de Cookies
                 </Link>
               </li>
