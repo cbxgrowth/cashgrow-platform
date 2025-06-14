@@ -9,8 +9,48 @@ import { ConnectedBusinessesCard } from './dashboard/components/ConnectedBusines
 import { SummaryCard } from './dashboard/components/SummaryCard';
 import { AdvancedStats } from '@/components/dashboard/AdvancedStats';
 import { InteractiveChart } from '@/components/dashboard/InteractiveChart';
+import { useProximityNotifications } from '@/hooks/useProximityNotifications';
 
 const ClientDashboard: React.FC = () => {
+  // Dados simulados de empresas com coordenadas de São Paulo
+  const nearbyCompanies = [
+    {
+      id: '1',
+      name: 'Mercado Verde',
+      latitude: -23.5505,
+      longitude: -46.6333,
+      cashbackPercentage: 5,
+      category: 'Varejo'
+    },
+    {
+      id: '2',
+      name: 'Tech Store',
+      latitude: -23.5489,
+      longitude: -46.6388,
+      cashbackPercentage: 3,
+      category: 'Eletrônicos'
+    },
+    {
+      id: '3',
+      name: 'Farmácia Saúde',
+      latitude: -23.5520,
+      longitude: -46.6290,
+      cashbackPercentage: 4,
+      category: 'Saúde'
+    },
+    {
+      id: '4',
+      name: 'Restaurante Bom Sabor',
+      latitude: -23.5495,
+      longitude: -46.6350,
+      cashbackPercentage: 10,
+      category: 'Alimentação'
+    }
+  ];
+
+  // Hook para notificações de proximidade
+  const { userLocation, locationError, isLocationEnabled } = useProximityNotifications(nearbyCompanies);
+
   useEffect(() => {
     const animateTiming = (selector: string, delay: number) => {
       const elements = document.querySelectorAll(selector);
@@ -42,6 +82,9 @@ const ClientDashboard: React.FC = () => {
               </h1>
               <p className="text-muted-foreground mt-1 text-xs sm:text-sm">
                 Acompanhe seu cashback e descubra oportunidades
+                {isLocationEnabled && (
+                  <span className="text-green-600 ml-2">📍 Notificações de proximidade ativas</span>
+                )}
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-2 w-full">
