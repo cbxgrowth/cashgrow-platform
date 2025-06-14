@@ -1,3 +1,3 @@
 
 // Re-export from the refactored structure
-export { InteractiveChart } from './InteractiveChart';
+export { InteractiveChart } from './InteractiveChart/InteractiveChart';
