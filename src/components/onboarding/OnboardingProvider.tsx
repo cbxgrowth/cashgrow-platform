@@ -1,6 +1,6 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { OnboardingFlow } from './OnboardingFlow';
+import { CompactOnboardingFlow } from './CompactOnboardingFlow';
 import { UserType } from '@/types/auth';
 
 interface OnboardingContextType {
@@ -67,7 +67,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
     >
       {children}
       {showOnboarding && (
-        <OnboardingFlow
+        <CompactOnboardingFlow
           userType={userType}
           onComplete={completeOnboarding}
           onSkip={skipOnboarding}

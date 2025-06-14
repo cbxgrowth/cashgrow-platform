@@ -60,7 +60,16 @@ export const useCompanyClients = () => {
     }
   };
 
-  const createClient = async (clientData: Omit<CompanyClient, 'id' | 'created_at' | 'account_status' | 'total_spent' | 'total_cashback'>) => {
+  const createClient = async (clientData: {
+    cpf: string;
+    full_name: string;
+    email: string;
+    phone?: string;
+    birth_date?: string;
+    address?: any;
+    created_by_integration: boolean;
+    integration_source?: string;
+  }) => {
     try {
       // Gerar senha temporária
       const { data: tempPasswordData, error: tempPasswordError } = await supabase.rpc('generate_temp_password');
@@ -168,12 +177,23 @@ export const useCompanyClients = () => {
 
       if (error) throw error;
 
-      // Atualizar totais do cliente
-      await supabase.rpc('update_client_totals', {
-        client_id: clientId,
-        amount_to_add: transactionData.amount,
-        cashback_to_add: cashbackAmount
-      });
+      // Atualizar totais do cliente manualmente
+      const { data: currentClient } = await supabase
+        .from('company_clients')
+        .select('total_spent, total_cashback')
+        .eq('id', clientId)
+        .single();
+
+      if (currentClient) {
+        await supabase
+          .from('company_clients')
+          .update({
+            total_spent: currentClient.total_spent + transactionData.amount,
+            total_cashback: currentClient.total_cashback + cashbackAmount,
+            last_purchase_at: new Date().toISOString()
+          })
+          .eq('id', clientId);
+      }
 
       await fetchClients();
       toast.success('Transação registrada com sucesso!');

@@ -50,7 +50,12 @@ const AddTransactionDialog: React.FC<AddTransactionDialogProps> = ({
 
     try {
       setLoading(true);
-      await addTransaction(client.id, values);
+      const transactionData = {
+        amount: values.amount,
+        description: values.description,
+        cashback_percentage: values.cashback_percentage
+      };
+      await addTransaction(client.id, transactionData);
       form.reset();
       onOpenChange(false);
     } catch (error) {
