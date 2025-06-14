@@ -6,6 +6,7 @@ export { AUTH_CONSTANTS } from '@/constants/auth.constants';
 
 // Função de logout mantida para compatibilidade
 import { authRepository } from '@/repositories/auth.repository';
+import { userService } from '@/features/auth/services/user.service';
 import { toast } from 'sonner';
 
 export const performLogout = async (): Promise<boolean> => {
