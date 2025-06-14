@@ -5,6 +5,7 @@ import { SidebarProvider } from '@/components/ui/sidebar/sidebar-provider';
 import DashboardSidebar from './dashboard/DashboardSidebar';
 import { EnhancedDashboardHeader } from './dashboard/EnhancedDashboardHeader';
 import { OnboardingProvider } from '../onboarding/OnboardingProvider';
+import { NotificationProvider } from '@/contexts/NotificationContext';
 import { UserType } from '@/types/auth';
 import CompanySupport from '../plugins/CompanySupport';
 import ClientSupport from '../plugins/ClientSupport';
@@ -72,39 +73,41 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
   const menuItems = userType === 'client' ? clientMenuItems : companyMenuItems;
 
   return (
-    <OnboardingProvider userType={userType}>
-      <SidebarProvider>
-        <div className="min-h-screen flex w-full overflow-x-hidden">
-          {/* Mobile-aware sidebar */}
-          {!isMobile && (
-            <DashboardSidebar 
-              userType={userType}
-              isCollapsed={sidebarCollapsed}
-              onToggle={handleSidebarToggle}
-            />
-          )}
-          
-          <div 
-            className={`flex-1 flex flex-col transition-all duration-300 w-full min-w-0 ${
-              !isMobile ? (sidebarCollapsed ? 'ml-16' : 'ml-64') : 'ml-0'
-            }`}
-          >
-            <EnhancedDashboardHeader 
-              userType={userType} 
-              menuItems={menuItems}
-            />
-            <main className="flex-1 overflow-auto bg-muted/30 safe-area-inset w-full">
-              <div className="w-full">
-                <Outlet />
-              </div>
-            </main>
+    <NotificationProvider>
+      <OnboardingProvider userType={userType}>
+        <SidebarProvider>
+          <div className="min-h-screen flex w-full overflow-x-hidden">
+            {/* Mobile-aware sidebar */}
+            {!isMobile && (
+              <DashboardSidebar 
+                userType={userType}
+                isCollapsed={sidebarCollapsed}
+                onToggle={handleSidebarToggle}
+              />
+            )}
+            
+            <div 
+              className={`flex-1 flex flex-col transition-all duration-300 w-full min-w-0 ${
+                !isMobile ? (sidebarCollapsed ? 'ml-16' : 'ml-64') : 'ml-0'
+              }`}
+            >
+              <EnhancedDashboardHeader 
+                userType={userType} 
+                menuItems={menuItems}
+              />
+              <main className="flex-1 overflow-auto bg-muted/30 safe-area-inset w-full">
+                <div className="w-full">
+                  <Outlet />
+                </div>
+              </main>
+            </div>
           </div>
-        </div>
-        
-        {/* Conditional Support Plugin */}
-        {userType === 'company' ? <CompanySupport /> : <ClientSupport />}
-      </SidebarProvider>
-    </OnboardingProvider>
+          
+          {/* Conditional Support Plugin */}
+          {userType === 'company' ? <CompanySupport /> : <ClientSupport />}
+        </SidebarProvider>
+      </OnboardingProvider>
+    </NotificationProvider>
   );
 };
 

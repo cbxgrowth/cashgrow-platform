@@ -2,9 +2,9 @@
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { PersonalInfoTab } from './components/PersonalInfoTab';
-import { SecurityTab } from './components/SecurityTab';
-import { PaymentTab } from './components/PaymentTab';
+import PersonalInfoTab from './components/PersonalInfoTab';
+import SecurityTab from './components/SecurityTab';
+import PaymentTab from './components/PaymentTab';
 import { ProximityNotificationSettings } from '@/components/proximity/ProximityNotificationSettings';
 
 const ClientProfile: React.FC = () => {
