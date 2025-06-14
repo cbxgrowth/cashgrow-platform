@@ -33,13 +33,12 @@ const PWAInstallPrompt: React.FC<PWAInstallPromptProps> = ({ onClose }) => {
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-primary to-primary/70 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">C</span>
-            </div>
-            <div>
-              <CardTitle className="text-sm">CashGrow</CardTitle>
-              <Badge variant="secondary" className="text-xs">PWA</Badge>
-            </div>
+            <img 
+              src="/lovable-uploads/472ef516-6a92-40ab-aaf9-fc167373e92c.png" 
+              alt="CashGrow" 
+              className="h-8 w-auto object-contain"
+            />
+            <Badge variant="secondary" className="text-xs">PWA</Badge>
           </div>
           <Button variant="ghost" size="icon" onClick={handleDismiss} className="h-6 w-6">
             <X className="h-4 w-4" />

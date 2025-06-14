@@ -9,17 +9,18 @@ interface LogoProps {
 
 const Logo: React.FC<LogoProps> = ({ size = 'md', className = '' }) => {
   const sizeClasses = {
-    sm: 'text-lg',
-    md: 'text-2xl',
-    lg: 'text-4xl'
+    sm: 'h-6',
+    md: 'h-8',
+    lg: 'h-12'
   };
 
   return (
-    <Link to="/" className={`font-bold text-primary flex items-center gap-2 ${sizeClasses[size]} ${className}`}>
-      <div className="w-8 h-8 bg-gradient-to-br from-primary to-primary/70 rounded-lg flex items-center justify-center">
-        <span className="text-white font-bold text-sm">C</span>
-      </div>
-      CashGrow
+    <Link to="/" className={`flex items-center gap-2 ${className}`}>
+      <img 
+        src="/lovable-uploads/472ef516-6a92-40ab-aaf9-fc167373e92c.png" 
+        alt="CashGrow Logo" 
+        className={`${sizeClasses[size]} w-auto object-contain`}
+      />
     </Link>
   );
 };
