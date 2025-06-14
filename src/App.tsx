@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -20,6 +19,9 @@ import Contact from '@/pages/Contact';
 import Pricing from '@/pages/Pricing';
 import ConsumerPlans from '@/pages/pricing/ConsumerPlans';
 import EnterpriseProducts from '@/pages/pricing/EnterpriseProducts';
+import Help from '@/pages/Help';
+import ApiDocs from '@/pages/docs/ApiDocs';
+import Community from '@/pages/Community';
 
 // Solutions Pages
 import SolutionsIndex from '@/pages/solutions/index';
@@ -63,6 +65,9 @@ function App() {
               <Route path="pricing" element={<Pricing />} />
               <Route path="pricing/consumer" element={<ConsumerPlans />} />
               <Route path="pricing/enterprise" element={<EnterpriseProducts />} />
+              <Route path="help" element={<Help />} />
+              <Route path="docs/api" element={<ApiDocs />} />
+              <Route path="community" element={<Community />} />
               <Route path="solutions" element={<SolutionsIndex />} />
               <Route path="solutions/consumer" element={<ConsumerSolutions />} />
               <Route path="solutions/business" element={<BusinessSolutions />} />
