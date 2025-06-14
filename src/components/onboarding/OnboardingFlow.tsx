@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { UserType } from '@/types/auth';
 import { useOnboardingLogic } from '@/hooks/useOnboardingLogic';
@@ -21,17 +21,36 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({
   onSkip 
 }) => {
   const {
-    currentStep,
-    setCurrentStep,
     steps,
     stats,
     completeStep,
-    nextStep,
-    prevStep,
-    getLevelProgress
+    getLevelProgress,
+    allStepsCompleted
   } = useOnboardingLogic(userType);
 
-  const current = steps[currentStep];
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const currentStep = steps[currentStepIndex];
+
+  const nextStep = () => {
+    if (currentStepIndex < steps.length - 1) {
+      setCurrentStepIndex(currentStepIndex + 1);
+    }
+  };
+
+  const prevStep = () => {
+    if (currentStepIndex > 0) {
+      setCurrentStepIndex(currentStepIndex - 1);
+    }
+  };
+
+  const handleStepClick = (index: number) => {
+    setCurrentStepIndex(index);
+  };
+
+  if (allStepsCompleted) {
+    onComplete();
+    return null;
+  }
 
   return (
     <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -45,19 +64,19 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({
 
           <CardContent className="space-y-6">
             <CurrentStepCard
-              currentStep={current}
+              currentStep={currentStep}
               onCompleteStep={completeStep}
               getCategoryColor={getCategoryColor}
             />
 
             <StepsList
               steps={steps}
-              currentStep={currentStep}
-              onStepClick={setCurrentStep}
+              currentStep={currentStepIndex}
+              onStepClick={handleStepClick}
             />
 
             <OnboardingNavigation
-              currentStep={currentStep}
+              currentStep={currentStepIndex}
               totalSteps={steps.length}
               completedSteps={stats.completedSteps}
               onPrevStep={prevStep}
