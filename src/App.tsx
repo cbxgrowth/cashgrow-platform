@@ -1,137 +1,97 @@
 
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ThemeProvider } from "next-themes";
-import MainLayout from "./components/layouts/MainLayout";
-import DashboardLayout from "./components/layouts/DashboardLayout";
-import AuthLayout from "./components/layouts/AuthLayout";
-import Index from "./pages/Index";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Features from "./pages/Features";
-import Pricing from "./pages/Pricing";
-import PersonalPlans from "./pages/pricing/PersonalPlans";
-import BusinessPlans from "./pages/pricing/BusinessPlans";
-import Integrations from "./pages/Integrations";
-import Contact from "./pages/Contact";
-import Login from "./pages/auth/Login";
-import Register from "./pages/auth/Register";
-import ForgotPassword from "./pages/auth/ForgotPassword";
-import ResetPassword from "./pages/auth/ResetPassword";
-import AuthCallback from "./pages/auth/callback";
-import CompanyDashboard from "./pages/company/CompanyDashboard";
-import ClientDashboard from "./pages/client/ClientDashboard";
-import NotFound from "./pages/NotFound";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ThemeProvider } from '@/components/ui/theme-provider';
+import { Toaster } from '@/components/ui/sonner';
 
-// Solution pages
-import ConsumerSolutions from "./pages/solutions/ConsumerSolutions";
-import BusinessSolutions from "./pages/solutions/BusinessSolutions";
+// Layouts
+import MainLayout from '@/components/layouts/MainLayout';
+import AuthLayout from '@/components/layouts/AuthLayout';
+import DashboardLayout from '@/components/layouts/DashboardLayout';
+import { AdminLayout } from '@/components/admin/AdminLayout';
+import { AdminProtectedRoute } from '@/components/admin/AdminProtectedRoute';
 
-// Client pages
-import ClientWallet from "./pages/client/wallet";
-import ClientTransactions from "./pages/client/transactions";
-import ClientMissions from "./pages/client/missions";
-import ClientRecommendations from "./pages/client/recommendations";
-import ClientVipClub from "./pages/client/vip-club";
-import ClientCompanies from "./pages/client/companies";
-import ClientProfile from "./pages/client/profile";
-import ClientPlans from "./pages/client/plans";
+// Public Pages
+import Home from '@/pages/Home';
+import About from '@/pages/About';
+import Features from '@/pages/Features';
+import Contact from '@/pages/Contact';
 
-// Company pages
-import CompanyProducts from "./pages/company/products";
-import CompanyClients from "./pages/company/clients";
-import CompanyTransactions from "./pages/company/transactions";
-import CompanyReports from "./pages/company/reports";
-import CompanyIntegrations from "./pages/company/integrations";
-import CompanyProfile from "./pages/company/profile";
-import CompanySettings from "./pages/company/settings";
-import CompanyPerformance from "./pages/company/performance";
-import CompanyCorporate from "./pages/company/corporate";
-import CompanyAiCampaigns from "./pages/company/ai-campaigns";
-import CashbackRules from "./pages/company/CashbackRules";
+// Auth Pages
+import Login from '@/pages/auth/Login';
+import Register from '@/pages/auth/Register';
+import AuthCallback from '@/pages/auth/callback';
 
-// Notifications
-import NotificationsPage from "./pages/notifications";
+// Client Pages
+import ClientDashboard from '@/pages/client/ClientDashboard';
 
-import "./App.css";
+// Company Pages
+import CompanyDashboard from '@/pages/company/CompanyDashboard';
+
+// Admin Pages
+import AdminDashboard from '@/pages/admin/AdminDashboard';
+import AdminUsers from '@/pages/admin/AdminUsers';
+import AdminCompanies from '@/pages/admin/AdminCompanies';
+import AdminSettings from '@/pages/admin/AdminSettings';
+
+import NotFound from '@/pages/NotFound';
 
 const queryClient = new QueryClient();
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-        <TooltipProvider>
-          <Toaster />
-          <BrowserRouter>
-            <Routes>
-              {/* Public routes with MainLayout */}
-              <Route path="/" element={<MainLayout />}>
-                <Route index element={<Index />} />
-                <Route path="home" element={<Home />} />
-                <Route path="about" element={<About />} />
-                <Route path="features" element={<Features />} />
-                <Route path="funcionalidades" element={<Features />} />
-                <Route path="pricing" element={<Pricing />} />
-                <Route path="pricing/personal" element={<PersonalPlans />} />
-                <Route path="pricing/business" element={<BusinessPlans />} />
-                <Route path="precos" element={<Pricing />} />
-                <Route path="integrations" element={<Integrations />} />
-                <Route path="integracoes" element={<Integrations />} />
-                <Route path="contact" element={<Contact />} />
-                
-                {/* New solution pages */}
-                <Route path="solutions/consumer" element={<ConsumerSolutions />} />
-                <Route path="solutions/business" element={<BusinessSolutions />} />
-                <Route path="solucoes/consumidor" element={<ConsumerSolutions />} />
-                <Route path="solucoes/empresa" element={<BusinessSolutions />} />
-              </Route>
+      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+        <Router>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<MainLayout />}>
+              <Route index element={<Home />} />
+              <Route path="about" element={<About />} />
+              <Route path="features" element={<Features />} />
+              <Route path="contact" element={<Contact />} />
+            </Route>
 
-              {/* Auth routes */}
-              <Route path="/auth" element={<AuthLayout />}>
-                <Route path="login" element={<Login />} />
-                <Route path="register" element={<Register />} />
-                <Route path="forgot-password" element={<ForgotPassword />} />
-                <Route path="reset-password" element={<ResetPassword />} />
-                <Route path="callback" element={<AuthCallback />} />
-              </Route>
+            {/* Auth Routes */}
+            <Route path="/auth" element={<AuthLayout />}>
+              <Route path="login" element={<Login />} />
+              <Route path="register" element={<Register />} />
+              <Route path="callback" element={<AuthCallback />} />
+            </Route>
 
-              {/* Dashboard routes */}
-              <Route path="/company" element={<DashboardLayout userType="company" />}>
-                <Route path="dashboard" element={<CompanyDashboard />} />
-                <Route path="products" element={<CompanyProducts />} />
-                <Route path="clients" element={<CompanyClients />} />
-                <Route path="transactions" element={<CompanyTransactions />} />
-                <Route path="reports" element={<CompanyReports />} />
-                <Route path="integrations" element={<CompanyIntegrations />} />
-                <Route path="profile" element={<CompanyProfile />} />
-                <Route path="settings" element={<CompanySettings />} />
-                <Route path="performance" element={<CompanyPerformance />} />
-                <Route path="corporate" element={<CompanyCorporate />} />
-                <Route path="ai-campaigns" element={<CompanyAiCampaigns />} />
-                <Route path="cashback-rules" element={<CashbackRules />} />
-              </Route>
+            {/* Client Dashboard Routes */}
+            <Route path="/client/*" element={<DashboardLayout userType="client" />}>
+              <Route path="dashboard" element={<ClientDashboard />} />
+              {/* Add more client routes here */}
+            </Route>
 
-              <Route path="/client" element={<DashboardLayout userType="client" />}>
-                <Route path="dashboard" element={<ClientDashboard />} />
-                <Route path="wallet" element={<ClientWallet />} />
-                <Route path="transactions" element={<ClientTransactions />} />
-                <Route path="missions" element={<ClientMissions />} />
-                <Route path="recommendations" element={<ClientRecommendations />} />
-                <Route path="vip-club" element={<ClientVipClub />} />
-                <Route path="companies" element={<ClientCompanies />} />
-                <Route path="profile" element={<ClientProfile />} />
-                <Route path="plans" element={<ClientPlans />} />
-                <Route path="notifications" element={<NotificationsPage />} />
-              </Route>
+            {/* Company Dashboard Routes */}
+            <Route path="/company/*" element={<DashboardLayout userType="company" />}>
+              <Route path="dashboard" element={<CompanyDashboard />} />
+              {/* Add more company routes here */}
+            </Route>
 
-              {/* 404 */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
+            {/* Admin Routes */}
+            <Route path="/admin/*" element={
+              <AdminProtectedRoute>
+                <AdminLayout />
+              </AdminProtectedRoute>
+            }>
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="users" element={<AdminUsers />} />
+              <Route path="companies" element={<AdminCompanies />} />
+              <Route path="settings" element={<AdminSettings />} />
+              <Route path="analytics" element={<AdminDashboard />} />
+              <Route path="audit-logs" element={<AdminDashboard />} />
+            </Route>
+
+            {/* Fallback Routes */}
+            <Route path="/dashboard" element={<Navigate to="/client/dashboard" replace />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Router>
+        <Toaster />
       </ThemeProvider>
     </QueryClientProvider>
   );
