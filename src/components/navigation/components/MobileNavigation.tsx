@@ -14,61 +14,93 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, setIsOpen }
   if (!isOpen) return null;
 
   return (
-    <div className="lg:hidden">
-      <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-background border-b max-h-96 overflow-y-auto">
-        <div className="space-y-4">
+    <div className="lg:hidden border-t border-border/40">
+      <div className="px-4 pt-4 pb-6 space-y-6 bg-background/95 backdrop-blur-sm max-h-96 overflow-y-auto">
+        <div className="space-y-6">
           <div>
-            <h3 className="px-3 py-2 text-sm font-semibold text-muted-foreground">Soluções</h3>
-            <div className="space-y-1">
-              {[...solutionsForConsumers, ...solutionsForBusiness].map((item) => (
-                <Link
-                  key={item.title}
-                  to={item.href}
-                  className="flex items-center gap-3 px-3 py-2 text-sm transition-colors hover:bg-muted rounded-md"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <item.icon className="h-4 w-4" />
-                  {item.title}
-                </Link>
-              ))}
+            <h3 className="px-3 py-2 text-sm font-semibold text-primary border-b border-border/30 mb-3">Soluções</h3>
+            <div className="space-y-2">
+              <div className="space-y-1">
+                <p className="px-3 text-xs font-medium text-muted-foreground flex items-center gap-2">
+                  <User className="h-3 w-3" />
+                  Para Consumidores
+                </p>
+                {solutionsForConsumers.map((item) => (
+                  <Link
+                    key={item.title}
+                    to={item.href}
+                    className="flex items-center gap-3 px-3 py-2 text-sm transition-all duration-200 hover:bg-accent/20 rounded-lg group"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <div className="p-1 rounded bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                      <item.icon className="h-3 w-3 text-primary" />
+                    </div>
+                    <span className="group-hover:text-primary transition-colors">{item.title}</span>
+                  </Link>
+                ))}
+              </div>
+              
+              <div className="space-y-1 pt-2">
+                <p className="px-3 text-xs font-medium text-muted-foreground flex items-center gap-2">
+                  <Building2 className="h-3 w-3" />
+                  Para Empresas
+                </p>
+                {solutionsForBusiness.map((item) => (
+                  <Link
+                    key={item.title}
+                    to={item.href}
+                    className="flex items-center gap-3 px-3 py-2 text-sm transition-all duration-200 hover:bg-accent/20 rounded-lg group"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <div className="p-1 rounded bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                      <item.icon className="h-3 w-3 text-primary" />
+                    </div>
+                    <span className="group-hover:text-primary transition-colors">{item.title}</span>
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
           
           <div>
-            <h3 className="px-3 py-2 text-sm font-semibold text-muted-foreground">Planos</h3>
+            <h3 className="px-3 py-2 text-sm font-semibold text-primary border-b border-border/30 mb-3">Planos</h3>
             <div className="space-y-1">
               <Link
                 to="/pricing/personal"
-                className="flex items-center gap-3 px-3 py-2 text-sm transition-colors hover:bg-muted rounded-md"
+                className="flex items-center gap-3 px-3 py-2 text-sm transition-all duration-200 hover:bg-accent/20 rounded-lg group"
                 onClick={() => setIsOpen(false)}
               >
-                <User className="h-4 w-4" />
-                Planos Pessoais
+                <div className="p-1 rounded bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                  <User className="h-3 w-3 text-primary" />
+                </div>
+                <span className="group-hover:text-primary transition-colors">Planos Pessoais</span>
               </Link>
               <Link
                 to="/pricing/business"
-                className="flex items-center gap-3 px-3 py-2 text-sm transition-colors hover:bg-muted rounded-md"
+                className="flex items-center gap-3 px-3 py-2 text-sm transition-all duration-200 hover:bg-accent/20 rounded-lg group"
                 onClick={() => setIsOpen(false)}
               >
-                <Building2 className="h-4 w-4" />
-                Planos Empresariais
+                <div className="p-1 rounded bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                  <Building2 className="h-3 w-3 text-primary" />
+                </div>
+                <span className="group-hover:text-primary transition-colors">Planos Empresariais</span>
               </Link>
             </div>
           </div>
 
           <div>
-            <h3 className="px-3 py-2 text-sm font-semibold text-muted-foreground">Mais</h3>
+            <h3 className="px-3 py-2 text-sm font-semibold text-primary border-b border-border/30 mb-3">Mais</h3>
             <div className="space-y-1">
               <Link
                 to="/about"
-                className="block px-3 py-2 text-sm transition-colors hover:bg-muted rounded-md"
+                className="block px-3 py-2 text-sm transition-all duration-200 hover:bg-accent/20 rounded-lg hover:text-primary"
                 onClick={() => setIsOpen(false)}
               >
                 Sobre
               </Link>
               <Link
                 to="/contact"
-                className="block px-3 py-2 text-sm transition-colors hover:bg-muted rounded-md"
+                className="block px-3 py-2 text-sm transition-all duration-200 hover:bg-accent/20 rounded-lg hover:text-primary"
                 onClick={() => setIsOpen(false)}
               >
                 Contato
@@ -77,14 +109,14 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, setIsOpen }
           </div>
         </div>
         
-        <div className="flex flex-col space-y-2 pt-4 border-t">
+        <div className="flex flex-col space-y-3 pt-4 border-t border-border/30">
           <Link to="/auth/login" onClick={() => setIsOpen(false)}>
-            <Button variant="outline" className="w-full">
+            <Button variant="outline" className="w-full hover:bg-accent/20 transition-all duration-200">
               Entrar
             </Button>
           </Link>
           <Link to="/auth/register" onClick={() => setIsOpen(false)}>
-            <Button className="w-full bg-gradient-to-r from-primary to-primary/80">
+            <Button className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 transition-all duration-200">
               Começar Grátis
             </Button>
           </Link>
