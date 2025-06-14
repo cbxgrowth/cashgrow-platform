@@ -32,25 +32,25 @@ const ClientDashboard: React.FC = () => {
   
   return (
     <div className="min-h-screen w-full overflow-x-hidden">
-      <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
-        <div className="space-y-4 sm:space-y-6 lg:space-y-8">
+      <div className="w-full max-w-full mx-auto px-2 sm:px-4">
+        <div className="space-y-3 sm:space-y-4 lg:space-y-6">
           {/* Enhanced Mobile-First Header */}
-          <div className="flex flex-col space-y-3 sm:space-y-4 dashboard-header opacity-0 translate-y-4">
+          <div className="flex flex-col space-y-2 sm:space-y-3 dashboard-header opacity-0 translate-y-4 w-full">
             <div className="text-center sm:text-left">
-              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+              <h1 className="text-lg sm:text-xl lg:text-2xl font-bold tracking-tight bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
                 Olá, bem-vindo! 👋
               </h1>
-              <p className="text-muted-foreground mt-1 text-sm sm:text-base">
+              <p className="text-muted-foreground mt-1 text-xs sm:text-sm">
                 Acompanhe seu cashback e descubra oportunidades
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full">
-              <Button variant="outline" size="sm" className="w-full sm:w-auto hover-scale touch-target">
-                <Calendar className="mr-2 h-4 w-4" /> 
+            <div className="flex flex-col sm:flex-row gap-2 w-full">
+              <Button variant="outline" size="sm" className="w-full sm:w-auto text-xs h-8">
+                <Calendar className="mr-1.5 h-3 w-3" /> 
                 Últimos 30 dias
               </Button>
-              <Button size="sm" className="w-full sm:w-auto hover-scale bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 touch-target">
-                <Plus className="mr-2 h-4 w-4" />
+              <Button size="sm" className="w-full sm:w-auto bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 text-xs h-8">
+                <Plus className="mr-1.5 h-3 w-3" />
                 Nova Transação
               </Button>
             </div>
@@ -62,44 +62,44 @@ const ClientDashboard: React.FC = () => {
           </div>
 
           {/* Quick Actions - Mobile Responsive Grid */}
-          <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 dashboard-card opacity-0 translate-y-4 w-full">
-            <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer group border-l-4 border-l-green-500">
-              <CardHeader className="pb-3 p-3 sm:p-4">
-                <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="p-2 bg-green-100 rounded-lg group-hover:scale-110 transition-transform flex-shrink-0">
-                    <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
+          <div className="grid gap-2 sm:gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 dashboard-card opacity-0 translate-y-4 w-full">
+            <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer group border-l-4 border-l-green-500 w-full min-w-0">
+              <CardHeader className="pb-2 p-2 sm:p-3">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 bg-green-100 rounded-lg group-hover:scale-110 transition-transform flex-shrink-0">
+                    <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 text-green-600" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <CardTitle className="text-sm font-medium truncate">Cashback Hoje</CardTitle>
-                    <CardDescription className="text-base sm:text-lg font-bold text-green-600">+R$ 23,50</CardDescription>
+                    <CardTitle className="text-xs font-medium truncate">Cashback Hoje</CardTitle>
+                    <CardDescription className="text-sm sm:text-base font-bold text-green-600">+R$ 23,50</CardDescription>
                   </div>
                 </div>
               </CardHeader>
             </Card>
 
-            <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer group border-l-4 border-l-purple-500">
-              <CardHeader className="pb-3 p-3 sm:p-4">
-                <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="p-2 bg-purple-100 rounded-lg group-hover:scale-110 transition-transform flex-shrink-0">
-                    <Gift className="h-4 w-4 sm:h-5 sm:w-5 text-purple-600" />
+            <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer group border-l-4 border-l-purple-500 w-full min-w-0">
+              <CardHeader className="pb-2 p-2 sm:p-3">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 bg-purple-100 rounded-lg group-hover:scale-110 transition-transform flex-shrink-0">
+                    <Gift className="h-3 w-3 sm:h-4 sm:w-4 text-purple-600" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <CardTitle className="text-sm font-medium truncate">Próximo Resgate</CardTitle>
-                    <CardDescription className="text-base sm:text-lg font-bold text-purple-600">R$ 76,50</CardDescription>
+                    <CardTitle className="text-xs font-medium truncate">Próximo Resgate</CardTitle>
+                    <CardDescription className="text-sm sm:text-base font-bold text-purple-600">R$ 76,50</CardDescription>
                   </div>
                 </div>
               </CardHeader>
             </Card>
 
-            <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer group border-l-4 border-l-orange-500 sm:col-span-2 lg:col-span-1">
-              <CardHeader className="pb-3 p-3 sm:p-4">
-                <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="p-2 bg-orange-100 rounded-lg group-hover:scale-110 transition-transform flex-shrink-0">
-                    <Target className="h-4 w-4 sm:h-5 sm:w-5 text-orange-600" />
+            <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer group border-l-4 border-l-orange-500 sm:col-span-2 lg:col-span-1 w-full min-w-0">
+              <CardHeader className="pb-2 p-2 sm:p-3">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 bg-orange-100 rounded-lg group-hover:scale-110 transition-transform flex-shrink-0">
+                    <Target className="h-3 w-3 sm:h-4 sm:w-4 text-orange-600" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <CardTitle className="text-sm font-medium truncate">Meta Mensal</CardTitle>
-                    <CardDescription className="text-base sm:text-lg font-bold text-orange-600">78% atingido</CardDescription>
+                    <CardTitle className="text-xs font-medium truncate">Meta Mensal</CardTitle>
+                    <CardDescription className="text-sm sm:text-base font-bold text-orange-600">78% atingido</CardDescription>
                   </div>
                 </div>
               </CardHeader>
@@ -107,9 +107,9 @@ const ClientDashboard: React.FC = () => {
           </div>
           
           {/* Main Content Grid - Mobile Responsive */}
-          <div className="grid gap-4 sm:gap-6 lg:gap-8 lg:grid-cols-3 w-full">
+          <div className="grid gap-3 sm:gap-4 lg:gap-6 lg:grid-cols-3 w-full">
             {/* Left Column - Main Cards */}
-            <div className="lg:col-span-2 space-y-4 sm:space-y-6 lg:space-y-8 w-full">
+            <div className="lg:col-span-2 space-y-3 sm:space-y-4 lg:space-y-6 w-full min-w-0">
               <BalanceCard balance="R$ 2.847,90" nextLevelProgress={nextLevelProgress} />
               
               {/* Interactive Chart */}
@@ -122,33 +122,33 @@ const ClientDashboard: React.FC = () => {
             </div>
             
             {/* Right Column - Summary */}
-            <div className="space-y-4 sm:space-y-6 lg:space-y-8 w-full">
+            <div className="space-y-3 sm:space-y-4 lg:space-y-6 w-full min-w-0">
               <SummaryCard />
               
               {/* Achievement Card - Mobile Optimized */}
-              <Card className="dashboard-card opacity-0 translate-y-4 bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200 w-full">
-                <CardHeader className="p-3 sm:p-4 lg:p-6">
-                  <CardTitle className="text-base sm:text-lg flex items-center gap-2">
+              <Card className="dashboard-card opacity-0 translate-y-4 bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200 w-full max-w-full overflow-hidden">
+                <CardHeader className="p-2 sm:p-3">
+                  <CardTitle className="text-sm sm:text-base flex items-center gap-2">
                     🏆 Conquistas Recentes
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-3 sm:space-y-4 p-3 sm:p-4 lg:p-6 pt-0">
-                  <div className="flex items-center gap-3 p-3 bg-white/60 rounded-lg touch-target">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Gift className="h-4 w-4 sm:h-5 sm:w-5 text-purple-600" />
+                <CardContent className="space-y-2 sm:space-y-3 p-2 sm:p-3 pt-0 w-full min-w-0">
+                  <div className="flex items-center gap-2 p-2 bg-white/60 rounded-lg w-full min-w-0">
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                      <Gift className="h-3 w-3 sm:h-4 sm:w-4 text-purple-600" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm truncate">Nível Gold</p>
+                      <p className="font-medium text-xs sm:text-sm truncate">Nível Gold</p>
                       <p className="text-xs text-muted-foreground">Desbloqueado hoje!</p>
                     </div>
                   </div>
                   
-                  <div className="flex items-center gap-3 p-3 bg-white/60 rounded-lg touch-target">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
+                  <div className="flex items-center gap-2 p-2 bg-white/60 rounded-lg w-full min-w-0">
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                      <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 text-green-600" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm truncate">Primeira Compra</p>
+                      <p className="font-medium text-xs sm:text-sm truncate">Primeira Compra</p>
                       <p className="text-xs text-muted-foreground">R$ 10 de bônus!</p>
                     </div>
                   </div>
