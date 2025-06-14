@@ -1,70 +1,63 @@
-
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
 import {
   NavigationMenuContent,
-  NavigationMenuItem,
   NavigationMenuLink,
-  NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { planSections } from '../data/navigationData';
+import { ListItem } from "@/components/navigation/list-item";
+import { Users, Building2, BarChart3, Crown } from "lucide-react";
 
-const PlansDropdown = () => {
+export const PlansDropdown = () => {
+  const plansItems = [
+    {
+      title: "Planos Pessoais",
+      href: "/pricing/consumer",
+      description: "Para consumidores que querem economizar",
+      icon: Users
+    },
+    {
+      title: "Planos Empresariais", 
+      href: "/pricing/enterprise",
+      description: "Soluções completas para empresas",
+      icon: Building2
+    },
+    {
+      title: "Comparar Todos",
+      href: "/pricing",
+      description: "Compare todos os planos disponíveis",
+      icon: BarChart3
+    }
+  ];
+
   return (
-    <NavigationMenuItem>
-      <NavigationMenuTrigger className="h-10 rounded-lg bg-background px-4 py-2 text-sm font-medium transition-all duration-200 hover:bg-accent/20 data-[state=open]:bg-accent/20">
-        Planos
-      </NavigationMenuTrigger>
-      <NavigationMenuContent>
-        <div className="grid gap-6 p-6 w-[500px] grid-cols-2 bg-background border border-border/40 rounded-xl shadow-lg backdrop-blur-sm">
-          <div className="space-y-4">
-            <h4 className="text-sm font-semibold leading-none text-primary flex items-center gap-2 pb-2 border-b border-border/30">
-              <planSections.personal.icon className="h-4 w-4" />
-              Planos Pessoais
-            </h4>
-            <NavigationMenuLink asChild>
-              <Link
-                to={planSections.personal.href}
-                className="block select-none space-y-1 rounded-lg p-3 leading-none no-underline outline-none transition-all duration-200 hover:bg-accent/20 hover:text-accent-foreground focus:bg-accent/20 focus:text-accent-foreground group border border-transparent hover:border-border/20"
-              >
-                <div className="flex items-center gap-3 text-sm font-medium leading-none group-hover:text-primary transition-colors">
-                  <div className="p-1.5 rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                    <planSections.personal.icon className="h-3.5 w-3.5 text-primary" />
-                  </div>
-                  Consumidor
-                </div>
-                <p className="line-clamp-2 text-sm leading-snug text-muted-foreground mt-1">
-                  {planSections.personal.description}
-                </p>
-              </Link>
-            </NavigationMenuLink>
-          </div>
-          <div className="space-y-4">
-            <h4 className="text-sm font-semibold leading-none text-primary flex items-center gap-2 pb-2 border-b border-border/30">
-              <planSections.business.icon className="h-4 w-4" />
-              Planos Empresariais
-            </h4>
-            <NavigationMenuLink asChild>
-              <Link
-                to={planSections.business.href}
-                className="block select-none space-y-1 rounded-lg p-3 leading-none no-underline outline-none transition-all duration-200 hover:bg-accent/20 hover:text-accent-foreground focus:bg-accent/20 focus:text-accent-foreground group border border-transparent hover:border-border/20"
-              >
-                <div className="flex items-center gap-3 text-sm font-medium leading-none group-hover:text-primary transition-colors">
-                  <div className="p-1.5 rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                    <planSections.business.icon className="h-3.5 w-3.5 text-primary" />
-                  </div>
-                  Empresas
-                </div>
-                <p className="line-clamp-2 text-sm leading-snug text-muted-foreground mt-1">
-                  {planSections.business.description}
-                </p>
-              </Link>
-            </NavigationMenuLink>
-          </div>
+    <NavigationMenuContent>
+      <div className="grid w-[600px] grid-cols-2 gap-3 p-4">
+        <div className="row-span-3">
+          <NavigationMenuLink asChild>
+            <a
+              className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-primary/50 to-primary p-6 no-underline outline-none focus:shadow-md"
+              href="/pricing"
+            >
+              <Crown className="h-6 w-6 text-white" />
+              <div className="mb-2 mt-4 text-lg font-medium text-white">
+                Planos CBX Growth
+              </div>
+              <p className="text-sm leading-tight text-white/90">
+                Escolha o plano ideal para maximizar seus ganhos ou fidelizar seus clientes.
+              </p>
+            </a>
+          </NavigationMenuLink>
         </div>
-      </NavigationMenuContent>
-    </NavigationMenuItem>
+        {plansItems.map((item) => (
+          <ListItem
+            key={item.title}
+            title={item.title}
+            href={item.href}
+            icon={item.icon}
+          >
+            {item.description}
+          </ListItem>
+        ))}
+      </div>
+    </NavigationMenuContent>
   );
 };
-
-export default PlansDropdown;

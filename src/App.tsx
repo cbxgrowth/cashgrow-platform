@@ -17,6 +17,9 @@ import Home from '@/pages/Home';
 import About from '@/pages/About';
 import Features from '@/pages/Features';
 import Contact from '@/pages/Contact';
+import Pricing from '@/pages/Pricing';
+import ConsumerPlans from '@/pages/pricing/ConsumerPlans';
+import EnterpriseProducts from '@/pages/pricing/EnterpriseProducts';
 
 // Auth Pages
 import Login from '@/pages/auth/Login';
@@ -25,6 +28,7 @@ import AuthCallback from '@/pages/auth/callback';
 
 // Client Pages
 import ClientDashboard from '@/pages/client/ClientDashboard';
+import ClientPlans from '@/pages/client/plans';
 
 // Company Pages
 import CompanyDashboard from '@/pages/company/CompanyDashboard';
