@@ -1,7 +1,7 @@
 
 import React, { useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { Calendar, Plus, TrendingUp, Gift, Target } from "lucide-react";
+import { Calendar, TrendingUp, Gift, Target } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BalanceCard } from './dashboard/components/BalanceCard';
 import { TransactionsCard } from './dashboard/components/TransactionsCard';
@@ -48,10 +48,6 @@ const ClientDashboard: React.FC = () => {
               <Button variant="outline" size="sm" className="w-full sm:w-auto text-xs h-8">
                 <Calendar className="mr-1.5 h-3 w-3" /> 
                 Últimos 30 dias
-              </Button>
-              <Button size="sm" className="w-full sm:w-auto bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 text-xs h-8">
-                <Plus className="mr-1.5 h-3 w-3" />
-                Nova Transação
               </Button>
             </div>
           </div>
