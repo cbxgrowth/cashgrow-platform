@@ -8,6 +8,7 @@ import { OnboardingProvider } from '../onboarding/OnboardingProvider';
 import { UserType } from '@/types/auth';
 import CompanySupport from '../plugins/CompanySupport';
 import ClientSupport from '../plugins/ClientSupport';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { 
   LayoutDashboard, 
   Wallet, 
@@ -34,6 +35,7 @@ interface DashboardLayoutProps {
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const isMobile = useIsMobile();
 
   const handleSidebarToggle = () => {
     setSidebarCollapsed(!sidebarCollapsed);
@@ -73,22 +75,28 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
     <OnboardingProvider userType={userType}>
       <SidebarProvider>
         <div className="min-h-screen flex w-full">
-          <DashboardSidebar 
-            userType={userType}
-            isCollapsed={sidebarCollapsed}
-            onToggle={handleSidebarToggle}
-          />
+          {/* Mobile-aware sidebar */}
+          {!isMobile && (
+            <DashboardSidebar 
+              userType={userType}
+              isCollapsed={sidebarCollapsed}
+              onToggle={handleSidebarToggle}
+            />
+          )}
+          
           <div 
             className={`flex-1 flex flex-col transition-all duration-300 ${
-              sidebarCollapsed ? 'ml-16' : 'ml-64'
+              !isMobile ? (sidebarCollapsed ? 'ml-16' : 'ml-64') : 'ml-0'
             }`}
           >
             <EnhancedDashboardHeader 
               userType={userType} 
               menuItems={menuItems}
             />
-            <main className="flex-1 overflow-auto p-6 bg-muted/30">
-              <Outlet />
+            <main className="flex-1 overflow-auto bg-muted/30 safe-area-inset">
+              <div className="p-3 sm:p-4 lg:p-6">
+                <Outlet />
+              </div>
             </main>
           </div>
         </div>

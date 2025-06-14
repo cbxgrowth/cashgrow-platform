@@ -27,6 +27,7 @@ import Logo from '@/components/Logo';
 import { UserType } from '@/types/auth';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface DashboardSidebarProps {
   userType: UserType;
@@ -40,6 +41,7 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
   onToggle 
 }) => {
   const location = useLocation();
+  const isMobile = useIsMobile();
 
   const clientMenuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', href: '/client/dashboard' },
@@ -71,9 +73,12 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
 
   const menuItems = userType === 'client' ? clientMenuItems : companyMenuItems;
 
+  // Don't render sidebar on mobile - it will be handled by mobile navigation
+  if (isMobile) return null;
+
   return (
     <div className={cn(
-      "bg-background border-r border-border h-screen flex flex-col transition-all duration-300 fixed left-0 top-0 z-40",
+      "bg-background border-r border-border h-screen flex flex-col transition-all duration-300 fixed left-0 top-0 z-40 shadow-lg",
       isCollapsed ? "w-16" : "w-64"
     )}>
       {/* Header */}
@@ -84,7 +89,7 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
             variant="ghost"
             size="icon"
             onClick={onToggle}
-            className="ml-auto"
+            className="ml-auto hover:bg-accent/20 touch-target"
           >
             {isCollapsed ? (
               <ChevronRight className="h-4 w-4" />
@@ -106,16 +111,16 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
                   <Link
                     to={item.href}
                     className={cn(
-                      "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                      "flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-all duration-200 touch-target",
                       isActive
-                        ? "bg-primary text-primary-foreground"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted",
-                      isCollapsed && "justify-center"
+                        ? "bg-primary text-primary-foreground shadow-md"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted/80",
+                      isCollapsed && "justify-center px-2"
                     )}
                     title={isCollapsed ? item.label : undefined}
                   >
-                    <item.icon className="h-4 w-4 flex-shrink-0" />
-                    {!isCollapsed && <span>{item.label}</span>}
+                    <item.icon className="h-5 w-5 flex-shrink-0" />
+                    {!isCollapsed && <span className="truncate">{item.label}</span>}
                   </Link>
                 </li>
               );
