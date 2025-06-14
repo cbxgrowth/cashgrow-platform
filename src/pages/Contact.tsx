@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -6,12 +7,14 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Mail, Phone, MapPin } from "lucide-react";
+
 const Contact: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -28,7 +31,9 @@ const Contact: React.FC = () => {
       setIsSubmitting(false);
     }, 1500);
   };
-  return <div className="container py-10">
+
+  return (
+    <div className="container py-10">
       <div className="max-w-5xl mx-auto">
         <div className="text-center space-y-2 mb-10">
           <h1 className="text-4xl font-bold tracking-tight">Entre em Contato</h1>
@@ -66,9 +71,10 @@ const Contact: React.FC = () => {
                   <div>
                     <h3 className="font-medium">Endereço</h3>
                     <p className="text-sm text-muted-foreground">
-                      Av. Paulista, 1000<br />
-                      São Paulo, SP<br />
-                      CEP 01310-100
+                      Rua Doutor Possidonio Bem, 371<br />
+                      Sala 05 CXPST 24<br />
+                      Lagoa Seca, Juazeiro do Norte-CE<br />
+                      CEP 63040-300
                     </p>
                   </div>
                 </div>
@@ -114,6 +120,8 @@ const Contact: React.FC = () => {
           </Card>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default Contact;

@@ -10,16 +10,16 @@ import { toast } from "sonner";
 
 const BusinessInfoTab: React.FC = () => {
   const [formData, setFormData] = useState({
-    companyName: 'Tech Store Ltda',
+    companyName: 'CBX Growth',
     cnpj: '12.345.678/0001-90',
-    email: 'contato@techstore.com.br',
-    phone: '(11) 98765-4321',
-    website: 'https://techstore.com.br',
-    address: 'Rua das Flores, 123',
-    city: 'São Paulo',
-    state: 'SP',
-    zipCode: '01234-567',
-    description: 'Loja especializada em tecnologia e eletrônicos com foco em oferecer os melhores produtos e atendimento aos nossos clientes.'
+    email: 'contato@cbxgrowth.com.br',
+    phone: '(88) 98843-2310',
+    website: 'https://cbxgrowth.com.br',
+    address: 'Rua Doutor Possidonio Bem, 371, Sala 05 CXPST 24',
+    city: 'Juazeiro do Norte',
+    state: 'CE',
+    zipCode: '63040-300',
+    description: 'Plataforma inteligente de cashback para empresas de todos os setores e consumidores.'
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
