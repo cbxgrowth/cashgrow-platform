@@ -2,281 +2,190 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Settings, BarChart3, RefreshCw, Filter } from "lucide-react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-
-import ApiIntegrationCard from '@/components/integrations/ApiIntegrationCard';
-import SyncHistoryTable from '@/components/integrations/SyncHistoryTable';
-import AddIntegrationDialog from '@/components/integrations/AddIntegrationDialog';
-import { useIntegrations } from '@/hooks/useIntegrations';
-import { integrationCategories } from '@/data/integrations';
+import { Switch } from "@/components/ui/switch";
+import { Puzzle, Zap, ShoppingCart, Database, Globe, Settings, CheckCircle, AlertCircle } from "lucide-react";
 
 const CompanyIntegrations: React.FC = () => {
-  const [showAddDialog, setShowAddDialog] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [selectedStatus, setSelectedStatus] = useState<string>('all');
-
-  const {
-    integrations,
-    isLoading,
-    handleConfigureIntegration,
-    handleSyncIntegration,
-    handleToggleIntegration,
-    handleDeleteIntegration,
-    handleAddIntegration,
-    handleSyncAll
-  } = useIntegrations();
-
-  const [syncHistory] = useState([
-    {
-      id: '1',
-      integrationName: 'WooCommerce',
-      timestamp: '02/06/2025 15:30',
-      status: 'success' as const,
-      recordsProcessed: 45,
-      duration: '2.3s'
-    },
-    {
-      id: '2',
-      integrationName: 'Stone Pagamentos',
-      timestamp: '02/06/2025 14:45',
-      status: 'error' as const,
-      recordsProcessed: 0,
-      duration: '0.5s',
-      errorMessage: 'Timeout na conexão'
-    },
-    {
-      id: '3',
-      integrationName: 'WhatsApp Business',
-      timestamp: '02/06/2025 15:31',
-      status: 'running' as const,
-      recordsProcessed: 23,
-      duration: '45s'
-    }
+  const [integrations, setIntegrations] = useState([
+    { id: 1, name: 'Shopify', type: 'E-commerce', status: 'Conectado', active: true, icon: ShoppingCart },
+    { id: 2, name: 'WooCommerce', type: 'E-commerce', status: 'Conectado', active: true, icon: Globe },
+    { id: 3, name: 'Magento', type: 'E-commerce', status: 'Disponível', active: false, icon: Database },
+    { id: 4, name: 'API Customizada', type: 'API', status: 'Configurando', active: false, icon: Zap },
   ]);
 
-  const handleViewSyncDetails = (id: string) => {
-    console.log(`Visualizando detalhes da sincronização ${id}`);
+  const toggleIntegration = (id: number) => {
+    setIntegrations(integrations.map(integration => 
+      integration.id === id ? { ...integration, active: !integration.active } : integration
+    ));
   };
-
-  const filteredIntegrations = integrations.filter(integration => {
-    const categoryMatch = selectedCategory === 'all' || integration.category === selectedCategory;
-    const statusMatch = selectedStatus === 'all' || integration.status === selectedStatus;
-    return categoryMatch && statusMatch;
-  });
-
-  const getStatsForCategory = (category: string) => {
-    const categoryIntegrations = category === 'all' 
-      ? integrations 
-      : integrations.filter(i => i.category === category);
-    
-    return {
-      total: categoryIntegrations.length,
-      connected: categoryIntegrations.filter(i => i.status === 'connected').length,
-      enabled: categoryIntegrations.filter(i => i.enabled).length,
-      totalRecords: categoryIntegrations.reduce((sum, i) => sum + i.recordsSynced, 0)
-    };
-  };
-
-  const stats = getStatsForCategory(selectedCategory);
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      <div className="flex justify-between items-start">
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Integrações</h1>
-          <p className="text-muted-foreground">
-            Gerencie as integrações com sistemas externos e sincronização de dados
-          </p>
+          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
+            <Puzzle className="h-8 w-8 text-primary" />
+            Integrações
+          </h1>
+          <p className="text-muted-foreground">Conecte sua loja com nosso sistema de cashback</p>
         </div>
-        <div className="flex gap-2">
-          <Button onClick={handleSyncAll} variant="outline" disabled={isLoading}>
-            <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
-            Sincronizar Tudo
-          </Button>
-          <Button onClick={() => setShowAddDialog(true)}>
-            <Plus className="h-4 w-4 mr-2" />
-            Nova Integração
-          </Button>
-        </div>
+        <Button className="bg-gradient-primary">
+          <Settings className="mr-2 h-4 w-4" />
+          Nova Integração
+        </Button>
       </div>
 
-      {/* Filters */}
-      <div className="flex gap-4 items-center">
-        <div className="flex items-center gap-2">
-          <Filter className="h-4 w-4 text-muted-foreground" />
-          <span className="text-sm font-medium">Filtros:</span>
-        </div>
-        <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-          <SelectTrigger className="w-48">
-            <SelectValue placeholder="Todas as categorias" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Todas as categorias</SelectItem>
-            {integrationCategories.map((category) => (
-              <SelectItem key={category.id} value={category.id}>
-                {category.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-          <SelectTrigger className="w-48">
-            <SelectValue placeholder="Todos os status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Todos os status</SelectItem>
-            <SelectItem value="connected">Conectado</SelectItem>
-            <SelectItem value="disconnected">Desconectado</SelectItem>
-            <SelectItem value="error">Erro</SelectItem>
-            <SelectItem value="syncing">Sincronizando</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-4">
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total de Integrações</CardTitle>
-            <Settings className="h-4 w-4 text-muted-foreground" />
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium">Integrações Ativas</CardTitle>
+            <CheckCircle className="h-4 w-4 text-green-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.total}</div>
-            <p className="text-xs text-muted-foreground">
-              {stats.enabled} ativas
-            </p>
+            <div className="text-2xl font-bold">2</div>
+            <p className="text-xs text-green-600">Funcionando perfeitamente</p>
           </CardContent>
         </Card>
-
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Conectadas</CardTitle>
-            <BarChart3 className="h-4 w-4 text-muted-foreground" />
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium">Sincronizações Hoje</CardTitle>
+            <Zap className="h-4 w-4 text-blue-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">
-              {stats.connected}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              funcionando
-            </p>
+            <div className="text-2xl font-bold">847</div>
+            <p className="text-xs text-blue-600">Última: há 2 min</p>
           </CardContent>
         </Card>
-
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Registros Sincronizados</CardTitle>
-            <RefreshCw className="h-4 w-4 text-muted-foreground" />
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium">Taxa de Sucesso</CardTitle>
+            <CheckCircle className="h-4 w-4 text-green-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              {stats.totalRecords.toLocaleString()}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              no total
-            </p>
+            <div className="text-2xl font-bold">99.8%</div>
+            <p className="text-xs text-green-600">Excelente</p>
           </CardContent>
         </Card>
-
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Última Sincronização</CardTitle>
-            <RefreshCw className="h-4 w-4 text-muted-foreground" />
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium">Alertas</CardTitle>
+            <AlertCircle className="h-4 w-4 text-orange-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">2 min</div>
-            <p className="text-xs text-muted-foreground">
-              atrás
-            </p>
+            <div className="text-2xl font-bold">0</div>
+            <p className="text-xs text-green-600">Tudo funcionando</p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Category Badges */}
-      <div className="flex gap-2 flex-wrap">
-        {integrationCategories.map((category) => {
-          const categoryStats = getStatsForCategory(category.id);
-          return (
-            <Badge 
-              key={category.id}
-              variant={selectedCategory === category.id ? "default" : "outline"}
-              className="cursor-pointer"
-              onClick={() => setSelectedCategory(category.id)}
-            >
-              <category.icon className="h-3 w-3 mr-1" />
-              {category.name} ({categoryStats.total})
-            </Badge>
-          );
-        })}
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Suas Integrações</CardTitle>
+          <CardDescription>Gerencie as conexões com suas plataformas</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {integrations.map((integration) => {
+              const IconComponent = integration.icon;
+              return (
+                <div key={integration.id} className="border rounded-lg p-4 flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center">
+                      <IconComponent className="h-6 w-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold">{integration.name}</h3>
+                      <p className="text-sm text-muted-foreground">{integration.type}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <Badge variant={
+                      integration.status === 'Conectado' ? 'default' : 
+                      integration.status === 'Configurando' ? 'secondary' : 'outline'
+                    }>
+                      {integration.status}
+                    </Badge>
+                    <Switch
+                      checked={integration.active}
+                      onCheckedChange={() => toggleIntegration(integration.id)}
+                      disabled={integration.status !== 'Conectado'}
+                    />
+                    <Button variant="outline" size="sm">
+                      {integration.status === 'Conectado' ? 'Configurar' : 'Conectar'}
+                    </Button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
 
-      <Tabs defaultValue="integrations" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="integrations">Integrações Ativas</TabsTrigger>
-          <TabsTrigger value="history">Histórico de Sincronização</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="integrations" className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {filteredIntegrations.map((integration) => (
-              <ApiIntegrationCard
-                key={integration.id}
-                integration={integration}
-                onConfigure={handleConfigureIntegration}
-                onSync={handleSyncIntegration}
-                onToggle={handleToggleIntegration}
-                onDelete={handleDeleteIntegration}
-              />
+      <Card>
+        <CardHeader>
+          <CardTitle>Histórico de Sincronização</CardTitle>
+          <CardDescription>Últimas sincronizações realizadas</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {[
+              { time: '14:30', platform: 'Shopify', type: 'Produtos', status: 'Sucesso', items: 145 },
+              { time: '14:28', platform: 'WooCommerce', type: 'Pedidos', status: 'Sucesso', items: 23 },
+              { time: '14:25', platform: 'Shopify', type: 'Clientes', status: 'Sucesso', items: 67 },
+              { time: '14:20', platform: 'WooCommerce', type: 'Produtos', status: 'Erro', items: 0 },
+            ].map((sync, index) => (
+              <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
+                <div className="flex items-center gap-3">
+                  <div className={`w-2 h-2 rounded-full ${sync.status === 'Sucesso' ? 'bg-green-500' : 'bg-red-500'}`} />
+                  <div>
+                    <span className="font-medium">{sync.platform}</span>
+                    <span className="text-muted-foreground mx-2">•</span>
+                    <span className="text-sm">{sync.type}</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4 text-sm">
+                  <span className="text-muted-foreground">{sync.time}</span>
+                  <span>{sync.items} itens</span>
+                  <Badge variant={sync.status === 'Sucesso' ? 'default' : 'destructive'}>
+                    {sync.status}
+                  </Badge>
+                </div>
+              </div>
             ))}
           </div>
-          
-          {filteredIntegrations.length === 0 && (
-            <Card className="p-8 text-center">
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Nenhuma integração encontrada com os filtros selecionados.
-                </p>
-                <Button 
-                  onClick={() => {
-                    setSelectedCategory('all');
-                    setSelectedStatus('all');
-                  }}
-                  variant="outline"
-                  className="mt-4"
-                >
-                  Limpar Filtros
-                </Button>
-              </CardContent>
-            </Card>
-          )}
-        </TabsContent>
+        </CardContent>
+      </Card>
 
-        <TabsContent value="history">
-          <Card>
-            <CardHeader>
-              <CardTitle>Histórico de Sincronizações</CardTitle>
-              <CardDescription>
-                Acompanhe todas as sincronizações realizadas
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <SyncHistoryTable 
-                records={syncHistory}
-                onViewDetails={handleViewSyncDetails}
-              />
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
-
-      <AddIntegrationDialog
-        open={showAddDialog}
-        onOpenChange={setShowAddDialog}
-        onAdd={handleAddIntegration}
-      />
+      <Card>
+        <CardHeader>
+          <CardTitle>Integrações Disponíveis</CardTitle>
+          <CardDescription>Conecte-se com mais plataformas</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4 md:grid-cols-3">
+            {[
+              { name: 'Magento', description: 'Plataforma de e-commerce robusta', icon: Database },
+              { name: 'PrestaShop', description: 'Solução completa para lojas online', icon: ShoppingCart },
+              { name: 'API REST', description: 'Integração personalizada via API', icon: Zap },
+            ].map((platform, index) => {
+              const IconComponent = platform.icon;
+              return (
+                <div key={index} className="border rounded-lg p-4 space-y-3 hover:shadow-lg transition-shadow">
+                  <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center">
+                    <IconComponent className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">{platform.name}</h3>
+                    <p className="text-sm text-muted-foreground">{platform.description}</p>
+                  </div>
+                  <Button variant="outline" className="w-full">Conectar</Button>
+                </div>
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

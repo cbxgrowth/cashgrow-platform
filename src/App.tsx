@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -40,6 +41,17 @@ import ClientPlans from '@/pages/client/plans';
 
 // Company Pages
 import CompanyDashboard from '@/pages/company/CompanyDashboard';
+import CompanyProducts from '@/pages/company/products';
+import CompanyClients from '@/pages/company/clients';
+import CompanyTransactions from '@/pages/company/transactions';
+import CompanyReports from '@/pages/company/reports';
+import CompanyPerformance from '@/pages/company/performance';
+import CompanyAiCampaigns from '@/pages/company/ai-campaigns';
+import CompanyCorporate from '@/pages/company/corporate';
+import CompanyCashbackRules from '@/pages/company/cashback-rules';
+import CompanyIntegrations from '@/pages/company/integrations';
+import CompanyProfile from '@/pages/company/profile';
+import CompanySettings from '@/pages/company/settings';
 
 // Admin Pages
 import AdminDashboard from '@/pages/admin/AdminDashboard';
@@ -85,13 +97,24 @@ function App() {
               {/* Client Dashboard Routes */}
               <Route path="/client/*" element={<DashboardLayout userType="client" />}>
                 <Route path="dashboard" element={<ClientDashboard />} />
+                <Route path="plans" element={<ClientPlans />} />
                 {/* Add more client routes here */}
               </Route>
 
               {/* Company Dashboard Routes */}
               <Route path="/company/*" element={<DashboardLayout userType="company" />}>
                 <Route path="dashboard" element={<CompanyDashboard />} />
-                {/* Add more company routes here */}
+                <Route path="products" element={<CompanyProducts />} />
+                <Route path="clients" element={<CompanyClients />} />
+                <Route path="transactions" element={<CompanyTransactions />} />
+                <Route path="reports" element={<CompanyReports />} />
+                <Route path="performance" element={<CompanyPerformance />} />
+                <Route path="ai-campaigns" element={<CompanyAiCampaigns />} />
+                <Route path="corporate" element={<CompanyCorporate />} />
+                <Route path="cashback-rules" element={<CompanyCashbackRules />} />
+                <Route path="integrations" element={<CompanyIntegrations />} />
+                <Route path="profile" element={<CompanyProfile />} />
+                <Route path="settings" element={<CompanySettings />} />
               </Route>
 
               {/* Admin Routes */}
