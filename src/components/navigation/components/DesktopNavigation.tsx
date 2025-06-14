@@ -8,7 +8,7 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import SolutionsDropdown from './SolutionsDropdown';
-import PlansDropdown from './PlansDropdown';
+import { PlansDropdown } from './PlansDropdown';
 import ResourcesDropdown from './ResourcesDropdown';
 
 const DesktopNavigation = () => {
