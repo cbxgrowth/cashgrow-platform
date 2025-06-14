@@ -10,12 +10,29 @@ import {
 import SolutionsDropdown from './SolutionsDropdown';
 import { PlansDropdown } from './PlansDropdown';
 import ResourcesDropdown from './ResourcesDropdown';
+import { mainNavigationLinks } from '../data/navigationData';
 
 const DesktopNavigation = () => {
   return (
     <div className="hidden lg:flex items-center">
       <NavigationMenu>
         <NavigationMenuList className="space-x-2">
+          {mainNavigationLinks.map((link) => (
+            <NavigationMenuItem key={link.title}>
+              <NavigationMenuLink asChild>
+                <Link
+                  to={link.href}
+                  className="group inline-flex h-10 w-max items-center justify-center rounded-lg bg-background px-4 py-2 text-sm font-medium transition-all duration-200 hover:bg-accent/20 hover:text-accent-foreground focus:bg-accent/20 focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden"
+                >
+                  <span className="relative z-10 flex items-center gap-2">
+                    <link.icon className="h-4 w-4" />
+                    {link.title}
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
+                </Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          ))}
           <SolutionsDropdown />
           <PlansDropdown />
           <ResourcesDropdown />

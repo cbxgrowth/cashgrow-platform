@@ -1,105 +1,117 @@
 
 import { 
-  Gift, 
-  Target, 
-  Crown, 
+  Home,
   Zap, 
+  Target, 
   TrendingUp, 
-  Rocket, 
-  Puzzle, 
-  Star,
-  Shield,
-  Users,
+  Users, 
+  Building2, 
+  Crown, 
   User,
-  Building2
+  BarChart3,
+  Lightbulb,
+  MessageCircle,
+  FileText,
+  HelpCircle,
+  BookOpen,
+  Phone
 } from "lucide-react";
 
+// Soluções para Consumidores
 export const solutionsForConsumers = [
   {
-    title: "Cashback Inteligente",
-    description: "Ganhe dinheiro de volta em suas compras favoritas",
+    title: "Cashback Pessoal",
     href: "/solutions/consumer",
-    icon: Gift
+    description: "Ganhe dinheiro de volta em suas compras do dia a dia",
+    icon: Zap
   },
   {
-    title: "Missões Gamificadas",
-    description: "Complete desafios e ganhe recompensas extras",
-    href: "/solutions/consumer",
+    title: "Missões e Desafios",
+    href: "/solutions/consumer/missions",
+    description: "Complete missões e ganhe recompensas extras",
     icon: Target
   },
   {
-    title: "Clube VIP",
-    description: "Benefícios exclusivos para membros premium",
-    href: "/solutions/consumer",
-    icon: Crown
-  },
-  {
-    title: "Recomendações IA",
-    description: "Sugestões personalizadas baseadas em IA",
-    href: "/solutions/consumer",
-    icon: Zap
-  }
-];
-
-export const solutionsForBusiness = [
-  {
-    title: "Dashboard Empresarial",
-    description: "Gerencie campanhas e analise performance",
-    href: "/solutions/business",
+    title: "Análise de Gastos",
+    href: "/solutions/consumer/analytics",
+    description: "Monitore seus gastos e otimize suas economias",
     icon: TrendingUp
   },
   {
-    title: "Campanhas IA",
-    description: "Crie campanhas inteligentes automatizadas",
-    href: "/solutions/business",
-    icon: Rocket
-  },
-  {
-    title: "Integrações API",
-    description: "Conecte com seus sistemas existentes",
-    href: "/solutions/business",
-    icon: Puzzle
-  },
-  {
-    title: "Análises Avançadas",
-    description: "Relatórios detalhados e insights em tempo real",
-    href: "/solutions/business",
-    icon: Star
+    title: "Clube VIP",
+    href: "/solutions/consumer/vip",
+    description: "Benefícios exclusivos para membros premium",
+    icon: Crown
   }
 ];
 
-export const resources = [
+// Soluções para Empresas
+export const solutionsForBusiness = [
   {
-    title: "Central de Ajuda",
-    description: "Documentação e tutoriais completos",
-    href: "/help",
-    icon: Shield
+    title: "Programa de Fidelidade",
+    href: "/solutions/business",
+    description: "Crie programas personalizados para seus clientes",
+    icon: Users
   },
   {
-    title: "API Docs",
-    description: "Documentação técnica para desenvolvedores",
-    href: "/docs/api",
-    icon: Puzzle
+    title: "Analytics Empresarial",
+    href: "/solutions/business/analytics",
+    description: "Insights avançados sobre comportamento do cliente",
+    icon: BarChart3
+  },
+  {
+    title: "Integração API",
+    href: "/solutions/business/api",
+    description: "Conecte facilmente com seus sistemas existentes",
+    icon: Building2
+  },
+  {
+    title: "Campanhas IA",
+    href: "/solutions/business/ai",
+    description: "Marketing automatizado com inteligência artificial",
+    icon: Lightbulb
+  }
+];
+
+// Links de recursos
+export const resourcesLinks = [
+  {
+    title: "Central de Ajuda",
+    href: "/help",
+    description: "Encontre respostas para suas dúvidas",
+    icon: HelpCircle
+  },
+  {
+    title: "Documentação",
+    href: "/docs",
+    description: "Guias técnicos e documentação da API",
+    icon: BookOpen
+  },
+  {
+    title: "Blog",
+    href: "/blog",
+    description: "Novidades, dicas e insights do mercado",
+    icon: FileText
   },
   {
     title: "Comunidade",
-    description: "Conecte-se com outros usuários",
     href: "/community",
-    icon: Users
+    description: "Conecte-se com outros usuários",
+    icon: MessageCircle
+  },
+  {
+    title: "Suporte",
+    href: "/contact",
+    description: "Entre em contato com nossa equipe",
+    icon: Phone
   }
 ];
 
-export const planSections = {
-  personal: {
-    title: "Planos Pessoais",
-    description: "Planos flexíveis para uso pessoal",
-    href: "/pricing/consumer",
-    icon: User
-  },
-  business: {
-    title: "Planos Empresariais", 
-    description: "Soluções escaláveis para negócios",
-    href: "/pricing/enterprise",
-    icon: Building2
+// Links principais da navegação
+export const mainNavigationLinks = [
+  {
+    title: "Início",
+    href: "/",
+    icon: Home
   }
-};
+];

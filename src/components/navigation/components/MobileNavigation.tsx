@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { User, Building2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { solutionsForConsumers, solutionsForBusiness } from '../data/navigationData';
+import { solutionsForConsumers, solutionsForBusiness, mainNavigationLinks } from '../data/navigationData';
 
 interface MobileNavigationProps {
   isOpen: boolean;
@@ -17,6 +17,25 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, setIsOpen }
     <div className="lg:hidden border-t border-border/40">
       <div className="px-4 pt-4 pb-6 space-y-6 bg-background/95 backdrop-blur-sm max-h-96 overflow-y-auto">
         <div className="space-y-6">
+          <div>
+            <h3 className="px-3 py-2 text-sm font-semibold text-primary border-b border-border/30 mb-3">Menu Principal</h3>
+            <div className="space-y-1">
+              {mainNavigationLinks.map((link) => (
+                <Link
+                  key={link.title}
+                  to={link.href}
+                  className="flex items-center gap-3 px-3 py-2 text-sm transition-all duration-200 hover:bg-accent/20 rounded-lg group"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <div className="p-1 rounded bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                    <link.icon className="h-3 w-3 text-primary" />
+                  </div>
+                  <span className="group-hover:text-primary transition-colors">{link.title}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+
           <div>
             <h3 className="px-3 py-2 text-sm font-semibold text-primary border-b border-border/30 mb-3">Soluções</h3>
             <div className="space-y-2">
