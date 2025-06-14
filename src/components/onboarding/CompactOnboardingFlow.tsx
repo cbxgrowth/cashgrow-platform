@@ -16,7 +16,9 @@ import {
   ArrowRight,
   Sparkles,
   X,
-  ExternalLink
+  ExternalLink,
+  Minimize2,
+  Maximize2
 } from 'lucide-react';
 import { UserType } from '@/types/auth';
 import { useNavigate } from 'react-router-dom';
@@ -47,6 +49,7 @@ export const CompactOnboardingFlow: React.FC<CompactOnboardingFlowProps> = ({
   const [totalPoints, setTotalPoints] = useState(0);
   const [level, setLevel] = useState(1);
   const [isMinimized, setIsMinimized] = useState(false);
+  const [position, setPosition] = useState<'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'>('bottom-right');
 
   const clientSteps: OnboardingStep[] = [
     {
@@ -154,6 +157,29 @@ export const CompactOnboardingFlow: React.FC<CompactOnboardingFlowProps> = ({
     setIsMinimized(true);
   };
 
+  const getPositionClasses = () => {
+    const baseClasses = "fixed z-[60]";
+    switch (position) {
+      case 'bottom-right':
+        return `${baseClasses} bottom-4 right-4`;
+      case 'bottom-left':
+        return `${baseClasses} bottom-4 left-4`;
+      case 'top-right':
+        return `${baseClasses} top-20 right-4`;
+      case 'top-left':
+        return `${baseClasses} top-20 left-4`;
+      default:
+        return `${baseClasses} bottom-4 right-4`;
+    }
+  };
+
+  const switchPosition = () => {
+    const positions: typeof position[] = ['bottom-right', 'bottom-left', 'top-right', 'top-left'];
+    const currentIndex = positions.indexOf(position);
+    const nextIndex = (currentIndex + 1) % positions.length;
+    setPosition(positions[nextIndex]);
+  };
+
   useEffect(() => {
     const newLevel = Math.floor(totalPoints / 200) + 1;
     setLevel(newLevel);
@@ -171,22 +197,34 @@ export const CompactOnboardingFlow: React.FC<CompactOnboardingFlowProps> = ({
 
   if (isMinimized) {
     return (
-      <div className="fixed bottom-4 right-4 z-50">
-        <Card className="w-80 border-2 border-primary/20 shadow-lg">
+      <div className={getPositionClasses()}>
+        <Card className="w-80 border-2 border-primary/20 shadow-lg backdrop-blur-sm bg-background/95">
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
               <CardTitle className="text-sm flex items-center gap-2">
                 <Trophy className="h-4 w-4 text-primary" />
                 Onboarding ({completedSteps}/{steps.length})
               </CardTitle>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsMinimized(false)}
-                className="h-6 w-6 p-0"
-              >
-                <ExternalLink className="h-3 w-3" />
-              </Button>
+              <div className="flex gap-1">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={switchPosition}
+                  className="h-6 w-6 p-0"
+                  title="Mover posição"
+                >
+                  <ArrowRight className="h-3 w-3" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setIsMinimized(false)}
+                  className="h-6 w-6 p-0"
+                  title="Expandir"
+                >
+                  <Maximize2 className="h-3 w-3" />
+                </Button>
+              </div>
             </div>
             <Progress value={progress} className="h-1" />
           </CardHeader>
@@ -195,15 +233,17 @@ export const CompactOnboardingFlow: React.FC<CompactOnboardingFlowProps> = ({
               {steps.slice(0, 2).map((step) => (
                 <div 
                   key={step.id}
-                  className="flex items-center gap-2 text-xs cursor-pointer hover:bg-muted/50 p-1 rounded"
+                  className="flex items-center gap-2 text-xs cursor-pointer hover:bg-muted/50 p-1 rounded transition-colors"
                   onClick={() => handleStepClick(step)}
                 >
                   {step.completed ? (
-                    <CheckCircle className="h-3 w-3 text-green-600" />
+                    <CheckCircle className="h-3 w-3 text-green-600 flex-shrink-0" />
                   ) : (
-                    <Circle className="h-3 w-3 text-muted-foreground" />
+                    <Circle className="h-3 w-3 text-muted-foreground flex-shrink-0" />
                   )}
-                  <span className={step.completed ? 'text-green-700 line-through' : ''}>{step.title}</span>
+                  <span className={`truncate ${step.completed ? 'text-green-700 line-through' : ''}`}>
+                    {step.title}
+                  </span>
                 </div>
               ))}
               {steps.length > 2 && (
@@ -227,7 +267,7 @@ export const CompactOnboardingFlow: React.FC<CompactOnboardingFlowProps> = ({
   return (
     <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <Card className="border-2 border-primary/20 shadow-2xl">
+        <Card className="border-2 border-primary/20 shadow-2xl bg-background">
           <CardHeader className="text-center space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -245,8 +285,9 @@ export const CompactOnboardingFlow: React.FC<CompactOnboardingFlowProps> = ({
                 size="sm"
                 onClick={() => setIsMinimized(true)}
                 className="h-8 w-8 p-0"
+                title="Minimizar"
               >
-                <X className="h-4 w-4" />
+                <Minimize2 className="h-4 w-4" />
               </Button>
             </div>
             

@@ -36,6 +36,12 @@ export const useOnboardingLogic = (userType: UserType) => {
     }
   };
 
+  const goToStep = (stepIndex: number) => {
+    if (stepIndex >= 0 && stepIndex < steps.length) {
+      setCurrentStep(stepIndex);
+    }
+  };
+
   useEffect(() => {
     const newLevel = Math.floor(totalPoints / ONBOARDING_CONSTANTS.POINTS.LEVEL_THRESHOLD) + 1;
     setLevel(newLevel);
@@ -44,6 +50,15 @@ export const useOnboardingLogic = (userType: UserType) => {
   const getLevelProgress = () => {
     const pointsInCurrentLevel = totalPoints % ONBOARDING_CONSTANTS.POINTS.LEVEL_THRESHOLD;
     return (pointsInCurrentLevel / ONBOARDING_CONSTANTS.POINTS.LEVEL_THRESHOLD) * 100;
+  };
+
+  const isStepAccessible = (stepIndex: number) => {
+    // Allow access to current step and all previous steps
+    return stepIndex <= currentStep;
+  };
+
+  const getNextIncompleteStep = () => {
+    return steps.find(step => !step.completed);
   };
 
   const stats: OnboardingStats = {
@@ -56,11 +71,14 @@ export const useOnboardingLogic = (userType: UserType) => {
   return {
     currentStep,
     setCurrentStep,
+    goToStep,
     steps,
     stats,
     completeStep,
     nextStep,
     prevStep,
-    getLevelProgress
+    getLevelProgress,
+    isStepAccessible,
+    getNextIncompleteStep
   };
 };

@@ -8,6 +8,7 @@ interface OnboardingContextType {
   startOnboarding: () => void;
   completeOnboarding: () => void;
   skipOnboarding: () => void;
+  isOnboardingComplete: boolean;
 }
 
 const OnboardingContext = createContext<OnboardingContextType>({
@@ -15,6 +16,7 @@ const OnboardingContext = createContext<OnboardingContextType>({
   startOnboarding: () => {},
   completeOnboarding: () => {},
   skipOnboarding: () => {},
+  isOnboardingComplete: false,
 });
 
 export const useOnboarding = () => useContext(OnboardingContext);
@@ -29,31 +31,39 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
   userType 
 }) => {
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [isOnboardingComplete, setIsOnboardingComplete] = useState(false);
 
   useEffect(() => {
-    // Verificar se o usuário já completou o onboarding
+    // Check if user has completed onboarding
     const hasCompletedOnboarding = localStorage.getItem(`onboarding_completed_${userType}`);
-    if (!hasCompletedOnboarding) {
-      // Mostrar onboarding após um pequeno delay para melhor UX
+    const isComplete = hasCompletedOnboarding === 'true';
+    
+    setIsOnboardingComplete(isComplete);
+    
+    if (!isComplete) {
+      // Show onboarding after a small delay for better UX
       const timer = setTimeout(() => {
         setShowOnboarding(true);
-      }, 1000);
+      }, 1500);
       return () => clearTimeout(timer);
     }
   }, [userType]);
 
   const startOnboarding = () => {
     setShowOnboarding(true);
+    setIsOnboardingComplete(false);
   };
 
   const completeOnboarding = () => {
     localStorage.setItem(`onboarding_completed_${userType}`, 'true');
     setShowOnboarding(false);
+    setIsOnboardingComplete(true);
   };
 
   const skipOnboarding = () => {
     localStorage.setItem(`onboarding_completed_${userType}`, 'true');
     setShowOnboarding(false);
+    setIsOnboardingComplete(true);
   };
 
   return (
@@ -63,6 +73,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
         startOnboarding,
         completeOnboarding,
         skipOnboarding,
+        isOnboardingComplete,
       }}
     >
       {children}
