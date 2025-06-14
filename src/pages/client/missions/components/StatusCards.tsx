@@ -1,116 +1,77 @@
 
 import React from 'react';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Award, Clock, Zap, Trophy, CreditCard } from "lucide-react";
-import { toast } from "sonner";
+import { TrendingUp, Star, Award } from "lucide-react";
 
 const StatusCards: React.FC = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <Card className="bg-gradient-to-br from-primary/5 to-primary/10 shadow-md">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Award className="h-5 w-5 text-primary" />
-            <span>Seu Nível</span>
-          </CardTitle>
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 w-full px-2 sm:px-0">
+      <Card className="w-full min-w-0">
+        <CardHeader className="pb-3 p-3 sm:p-6">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="p-2 bg-green-100 rounded-lg flex-shrink-0">
+              <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <CardTitle className="text-base sm:text-lg truncate">Progresso Semanal</CardTitle>
+              <CardDescription className="text-xs sm:text-sm">75% concluído</CardDescription>
+            </div>
+          </div>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex flex-col items-center">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center mb-2">
-              <Trophy className="h-8 w-8 text-primary-foreground" />
-            </div>
-            <h3 className="text-xl font-bold">Nível Prata</h3>
-            <p className="text-muted-foreground text-sm">500 pontos</p>
-          </div>
-          
-          <div className="space-y-1">
-            <div className="flex justify-between text-sm">
-              <span>500 pts</span>
-              <span>1000 pts</span>
-            </div>
-            <Progress value={50} className="h-2" />
-            <p className="text-xs text-muted-foreground text-center">
-              500 pontos para o próximo nível
-            </p>
-          </div>
+        <CardContent className="p-3 sm:p-6 pt-0">
+          <Progress value={75} className="w-full mb-2" />
+          <p className="text-xs sm:text-sm text-muted-foreground">
+            3 de 4 missões completadas esta semana
+          </p>
         </CardContent>
-        <CardFooter>
-          <Button variant="outline" className="w-full">
-            Ver Benefícios do Nível
-          </Button>
-        </CardFooter>
       </Card>
 
-      <Card className="bg-gradient-to-br from-warning/5 to-warning/10 shadow-md">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Clock className="h-5 w-5 text-warning" />
-            <span>Missões do Dia</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-2">
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <span className="font-medium">Use seu cartão vinculado</span>
-              <Badge variant="outline" className="bg-warning/10 text-warning border-warning/30">
-                +5% cashback
-              </Badge>
+      <Card className="w-full min-w-0">
+        <CardHeader className="pb-3 p-3 sm:p-6">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="p-2 bg-yellow-100 rounded-lg flex-shrink-0">
+              <Star className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-600" />
             </div>
-            <p className="text-xs text-muted-foreground">
-              Faça uma compra de qualquer valor hoje
-            </p>
-            <div className="flex justify-between items-center text-sm">
-              <div className="flex items-center gap-1">
-                <CreditCard className="h-4 w-4" />
-                <span>0/1 compras</span>
-              </div>
-              <Badge variant="outline">Válido hoje</Badge>
+            <div className="flex-1 min-w-0">
+              <CardTitle className="text-base sm:text-lg truncate">Nível Atual</CardTitle>
+              <CardDescription className="text-xs sm:text-sm">Gold Member</CardDescription>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent className="p-3 sm:p-6 pt-0">
+          <div className="flex items-center gap-2">
+            <div className="flex-1">
+              <Progress value={60} className="w-full mb-2" />
+              <p className="text-xs sm:text-sm text-muted-foreground">
+                40% para Platinum
+              </p>
             </div>
           </div>
         </CardContent>
-        <CardFooter>
-          <Button className="w-full bg-warning hover:bg-warning/80" onClick={() => toast.success("Missão ativada com sucesso!")}>
-            Ativar Missão
-          </Button>
-        </CardFooter>
       </Card>
 
-      <Card className="bg-gradient-to-br from-secondary/5 to-secondary/10 shadow-md">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Zap className="h-5 w-5 text-secondary" />
-            <span>Ranking Semanal</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center">
-                <span className="font-bold">15</span>
-              </div>
-              <div>
-                <p className="font-medium">Sua posição atual</p>
-                <p className="text-xs text-muted-foreground">Entre 243 usuários</p>
-              </div>
+      <Card className="w-full min-w-0">
+        <CardHeader className="pb-3 p-3 sm:p-6">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="p-2 bg-purple-100 rounded-lg flex-shrink-0">
+              <Award className="h-4 w-4 sm:h-5 sm:w-5 text-purple-600" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <CardTitle className="text-base sm:text-lg truncate">Conquistas</CardTitle>
+              <CardDescription className="text-xs sm:text-sm">15 desbloqueadas</CardDescription>
             </div>
           </div>
-          
-          <div className="space-y-1">
-            <p className="text-sm font-medium">Top 10 ganha cashback extra</p>
-            <Progress value={60} className="h-2" />
-            <p className="text-xs text-muted-foreground">
-              5 posições para entrar no Top 10
-            </p>
+        </CardHeader>
+        <CardContent className="p-3 sm:p-6 pt-0">
+          <div className="flex items-center gap-1 sm:gap-2">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="w-6 h-6 sm:w-8 sm:h-8 bg-yellow-100 rounded-full flex items-center justify-center">
+                <Award className="h-3 w-3 sm:h-4 sm:w-4 text-yellow-600" />
+              </div>
+            ))}
           </div>
         </CardContent>
-        <CardFooter>
-          <Button variant="outline" className="w-full">
-            Ver Ranking Completo
-          </Button>
-        </CardFooter>
       </Card>
     </div>
   );

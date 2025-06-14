@@ -1,136 +1,172 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Calendar, Download, Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Calendar, Search, Filter, Download, ArrowUpRight, ArrowDownLeft } from "lucide-react";
 
 const ClientTransactions: React.FC = () => {
-  // Dados simulados para a tabela de transações
-  const transactionsData = [
-    { id: 1, date: '20/05/2025', company: 'Mercado Verde', amount: 'R$ 150,00', cashback: 'R$ 7,50', status: 'Aprovado' },
-    { id: 2, date: '18/05/2025', company: 'Farmácia Saúde', amount: 'R$ 80,00', cashback: 'R$ 4,00', status: 'Aprovado' },
-    { id: 3, date: '15/05/2025', company: 'Tech Store', amount: 'R$ 1.200,00', cashback: 'R$ 60,00', status: 'Aprovado' },
-    { id: 4, date: '10/05/2025', company: 'Moda Express', amount: 'R$ 350,00', cashback: 'R$ 17,50', status: 'Pendente' },
-    { id: 5, date: '05/05/2025', company: 'Padaria Delícia', amount: 'R$ 45,00', cashback: 'R$ 2,25', status: 'Aprovado' },
-    { id: 6, date: '01/05/2025', company: 'Mercado Verde', amount: 'R$ 120,00', cashback: 'R$ 6,00', status: 'Aprovado' },
-    { id: 7, date: '28/04/2025', company: 'Farmácia Saúde', amount: 'R$ 65,00', cashback: 'R$ 3,25', status: 'Aprovado' },
-    { id: 8, date: '25/04/2025', company: 'Tech Store', amount: 'R$ 500,00', cashback: 'R$ 25,00', status: 'Rejeitado' },
-    { id: 9, date: '20/04/2025', company: 'Restaurante Bom Sabor', amount: 'R$ 180,00', cashback: 'R$ 18,00', status: 'Aprovado' },
-    { id: 10, date: '15/04/2025', company: 'Livraria Cultura', amount: 'R$ 95,00', cashback: 'R$ 4,75', status: 'Aprovado' },
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterPeriod, setFilterPeriod] = useState('all');
+
+  const transactions = [
+    { id: 1, type: 'cashback', store: 'Mercado Verde', amount: '+R$ 15,30', date: '2025-06-14', status: 'Concluído', category: 'Alimentação' },
+    { id: 2, type: 'withdrawal', store: 'Resgate PIX', amount: '-R$ 100,00', date: '2025-06-13', status: 'Processando', category: 'Resgate' },
+    { id: 3, type: 'cashback', store: 'Farmácia Saúde', amount: '+R$ 8,75', date: '2025-06-12', status: 'Concluído', category: 'Saúde' },
+    { id: 4, type: 'cashback', store: 'Tech Store', amount: '+R$ 42,50', date: '2025-06-11', status: 'Concluído', category: 'Tecnologia' },
+    { id: 5, type: 'cashback', store: 'Moda Express', amount: '+R$ 23,80', date: '2025-06-10', status: 'Concluído', category: 'Vestuário' },
+    { id: 6, type: 'withdrawal', store: 'Resgate Cartão', amount: '-R$ 50,00', date: '2025-06-09', status: 'Concluído', category: 'Resgate' },
   ];
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <h1 className="text-3xl font-bold tracking-tight">Histórico de Transações</h1>
-        <Button variant="outline" size="sm" className="hover-scale">
-          <Calendar className="mr-2 h-4 w-4" /> Últimos 30 dias
-        </Button>
-      </div>
+    <div className="min-h-screen w-full overflow-x-hidden">
+      <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
+        <div className="space-y-4 sm:space-y-6 lg:space-y-8">
+          {/* Header */}
+          <div className="text-center sm:text-left">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight">
+              📊 Minhas Transações
+            </h1>
+            <p className="text-muted-foreground mt-1 text-sm sm:text-base">
+              Histórico completo de cashback e resgates
+            </p>
+          </div>
 
-      <Card className="shadow-md">
-        <CardHeader>
-          <CardTitle>Filtrar Transações</CardTitle>
-          <CardDescription>
-            Utilize os filtros para encontrar transações específicas
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-            <div className="space-y-2">
-              <Label htmlFor="search">Busca</Label>
-              <div className="relative">
-                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input id="search" placeholder="Empresa ou ID" className="pl-8" />
+          {/* Summary Cards */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 w-full">
+            <Card className="w-full min-w-0">
+              <CardHeader className="p-3 sm:p-4">
+                <CardTitle className="text-xs sm:text-sm text-muted-foreground">Este Mês</CardTitle>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold text-green-600">+R$ 186,45</div>
+              </CardHeader>
+            </Card>
+            
+            <Card className="w-full min-w-0">
+              <CardHeader className="p-3 sm:p-4">
+                <CardTitle className="text-xs sm:text-sm text-muted-foreground">Total Ganho</CardTitle>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold">R$ 2.847,90</div>
+              </CardHeader>
+            </Card>
+            
+            <Card className="w-full min-w-0">
+              <CardHeader className="p-3 sm:p-4">
+                <CardTitle className="text-xs sm:text-sm text-muted-foreground">Resgatado</CardTitle>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold text-orange-600">R$ 1.250,00</div>
+              </CardHeader>
+            </Card>
+            
+            <Card className="w-full min-w-0">
+              <CardHeader className="p-3 sm:p-4">
+                <CardTitle className="text-xs sm:text-sm text-muted-foreground">Transações</CardTitle>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold">127</div>
+              </CardHeader>
+            </Card>
+          </div>
+
+          {/* Filters */}
+          <Card className="w-full min-w-0">
+            <CardHeader className="p-4 sm:p-6">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Buscar por loja ou categoria..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10 w-full"
+                  />
+                </div>
+                
+                <div className="flex gap-2 sm:gap-3">
+                  <Select value={filterPeriod} onValueChange={setFilterPeriod}>
+                    <SelectTrigger className="w-full sm:w-32">
+                      <SelectValue placeholder="Período" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Todos</SelectItem>
+                      <SelectItem value="today">Hoje</SelectItem>
+                      <SelectItem value="week">7 dias</SelectItem>
+                      <SelectItem value="month">30 dias</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  
+                  <Button variant="outline" size="icon" className="flex-shrink-0">
+                    <Filter className="h-4 w-4" />
+                  </Button>
+                  
+                  <Button variant="outline" size="icon" className="flex-shrink-0">
+                    <Download className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="date-from">Data inicial</Label>
-              <Input id="date-from" type="date" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="date-to">Data final</Label>
-              <Input id="date-to" type="date" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="status">Status</Label>
-              <select 
-                id="status" 
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                <option value="">Todos</option>
-                <option value="approved">Aprovado</option>
-                <option value="pending">Pendente</option>
-                <option value="rejected">Rejeitado</option>
-              </select>
-            </div>
-          </div>
-          <div className="mt-4 flex justify-end">
-            <Button className="hover-scale">
-              Aplicar Filtros
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+            </CardHeader>
+          </Card>
 
-      <Card className="shadow-md">
-        <CardHeader className="flex flex-row items-center justify-between">
-          <div>
-            <CardTitle>Todas as Transações</CardTitle>
-            <CardDescription>
-              Um total de {transactionsData.length} transações encontradas
-            </CardDescription>
-          </div>
-          <Button variant="outline" size="sm" className="hover-scale">
-            <Download className="mr-2 h-4 w-4" /> Exportar
-          </Button>
-        </CardHeader>
-        <CardContent>
-          <div className="rounded-md border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Data</TableHead>
-                  <TableHead>Empresa</TableHead>
-                  <TableHead>Valor</TableHead>
-                  <TableHead>Cashback</TableHead>
-                  <TableHead>Status</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {transactionsData.map((transaction) => (
-                  <TableRow key={transaction.id} className="cursor-pointer hover:bg-muted/50">
-                    <TableCell>{transaction.date}</TableCell>
-                    <TableCell>{transaction.company}</TableCell>
-                    <TableCell>{transaction.amount}</TableCell>
-                    <TableCell className="text-green-600 font-medium">{transaction.cashback}</TableCell>
-                    <TableCell>
-                      <span className={`px-2 py-1 rounded-full text-xs ${
-                        transaction.status === 'Aprovado' ? 'bg-green-100 text-green-800' : 
-                        transaction.status === 'Pendente' ? 'bg-yellow-100 text-yellow-800' : 
-                        'bg-red-100 text-red-800'
+          {/* Transactions List */}
+          <Card className="w-full min-w-0">
+            <CardHeader className="p-4 sm:p-6">
+              <CardTitle className="text-base sm:text-lg lg:text-xl">Histórico de Transações</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 sm:p-6 pt-0">
+              <div className="space-y-3 sm:space-y-4">
+                {transactions.map((transaction) => (
+                  <div key={transaction.id} className="flex items-center justify-between p-3 sm:p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors w-full min-w-0">
+                    <div className="flex items-center gap-3 flex-1 min-w-0">
+                      <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
+                        transaction.type === 'cashback' ? 'bg-green-100' : 'bg-orange-100'
                       }`}>
-                        {transaction.status}
-                      </span>
-                    </TableCell>
-                  </TableRow>
+                        {transaction.type === 'cashback' ? (
+                          <ArrowDownLeft className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
+                        ) : (
+                          <ArrowUpRight className="h-4 w-4 sm:h-5 sm:w-5 text-orange-600" />
+                        )}
+                      </div>
+                      
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2">
+                          <div className="min-w-0 flex-1">
+                            <p className="font-medium text-sm sm:text-base truncate">{transaction.store}</p>
+                            <div className="flex items-center gap-2 mt-1">
+                              <p className="text-xs sm:text-sm text-muted-foreground">
+                                {new Date(transaction.date).toLocaleDateString('pt-BR')}
+                              </p>
+                              <Badge variant="outline" className="text-xs">
+                                {transaction.category}
+                              </Badge>
+                            </div>
+                          </div>
+                          
+                          <div className="text-left sm:text-right flex-shrink-0">
+                            <p className={`font-bold text-sm sm:text-base ${
+                              transaction.type === 'cashback' ? 'text-green-600' : 'text-orange-600'
+                            }`}>
+                              {transaction.amount}
+                            </p>
+                            <Badge 
+                              variant={transaction.status === 'Concluído' ? 'default' : 'secondary'} 
+                              className="text-xs mt-1"
+                            >
+                              {transaction.status}
+                            </Badge>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 ))}
-              </TableBody>
-            </Table>
-          </div>
-          <div className="flex items-center justify-end space-x-2 py-4">
-            <Button variant="outline" size="sm" className="hover-scale">
-              Anterior
-            </Button>
-            <Button variant="outline" size="sm" className="hover-scale">
-              Próximo
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+              </div>
+              
+              <div className="mt-6 flex justify-center">
+                <Button variant="outline" className="w-full sm:w-auto">
+                  Carregar mais transações
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 };
