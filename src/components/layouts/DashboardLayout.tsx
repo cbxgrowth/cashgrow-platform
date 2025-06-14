@@ -6,6 +6,8 @@ import DashboardSidebar from './dashboard/DashboardSidebar';
 import { EnhancedDashboardHeader } from './dashboard/EnhancedDashboardHeader';
 import { OnboardingProvider } from '../onboarding/OnboardingProvider';
 import { UserType } from '@/types/auth';
+import CompanySupport from '../plugins/CompanySupport';
+import ClientSupport from '../plugins/ClientSupport';
 import { 
   LayoutDashboard, 
   Wallet, 
@@ -90,6 +92,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
             </main>
           </div>
         </div>
+        
+        {/* Conditional Support Plugin */}
+        {userType === 'company' ? <CompanySupport /> : <ClientSupport />}
       </SidebarProvider>
     </OnboardingProvider>
   );
