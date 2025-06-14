@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { OnboardingStep, OnboardingStats } from '@/types/onboarding';
 import { UserType } from '@/types/auth';
 import { getOnboardingSteps } from '@/components/onboarding/data/onboardingSteps';
+import { ONBOARDING_CONSTANTS } from '@/constants/onboarding.constants';
 
 export const useOnboardingLogic = (userType: UserType) => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -36,13 +37,13 @@ export const useOnboardingLogic = (userType: UserType) => {
   };
 
   useEffect(() => {
-    const newLevel = Math.floor(totalPoints / 200) + 1;
+    const newLevel = Math.floor(totalPoints / ONBOARDING_CONSTANTS.POINTS.LEVEL_THRESHOLD) + 1;
     setLevel(newLevel);
   }, [totalPoints]);
 
   const getLevelProgress = () => {
-    const pointsInCurrentLevel = totalPoints % 200;
-    return (pointsInCurrentLevel / 200) * 100;
+    const pointsInCurrentLevel = totalPoints % ONBOARDING_CONSTANTS.POINTS.LEVEL_THRESHOLD;
+    return (pointsInCurrentLevel / ONBOARDING_CONSTANTS.POINTS.LEVEL_THRESHOLD) * 100;
   };
 
   const stats: OnboardingStats = {
