@@ -18,25 +18,25 @@ export const solutionsForConsumers = [
   {
     title: "Cashback Inteligente",
     description: "Ganhe dinheiro de volta em suas compras favoritas",
-    href: "/solutions/consumer#cashback",
+    href: "/solutions/consumer",
     icon: Gift
   },
   {
     title: "Missões Gamificadas",
     description: "Complete desafios e ganhe recompensas extras",
-    href: "/solutions/consumer#missions",
+    href: "/solutions/consumer",
     icon: Target
   },
   {
     title: "Clube VIP",
     description: "Benefícios exclusivos para membros premium",
-    href: "/solutions/consumer#vip",
+    href: "/solutions/consumer",
     icon: Crown
   },
   {
     title: "Recomendações IA",
     description: "Sugestões personalizadas baseadas em IA",
-    href: "/solutions/consumer#ai",
+    href: "/solutions/consumer",
     icon: Zap
   }
 ];
@@ -45,25 +45,25 @@ export const solutionsForBusiness = [
   {
     title: "Dashboard Empresarial",
     description: "Gerencie campanhas e analise performance",
-    href: "/solutions/business#dashboard",
+    href: "/solutions/business",
     icon: TrendingUp
   },
   {
     title: "Campanhas IA",
     description: "Crie campanhas inteligentes automatizadas",
-    href: "/solutions/business#ai-campaigns",
+    href: "/solutions/business",
     icon: Rocket
   },
   {
     title: "Integrações API",
     description: "Conecte com seus sistemas existentes",
-    href: "/solutions/business#integrations",
+    href: "/solutions/business",
     icon: Puzzle
   },
   {
     title: "Análises Avançadas",
     description: "Relatórios detalhados e insights em tempo real",
-    href: "/solutions/business#analytics",
+    href: "/solutions/business",
     icon: Star
   }
 ];
@@ -93,13 +93,13 @@ export const planSections = {
   personal: {
     title: "Planos Pessoais",
     description: "Planos flexíveis para uso pessoal",
-    href: "/pricing/personal",
+    href: "/pricing/consumer",
     icon: User
   },
   business: {
     title: "Planos Empresariais", 
     description: "Soluções escaláveis para negócios",
-    href: "/pricing/business",
+    href: "/pricing/enterprise",
     icon: Building2
   }
 };

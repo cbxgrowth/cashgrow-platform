@@ -307,7 +307,7 @@ const BusinessSolutions = () => {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
-            <Link to="/pricing/business">
+            <Link to="/pricing/enterprise">
               <Button variant="outline" size="lg" className="hover:scale-105 transition-transform">
                 Ver Planos Enterprise
               </Button>
@@ -634,7 +634,7 @@ const BusinessSolutions = () => {
                     Agendar Demonstração
                   </Button>
                 </Link>
-                <Link to="/pricing/business">
+                <Link to="/pricing/enterprise">
                   <Button variant="outline" size="lg">
                     <DollarSign className="mr-2 h-5 w-5" />
                     Ver Planos e Preços

@@ -21,6 +21,11 @@ import Pricing from '@/pages/Pricing';
 import ConsumerPlans from '@/pages/pricing/ConsumerPlans';
 import EnterpriseProducts from '@/pages/pricing/EnterpriseProducts';
 
+// Solutions Pages
+import SolutionsIndex from '@/pages/solutions/index';
+import ConsumerSolutions from '@/pages/solutions/ConsumerSolutions';
+import BusinessSolutions from '@/pages/solutions/BusinessSolutions';
+
 // Auth Pages
 import Login from '@/pages/auth/Login';
 import Register from '@/pages/auth/Register';
@@ -55,6 +60,12 @@ function App() {
               <Route path="about" element={<About />} />
               <Route path="features" element={<Features />} />
               <Route path="contact" element={<Contact />} />
+              <Route path="pricing" element={<Pricing />} />
+              <Route path="pricing/consumer" element={<ConsumerPlans />} />
+              <Route path="pricing/enterprise" element={<EnterpriseProducts />} />
+              <Route path="solutions" element={<SolutionsIndex />} />
+              <Route path="solutions/consumer" element={<ConsumerSolutions />} />
+              <Route path="solutions/business" element={<BusinessSolutions />} />
             </Route>
 
             {/* Auth Routes */}

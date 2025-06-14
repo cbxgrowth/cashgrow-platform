@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -215,7 +214,7 @@ const ConsumerSolutions = () => {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
-            <Link to="/pricing/personal">
+            <Link to="/pricing/consumer">
               <Button variant="outline" size="lg" className="hover:scale-105 transition-transform">
                 Ver Planos
               </Button>
@@ -484,7 +483,7 @@ const ConsumerSolutions = () => {
             </Card>
           </div>
           
-          <Link to="/pricing/personal">
+          <Link to="/pricing/consumer">
             <Button size="lg" variant="outline">
               Ver Todos os Planos
             </Button>
