@@ -9,30 +9,17 @@ import {
   Circle, 
   Trophy, 
   Star, 
-  Gift, 
   Target, 
   Users, 
   Zap,
   ArrowRight,
-  Sparkles,
   X,
-  ExternalLink,
   Minimize2,
   Maximize2
 } from 'lucide-react';
 import { UserType } from '@/types/auth';
 import { useNavigate } from 'react-router-dom';
-
-interface OnboardingStep {
-  id: string;
-  title: string;
-  description: string;
-  icon: React.ComponentType<any>;
-  completed: boolean;
-  points: number;
-  category: 'setup' | 'first_action' | 'exploration' | 'achievement';
-  route: string;
-}
+import { useOnboardingLogic } from '@/hooks/useOnboardingLogic';
 
 interface CompactOnboardingFlowProps {
   userType: UserType;
@@ -46,115 +33,40 @@ export const CompactOnboardingFlow: React.FC<CompactOnboardingFlowProps> = ({
   onSkip 
 }) => {
   const navigate = useNavigate();
-  const [totalPoints, setTotalPoints] = useState(0);
-  const [level, setLevel] = useState(1);
   const [isMinimized, setIsMinimized] = useState(false);
   const [position, setPosition] = useState<'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'>('bottom-right');
+  
+  const {
+    steps,
+    stats,
+    completeStep,
+    checkStepCompletion,
+    allStepsCompleted
+  } = useOnboardingLogic(userType);
 
-  const clientSteps: OnboardingStep[] = [
-    {
-      id: 'profile_setup',
-      title: 'Complete seu Perfil',
-      description: 'Adicione suas informações pessoais',
-      icon: Users,
-      completed: false,
-      points: 50,
-      category: 'setup',
-      route: '/client/profile'
-    },
-    {
-      id: 'connect_first_store',
-      title: 'Conecte uma Loja',
-      description: 'Escolha uma loja favorita',
-      icon: Target,
-      completed: false,
-      points: 100,
-      category: 'first_action',
-      route: '/client/companies'
-    },
-    {
-      id: 'first_mission',
-      title: 'Complete uma Missão',
-      description: 'Faça uma compra qualificada',
-      icon: Trophy,
-      completed: false,
-      points: 150,
-      category: 'achievement',
-      route: '/client/missions'
-    },
-    {
-      id: 'explore_vip',
-      title: 'Explore o Clube VIP',
-      description: 'Descubra benefícios exclusivos',
-      icon: Star,
-      completed: false,
-      points: 75,
-      category: 'exploration',
-      route: '/client/vip-club'
+  // Auto-complete onboarding when all steps are done
+  useEffect(() => {
+    if (allStepsCompleted) {
+      const timer = setTimeout(() => {
+        onComplete();
+      }, 2000); // Delay para mostrar a conclusão
+      return () => clearTimeout(timer);
     }
-  ];
+  }, [allStepsCompleted, onComplete]);
 
-  const companySteps: OnboardingStep[] = [
-    {
-      id: 'company_profile',
-      title: 'Configure sua Empresa',
-      description: 'Complete informações da empresa',
-      icon: Users,
-      completed: false,
-      points: 100,
-      category: 'setup',
-      route: '/company/profile'
-    },
-    {
-      id: 'cashback_rules',
-      title: 'Defina Regras de Cashback',
-      description: 'Configure percentuais',
-      icon: Target,
-      completed: false,
-      points: 150,
-      category: 'setup',
-      route: '/company/cashback-rules'
-    },
-    {
-      id: 'first_client',
-      title: 'Cadastre um Cliente',
-      description: 'Adicione seu primeiro cliente',
-      icon: Users,
-      completed: false,
-      points: 200,
-      category: 'first_action',
-      route: '/company/clients'
-    },
-    {
-      id: 'integration_setup',
-      title: 'Configure Integrações',
-      description: 'Conecte seus sistemas',
-      icon: Zap,
-      completed: false,
-      points: 250,
-      category: 'setup',
-      route: '/company/integrations'
+  // Check step completion periodically
+  useEffect(() => {
+    const interval = setInterval(() => {
+      checkStepCompletion();
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [checkStepCompletion]);
+
+  const handleStepClick = (stepId: string, route: string) => {
+    navigate(route);
+    if (!isMinimized) {
+      setIsMinimized(true);
     }
-  ];
-
-  const [steps, setSteps] = useState(userType === 'client' ? clientSteps : companySteps);
-
-  const completedSteps = steps.filter(step => step.completed).length;
-  const progress = (completedSteps / steps.length) * 100;
-
-  const completeStep = (stepId: string) => {
-    setSteps(prev => prev.map(step => {
-      if (step.id === stepId && !step.completed) {
-        setTotalPoints(points => points + step.points);
-        return { ...step, completed: true };
-      }
-      return step;
-    }));
-  };
-
-  const handleStepClick = (step: OnboardingStep) => {
-    navigate(step.route);
-    setIsMinimized(true);
   };
 
   const getPositionClasses = () => {
@@ -180,11 +92,6 @@ export const CompactOnboardingFlow: React.FC<CompactOnboardingFlowProps> = ({
     setPosition(positions[nextIndex]);
   };
 
-  useEffect(() => {
-    const newLevel = Math.floor(totalPoints / 200) + 1;
-    setLevel(newLevel);
-  }, [totalPoints]);
-
   const getCategoryColor = (category: string) => {
     switch (category) {
       case 'setup': return 'bg-blue-500';
@@ -203,7 +110,7 @@ export const CompactOnboardingFlow: React.FC<CompactOnboardingFlowProps> = ({
             <div className="flex items-center justify-between">
               <CardTitle className="text-sm flex items-center gap-2">
                 <Trophy className="h-4 w-4 text-primary" />
-                Onboarding ({completedSteps}/{steps.length})
+                Configuração ({stats.completedSteps}/{steps.length})
               </CardTitle>
               <div className="flex gap-1">
                 <Button
@@ -224,39 +131,65 @@ export const CompactOnboardingFlow: React.FC<CompactOnboardingFlowProps> = ({
                 >
                   <Maximize2 className="h-3 w-3" />
                 </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={onSkip}
+                  className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground"
+                  title="Pular"
+                >
+                  <X className="h-3 w-3" />
+                </Button>
               </div>
             </div>
-            <Progress value={progress} className="h-1" />
+            <Progress value={stats.progress} className="h-2" />
           </CardHeader>
-          <CardContent className="pt-0">
-            <div className="space-y-1">
-              {steps.slice(0, 2).map((step) => (
-                <div 
-                  key={step.id}
-                  className="flex items-center gap-2 text-xs cursor-pointer hover:bg-muted/50 p-1 rounded transition-colors"
-                  onClick={() => handleStepClick(step)}
-                >
-                  {step.completed ? (
-                    <CheckCircle className="h-3 w-3 text-green-600 flex-shrink-0" />
-                  ) : (
-                    <Circle className="h-3 w-3 text-muted-foreground flex-shrink-0" />
-                  )}
-                  <span className={`truncate ${step.completed ? 'text-green-700 line-through' : ''}`}>
-                    {step.title}
-                  </span>
+          
+          <CardContent className="pt-0 space-y-2">
+            {steps.map((step) => (
+              <div 
+                key={step.id}
+                className={`flex items-center gap-2 text-xs cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors ${
+                  step.completed ? 'bg-green-50 dark:bg-green-950' : ''
+                }`}
+                onClick={() => handleStepClick(step.id, step.route)}
+              >
+                <div className={`p-1 rounded-full ${getCategoryColor(step.category)} flex-shrink-0`}>
+                  <step.icon className="h-3 w-3 text-white" />
                 </div>
-              ))}
-              {steps.length > 2 && (
-                <div className="text-xs text-muted-foreground pl-5">
-                  +{steps.length - 2} mais etapas
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <span className={`truncate text-xs font-medium ${
+                      step.completed ? 'text-green-700 dark:text-green-300' : ''
+                    }`}>
+                      {step.title}
+                    </span>
+                    <Badge variant="outline" className="text-[10px] px-1 py-0">
+                      +{step.points}
+                    </Badge>
+                  </div>
+                  <p className="text-[10px] text-muted-foreground truncate">
+                    {step.description}
+                  </p>
                 </div>
-              )}
-            </div>
-            {completedSteps === steps.length && (
-              <Button onClick={onComplete} size="sm" className="w-full mt-2">
-                <Trophy className="h-3 w-3 mr-1" />
-                Finalizar
-              </Button>
+                {step.completed ? (
+                  <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0" />
+                ) : (
+                  <Circle className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                )}
+              </div>
+            ))}
+            
+            {allStepsCompleted && (
+              <div className="mt-3 p-2 bg-green-50 dark:bg-green-950 rounded-lg border border-green-200 dark:border-green-800">
+                <div className="flex items-center gap-2 text-green-700 dark:text-green-300">
+                  <Trophy className="h-4 w-4" />
+                  <span className="text-xs font-medium">Configuração Completa!</span>
+                </div>
+                <p className="text-[10px] text-green-600 dark:text-green-400 mt-1">
+                  Parabéns! Você configurou tudo.
+                </p>
+              </div>
             )}
           </CardContent>
         </Card>
@@ -273,11 +206,11 @@ export const CompactOnboardingFlow: React.FC<CompactOnboardingFlowProps> = ({
               <div className="flex items-center gap-2">
                 <div className="flex items-center gap-1 px-3 py-1 bg-primary/10 rounded-full">
                   <Trophy className="h-4 w-4 text-primary" />
-                  <span className="text-sm font-semibold">Nível {level}</span>
+                  <span className="text-sm font-semibold">Nível {stats.level}</span>
                 </div>
                 <div className="flex items-center gap-1 px-3 py-1 bg-orange-500/10 rounded-full">
                   <Star className="h-4 w-4 text-orange-500" />
-                  <span className="text-sm font-semibold">{totalPoints}pts</span>
+                  <span className="text-sm font-semibold">{stats.totalPoints}pts</span>
                 </div>
               </div>
               <Button
@@ -298,13 +231,13 @@ export const CompactOnboardingFlow: React.FC<CompactOnboardingFlowProps> = ({
             <div className="space-y-2">
               <div className="flex items-center justify-between text-sm text-muted-foreground">
                 <span>Progresso</span>
-                <span>{completedSteps}/{steps.length}</span>
+                <span>{stats.completedSteps}/{steps.length}</span>
               </div>
-              <Progress value={progress} className="h-2" />
+              <Progress value={stats.progress} className="h-2" />
             </div>
           </CardHeader>
 
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-3">
             <div className="space-y-2">
               {steps.map((step) => (
                 <div 
@@ -314,7 +247,7 @@ export const CompactOnboardingFlow: React.FC<CompactOnboardingFlowProps> = ({
                       ? 'bg-green-50 border-green-200 dark:bg-green-950 dark:border-green-800' 
                       : 'bg-muted/30 border-border hover:bg-primary/5 hover:border-primary/20'
                   }`}
-                  onClick={() => handleStepClick(step)}
+                  onClick={() => handleStepClick(step.id, step.route)}
                 >
                   <div className={`p-2 rounded-full ${getCategoryColor(step.category)}`}>
                     <step.icon className="h-4 w-4 text-white" />
@@ -343,15 +276,28 @@ export const CompactOnboardingFlow: React.FC<CompactOnboardingFlowProps> = ({
               ))}
             </div>
 
+            {allStepsCompleted && (
+              <div className="mt-4 p-4 bg-gradient-to-r from-green-50 to-green-100 dark:from-green-950 dark:to-green-900 rounded-lg border border-green-200 dark:border-green-800">
+                <div className="text-center">
+                  <Trophy className="h-8 w-8 text-green-600 mx-auto mb-2" />
+                  <h3 className="text-lg font-semibold text-green-700 dark:text-green-300 mb-1">
+                    Configuração Completa!
+                  </h3>
+                  <p className="text-sm text-green-600 dark:text-green-400">
+                    Parabéns! Você configurou tudo. O onboarding será fechado automaticamente.
+                  </p>
+                </div>
+              </div>
+            )}
+
             <div className="flex items-center justify-between pt-4 border-t">
               <Button variant="ghost" onClick={onSkip} size="sm">
                 Pular Tutorial
               </Button>
               
-              {completedSteps === steps.length && (
-                <Button onClick={onComplete} className="bg-gradient-to-r from-green-500 to-green-600">
-                  <Trophy className="h-4 w-4 mr-2" />
-                  Finalizar
+              {!allStepsCompleted && (
+                <Button onClick={() => setIsMinimized(true)} variant="outline" size="sm">
+                  Minimizar
                 </Button>
               )}
             </div>

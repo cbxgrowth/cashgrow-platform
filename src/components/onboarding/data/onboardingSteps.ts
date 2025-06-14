@@ -14,47 +14,42 @@ export const getClientSteps = (): OnboardingStep[] => [
   {
     id: 'profile_setup',
     title: 'Complete seu Perfil',
-    description: 'Adicione suas informações pessoais e preferências',
+    description: 'Adicione suas informações pessoais',
     icon: Users,
     completed: false,
     points: 50,
-    category: 'setup'
+    category: 'setup',
+    route: '/client/profile'
   },
   {
     id: 'connect_first_store',
-    title: 'Conecte sua Primeira Loja',
-    description: 'Escolha uma loja favorita para começar a ganhar cashback',
+    title: 'Conecte uma Loja',
+    description: 'Escolha uma loja favorita',
     icon: Target,
     completed: false,
     points: 100,
-    category: 'first_action'
+    category: 'first_action',
+    route: '/client/companies'
   },
   {
     id: 'first_mission',
-    title: 'Complete sua Primeira Missão',
-    description: 'Faça uma compra qualificada e ganhe pontos extras',
+    title: 'Complete uma Missão',
+    description: 'Faça uma compra qualificada',
     icon: Trophy,
     completed: false,
     points: 150,
-    category: 'achievement'
+    category: 'achievement',
+    route: '/client/missions'
   },
   {
     id: 'explore_vip',
     title: 'Explore o Clube VIP',
-    description: 'Descubra benefícios exclusivos e recompensas premium',
+    description: 'Descubra benefícios exclusivos',
     icon: Star,
     completed: false,
     points: 75,
-    category: 'exploration'
-  },
-  {
-    id: 'invite_friend',
-    title: 'Convide um Amigo',
-    description: 'Compartilhe e ganhe bônus quando seu amigo se cadastrar',
-    icon: Gift,
-    completed: false,
-    points: 200,
-    category: 'achievement'
+    category: 'exploration',
+    route: '/client/vip-club'
   }
 ];
 
@@ -62,47 +57,42 @@ export const getCompanySteps = (): OnboardingStep[] => [
   {
     id: 'company_profile',
     title: 'Configure sua Empresa',
-    description: 'Complete as informações da sua empresa e marca',
+    description: 'Complete informações da empresa',
     icon: Users,
     completed: false,
     points: 100,
-    category: 'setup'
+    category: 'setup',
+    route: '/company/profile'
   },
   {
     id: 'cashback_rules',
     title: 'Defina Regras de Cashback',
-    description: 'Configure percentuais e condições para seus produtos',
+    description: 'Configure percentuais',
     icon: Target,
     completed: false,
     points: 150,
-    category: 'setup'
+    category: 'setup',
+    route: '/company/profile'
   },
   {
     id: 'first_campaign',
-    title: 'Crie sua Primeira Campanha',
-    description: 'Lance uma campanha promocional para atrair clientes',
+    title: 'Crie uma Campanha',
+    description: 'Lance uma promoção',
     icon: Zap,
     completed: false,
     points: 200,
-    category: 'first_action'
+    category: 'first_action',
+    route: '/company/ai-campaigns'
   },
   {
     id: 'integration_setup',
     title: 'Configure Integrações',
-    description: 'Conecte seus sistemas existentes via API',
+    description: 'Conecte seus sistemas',
     icon: Trophy,
     completed: false,
     points: 250,
-    category: 'setup'
-  },
-  {
-    id: 'analytics_review',
-    title: 'Explore Analytics',
-    description: 'Conheça relatórios e métricas de performance',
-    icon: Star,
-    completed: false,
-    points: 100,
-    category: 'exploration'
+    category: 'setup',
+    route: '/company/integrations'
   }
 ];
 

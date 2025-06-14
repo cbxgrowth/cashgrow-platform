@@ -9,6 +9,7 @@ export interface OnboardingStep {
   completed: boolean;
   points: number;
   category: 'setup' | 'first_action' | 'exploration' | 'achievement';
+  route: string;
 }
 
 export interface OnboardingStats {
