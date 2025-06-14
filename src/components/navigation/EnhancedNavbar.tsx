@@ -5,6 +5,7 @@ import Logo from '../Logo';
 import DesktopNavigation from './components/DesktopNavigation';
 import MobileNavigation from './components/MobileNavigation';
 import AuthButtons from './components/AuthButtons';
+import PWAStatus from '../pwa/PWAStatus';
 
 const EnhancedNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +19,11 @@ const EnhancedNavbar = () => {
           </div>
           
           <DesktopNavigation />
-          <AuthButtons />
+          
+          <div className="flex items-center gap-3">
+            <PWAStatus />
+            <AuthButtons />
+          </div>
 
           {/* Mobile menu button */}
           <div className="lg:hidden flex items-center">

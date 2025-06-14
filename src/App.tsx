@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from '@/components/ui/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
+import PWAInstallPrompt from '@/components/pwa/PWAInstallPrompt';
 
 // Layouts
 import MainLayout from '@/components/layouts/MainLayout';
@@ -54,64 +55,67 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-        <Router>
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<MainLayout />}>
-              <Route index element={<Home />} />
-              <Route path="about" element={<About />} />
-              <Route path="features" element={<Features />} />
-              <Route path="contact" element={<Contact />} />
-              <Route path="pricing" element={<Pricing />} />
-              <Route path="pricing/consumer" element={<ConsumerPlans />} />
-              <Route path="pricing/enterprise" element={<EnterpriseProducts />} />
-              <Route path="help" element={<Help />} />
-              <Route path="docs/api" element={<ApiDocs />} />
-              <Route path="community" element={<Community />} />
-              <Route path="solutions" element={<SolutionsIndex />} />
-              <Route path="solutions/consumer" element={<ConsumerSolutions />} />
-              <Route path="solutions/business" element={<BusinessSolutions />} />
-            </Route>
+        <div className="no-pull-refresh">
+          <Router>
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<MainLayout />}>
+                <Route index element={<Home />} />
+                <Route path="about" element={<About />} />
+                <Route path="features" element={<Features />} />
+                <Route path="contact" element={<Contact />} />
+                <Route path="pricing" element={<Pricing />} />
+                <Route path="pricing/consumer" element={<ConsumerPlans />} />
+                <Route path="pricing/enterprise" element={<EnterpriseProducts />} />
+                <Route path="help" element={<Help />} />
+                <Route path="docs/api" element={<ApiDocs />} />
+                <Route path="community" element={<Community />} />
+                <Route path="solutions" element={<SolutionsIndex />} />
+                <Route path="solutions/consumer" element={<ConsumerSolutions />} />
+                <Route path="solutions/business" element={<BusinessSolutions />} />
+              </Route>
 
-            {/* Auth Routes */}
-            <Route path="/auth" element={<AuthLayout />}>
-              <Route path="login" element={<Login />} />
-              <Route path="register" element={<Register />} />
-              <Route path="callback" element={<AuthCallback />} />
-            </Route>
+              {/* Auth Routes */}
+              <Route path="/auth" element={<AuthLayout />}>
+                <Route path="login" element={<Login />} />
+                <Route path="register" element={<Register />} />
+                <Route path="callback" element={<AuthCallback />} />
+              </Route>
 
-            {/* Client Dashboard Routes */}
-            <Route path="/client/*" element={<DashboardLayout userType="client" />}>
-              <Route path="dashboard" element={<ClientDashboard />} />
-              {/* Add more client routes here */}
-            </Route>
+              {/* Client Dashboard Routes */}
+              <Route path="/client/*" element={<DashboardLayout userType="client" />}>
+                <Route path="dashboard" element={<ClientDashboard />} />
+                {/* Add more client routes here */}
+              </Route>
 
-            {/* Company Dashboard Routes */}
-            <Route path="/company/*" element={<DashboardLayout userType="company" />}>
-              <Route path="dashboard" element={<CompanyDashboard />} />
-              {/* Add more company routes here */}
-            </Route>
+              {/* Company Dashboard Routes */}
+              <Route path="/company/*" element={<DashboardLayout userType="company" />}>
+                <Route path="dashboard" element={<CompanyDashboard />} />
+                {/* Add more company routes here */}
+              </Route>
 
-            {/* Admin Routes */}
-            <Route path="/admin/*" element={
-              <AdminProtectedRoute>
-                <AdminLayout />
-              </AdminProtectedRoute>
-            }>
-              <Route path="dashboard" element={<AdminDashboard />} />
-              <Route path="users" element={<AdminUsers />} />
-              <Route path="companies" element={<AdminCompanies />} />
-              <Route path="settings" element={<AdminSettings />} />
-              <Route path="analytics" element={<AdminDashboard />} />
-              <Route path="audit-logs" element={<AdminDashboard />} />
-            </Route>
+              {/* Admin Routes */}
+              <Route path="/admin/*" element={
+                <AdminProtectedRoute>
+                  <AdminLayout />
+                </AdminProtectedRoute>
+              }>
+                <Route path="dashboard" element={<AdminDashboard />} />
+                <Route path="users" element={<AdminUsers />} />
+                <Route path="companies" element={<AdminCompanies />} />
+                <Route path="settings" element={<AdminSettings />} />
+                <Route path="analytics" element={<AdminDashboard />} />
+                <Route path="audit-logs" element={<AdminDashboard />} />
+              </Route>
 
-            {/* Fallback Routes */}
-            <Route path="/dashboard" element={<Navigate to="/client/dashboard" replace />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Router>
-        <Toaster />
+              {/* Fallback Routes */}
+              <Route path="/dashboard" element={<Navigate to="/client/dashboard" replace />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Router>
+          <PWAInstallPrompt />
+          <Toaster />
+        </div>
       </ThemeProvider>
     </QueryClientProvider>
   );
