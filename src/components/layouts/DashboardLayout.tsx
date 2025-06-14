@@ -74,7 +74,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
   return (
     <OnboardingProvider userType={userType}>
       <SidebarProvider>
-        <div className="min-h-screen flex w-full">
+        <div className="min-h-screen flex w-full overflow-x-hidden">
           {/* Mobile-aware sidebar */}
           {!isMobile && (
             <DashboardSidebar 
@@ -85,7 +85,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
           )}
           
           <div 
-            className={`flex-1 flex flex-col transition-all duration-300 ${
+            className={`flex-1 flex flex-col transition-all duration-300 w-full min-w-0 ${
               !isMobile ? (sidebarCollapsed ? 'ml-16' : 'ml-64') : 'ml-0'
             }`}
           >
@@ -93,8 +93,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
               userType={userType} 
               menuItems={menuItems}
             />
-            <main className="flex-1 overflow-auto bg-muted/30 safe-area-inset">
-              <div className="p-3 sm:p-4 lg:p-6">
+            <main className="flex-1 overflow-auto bg-muted/30 safe-area-inset w-full">
+              <div className="w-full">
                 <Outlet />
               </div>
             </main>
