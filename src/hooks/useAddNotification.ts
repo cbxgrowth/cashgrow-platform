@@ -2,6 +2,7 @@
 import { useNotifications } from '@/contexts/NotificationContext';
 import { Notification } from '@/types/notifications';
 import { supabase } from '@/integrations/supabase/client';
+import { UserType } from '@/types/auth';
 
 export interface NotificationOptions {
   /**
@@ -34,6 +35,12 @@ export const useAddNotification = () => {
     // Get current user session
     const { data: { session } } = await supabase.auth.getSession();
     const userId = session?.user?.id || 'anonymous';
+    const userType = session?.user?.user_metadata?.user_type as UserType;
+    
+    if (!userType) {
+      console.error('User type not found in session metadata');
+      return '';
+    }
     
     // Determine if the parameter linkOrOptions is a link or options
     const link = typeof linkOrOptions === 'string' ? linkOrOptions : undefined;
@@ -41,6 +48,7 @@ export const useAddNotification = () => {
     
     const notification: Omit<Notification, 'id' | 'createdAt' | 'isRead'> = {
       userId,
+      userType,
       title,
       message,
       type,

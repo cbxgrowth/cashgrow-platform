@@ -8,14 +8,15 @@ export interface Notification {
   isRead: boolean;
   createdAt: string;
   link?: string;
+  userType: 'client' | 'company'; // Novo campo para definir o destinatário
   metadata?: {
     hasAction?: boolean;
     actionParams?: Record<string, any>;
     icon?: string;
-    category?: 'transaction' | 'account' | 'promotion' | 'system';
+    category?: 'transaction' | 'account' | 'promotion' | 'system' | 'client-management' | 'performance';
     priority?: 'low' | 'medium' | 'high';
     expiresAt?: string;
-    actionData?: any; // Adding the missing actionData property
+    actionData?: any;
   };
 }
 
@@ -26,4 +27,12 @@ export interface NotificationSettings {
   notifyOnPromotions: boolean;
   notifyOnAccountChanges: boolean;
   notifyOnSystemUpdates: boolean;
+  // Configurações específicas para empresas
+  notifyOnNewClients?: boolean;
+  notifyOnClientTransactions?: boolean;
+  notifyOnPerformanceReports?: boolean;
+  // Configurações específicas para clientes
+  notifyOnCashbackReceived?: boolean;
+  notifyOnNewPromotions?: boolean;
+  notifyOnLevelUp?: boolean;
 }
