@@ -5,11 +5,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CompanyLoginForm from '@/components/auth/CompanyLoginForm';
 import ClientLoginForm from '@/components/auth/ClientLoginForm';
 import LoginCardFooter from '@/components/auth/LoginCardFooter';
-import { useGoogleLogin } from '@/hooks/auth/useGoogleLogin';
 
 const Login: React.FC = () => {
-  const { handleGoogleLogin, isLoading } = useGoogleLogin();
-
   return (
     <Tabs defaultValue="company" className="w-full">
       <TabsList className="grid w-full grid-cols-2 mb-6">
@@ -26,9 +23,7 @@ const Login: React.FC = () => {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <CompanyLoginForm 
-              onGoogleLogin={handleGoogleLogin} 
-            />
+            <CompanyLoginForm />
           </CardContent>
           <CardFooter>
             <LoginCardFooter />
@@ -45,9 +40,7 @@ const Login: React.FC = () => {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <ClientLoginForm 
-              onGoogleLogin={handleGoogleLogin} 
-            />
+            <ClientLoginForm />
           </CardContent>
           <CardFooter>
             <LoginCardFooter />
