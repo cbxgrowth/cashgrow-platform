@@ -1,68 +1,62 @@
 
 import React from 'react';
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { ArrowRightLeft, RefreshCw } from "lucide-react";
-import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { RefreshCw, Clock } from "lucide-react";
 
 const SynchronizationSettingsSection: React.FC = () => {
-  const handleSyncNow = () => {
-    toast.success('Sincronização iniciada! Você receberá uma notificação quando for concluída.');
-  };
-
-  const syncOptions = [
-    { id: 'sync-products', label: 'Produtos e Categorias', defaultChecked: true },
-    { id: 'sync-inventory', label: 'Estoque e Disponibilidade', defaultChecked: true },
-    { id: 'sync-orders', label: 'Pedidos e Transações', defaultChecked: true },
-    { id: 'sync-customers', label: 'Clientes', defaultChecked: true }
-  ];
-
-  const frequencyOptions = [
-    { id: 'sync-auto', label: 'Automática (a cada hora)', defaultChecked: true },
-    { id: 'sync-daily', label: 'Diária', defaultChecked: false },
-    { id: 'sync-manual', label: 'Manual', defaultChecked: false }
-  ];
-
   return (
     <div className="space-y-4 p-4 border rounded-lg bg-slate-50 dark:bg-slate-900">
       <h3 className="text-lg font-medium flex items-center gap-2">
-        <ArrowRightLeft className="h-5 w-5 text-accent" />
+        <RefreshCw className="h-5 w-5 text-accent" />
         Configurações de Sincronização
       </h3>
       
-      <div className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-3">
-            <Label className="text-sm font-medium">Dados a Sincronizar</Label>
-            <div className="space-y-2">
-              {syncOptions.map((option) => (
-                <div key={option.id} className="flex items-center gap-2 p-3 border rounded-lg bg-white dark:bg-slate-800 hover:border-primary/50 transition-colors">
-                  <input type="checkbox" id={option.id} className="w-4 h-4 accent-primary" defaultChecked={option.defaultChecked} />
-                  <Label htmlFor={option.id} className="flex-1 cursor-pointer">{option.label}</Label>
-                </div>
-              ))}
-            </div>
-          </div>
-          
-          <div className="space-y-3">
-            <Label className="text-sm font-medium">Frequência de Sincronização</Label>
-            <div className="space-y-2">
-              {frequencyOptions.map((option) => (
-                <div key={option.id} className="flex items-center gap-2 p-3 border rounded-lg bg-white dark:bg-slate-800 hover:border-primary/50 transition-colors">
-                  <input type="radio" id={option.id} name="sync-frequency" className="w-4 h-4 accent-primary" defaultChecked={option.defaultChecked} />
-                  <Label htmlFor={option.id} className="flex-1 cursor-pointer">{option.label}</Label>
-                </div>
-              ))}
-            </div>
-          </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label>Frequência de Sincronização</Label>
+          <select className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background">
+            <option value="realtime">Tempo Real</option>
+            <option value="hourly">A cada hora</option>
+            <option value="daily">Diário</option>
+          </select>
         </div>
         
-        <div className="flex justify-end gap-2">
-          <Button variant="secondary" onClick={handleSyncNow}>
-            <RefreshCw className="h-4 w-4 mr-2" /> Sincronizar Agora
-          </Button>
+        <div className="space-y-2">
+          <Label>Última Sincronização</Label>
+          <div className="flex items-center gap-2 p-2 border rounded bg-white dark:bg-slate-800">
+            <Clock className="h-4 w-4 text-muted-foreground" />
+            <span className="text-sm">Há 5 minutos</span>
+          </div>
         </div>
       </div>
+
+      <div className="space-y-3">
+        <Label>Dados para Sincronizar</Label>
+        <div className="space-y-2">
+          <label className="flex items-center gap-2">
+            <input type="checkbox" defaultChecked className="rounded" />
+            <span className="text-sm">Produtos e Inventário</span>
+          </label>
+          <label className="flex items-center gap-2">
+            <input type="checkbox" defaultChecked className="rounded" />
+            <span className="text-sm">Pedidos e Transações</span>
+          </label>
+          <label className="flex items-center gap-2">
+            <input type="checkbox" defaultChecked className="rounded" />
+            <span className="text-sm">Dados de Clientes</span>
+          </label>
+          <label className="flex items-center gap-2">
+            <input type="checkbox" className="rounded" />
+            <span className="text-sm">Relatórios de Vendas</span>
+          </label>
+        </div>
+      </div>
+
+      <Button variant="outline">
+        <RefreshCw className="h-4 w-4 mr-2" />
+        Sincronizar Agora
+      </Button>
     </div>
   );
 };

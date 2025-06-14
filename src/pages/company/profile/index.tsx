@@ -2,11 +2,11 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BusinessInfoTab } from './components/BusinessInfoTab';
-import { BrandingTab } from './components/BrandingTab';
-import { PaymentSettingsTab } from './components/PaymentSettingsTab';
-import { StoreIntegrationTab } from './components/StoreIntegrationTab';
-import { SecurityTab } from './components/SecurityTab';
+import BusinessInfoTab from './components/BusinessInfoTab';
+import BrandingTab from './components/BrandingTab';
+import PaymentSettingsTab from './components/PaymentSettingsTab';
+import StoreIntegrationTab from './components/StoreIntegrationTab';
+import SecurityTab from './components/SecurityTab';
 import { Building2, Palette, CreditCard, Store, Shield } from 'lucide-react';
 
 const CompanyProfile: React.FC = () => {

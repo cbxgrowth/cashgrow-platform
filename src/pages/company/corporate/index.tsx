@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -60,7 +59,7 @@ const CompanyCorporate: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">Premium</div>
-            <Badge variant="premium" className="mt-1">Enterprise</Badge>
+            <Badge variant="secondary" className="mt-1">Enterprise</Badge>
           </CardContent>
         </Card>
       </div>

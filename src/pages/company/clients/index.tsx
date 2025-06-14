@@ -132,7 +132,7 @@ const CompanyClients: React.FC = () => {
                     <td className="p-4">
                       <Badge variant={
                         client.status === 'Ativo' ? 'default' : 
-                        client.status === 'VIP' ? 'premium' : 'secondary'
+                        client.status === 'VIP' ? 'secondary' : 'outline'
                       }>
                         {client.status}
                       </Badge>
