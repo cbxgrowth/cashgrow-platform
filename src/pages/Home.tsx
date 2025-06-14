@@ -1,507 +1,254 @@
-import React, { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
+
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { 
-  CheckCircle, 
+  ArrowRight, 
+  Zap, 
+  Shield, 
   TrendingUp, 
   Users, 
-  ShoppingBag, 
-  CreditCard, 
-  Award, 
-  ArrowRight,
-  Building,
-  User,
-  Megaphone,
-  MessageSquare,
-  Bell,
-  Calendar,
-  Gift,
+  Sparkles,
   Star,
-  Smile,
+  CheckCircle,
+  Wallet,
+  BarChart3,
   Target,
-  Heart,
-  Zap,
-  Crown,
-  Rocket,
-  Shield,
-  Settings,
-  Smartphone,
-  Globe,
-  Utensils,
-  ShoppingCart,
-  Scissors,
-  Package,
-  Monitor,
-  Search,
-  Play,
-  ChevronRight
-} from 'lucide-react';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+  Crown
+} from "lucide-react";
 
-const Home: React.FC = () => {
-  const [currentTestimonial, setCurrentTestimonial] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
+const Home = () => {
+  const features = [
+    {
+      icon: Wallet,
+      title: "Cashback Inteligente",
+      description: "Ganhe dinheiro de volta em cada compra com nosso sistema avançado de recompensas.",
+      gradient: "from-green-500 to-emerald-600"
+    },
+    {
+      icon: BarChart3,
+      title: "Analytics Avançados",
+      description: "Acompanhe seu desempenho com relatórios detalhados e insights em tempo real.",
+      gradient: "from-blue-500 to-indigo-600"
+    },
+    {
+      icon: Target,
+      title: "Missões Gamificadas",
+      description: "Complete missões e desafios para ganhar recompensas extras e benefícios exclusivos.",
+      gradient: "from-purple-500 to-violet-600"
+    },
+    {
+      icon: Crown,
+      title: "Clube VIP",
+      description: "Acesse benefícios exclusivos, cashback maior e atendimento prioritário.",
+      gradient: "from-amber-500 to-orange-600"
+    }
+  ];
 
-  useEffect(() => {
-    setIsVisible(true);
-    const interval = setInterval(() => {
-      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
+  const stats = [
+    { number: "10K+", label: "Usuários Ativos", icon: Users },
+    { number: "R$ 2M+", label: "Cashback Distribuído", icon: TrendingUp },
+    { number: "500+", label: "Empresas Parceiras", icon: Shield },
+    { number: "99.9%", label: "Uptime", icon: Zap }
+  ];
 
   const testimonials = [
     {
       name: "Maria Silva",
-      role: "CEO, Padaria Doce Vida",
-      content: "Aumentamos 45% nas vendas em 3 meses. O Bloom revolucionou nossa fidelização!",
+      role: "Empresária",
+      content: "O sistema revolucionou nosso programa de fidelidade. Aumento de 40% na retenção de clientes!",
+      rating: 5,
       avatar: "MS"
     },
     {
       name: "João Santos",
-      role: "Cliente Premium",
-      content: "Já resgatei mais de R$ 2.000 em cashback. É incrível como funciona bem!",
+      role: "Cliente",
+      content: "Já economizei mais de R$ 500 este ano só com cashback. Recomendo para todos!",
+      rating: 5,
       avatar: "JS"
     },
     {
       name: "Ana Costa",
-      role: "Gerente, Fashion Store",
-      content: "A IA do Bloom me ajuda a criar campanhas que realmente convertem. Fantástico!",
+      role: "Gerente de Marketing",
+      content: "Os insights são incríveis. Conseguimos segmentar melhor nossa base de clientes.",
+      rating: 5,
       avatar: "AC"
     }
   ];
 
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Enhanced Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary/90 via-accent/80 to-secondary/90 text-white py-32 overflow-hidden">
-        {/* Animated Background */}
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
-          <div className="absolute top-20 left-20 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        </div>
-
-        <div className="container px-4 md:px-6 relative z-10">
-          <div className="grid gap-12 lg:grid-cols-[1fr_500px] lg:gap-16 xl:grid-cols-[1fr_600px] items-center">
-            <div className={`flex flex-col justify-center space-y-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-              <div className="space-y-6">
-                <Badge className="inline-flex items-center rounded-full bg-white/10 px-6 py-3 text-sm backdrop-blur-sm hover:bg-white/20 transition-all">
-                  <Zap className="h-4 w-4 mr-2" />
-                  Sistema de Cashback Inteligente
-                </Badge>
-                
-                <h1 className="text-5xl font-bold tracking-tighter sm:text-6xl md:text-7xl lg:text-8xl/none">
-                  Fidelidade que 
-                  <span className="block text-yellow-300 animate-pulse">Transforma</span>
-                </h1>
-                
-                <p className="max-w-[700px] text-white/90 text-xl md:text-2xl leading-relaxed">
-                  A plataforma completa de cashback que conecta empresas e clientes, 
-                  criando experiências únicas de fidelização com resultados comprovados.
-                </p>
-              </div>
-              
-              <div className="flex flex-col gap-4 min-[400px]:flex-row">
-                <Button asChild size="xl" className="bg-white text-primary hover:bg-white/90 shadow-2xl hover:shadow-white/25 transition-all duration-300 group">
-                  <Link to="/auth/register">
-                    <Rocket className="h-5 w-5 mr-2 group-hover:animate-bounce" />
-                    Começar Gratuitamente
-                  </Link>
-                </Button>
-                <Button asChild variant="outline" size="xl" className="border-white/30 text-white hover:bg-white/10 backdrop-blur-sm">
-                  <Link to="/funcionalidades">
-                    <Play className="h-5 w-5 mr-2" />
-                    Ver Demo
-                  </Link>
-                </Button>
-              </div>
-              
-              <div className="flex items-center gap-8 text-sm text-white/80">
-                {[
-                  "Setup em 24h",
-                  "Suporte dedicado", 
-                  "ROI garantido"
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-2">
-                    <CheckCircle className="h-4 w-4 text-green-300" />
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-background via-background to-muted/30 pt-20 pb-32">
+        <div className="absolute inset-0 bg-grid-pattern opacity-5" />
+        <div className="relative container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center space-y-8">
+            <Badge className="animate-fade-in bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors">
+              <Sparkles className="w-3 h-3 mr-1" />
+              Plataforma de Cashback Inteligente
+            </Badge>
             
-            {/* Enhanced Dashboard Preview */}
-            <div className={`flex items-center justify-center transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`}>
-              <div className="relative w-full">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/30 to-purple-500/30 rounded-3xl blur-3xl animate-pulse"></div>
-                <Card className="relative bg-background/95 backdrop-blur-xl border-white/20 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2">
-                  <CardHeader className="pb-6">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm text-muted-foreground">Saldo Total</p>
-                        <p className="text-4xl font-bold text-green-600 animate-pulse">R$ 2.547,80</p>
-                      </div>
-                      <div className="bg-green-100 p-4 rounded-2xl">
-                        <CreditCard className="h-8 w-8 text-green-600" />
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="text-sm text-muted-foreground">Este mês</p>
-                        <div className="flex items-center gap-2">
-                          <p className="font-bold text-lg">R$ 386,50</p>
-                          <Badge className="flex items-center text-green-600 bg-green-50 hover:bg-green-100">
-                            <TrendingUp className="h-3 w-3 mr-1" /> +18%
-                          </Badge>
-                        </div>
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground">Parceiros</p>
-                        <p className="font-bold text-lg">127 lojas</p>
-                      </div>
-                    </div>
-                    
-                    <div className="bg-gradient-to-r from-primary/10 to-accent/10 p-4 rounded-xl border border-primary/20">
-                      <div className="flex items-center gap-2 mb-3">
-                        <Crown className="h-5 w-5 text-primary" />
-                        <span className="font-semibold">Status VIP Gold</span>
-                      </div>
-                      <div className="flex justify-between text-sm text-muted-foreground">
-                        <span>Cashback médio: 8.5%</span>
-                        <span>Próximo nível: 250 pts</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight animate-fade-in-up">
+              Transforme{" "}
+              <span className="text-gradient bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+                Compras
+              </span>{" "}
+              em{" "}
+              <span className="text-gradient bg-gradient-to-r from-secondary via-accent to-primary bg-clip-text text-transparent">
+                Recompensas
+              </span>
+            </h1>
+            
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed animate-fade-in-up animation-delay-200">
+              Una-se à revolução do cashback inteligente. Para empresas que querem fidelizar clientes e consumidores que querem economizar.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in-up animation-delay-400">
+              <Button size="xl" className="group hover-scale bg-gradient-primary shadow-lg hover:shadow-xl transition-all duration-300">
+                <Link to="/auth/register" className="flex items-center gap-2">
+                  Começar Grátis
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </Button>
+              <Button size="xl" variant="outline" className="hover-scale border-2 hover:bg-accent/10">
+                <Link to="/features">Ver Funcionalidades</Link>
+              </Button>
             </div>
           </div>
         </div>
+        
+        {/* Floating Elements */}
+        <div className="absolute top-20 left-10 w-20 h-20 bg-primary/20 rounded-full blur-xl animate-float" />
+        <div className="absolute bottom-20 right-10 w-32 h-32 bg-accent/20 rounded-full blur-xl animate-float animation-delay-1000" />
+        <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-secondary/20 rounded-full blur-xl animate-float animation-delay-500" />
       </section>
 
-      {/* Enhanced Stats Section */}
-      <section className="py-20 bg-gradient-to-r from-muted/30 to-muted/10">
-        <div className="container px-4 md:px-6">
+      {/* Stats Section */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { icon: Users, number: "250K+", label: "Clientes ativos", color: "text-primary" },
-              { icon: Building, number: "1.2K+", label: "Empresas parceiras", color: "text-green-600" },
-              { icon: CreditCard, number: "R$ 45M", label: "Cashback distribuído", color: "text-blue-600" },
-              { icon: TrendingUp, number: "23%", label: "Aumento médio em vendas", color: "text-purple-600" }
-            ].map((stat, index) => (
-              <div key={index} className="text-center group">
-                <div className="bg-background w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2">
-                  <stat.icon className={`h-10 w-10 ${stat.color}`} />
-                </div>
-                <p className="text-3xl font-bold mb-1">{stat.number}</p>
-                <p className="text-sm text-muted-foreground">{stat.label}</p>
-              </div>
+            {stats.map((stat, index) => (
+              <Card key={stat.label} className="text-center hover-scale border-0 shadow-lg bg-gradient-to-br from-background to-muted/30 animate-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
+                <CardContent className="pt-6">
+                  <div className="flex justify-center mb-4">
+                    <div className="p-3 rounded-full bg-primary/10">
+                      <stat.icon className="w-6 h-6 text-primary" />
+                    </div>
+                  </div>
+                  <div className="text-3xl font-bold text-foreground mb-2">{stat.number}</div>
+                  <div className="text-sm text-muted-foreground">{stat.label}</div>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Enhanced Testimonials */}
-      <section className="py-20 bg-gradient-to-br from-primary/5 to-accent/5">
-        <div className="container px-4 md:px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">O que nossos clientes dizem</h2>
-            <p className="text-xl text-muted-foreground">Histórias reais de sucesso</p>
+      {/* Features Section */}
+      <section className="py-20 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16 animate-fade-in-up">
+            <Badge className="bg-primary/10 text-primary border-primary/20 mb-4">
+              Funcionalidades
+            </Badge>
+            <h2 className="text-3xl md:text-5xl font-bold mb-6">
+              Tudo que você precisa para{" "}
+              <span className="text-primary">maximizar</span> suas recompensas
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Nossa plataforma oferece ferramentas avançadas para empresas e benefícios incríveis para consumidores.
+            </p>
           </div>
           
-          <div className="max-w-4xl mx-auto">
-            <Card className="bg-background/50 backdrop-blur-sm border-0 shadow-2xl">
-              <CardContent className="p-12 text-center">
-                <div className="mb-8">
-                  <div className="flex justify-center mb-6">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-6 w-6 text-yellow-400 fill-current" />
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((feature, index) => (
+              <Card key={feature.title} className="group hover-scale border-0 shadow-lg hover:shadow-2xl transition-all duration-500 animate-fade-in-up overflow-hidden" style={{ animationDelay: `${index * 150}ms` }}>
+                <CardHeader className="relative">
+                  <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${feature.gradient} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                    <feature.icon className="w-6 h-6 text-white" />
+                  </div>
+                  <CardTitle className="group-hover:text-primary transition-colors">
+                    {feature.title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className="text-base leading-relaxed">
+                    {feature.description}
+                  </CardDescription>
+                </CardContent>
+                <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 bg-gradient-to-r ${feature.gradient} transition-opacity duration-300`} />
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16 animate-fade-in-up">
+            <Badge className="bg-accent/10 text-accent border-accent/20 mb-4">
+              Depoimentos
+            </Badge>
+            <h2 className="text-3xl md:text-5xl font-bold mb-6">
+              O que nossos <span className="text-accent">clientes</span> dizem
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Milhares de empresas e consumidores já transformaram sua experiência com nosso sistema.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <Card key={testimonial.name} className="hover-scale border-0 shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up" style={{ animationDelay: `${index * 200}ms` }}>
+                <CardHeader>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-primary to-accent flex items-center justify-center text-white font-semibold">
+                      {testimonial.avatar}
+                    </div>
+                    <div>
+                      <div className="font-semibold">{testimonial.name}</div>
+                      <div className="text-sm text-muted-foreground">{testimonial.role}</div>
+                    </div>
+                  </div>
+                  <div className="flex gap-1">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                     ))}
                   </div>
-                  <blockquote className="text-2xl md:text-3xl font-medium leading-relaxed mb-8">
-                    "{testimonials[currentTestimonial].content}"
-                  </blockquote>
-                </div>
-                <div className="flex items-center justify-center gap-4">
-                  <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white font-bold text-xl">
-                    {testimonials[currentTestimonial].avatar}
-                  </div>
-                  <div className="text-left">
-                    <p className="font-semibold text-lg">{testimonials[currentTestimonial].name}</p>
-                    <p className="text-muted-foreground">{testimonials[currentTestimonial].role}</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            
-            <div className="flex justify-center mt-8 gap-2">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  className={`w-3 h-3 rounded-full transition-all ${
-                    index === currentTestimonial ? 'bg-primary' : 'bg-muted'
-                  }`}
-                  onClick={() => setCurrentTestimonial(index)}
-                />
-              ))}
-            </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground italic">"{testimonial.content}"</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Features Overview */}
-      <section className="py-20">
-        <div className="container px-4 md:px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Funcionalidades Principais</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Tudo que você precisa para criar um programa de fidelidade de sucesso
-            </p>
-          </div>
-          
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <CardHeader>
-                <div className="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                  <Smartphone className="h-6 w-6 text-blue-600" />
-                </div>
-                <CardTitle>Aplicativo Nativo</CardTitle>
-                <p className="text-muted-foreground">Apps iOS e Android personalizados com sua marca</p>
-              </CardHeader>
-            </Card>
-            
-            <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <CardHeader>
-                <div className="bg-green-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                  <Zap className="h-6 w-6 text-green-600" />
-                </div>
-                <CardTitle>IA Avançada</CardTitle>
-                <p className="text-muted-foreground">Campanhas inteligentes e recomendações personalizadas</p>
-              </CardHeader>
-            </Card>
-            
-            <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <CardHeader>
-                <div className="bg-purple-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                  <Globe className="h-6 w-6 text-purple-600" />
-                </div>
-                <CardTitle>Integrações</CardTitle>
-                <p className="text-muted-foreground">Conecte com ERPs, e-commerce e sistemas de PDV</p>
-              </CardHeader>
-            </Card>
-            
-            <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <CardHeader>
-                <div className="bg-orange-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                  <Target className="h-6 w-6 text-orange-600" />
-                </div>
-                <CardTitle>Missões Gamificadas</CardTitle>
-                <p className="text-muted-foreground">Desafios e recompensas para engajar clientes</p>
-              </CardHeader>
-            </Card>
-            
-            <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <CardHeader>
-                <div className="bg-red-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                  <Shield className="h-6 w-6 text-red-600" />
-                </div>
-                <CardTitle>Segurança Total</CardTitle>
-                <p className="text-muted-foreground">Proteção de dados e transações criptografadas</p>
-              </CardHeader>
-            </Card>
-            
-            <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <CardHeader>
-                <div className="bg-indigo-100 w-12 h-12 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <Settings className="h-6 w-6 text-indigo-600" />
-                </div>
-                <CardTitle>Customização Total</CardTitle>
-                <p className="text-muted-foreground">Personalize regras, design e fluxos do programa</p>
-              </CardHeader>
-            </Card>
-          </div>
-          
-          <div className="text-center mt-12">
-            <Button asChild size="lg" variant="outline">
-              <Link to="/funcionalidades">
-                Ver Todas as Funcionalidades
-                <ArrowRight className="h-4 w-4 ml-2" />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Segments Section */}
-      <section className="py-20 bg-muted/30">
-        <div className="container px-4 md:px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Segmentos Atendidos</h2>
-            <p className="text-xl text-muted-foreground">Soluções personalizadas para cada setor</p>
-          </div>
-          
-          <div className="grid gap-8 md:grid-cols-3">
-            <Card className="text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <CardHeader>
-                <div className="bg-orange-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Utensils className="h-10 w-10 text-orange-600" />
-                </div>
-                <CardTitle className="text-2xl">Alimentação</CardTitle>
-                <p className="text-muted-foreground">Restaurantes, lanchonetes, delivery e food trucks</p>
-              </CardHeader>
-              <CardContent>
-                <ul className="text-sm text-muted-foreground space-y-2">
-                  <li>• Fidelização de clientes frequentes</li>
-                  <li>• Promoções por horário</li>
-                  <li>• Integração com delivery</li>
-                  <li>• Cashback por categoria</li>
-                </ul>
-              </CardContent>
-            </Card>
-            
-            <Card className="text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <CardHeader>
-                <div className="bg-blue-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <ShoppingCart className="h-10 w-10 text-blue-600" />
-                </div>
-                <CardTitle className="text-2xl">Varejo</CardTitle>
-                <p className="text-muted-foreground">Lojas físicas, e-commerce e marketplaces</p>
-              </CardHeader>
-              <CardContent>
-                <ul className="text-sm text-muted-foreground space-y-2">
-                  <li>• Programa de pontos híbrido</li>
-                  <li>• Cashback por volume</li>
-                  <li>• Integrações com PDV</li>
-                  <li>• Analytics avançados</li>
-                </ul>
-              </CardContent>
-            </Card>
-            
-            <Card className="text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <CardHeader>
-                <div className="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Scissors className="h-10 w-10 text-green-600" />
-                </div>
-                <CardTitle className="text-2xl">Serviços</CardTitle>
-                <p className="text-muted-foreground">Salões, clínicas, academias e consultórios</p>
-              </CardHeader>
-              <CardContent>
-                <ul className="text-sm text-muted-foreground space-y-2">
-                  <li>• Agendamentos inteligentes</li>
-                  <li>• Fidelização por frequência</li>
-                  <li>• Indicações premiadas</li>
-                  <li>• Campanhas sazonais</li>
-                </ul>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Integrations Section */}
-      <section className="py-20">
-        <div className="container px-4 md:px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Integrações Poderosas</h2>
-            <p className="text-xl text-muted-foreground">Conecte-se com as ferramentas que você já usa</p>
-          </div>
-          
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-            <Card className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-              <CardHeader>
-                <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Settings className="h-8 w-8 text-purple-600" />
-                </div>
-                <CardTitle>Gestão</CardTitle>
-                <p className="text-sm text-muted-foreground">ERPs, CRMs e sistemas administrativos</p>
-              </CardHeader>
-            </Card>
-            
-            <Card className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-              <CardHeader>
-                <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Globe className="h-8 w-8 text-blue-600" />
-                </div>
-                <CardTitle>Lojas Virtuais</CardTitle>
-                <p className="text-sm text-muted-foreground">Shopify, WooCommerce, Magento</p>
-              </CardHeader>
-            </Card>
-            
-            <Card className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-              <CardHeader>
-                <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Monitor className="h-8 w-8 text-green-600" />
-                </div>
-                <CardTitle>PDV</CardTitle>
-                <p className="text-sm text-muted-foreground">Sistemas de ponto de venda</p>
-              </CardHeader>
-            </Card>
-            
-            <Card className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-              <CardHeader>
-                <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Package className="h-8 w-8 text-orange-600" />
-                </div>
-                <CardTitle>E mais...</CardTitle>
-                <p className="text-sm text-muted-foreground">APIs personalizadas e webhooks</p>
-              </CardHeader>
-            </Card>
-          </div>
-          
-          <div className="text-center mt-12">
-            <Button asChild size="lg" variant="outline">
-              <Link to="/integracoes">
-                Ver Todas as Integrações
-                <ArrowRight className="h-4 w-4 ml-2" />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Enhanced CTA Section */}
-      <section className="py-24 bg-gradient-to-r from-primary via-accent to-secondary text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
-        <div className="container px-4 md:px-6 text-center relative z-10">
-          <div className="max-w-4xl mx-auto space-y-8">
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">
-              Pronto para Revolucionar sua Fidelização?
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-r from-primary via-accent to-secondary relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/20" />
+        <div className="relative container mx-auto px-4 text-center">
+          <div className="max-w-3xl mx-auto space-y-8 animate-fade-in-up">
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
+              Pronto para começar sua jornada?
             </h2>
-            <p className="text-xl md:text-2xl text-white/90 leading-relaxed">
-              Junte-se a mais de 1.200 empresas que já aumentaram suas vendas com o Bloom
+            <p className="text-xl text-white/90 mb-8">
+              Junte-se a milhares de usuários que já estão economizando e ganhando mais com nosso sistema.
             </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center mt-12">
-              <Button asChild size="xl" className="bg-white text-primary hover:bg-white/90 shadow-2xl hover:shadow-white/25 transition-all duration-300">
-                <Link to="/auth/register">
-                  <Rocket className="h-6 w-6 mr-2" />
-                  Começar Gratuitamente
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="xl" variant="secondary" className="hover-scale shadow-lg">
+                <Link to="/auth/register" className="flex items-center gap-2">
+                  Criar Conta Grátis
+                  <ArrowRight className="w-4 h-4" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="xl" className="border-white text-white hover:bg-white/10 backdrop-blur-sm">
-                <Link to="/precos">
-                  <Crown className="h-6 w-6 mr-2" />
-                  Ver Planos e Preços
-                </Link>
+              <Button size="xl" variant="outline" className="hover-scale border-white text-white hover:bg-white hover:text-primary">
+                <Link to="/contact">Falar com Vendas</Link>
               </Button>
-            </div>
-            
-            <div className="flex items-center justify-center gap-6 mt-12 text-white/80">
-              <div className="flex items-center gap-2">
-                <Shield className="h-5 w-5" />
-                <span>100% Seguro</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Zap className="h-5 w-5" />
-                <span>Setup Rápido</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Heart className="h-5 w-5" />
-                <span>Suporte 24/7</span>
-              </div>
             </div>
           </div>
         </div>

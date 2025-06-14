@@ -1,231 +1,304 @@
 
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
-import {
-  CheckCircle,
-  X,
-  Crown,
-  Rocket,
-  Zap,
-  Star,
-  Users,
-  Smartphone,
-  Brain,
-  Shield,
-  Globe,
-  MessageSquare,
+import React, { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
+import { Link } from "react-router-dom";
+import { 
+  Check, 
+  Crown, 
+  Users, 
+  Building2, 
+  Sparkles, 
   ArrowRight,
-  Phone,
-  Mail
-} from 'lucide-react';
+  Star,
+  Zap,
+  Shield,
+  Target,
+  TrendingUp
+} from "lucide-react";
 
-const Pricing: React.FC = () => {
-  const plans = [
+const Pricing = () => {
+  const [isAnnual, setIsAnnual] = useState(false);
+
+  const personalPlans = [
     {
-      name: "START",
-      subtitle: "O jeito mais rápido e econômico de fidelizar seus clientes!",
-      implementationPrice: "2.557",
-      implementationDiscount: "1.999",
-      monthlyPrice: "279",
-      maxClients: "10.000",
-      icon: Rocket,
-      color: "blue",
-      popular: false,
+      name: "Starter",
+      description: "Perfeito para quem está começando",
+      monthlyPrice: 0,
+      annualPrice: 0,
       features: [
-        "Capacidade para até 10.000 clientes cadastrados",
-        "Integrações nativas para facilitar suas operações",
-        "Campanhas promocionais eficazes",
-        "Consultor Dedicado",
-        "Engenharia de Pontos",
-        "Gatilhos Mentais",
-        "Cashback ou Pontos",
-        "Estratégia de Prêmios"
+        "Cashback básico até 2%",
+        "Até 5 transações por mês",
+        "Suporte por email",
+        "Dashboard básico",
+        "1 carteira digital"
       ],
-      limitations: [
-        "Não inclui API para integrações personalizadas"
-      ]
+      highlighted: false,
+      buttonText: "Começar Grátis",
+      buttonVariant: "outline" as const,
+      icon: Users,
+      gradient: "from-gray-500 to-gray-600"
     },
     {
-      name: "PRO",
-      subtitle: "Para empresas em crescimento que buscam a solução completa",
-      implementationPrice: "3.917",
-      implementationDiscount: "2.890",
-      monthlyPrice: "399",
-      maxClients: "50.000",
+      name: "Premium",
+      description: "Para usuários que querem mais benefícios",
+      monthlyPrice: 29,
+      annualPrice: 290,
+      features: [
+        "Cashback até 5%",
+        "Transações ilimitadas",
+        "Missões gamificadas",
+        "Suporte prioritário",
+        "Analytics pessoais",
+        "Múltiplas carteiras",
+        "Recomendações IA"
+      ],
+      highlighted: true,
+      buttonText: "Assinar Premium",
+      buttonVariant: "default" as const,
       icon: Crown,
-      color: "purple",
-      popular: true,
-      features: [
-        "Processo completo de criação e desenvolvimento",
-        "Estratégia única para seu nicho",
-        "Configuração completa da plataforma",
-        "Suporte total à API para integrações personalizadas",
-        "Capacidade para até 50.000 clientes cadastrados",
-        "Todas as funcionalidades do Plano START",
-        "Implementação inclui primeira mensalidade",
-        "Mentoria especializada"
-      ],
-      limitations: []
+      gradient: "from-primary to-accent"
     },
     {
-      name: "GROWTH",
-      subtitle: "Solução completa com automação via WhatsApp e apps nativos",
-      implementationPrice: "4.615",
-      implementationDiscount: "3.999",
-      monthlyPrice: "849",
-      maxClients: "350.000+",
-      icon: Zap,
-      color: "green",
-      popular: false,
+      name: "VIP",
+      description: "Experiência premium completa",
+      monthlyPrice: 79,
+      annualPrice: 790,
       features: [
-        "Todos os recursos do Plano PRO",
-        "Automação via WhatsApp Oficial",
-        "Aplicativos iOS e Android personalizados",
-        "Mentoria para implementação",
-        "Capacidade para 350 mil clientes (expansível)",
-        "Infraestrutura dedicada",
-        "Possibilidades de customização ilimitadas",
-        "Suporte premium 24/7"
+        "Cashback até 10%",
+        "Acesso ao Clube VIP",
+        "Gerente de conta dedicado",
+        "Benefícios exclusivos",
+        "Eventos especiais",
+        "Cashback instantâneo",
+        "Programa de indicação",
+        "Suporte 24/7"
       ],
-      limitations: []
+      highlighted: false,
+      buttonText: "Tornar-se VIP",
+      buttonVariant: "premium" as const,
+      icon: Star,
+      gradient: "from-amber-500 to-orange-600"
     }
   ];
 
-  const getIconColor = (color: string) => {
-    const colors = {
-      blue: "text-blue-600",
-      purple: "text-purple-600",
-      green: "text-green-600"
-    };
-    return colors[color as keyof typeof colors];
+  const businessPlans = [
+    {
+      name: "Básico",
+      description: "Ideal para pequenas empresas",
+      monthlyPrice: 99,
+      annualPrice: 990,
+      features: [
+        "Até 1.000 clientes",
+        "Dashboard básico",
+        "Relatórios mensais",
+        "Suporte por email",
+        "Integração básica",
+        "Cashback até 3%"
+      ],
+      highlighted: false,
+      buttonText: "Começar Teste",
+      buttonVariant: "outline" as const,
+      icon: Building2,
+      gradient: "from-blue-500 to-indigo-600"
+    },
+    {
+      name: "Profissional",
+      description: "Para empresas em crescimento",
+      monthlyPrice: 299,
+      annualPrice: 2990,
+      features: [
+        "Até 10.000 clientes",
+        "Analytics avançados",
+        "Relatórios personalizados",
+        "Suporte prioritário",
+        "APIs completas",
+        "Campanhas automatizadas",
+        "Multi-loja",
+        "Cashback até 5%"
+      ],
+      highlighted: true,
+      buttonText: "Assinar Profissional",
+      buttonVariant: "default" as const,
+      icon: TrendingUp,
+      gradient: "from-primary to-accent"
+    },
+    {
+      name: "Enterprise",
+      description: "Solução completa para grandes empresas",
+      monthlyPrice: 999,
+      annualPrice: 9990,
+      features: [
+        "Clientes ilimitados",
+        "BI e Analytics personalizados",
+        "Gerente de conta dedicado",
+        "SLA garantido",
+        "Integração personalizada",
+        "Whitelabel completo",
+        "Suporte 24/7",
+        "Cashback customizável",
+        "Treinamento da equipe"
+      ],
+      highlighted: false,
+      buttonText: "Falar com Vendas",
+      buttonVariant: "premium" as const,
+      icon: Crown,
+      gradient: "from-purple-500 to-violet-600"
+    }
+  ];
+
+  const features = [
+    {
+      icon: Zap,
+      title: "Processamento Instantâneo",
+      description: "Cashback processado em tempo real"
+    },
+    {
+      icon: Shield,
+      title: "Segurança Máxima",
+      description: "Criptografia de nível bancário"
+    },
+    {
+      icon: Target,
+      title: "Gamificação Avançada",
+      description: "Missões e conquistas personalizadas"
+    },
+    {
+      icon: TrendingUp,
+      title: "Analytics em Tempo Real",
+      description: "Insights e relatórios detalhados"
+    }
+  ];
+
+  const getPrice = (plan: any) => {
+    return isAnnual ? plan.annualPrice : plan.monthlyPrice;
   };
 
-  const getBgColor = (color: string) => {
-    const colors = {
-      blue: "bg-blue-100",
-      purple: "bg-purple-100",
-      green: "bg-green-100"
-    };
-    return colors[color as keyof typeof colors];
+  const getSavings = (plan: any) => {
+    if (plan.monthlyPrice === 0) return 0;
+    return Math.round(((plan.monthlyPrice * 12 - plan.annualPrice) / (plan.monthlyPrice * 12)) * 100);
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary/10 via-accent/10 to-secondary/10 py-20">
-        <div className="container px-4 md:px-6">
-          <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-              Planos e <span className="text-primary">Preços</span>
+      <section className="relative overflow-hidden bg-gradient-to-br from-background via-background to-muted/30 pt-20 pb-20">
+        <div className="absolute inset-0 bg-grid-pattern opacity-5" />
+        <div className="relative container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center space-y-8">
+            <Badge className="animate-fade-in bg-primary/10 text-primary border-primary/20">
+              <Sparkles className="w-3 h-3 mr-1" />
+              Planos e Preços
+            </Badge>
+            
+            <h1 className="text-4xl md:text-6xl font-bold tracking-tight animate-fade-in-up">
+              Escolha o{" "}
+              <span className="text-gradient bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                Plano Ideal
+              </span>{" "}
+              para Você
             </h1>
-            <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-              Escolha o plano ideal para impulsionar seu programa de fidelidade. 
-              Todos os planos incluem implementação e suporte especializado.
+            
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed animate-fade-in-up animation-delay-200">
+              Seja você um consumidor buscando economia ou uma empresa querendo fidelizar clientes, temos o plano perfeito para suas necessidades.
             </p>
-            <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-green-600" />
-                <span>Setup em 24-48h</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-green-600" />
-                <span>Sem taxa de setup adicional</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-green-600" />
-                <span>Suporte dedicado</span>
-              </div>
+
+            {/* Billing Toggle */}
+            <div className="flex items-center justify-center gap-4 animate-fade-in-up animation-delay-400">
+              <span className={`text-sm ${!isAnnual ? 'text-foreground font-semibold' : 'text-muted-foreground'}`}>
+                Mensal
+              </span>
+              <Switch
+                checked={isAnnual}
+                onCheckedChange={setIsAnnual}
+                className="data-[state=checked]:bg-primary"
+              />
+              <span className={`text-sm ${isAnnual ? 'text-foreground font-semibold' : 'text-muted-foreground'}`}>
+                Anual
+              </span>
+              {isAnnual && (
+                <Badge className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
+                  Economize até 30%
+                </Badge>
+              )}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Pricing Cards */}
-      <section className="py-20">
-        <div className="container px-4 md:px-6">
-          <div className="grid gap-8 lg:grid-cols-3">
-            {plans.map((plan, index) => (
-              <Card key={index} className={`relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 ${plan.popular ? 'border-primary shadow-xl scale-105' : ''}`}>
-                {plan.popular && (
-                  <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-primary to-accent text-white text-center py-2 text-sm font-medium">
-                    <Star className="h-4 w-4 inline mr-1" />
-                    Mais Popular
-                  </div>
+      {/* Personal Plans */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16 animate-fade-in-up">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <Users className="w-6 h-6 text-primary" />
+              <h2 className="text-3xl md:text-4xl font-bold">
+                Planos <span className="text-primary">Pessoais</span>
+              </h2>
+            </div>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Para consumidores que querem maximizar suas economias com cashback inteligente.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {personalPlans.map((plan, index) => (
+              <Card key={plan.name} className={`relative hover-scale transition-all duration-300 ${plan.highlighted ? 'border-primary shadow-xl scale-105' : 'border-border shadow-lg'} animate-fade-in-up overflow-hidden`} style={{ animationDelay: `${index * 150}ms` }}>
+                {plan.highlighted && (
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-accent" />
                 )}
                 
-                <CardHeader className={plan.popular ? 'pt-12' : ''}>
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${getBgColor(plan.color)}`}>
-                      <plan.icon className={`h-6 w-6 ${getIconColor(plan.color)}`} />
-                    </div>
-                    <div>
-                      <CardTitle className="text-2xl">{plan.name}</CardTitle>
-                    </div>
+                <CardHeader className="relative">
+                  {plan.highlighted && (
+                    <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-primary text-white border-primary">
+                      Mais Popular
+                    </Badge>
+                  )}
+                  
+                  <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${plan.gradient} flex items-center justify-center mb-4`}>
+                    <plan.icon className="w-6 h-6 text-white" />
                   </div>
                   
-                  <p className="text-muted-foreground text-sm mb-6">{plan.subtitle}</p>
+                  <CardTitle className="text-2xl">{plan.name}</CardTitle>
+                  <CardDescription className="text-base">{plan.description}</CardDescription>
                   
-                  <div className="space-y-4">
-                    <div className="border rounded-lg p-4 bg-muted/20">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm text-muted-foreground">Implementação</span>
-                        <div className="text-right">
-                          <span className="text-sm text-muted-foreground line-through">R$ {plan.implementationPrice}</span>
-                          <div className="text-2xl font-bold text-green-600">R$ {plan.implementationDiscount}</div>
-                        </div>
+                  <div className="mt-6">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-4xl font-bold">
+                        R$ {getPrice(plan)}
+                      </span>
+                      <span className="text-muted-foreground">
+                        /{isAnnual ? 'ano' : 'mês'}
+                      </span>
+                    </div>
+                    {isAnnual && plan.monthlyPrice > 0 && (
+                      <div className="text-sm text-green-600 font-medium">
+                        Economize {getSavings(plan)}% pagando anual
                       </div>
-                    </div>
-                    
-                    <div className="border rounded-lg p-4">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">Mensalidade</span>
-                        <div className="text-right">
-                          <div className="text-3xl font-bold">R$ {plan.monthlyPrice}</div>
-                          <span className="text-sm text-muted-foreground">/mês</span>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="text-center text-sm text-muted-foreground">
-                      <Users className="h-4 w-4 inline mr-1" />
-                      Até {plan.maxClients} clientes
-                    </div>
+                    )}
                   </div>
                 </CardHeader>
                 
-                <CardContent className="space-y-6">
-                  <div>
-                    <h4 className="font-semibold mb-3 text-green-600">✓ Incluído no plano:</h4>
-                    <ul className="space-y-2">
-                      {plan.features.map((feature, idx) => (
-                        <li key={idx} className="flex items-start gap-2 text-sm">
-                          <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                <CardContent className="space-y-4">
+                  <ul className="space-y-3">
+                    {plan.features.map((feature) => (
+                      <li key={feature} className="flex items-start gap-3">
+                        <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                        <span className="text-sm">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
                   
-                  {plan.limitations.length > 0 && (
-                    <div>
-                      <h4 className="font-semibold mb-3 text-orange-600">⚠ Observações:</h4>
-                      <ul className="space-y-2">
-                        {plan.limitations.map((limitation, idx) => (
-                          <li key={idx} className="flex items-start gap-2 text-sm">
-                            <X className="h-4 w-4 text-orange-600 mt-0.5 flex-shrink-0" />
-                            <span className="text-muted-foreground">{limitation}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  
-                  <Button asChild className={`w-full ${plan.popular ? 'variant-default' : 'variant-outline'}`} size="lg">
-                    <Link to="/auth/register">
-                      Escolher {plan.name}
-                      <ArrowRight className="h-4 w-4 ml-2" />
+                  <Button 
+                    variant={plan.buttonVariant} 
+                    className="w-full hover-scale"
+                    size="lg"
+                  >
+                    <Link to="/auth/register" className="flex items-center gap-2">
+                      {plan.buttonText}
+                      <ArrowRight className="w-4 h-4" />
                     </Link>
                   </Button>
                 </CardContent>
@@ -235,136 +308,182 @@ const Pricing: React.FC = () => {
         </div>
       </section>
 
-      {/* Comparison Table */}
+      {/* Business Plans */}
       <section className="py-20 bg-muted/30">
-        <div className="container px-4 md:px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Comparação Detalhada</h2>
-            <p className="text-xl text-muted-foreground">Veja todas as funcionalidades de cada plano</p>
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16 animate-fade-in-up">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <Building2 className="w-6 h-6 text-accent" />
+              <h2 className="text-3xl md:text-4xl font-bold">
+                Planos <span className="text-accent">Empresariais</span>
+              </h2>
+            </div>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Para empresas que querem implementar programas de cashback e fidelizar clientes.
+            </p>
           </div>
           
-          <div className="overflow-x-auto">
-            <table className="w-full bg-background rounded-lg shadow-lg">
-              <thead>
-                <tr className="border-b">
-                  <th className="text-left p-4 font-semibold">Funcionalidades</th>
-                  <th className="text-center p-4 font-semibold">START</th>
-                  <th className="text-center p-4 font-semibold bg-primary/5">PRO</th>
-                  <th className="text-center p-4 font-semibold">GROWTH</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="border-b">
-                  <td className="p-4">Dashboard administrativo</td>
-                  <td className="text-center p-4"><CheckCircle className="h-5 w-5 text-green-600 mx-auto" /></td>
-                  <td className="text-center p-4 bg-primary/5"><CheckCircle className="h-5 w-5 text-green-600 mx-auto" /></td>
-                  <td className="text-center p-4"><CheckCircle className="h-5 w-5 text-green-600 mx-auto" /></td>
-                </tr>
-                <tr className="border-b">
-                  <td className="p-4">Campanhas promocionais</td>
-                  <td className="text-center p-4"><CheckCircle className="h-5 w-5 text-green-600 mx-auto" /></td>
-                  <td className="text-center p-4 bg-primary/5"><CheckCircle className="h-5 w-5 text-green-600 mx-auto" /></td>
-                  <td className="text-center p-4"><CheckCircle className="h-5 w-5 text-green-600 mx-auto" /></td>
-                </tr>
-                <tr className="border-b">
-                  <td className="p-4">API para integrações</td>
-                  <td className="text-center p-4"><X className="h-5 w-5 text-red-500 mx-auto" /></td>
-                  <td className="text-center p-4 bg-primary/5"><CheckCircle className="h-5 w-5 text-green-600 mx-auto" /></td>
-                  <td className="text-center p-4"><CheckCircle className="h-5 w-5 text-green-600 mx-auto" /></td>
-                </tr>
-                <tr className="border-b">
-                  <td className="p-4">WhatsApp Business API</td>
-                  <td className="text-center p-4"><X className="h-5 w-5 text-red-500 mx-auto" /></td>
-                  <td className="text-center p-4 bg-primary/5"><X className="h-5 w-5 text-red-500 mx-auto" /></td>
-                  <td className="text-center p-4"><CheckCircle className="h-5 w-5 text-green-600 mx-auto" /></td>
-                </tr>
-                <tr className="border-b">
-                  <td className="p-4">Apps iOS e Android</td>
-                  <td className="text-center p-4"><X className="h-5 w-5 text-red-500 mx-auto" /></td>
-                  <td className="text-center p-4 bg-primary/5"><X className="h-5 w-5 text-red-500 mx-auto" /></td>
-                  <td className="text-center p-4"><CheckCircle className="h-5 w-5 text-green-600 mx-auto" /></td>
-                </tr>
-                <tr className="border-b">
-                  <td className="p-4">Infraestrutura dedicada</td>
-                  <td className="text-center p-4"><X className="h-5 w-5 text-red-500 mx-auto" /></td>
-                  <td className="text-center p-4 bg-primary/5"><X className="h-5 w-5 text-red-500 mx-auto" /></td>
-                  <td className="text-center p-4"><CheckCircle className="h-5 w-5 text-green-600 mx-auto" /></td>
-                </tr>
-              </tbody>
-            </table>
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {businessPlans.map((plan, index) => (
+              <Card key={plan.name} className={`relative hover-scale transition-all duration-300 ${plan.highlighted ? 'border-primary shadow-xl scale-105' : 'border-border shadow-lg'} animate-fade-in-up overflow-hidden`} style={{ animationDelay: `${index * 150}ms` }}>
+                {plan.highlighted && (
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-accent" />
+                )}
+                
+                <CardHeader className="relative">
+                  {plan.highlighted && (
+                    <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-primary text-white border-primary">
+                      Recomendado
+                    </Badge>
+                  )}
+                  
+                  <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${plan.gradient} flex items-center justify-center mb-4`}>
+                    <plan.icon className="w-6 h-6 text-white" />
+                  </div>
+                  
+                  <CardTitle className="text-2xl">{plan.name}</CardTitle>
+                  <CardDescription className="text-base">{plan.description}</CardDescription>
+                  
+                  <div className="mt-6">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-4xl font-bold">
+                        R$ {getPrice(plan)}
+                      </span>
+                      <span className="text-muted-foreground">
+                        /{isAnnual ? 'ano' : 'mês'}
+                      </span>
+                    </div>
+                    {isAnnual && (
+                      <div className="text-sm text-green-600 font-medium">
+                        Economize {getSavings(plan)}% pagando anual
+                      </div>
+                    )}
+                  </div>
+                </CardHeader>
+                
+                <CardContent className="space-y-4">
+                  <ul className="space-y-3">
+                    {plan.features.map((feature) => (
+                      <li key={feature} className="flex items-start gap-3">
+                        <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                        <span className="text-sm">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  
+                  <Button 
+                    variant={plan.buttonVariant} 
+                    className="w-full hover-scale"
+                    size="lg"
+                  >
+                    <Link to={plan.name === 'Enterprise' ? '/contact' : '/auth/register'} className="flex items-center gap-2">
+                      {plan.buttonText}
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features Highlight */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16 animate-fade-in-up">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              Recursos <span className="text-primary">Inclusos</span> em Todos os Planos
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Independente do plano escolhido, você terá acesso a nossa tecnologia de ponta.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((feature, index) => (
+              <Card key={feature.title} className="text-center hover-scale border-0 shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
+                <CardHeader>
+                  <div className="w-12 h-12 mx-auto rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                    <feature.icon className="w-6 h-6 text-primary" />
+                  </div>
+                  <CardTitle className="text-lg">{feature.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className="text-base">{feature.description}</CardDescription>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20">
-        <div className="container px-4 md:px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Perguntas Frequentes</h2>
+      <section className="py-20 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16 animate-fade-in-up">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              Perguntas <span className="text-primary">Frequentes</span>
+            </h2>
           </div>
           
-          <div className="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
-            <Card>
+          <div className="max-w-3xl mx-auto space-y-6">
+            <Card className="hover-scale border-0 shadow-lg animate-fade-in-up">
               <CardHeader>
-                <CardTitle className="text-lg">Posso mudar de plano depois?</CardTitle>
+                <CardTitle>Posso mudar de plano a qualquer momento?</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Sim! Você pode fazer upgrade ou downgrade do seu plano a qualquer momento. Entre em contato conosco para mais informações.</p>
+                <p className="text-muted-foreground">
+                  Sim, você pode fazer upgrade ou downgrade do seu plano a qualquer momento. As mudanças são aplicadas imediatamente e o valor é ajustado proporcionalmente.
+                </p>
               </CardContent>
             </Card>
             
-            <Card>
+            <Card className="hover-scale border-0 shadow-lg animate-fade-in-up animation-delay-100">
               <CardHeader>
-                <CardTitle className="text-lg">Existe período de teste?</CardTitle>
+                <CardTitle>Existe período de teste gratuito?</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Oferecemos demonstração completa antes da implementação. Você verá exatamente como funciona antes de fechar contrato.</p>
+                <p className="text-muted-foreground">
+                  Sim, oferecemos 14 dias grátis para todos os planos pagos. Você pode cancelar a qualquer momento durante o período de teste sem cobrança.
+                </p>
               </CardContent>
             </Card>
             
-            <Card>
+            <Card className="hover-scale border-0 shadow-lg animate-fade-in-up animation-delay-200">
               <CardHeader>
-                <CardTitle className="text-lg">Como funciona a implementação?</CardTitle>
+                <CardTitle>Como funciona o cashback?</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Nossa equipe cuida de tudo: configuração, treinamento e acompanhamento. O processo leva de 24 a 48 horas.</p>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Existe contrato de fidelidade?</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">Não exigimos contratos longos. Trabalhamos com mensalidade flexível e você pode cancelar quando quiser.</p>
+                <p className="text-muted-foreground">
+                  O cashback é calculado automaticamente sobre compras qualificadas e creditado na sua carteira digital. Você pode resgatar o valor ou usar para novas compras.
+                </p>
               </CardContent>
             </Card>
           </div>
         </div>
       </section>
 
-      {/* Contact CTA */}
-      <section className="py-20 bg-gradient-to-r from-primary to-accent text-white">
-        <div className="container px-4 md:px-6 text-center">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Tem Dúvidas? Fale Conosco!
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-r from-primary via-accent to-secondary relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/20" />
+        <div className="relative container mx-auto px-4 text-center">
+          <div className="max-w-3xl mx-auto space-y-8 animate-fade-in-up">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+              Comece Hoje Mesmo
             </h2>
             <p className="text-xl text-white/90 mb-8">
-              Nossa equipe está pronta para ajudar você a escolher o melhor plano
+              Escolha seu plano e comece a economizar ou fidelizar seus clientes agora mesmo. Sem compromisso, sem taxas de cancelamento.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
-                <Link to="/contact">
-                  <Phone className="h-5 w-5 mr-2" />
-                  Agendar Demonstração
+              <Button size="xl" variant="secondary" className="hover-scale shadow-lg">
+                <Link to="/auth/register" className="flex items-center gap-2">
+                  Começar Agora
+                  <ArrowRight className="w-4 h-4" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="border-white text-white hover:bg-white/10">
-                <Link to="/auth/register">
-                  <Mail className="h-5 w-5 mr-2" />
-                  Começar Agora
-                </Link>
+              <Button size="xl" variant="outline" className="hover-scale border-white text-white hover:bg-white hover:text-primary">
+                <Link to="/contact">Falar com Especialista</Link>
               </Button>
             </div>
           </div>

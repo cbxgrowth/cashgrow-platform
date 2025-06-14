@@ -1,208 +1,219 @@
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
-import {
-  Smartphone,
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { 
+  Wallet, 
+  BarChart3, 
+  Target, 
+  Crown, 
+  Zap, 
+  Shield, 
+  Users, 
+  TrendingUp,
+  ArrowRight,
+  CheckCircle,
+  Sparkles,
   Brain,
   Globe,
-  Target,
-  Shield,
-  Settings,
-  MessageSquare,
-  BarChart3,
-  Crown,
-  Zap,
-  Users,
-  Gift,
-  Bell,
-  Calendar,
-  CreditCard,
-  Star,
-  Megaphone,
-  TrendingUp,
-  CheckCircle,
-  ArrowRight
-} from 'lucide-react';
+  Smartphone
+} from "lucide-react";
 
-const Features: React.FC = () => {
-  const features = [
+const Features = () => {
+  const mainFeatures = [
     {
-      icon: Smartphone,
-      title: "Aplicativo Nativo",
-      description: "Apps iOS e Android totalmente personalizados com sua marca",
-      details: [
-        "Design personalizado com suas cores e logo",
-        "Notificações push inteligentes",
-        "Experiência nativa otimizada",
-        "App Store e Google Play prontos"
-      ],
-      color: "blue"
+      icon: Wallet,
+      title: "Sistema de Cashback Inteligente",
+      description: "Algoritmos avançados que calculam automaticamente o melhor cashback para cada transação, maximizando os retornos para empresas e clientes.",
+      benefits: ["Cálculo automático", "Regras personalizáveis", "Processamento em tempo real", "Múltiplas categorias"],
+      gradient: "from-green-500 to-emerald-600"
     },
     {
-      icon: Brain,
-      title: "Inteligência Artificial",
-      description: "IA avançada para campanhas e recomendações personalizadas",
-      details: [
-        "Recomendações baseadas em comportamento",
-        "Campanhas automáticas otimizadas",
-        "Previsão de churn de clientes",
-        "Análise preditiva de vendas"
-      ],
-      color: "purple"
-    },
-    {
-      icon: Globe,
-      title: "Integrações Nativas",
-      description: "Conecte com ERPs, e-commerce e sistemas de PDV",
-      details: [
-        "APIs REST e webhooks",
-        "Integrações pré-construídas",
-        "Sincronização em tempo real",
-        "Suporte técnico especializado"
-      ],
-      color: "green"
+      icon: BarChart3,
+      title: "Analytics e Relatórios",
+      description: "Dashboards interativos com métricas em tempo real, insights de comportamento do consumidor e relatórios customizáveis para tomada de decisão.",
+      benefits: ["Dashboards em tempo real", "Relatórios customizáveis", "Análise de comportamento", "Previsões com IA"],
+      gradient: "from-blue-500 to-indigo-600"
     },
     {
       icon: Target,
       title: "Missões Gamificadas",
-      description: "Sistema de missões e desafios para engajar clientes",
-      details: [
-        "Missões diárias, semanais e mensais",
-        "Sistema de conquistas e badges",
-        "Rankings e competições",
-        "Recompensas progressivas"
-      ],
-      color: "orange"
+      description: "Sistema de gamificação que engaja usuários através de missões, desafios e conquistas, aumentando a participação e fidelidade.",
+      benefits: ["Missões personalizadas", "Sistema de conquistas", "Rankings competitivos", "Recompensas especiais"],
+      gradient: "from-purple-500 to-violet-600"
+    },
+    {
+      icon: Crown,
+      title: "Clube VIP Premium",
+      description: "Programa de fidelidade exclusivo com benefícios especiais, cashback aumentado e acesso prioritário a promoções e eventos.",
+      benefits: ["Cashback aumentado", "Atendimento prioritário", "Acesso exclusivo", "Benefícios especiais"],
+      gradient: "from-amber-500 to-orange-600"
+    }
+  ];
+
+  const technicalFeatures = [
+    {
+      icon: Brain,
+      title: "Inteligência Artificial",
+      description: "IA para personalização de ofertas e previsão de comportamento",
+      color: "text-purple-600"
     },
     {
       icon: Shield,
       title: "Segurança Avançada",
-      description: "Máxima proteção de dados e transações",
-      details: [
-        "Criptografia de ponta a ponta",
-        "Conformidade com LGPD",
-        "Autenticação multifator",
-        "Monitoramento 24/7"
-      ],
-      color: "red"
+      description: "Criptografia de ponta e proteção de dados certificada",
+      color: "text-green-600"
     },
     {
-      icon: Settings,
-      title: "Customização Total",
-      description: "Personalize cada aspecto do seu programa",
-      details: [
-        "Regras de cashback flexíveis",
-        "Interface administrativa intuitiva",
-        "Fluxos de trabalho personalizados",
-        "Configurações avançadas"
-      ],
-      color: "indigo"
+      icon: Globe,
+      title: "Integração Universal",
+      description: "APIs robustas para integração com qualquer sistema",
+      color: "text-blue-600"
     },
     {
-      icon: MessageSquare,
-      title: "WhatsApp Business",
-      description: "Comunicação direta via WhatsApp oficial",
-      details: [
-        "API oficial do WhatsApp",
-        "Mensagens automáticas",
-        "Suporte ao cliente integrado",
-        "Campanhas via WhatsApp"
-      ],
-      color: "green"
+      icon: Smartphone,
+      title: "Mobile First",
+      description: "Interface otimizada para dispositivos móveis",
+      color: "text-indigo-600"
     },
     {
-      icon: BarChart3,
-      title: "Analytics Avançados",
-      description: "Relatórios e insights detalhados",
-      details: [
-        "Dashboard em tempo real",
-        "Relatórios personalizáveis",
-        "Métricas de performance",
-        "Exportação de dados"
-      ],
-      color: "blue"
+      icon: Zap,
+      title: "Performance",
+      description: "Processamento em tempo real com 99.9% de uptime",
+      color: "text-yellow-600"
     },
     {
-      icon: Crown,
-      title: "Clube VIP",
-      description: "Programa de fidelidade premium",
-      details: [
-        "Níveis de fidelidade automáticos",
-        "Benefícios exclusivos por nível",
-        "Cashback diferenciado",
-        "Acesso antecipado a promoções"
-      ],
-      color: "yellow"
+      icon: Users,
+      title: "Multi-tenant",
+      description: "Suporte a múltiplas empresas em uma única plataforma",
+      color: "text-pink-600"
     }
   ];
 
-  const getColorClasses = (color: string) => {
-    const colors = {
-      blue: "bg-blue-100 text-blue-600",
-      purple: "bg-purple-100 text-purple-600",
-      green: "bg-green-100 text-green-600",
-      orange: "bg-orange-100 text-orange-600",
-      red: "bg-red-100 text-red-600",
-      indigo: "bg-indigo-100 text-indigo-600",
-      yellow: "bg-yellow-100 text-yellow-600"
-    };
-    return colors[color as keyof typeof colors] || colors.blue;
-  };
+  const businessBenefits = [
+    "Aumento de 40% na retenção de clientes",
+    "Crescimento de 25% no ticket médio",
+    "Redução de 60% no custo de aquisição",
+    "Melhoria de 50% na satisfação do cliente",
+    "Insights em tempo real sobre comportamento",
+    "Automação completa do programa de fidelidade"
+  ];
+
+  const clientBenefits = [
+    "Cashback em todas as compras qualificadas",
+    "Recomendações personalizadas de produtos",
+    "Missões diárias para ganhos extras",
+    "Acesso ao Clube VIP com benefícios exclusivos",
+    "Interface intuitiva e fácil de usar",
+    "Múltiplas formas de resgate de recompensas"
+  ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary/10 via-accent/10 to-secondary/10 py-20">
-        <div className="container px-4 md:px-6">
-          <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-              Funcionalidades <span className="text-primary">Completas</span>
+      <section className="relative overflow-hidden bg-gradient-to-br from-background via-background to-muted/30 pt-20 pb-20">
+        <div className="absolute inset-0 bg-grid-pattern opacity-5" />
+        <div className="relative container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center space-y-8">
+            <Badge className="animate-fade-in bg-primary/10 text-primary border-primary/20">
+              <Sparkles className="w-3 h-3 mr-1" />
+              Funcionalidades Avançadas
+            </Badge>
+            
+            <h1 className="text-4xl md:text-6xl font-bold tracking-tight animate-fade-in-up">
+              Tecnologia que{" "}
+              <span className="text-gradient bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                Revoluciona
+              </span>{" "}
+              o Cashback
             </h1>
-            <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-              Descubra todas as ferramentas e recursos que fazem do Bloom a plataforma 
-              de cashback mais completa do mercado
+            
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed animate-fade-in-up animation-delay-200">
+              Descubra como nossa plataforma combina inteligência artificial, gamificação e analytics avançados para criar a melhor experiência de cashback do mercado.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg">
-                <Link to="/auth/register">
-                  <Zap className="h-5 w-5 mr-2" />
-                  Começar Gratuitamente
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="lg">
-                <Link to="/precos">
-                  Ver Planos e Preços
-                </Link>
-              </Button>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* Features Grid */}
-      <section className="py-20">
-        <div className="container px-4 md:px-6">
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {features.map((feature, index) => (
-              <Card key={index} className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-                <CardHeader>
-                  <div className={`w-16 h-16 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform ${getColorClasses(feature.color)}`}>
-                    <feature.icon className="h-8 w-8" />
+      {/* Main Features */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16 animate-fade-in-up">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              Funcionalidades <span className="text-primary">Principais</span>
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Cada funcionalidade foi pensada para maximizar resultados tanto para empresas quanto para consumidores.
+            </p>
+          </div>
+          
+          <div className="space-y-20">
+            {mainFeatures.map((feature, index) => (
+              <div key={feature.title} className={`flex flex-col lg:flex-row items-center gap-12 ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
+                <div className="flex-1 space-y-6 animate-fade-in-up" style={{ animationDelay: `${index * 200}ms` }}>
+                  <div className={`w-16 h-16 rounded-xl bg-gradient-to-r ${feature.gradient} flex items-center justify-center shadow-lg`}>
+                    <feature.icon className="w-8 h-8 text-white" />
                   </div>
-                  <CardTitle className="text-xl">{feature.title}</CardTitle>
-                  <p className="text-muted-foreground">{feature.description}</p>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-3">
-                    {feature.details.map((detail, idx) => (
-                      <li key={idx} className="flex items-start gap-2">
-                        <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                        <span className="text-sm text-muted-foreground">{detail}</span>
-                      </li>
+                  
+                  <h3 className="text-2xl md:text-3xl font-bold">{feature.title}</h3>
+                  <p className="text-lg text-muted-foreground leading-relaxed">{feature.description}</p>
+                  
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    {feature.benefits.map((benefit) => (
+                      <div key={benefit} className="flex items-center gap-2">
+                        <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                        <span className="text-sm">{benefit}</span>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
+                </div>
+                
+                <div className="flex-1 animate-fade-in-up" style={{ animationDelay: `${index * 200 + 100}ms` }}>
+                  <Card className="hover-scale border-0 shadow-xl bg-gradient-to-br from-background to-muted/30">
+                    <CardContent className="p-8">
+                      <div className={`w-full h-48 rounded-lg bg-gradient-to-r ${feature.gradient} opacity-20 mb-6 animate-pulse-soft`} />
+                      <div className="space-y-3">
+                        <div className="h-4 bg-muted rounded w-3/4" />
+                        <div className="h-4 bg-muted rounded w-1/2" />
+                        <div className="h-4 bg-muted rounded w-2/3" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Technical Features */}
+      <section className="py-20 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16 animate-fade-in-up">
+            <Badge className="bg-accent/10 text-accent border-accent/20 mb-4">
+              Tecnologia
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              Recursos <span className="text-accent">Técnicos</span> Avançados
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Nossa infraestrutura robusta garante performance, segurança e escalabilidade.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {technicalFeatures.map((feature, index) => (
+              <Card key={feature.title} className="group hover-scale border-0 shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
+                <CardHeader className="text-center">
+                  <div className="mx-auto w-12 h-12 rounded-lg bg-background shadow-md flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <feature.icon className={`w-6 h-6 ${feature.color}`} />
+                  </div>
+                  <CardTitle className="group-hover:text-primary transition-colors">{feature.title}</CardTitle>
+                </CardHeader>
+                <CardContent className="text-center">
+                  <CardDescription className="text-base">{feature.description}</CardDescription>
                 </CardContent>
               </Card>
             ))}
@@ -211,67 +222,81 @@ const Features: React.FC = () => {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-20 bg-muted/30">
-        <div className="container px-4 md:px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Por que Escolher o Bloom?</h2>
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16 animate-fade-in-up">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              Benefícios <span className="text-primary">Comprovados</span>
+            </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Vantagens que fazem a diferença para seu negócio
+              Resultados reais que transformam negócios e experiências de compra.
             </p>
           </div>
           
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-            <div className="text-center">
-              <div className="bg-primary/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <TrendingUp className="h-10 w-10 text-primary" />
-              </div>
-              <h3 className="font-semibold text-lg mb-2">+23% em Vendas</h3>
-              <p className="text-muted-foreground text-sm">Aumento médio nas vendas dos nossos clientes</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="h-10 w-10 text-green-600" />
-              </div>
-              <h3 className="font-semibold text-lg mb-2">85% Retenção</h3>
-              <p className="text-muted-foreground text-sm">Taxa de retenção de clientes fidelizados</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-blue-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Zap className="h-10 w-10 text-blue-600" />
-              </div>
-              <h3 className="font-semibold text-lg mb-2">24h Setup</h3>
-              <p className="text-muted-foreground text-sm">Implementação rápida e sem complicações</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-purple-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Star className="h-10 w-10 text-purple-600" />
-              </div>
-              <h3 className="font-semibold text-lg mb-2">4.9/5 Avaliação</h3>
-              <p className="text-muted-foreground text-sm">Satisfação dos nossos clientes</p>
-            </div>
+          <div className="grid lg:grid-cols-2 gap-12">
+            {/* Business Benefits */}
+            <Card className="hover-scale border-0 shadow-xl bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 animate-fade-in-up">
+              <CardHeader className="text-center">
+                <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center mb-4">
+                  <TrendingUp className="w-8 h-8 text-white" />
+                </div>
+                <CardTitle className="text-2xl">Para Empresas</CardTitle>
+                <CardDescription className="text-lg">Resultados que impactam diretamente seu ROI</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {businessBenefits.map((benefit, index) => (
+                  <div key={benefit} className="flex items-center gap-3 animate-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
+                    <CheckCircle className="w-5 h-5 text-blue-500 flex-shrink-0" />
+                    <span>{benefit}</span>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+
+            {/* Client Benefits */}
+            <Card className="hover-scale border-0 shadow-xl bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 animate-fade-in-up animation-delay-200">
+              <CardHeader className="text-center">
+                <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center mb-4">
+                  <Users className="w-8 h-8 text-white" />
+                </div>
+                <CardTitle className="text-2xl">Para Clientes</CardTitle>
+                <CardDescription className="text-lg">Vantagens que fazem a diferença no seu dia a dia</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {clientBenefits.map((benefit, index) => (
+                  <div key={benefit} className="flex items-center gap-3 animate-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
+                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <span>{benefit}</span>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-primary to-accent text-white">
-        <div className="container px-4 md:px-6 text-center">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Pronto para Experimentar?
+      <section className="py-20 bg-gradient-to-r from-primary via-accent to-secondary relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/20" />
+        <div className="relative container mx-auto px-4 text-center">
+          <div className="max-w-3xl mx-auto space-y-8 animate-fade-in-up">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+              Experimente Todas as Funcionalidades
             </h2>
             <p className="text-xl text-white/90 mb-8">
-              Comece hoje mesmo e veja o impacto em seus resultados
+              Teste nossa plataforma gratuitamente e veja como ela pode transformar seu negócio ou sua experiência de compra.
             </p>
-            <Button asChild size="xl" className="bg-white text-primary hover:bg-white/90">
-              <Link to="/auth/register">
-                Criar Conta Gratuitamente
-                <ArrowRight className="h-5 w-5 ml-2" />
-              </Link>
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="xl" variant="secondary" className="hover-scale shadow-lg">
+                <Link to="/auth/register" className="flex items-center gap-2">
+                  Começar Teste Grátis
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </Button>
+              <Button size="xl" variant="outline" className="hover-scale border-white text-white hover:bg-white hover:text-primary">
+                <Link to="/pricing">Ver Planos</Link>
+              </Button>
+            </div>
           </div>
         </div>
       </section>
