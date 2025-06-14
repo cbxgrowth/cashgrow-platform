@@ -76,12 +76,16 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
             isCollapsed={sidebarCollapsed}
             onToggle={handleSidebarToggle}
           />
-          <div className="flex-1 flex flex-col">
+          <div 
+            className={`flex-1 flex flex-col transition-all duration-300 ${
+              sidebarCollapsed ? 'ml-16' : 'ml-64'
+            }`}
+          >
             <EnhancedDashboardHeader 
               userType={userType} 
               menuItems={menuItems}
             />
-            <main className="flex-1 p-6 bg-muted/30">
+            <main className="flex-1 overflow-auto p-6 bg-muted/30">
               <Outlet />
             </main>
           </div>
