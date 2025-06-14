@@ -7,7 +7,7 @@ import {
   NavigationMenuLink,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { resources } from '../data/navigationData';
+import { resourcesLinks } from '../data/navigationData';
 
 const ResourcesDropdown = () => {
   return (
@@ -18,7 +18,7 @@ const ResourcesDropdown = () => {
       <NavigationMenuContent>
         <div className="grid gap-3 p-6 w-[450px] bg-background border border-border/40 rounded-xl shadow-lg backdrop-blur-sm">
           <div className="space-y-1">
-            {resources.map((item) => (
+            {resourcesLinks.map((item) => (
               <NavigationMenuLink key={item.title} asChild>
                 <Link
                   to={item.href}
