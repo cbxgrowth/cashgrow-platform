@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { SidebarProvider } from '@/components/ui/sidebar/sidebar-provider';
@@ -27,7 +26,8 @@ import {
   TrendingUp,
   CreditCard,
   Zap,
-  Bell
+  Bell,
+  MapPin
 } from 'lucide-react';
 
 interface DashboardLayoutProps {
@@ -65,6 +65,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
     { icon: Zap, title: 'Campanhas IA', url: '/company/ai-campaigns' },
     { icon: Building2, title: 'Corporativo', url: '/company/corporate' },
     { icon: CreditCard, title: 'Cashback', url: '/company/cashback-rules' },
+    { icon: MapPin, title: 'Usuários Próximos', url: '/company/proximity' },
     { icon: Puzzle, title: 'Integrações', url: '/company/integrations' },
     { icon: User, title: 'Perfil', url: '/company/profile' },
     { icon: Settings, title: 'Configurações', url: '/company/settings' },

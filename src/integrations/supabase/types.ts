@@ -265,6 +265,53 @@ export type Database = {
         }
         Relationships: []
       }
+      company_locations: {
+        Row: {
+          address: string | null
+          city: string | null
+          company_id: string | null
+          country: string | null
+          created_at: string | null
+          id: string
+          latitude: number
+          longitude: number
+          state: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          address?: string | null
+          city?: string | null
+          company_id?: string | null
+          country?: string | null
+          created_at?: string | null
+          id?: string
+          latitude: number
+          longitude: number
+          state?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          address?: string | null
+          city?: string | null
+          company_id?: string | null
+          country?: string | null
+          created_at?: string | null
+          id?: string
+          latitude?: number
+          longitude?: number
+          state?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "company_locations_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: true
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       company_users: {
         Row: {
           company_id: string | null
@@ -369,6 +416,38 @@ export type Database = {
         }
         Relationships: []
       }
+      proximity_metrics: {
+        Row: {
+          calculated_at: string | null
+          company_id: string | null
+          id: string
+          radius_km: number
+          user_count: number | null
+        }
+        Insert: {
+          calculated_at?: string | null
+          company_id?: string | null
+          id?: string
+          radius_km: number
+          user_count?: number | null
+        }
+        Update: {
+          calculated_at?: string | null
+          company_id?: string | null
+          id?: string
+          radius_km?: number
+          user_count?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "proximity_metrics_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       system_settings: {
         Row: {
           category: string | null
@@ -455,6 +534,42 @@ export type Database = {
           },
         ]
       }
+      user_proximity_data: {
+        Row: {
+          city: string | null
+          id: string
+          is_active: boolean | null
+          last_updated: string | null
+          latitude: number
+          longitude: number
+          privacy_consent: boolean | null
+          state: string | null
+          user_id: string | null
+        }
+        Insert: {
+          city?: string | null
+          id?: string
+          is_active?: boolean | null
+          last_updated?: string | null
+          latitude: number
+          longitude: number
+          privacy_consent?: boolean | null
+          state?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          city?: string | null
+          id?: string
+          is_active?: boolean | null
+          last_updated?: string | null
+          latitude?: number
+          longitude?: number
+          privacy_consent?: boolean | null
+          state?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       user_subscriptions: {
         Row: {
           created_at: string
@@ -507,6 +622,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      calculate_distance: {
+        Args: { lat1: number; lon1: number; lat2: number; lon2: number }
+        Returns: number
+      }
       generate_invitation_token: {
         Args: Record<PropertyKey, never>
         Returns: string
@@ -518,6 +637,10 @@ export type Database = {
       is_super_admin: {
         Args: { user_id: string }
         Returns: boolean
+      }
+      update_proximity_metrics: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
       }
     }
     Enums: {
