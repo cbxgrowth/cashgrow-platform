@@ -4,14 +4,47 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Zap, Target, Users, BarChart3, Plus, Brain, Sparkles } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Zap, Target, Users, BarChart3, Plus, Brain, Sparkles, MapPin } from "lucide-react";
+import { AICampaignSuggestions } from '@/components/ai-campaigns/AICampaignSuggestions';
+import { AIInsightsDashboard } from '@/components/ai-campaigns/AIInsightsDashboard';
 
 const CompanyAiCampaigns: React.FC = () => {
   const [activeCampaigns] = useState([
-    { id: 1, name: 'Cashback Duplo - Eletrônicos', status: 'Ativo', progress: 78, reach: 1250, engagement: 24.5 },
-    { id: 2, name: 'Oferta Personalizada - Moda', status: 'Planejando', progress: 35, reach: 890, engagement: 18.2 },
-    { id: 3, name: 'Campanha de Reativação', status: 'Finalizada', progress: 100, reach: 2100, engagement: 31.8 },
+    { 
+      id: 1, 
+      name: 'Cashback Duplo - Eletrônicos', 
+      status: 'Ativo', 
+      progress: 78, 
+      reach: 1250, 
+      engagement: 24.5,
+      locationBased: true,
+      aiOptimized: true
+    },
+    { 
+      id: 2, 
+      name: 'Oferta Personalizada - Moda', 
+      status: 'Planejando', 
+      progress: 35, 
+      reach: 890, 
+      engagement: 18.2,
+      locationBased: false,
+      aiOptimized: true
+    },
+    { 
+      id: 3, 
+      name: 'Campanha de Reativação', 
+      status: 'Finalizada', 
+      progress: 100, 
+      reach: 2100, 
+      engagement: 31.8,
+      locationBased: true,
+      aiOptimized: false
+    },
   ]);
+
+  // Simulando ID da empresa - em produção viria do contexto de autenticação
+  const companyId = "company-1";
 
   return (
     <div className="space-y-6">
@@ -21,7 +54,9 @@ const CompanyAiCampaigns: React.FC = () => {
             <Zap className="h-8 w-8 text-primary" />
             Campanhas IA
           </h1>
-          <p className="text-muted-foreground">Campanhas inteligentes otimizadas por IA</p>
+          <p className="text-muted-foreground">
+            Campanhas inteligentes otimizadas por IA com foco em localização, vendas, retenção e fidelidade
+          </p>
         </div>
         <Button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:opacity-90">
           <Plus className="mr-2 h-4 w-4" />
@@ -34,36 +69,36 @@ const CompanyAiCampaigns: React.FC = () => {
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
               <Brain className="h-4 w-4 text-purple-600" />
-              Campanhas Ativas
+              Campanhas IA Ativas
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">12</div>
-            <p className="text-xs text-green-600">+3 esta semana</p>
+            <p className="text-xs text-green-600">+5 com otimização geográfica</p>
           </CardContent>
         </Card>
         <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
               <Target className="h-4 w-4 text-green-600" />
-              Taxa de Conversão
+              Conversão IA + Localização
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">34.2%</div>
-            <p className="text-xs text-green-600">+12% vs campanhas manuais</p>
+            <div className="text-2xl font-bold">42.7%</div>
+            <p className="text-xs text-green-600">+25% vs campanhas tradicionais</p>
           </CardContent>
         </Card>
         <Card className="bg-gradient-to-br from-orange-50 to-amber-50 border-orange-200">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
               <BarChart3 className="h-4 w-4 text-orange-600" />
-              ROI Médio
+              ROI Integrado
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">425%</div>
-            <p className="text-xs text-green-600">+89% com IA</p>
+            <div className="text-2xl font-bold">525%</div>
+            <p className="text-xs text-green-600">+150% com IA completa</p>
           </CardContent>
         </Card>
       </div>
@@ -72,77 +107,148 @@ const CompanyAiCampaigns: React.FC = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Sparkles className="h-5 w-5" />
-            Sugestão da IA
+            IA Conectada ao Sistema Completo
           </CardTitle>
         </CardHeader>
         <CardContent>
           <p className="mb-4">
-            Detectamos que clientes que compraram eletrônicos têm 78% mais probabilidade de comprar acessórios 
-            dentro de 15 dias. Recomendamos criar uma campanha direcionada.
+            Nossa IA analisa dados de localização, transações, comportamento e proximidade em tempo real. 
+            Detectamos que campanhas baseadas em localização têm 3x mais conversão quando combinadas com 
+            histórico de compras e padrões de fidelidade.
           </p>
           <div className="flex gap-2">
             <Button variant="secondary">
-              Criar Campanha Sugerida
+              Ver Análise Completa
             </Button>
             <Button variant="ghost" className="text-white hover:bg-white/20">
-              Ver Análise Completa
+              Configurar Integração
             </Button>
           </div>
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Campanhas em Andamento</CardTitle>
-          <CardDescription>Monitoramento em tempo real das suas campanhas IA</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {activeCampaigns.map((campaign) => (
-              <div key={campaign.id} className="border rounded-lg p-4 space-y-3">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="font-semibold">{campaign.name}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Alcance: {campaign.reach.toLocaleString()} pessoas | 
-                      Engajamento: {campaign.engagement}%
-                    </p>
+      <Tabs defaultValue="suggestions" className="space-y-4">
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="suggestions">Sugestões IA</TabsTrigger>
+          <TabsTrigger value="insights">Insights</TabsTrigger>
+          <TabsTrigger value="campaigns">Campanhas</TabsTrigger>
+          <TabsTrigger value="performance">Performance</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="suggestions" className="space-y-4">
+          <AICampaignSuggestions companyId={companyId} />
+        </TabsContent>
+
+        <TabsContent value="insights" className="space-y-4">
+          <AIInsightsDashboard companyId={companyId} />
+        </TabsContent>
+
+        <TabsContent value="campaigns" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Campanhas em Andamento</CardTitle>
+              <CardDescription>Monitoramento em tempo real das suas campanhas IA</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {activeCampaigns.map((campaign) => (
+                  <div key={campaign.id} className="border rounded-lg p-4 space-y-3">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="font-semibold">{campaign.name}</h3>
+                          {campaign.locationBased && (
+                            <Badge variant="outline" className="text-xs">
+                              <MapPin className="h-3 w-3 mr-1" />
+                              Localização
+                            </Badge>
+                          )}
+                          {campaign.aiOptimized && (
+                            <Badge variant="outline" className="text-xs">
+                              <Brain className="h-3 w-3 mr-1" />
+                              IA
+                            </Badge>
+                          )}
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          Alcance: {campaign.reach.toLocaleString()} pessoas | 
+                          Engajamento: {campaign.engagement}%
+                        </p>
+                      </div>
+                      <Badge variant={
+                        campaign.status === 'Ativo' ? 'default' : 
+                        campaign.status === 'Planejando' ? 'secondary' : 'outline'
+                      }>
+                        {campaign.status}
+                      </Badge>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span>Progresso da Campanha</span>
+                        <span>{campaign.progress}%</span>
+                      </div>
+                      <Progress value={campaign.progress} className="h-2" />
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <div className="flex gap-2 text-sm text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <Users className="h-3 w-3" />
+                          {campaign.reach}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Target className="h-3 w-3" />
+                          {campaign.engagement}%
+                        </span>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button variant="outline" size="sm">Ver Detalhes</Button>
+                        <Button variant="ghost" size="sm">Otimizar IA</Button>
+                      </div>
+                    </div>
                   </div>
-                  <Badge variant={
-                    campaign.status === 'Ativo' ? 'default' : 
-                    campaign.status === 'Planejando' ? 'secondary' : 'outline'
-                  }>
-                    {campaign.status}
-                  </Badge>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span>Progresso da Campanha</span>
-                    <span>{campaign.progress}%</span>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="performance" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Performance Integrada</CardTitle>
+              <CardDescription>
+                Análise completa do impacto da IA na performance de vendas, retenção e fidelidade
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="p-4 border rounded-lg">
+                    <h4 className="font-medium mb-2">Impacto em Vendas</h4>
+                    <div className="text-2xl font-bold text-green-600">+89%</div>
+                    <p className="text-sm text-gray-600">Aumento médio com IA + localização</p>
                   </div>
-                  <Progress value={campaign.progress} className="h-2" />
-                </div>
-                <div className="flex justify-between items-center">
-                  <div className="flex gap-2 text-sm text-muted-foreground">
-                    <span className="flex items-center gap-1">
-                      <Users className="h-3 w-3" />
-                      {campaign.reach}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Target className="h-3 w-3" />
-                      {campaign.engagement}%
-                    </span>
+                  <div className="p-4 border rounded-lg">
+                    <h4 className="font-medium mb-2">Taxa de Retenção</h4>
+                    <div className="text-2xl font-bold text-blue-600">92%</div>
+                    <p className="text-sm text-gray-600">Clientes mantidos com campanhas IA</p>
                   </div>
-                  <div className="flex gap-2">
-                    <Button variant="outline" size="sm">Ver Detalhes</Button>
-                    <Button variant="ghost" size="sm">Otimizar</Button>
+                  <div className="p-4 border rounded-lg">
+                    <h4 className="font-medium mb-2">Fidelidade Aumentada</h4>
+                    <div className="text-2xl font-bold text-purple-600">+156%</div>
+                    <p className="text-sm text-gray-600">Frequência de compras</p>
+                  </div>
+                  <div className="p-4 border rounded-lg">
+                    <h4 className="font-medium mb-2">Eficiência Operacional</h4>
+                    <div className="text-2xl font-bold text-orange-600">+67%</div>
+                    <p className="text-sm text-gray-600">Redução de custos de aquisição</p>
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
