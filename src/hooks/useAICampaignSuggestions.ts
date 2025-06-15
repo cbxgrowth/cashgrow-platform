@@ -193,6 +193,9 @@ export const useAICampaignSuggestions = (companyId: string) => {
     if (!suggestion) return;
 
     try {
+      // Convert suggestion to JSON-compatible format
+      const suggestionJson = JSON.parse(JSON.stringify(suggestion));
+      
       // Log da ação aplicada
       await supabase
         .from('audit_logs')
@@ -200,7 +203,7 @@ export const useAICampaignSuggestions = (companyId: string) => {
           action: 'ai_campaign_applied',
           resource_type: 'campaign_suggestion',
           resource_id: suggestionId,
-          new_values: suggestion
+          new_values: suggestionJson
         });
 
       console.log('Sugestão aplicada:', suggestion);
