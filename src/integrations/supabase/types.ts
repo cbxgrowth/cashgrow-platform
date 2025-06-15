@@ -9,6 +9,44 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      ai_credit_transactions: {
+        Row: {
+          action_type: string
+          company_id: string
+          created_at: string
+          credits_consumed: number
+          description: string | null
+          id: string
+          suggestion_id: string | null
+        }
+        Insert: {
+          action_type: string
+          company_id: string
+          created_at?: string
+          credits_consumed?: number
+          description?: string | null
+          id?: string
+          suggestion_id?: string | null
+        }
+        Update: {
+          action_type?: string
+          company_id?: string
+          created_at?: string
+          credits_consumed?: number
+          description?: string | null
+          id?: string
+          suggestion_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_credit_transactions_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_logs: {
         Row: {
           action: string
@@ -201,6 +239,47 @@ export type Database = {
           website?: string | null
         }
         Relationships: []
+      }
+      company_ai_credits: {
+        Row: {
+          company_id: string
+          created_at: string
+          id: string
+          last_refill_date: string | null
+          remaining_credits: number | null
+          total_credits: number
+          updated_at: string
+          used_credits: number
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          id?: string
+          last_refill_date?: string | null
+          remaining_credits?: number | null
+          total_credits?: number
+          updated_at?: string
+          used_credits?: number
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          id?: string
+          last_refill_date?: string | null
+          remaining_credits?: number | null
+          total_credits?: number
+          updated_at?: string
+          used_credits?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "company_ai_credits_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: true
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       company_clients: {
         Row: {
@@ -622,9 +701,27 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      add_ai_credits: {
+        Args: {
+          p_company_id: string
+          p_credits_amount: number
+          p_description?: string
+        }
+        Returns: undefined
+      }
       calculate_distance: {
         Args: { lat1: number; lon1: number; lat2: number; lon2: number }
         Returns: number
+      }
+      consume_ai_credits: {
+        Args: {
+          p_company_id: string
+          p_action_type: string
+          p_credits_amount?: number
+          p_description?: string
+          p_suggestion_id?: string
+        }
+        Returns: boolean
       }
       generate_invitation_token: {
         Args: Record<PropertyKey, never>

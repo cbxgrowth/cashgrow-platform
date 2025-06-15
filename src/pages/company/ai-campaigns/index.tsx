@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -6,8 +5,9 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Zap, Target, Users, BarChart3, Plus, Brain, Sparkles, MapPin } from "lucide-react";
-import { AICampaignSuggestions } from '@/components/ai-campaigns/AICampaignSuggestions';
+import { AICampaignSuggestionsWithCredits } from '@/components/ai-campaigns/AICampaignSuggestionsWithCredits';
 import { AIInsightsDashboard } from '@/components/ai-campaigns/AIInsightsDashboard';
+import { AICreditsBadge } from '@/components/ai-campaigns/AICreditsBadge';
 
 const CompanyAiCampaigns: React.FC = () => {
   const [activeCampaigns] = useState([
@@ -55,13 +55,16 @@ const CompanyAiCampaigns: React.FC = () => {
             Campanhas IA
           </h1>
           <p className="text-muted-foreground">
-            Campanhas inteligentes otimizadas por IA com foco em localização, vendas, retenção e fidelidade
+            Campanhas inteligentes otimizadas por IA com sistema de créditos baseado em uso
           </p>
         </div>
-        <Button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:opacity-90">
-          <Plus className="mr-2 h-4 w-4" />
-          Nova Campanha IA
-        </Button>
+        <div className="flex items-center gap-3">
+          <AICreditsBadge companyId={companyId} />
+          <Button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:opacity-90">
+            <Plus className="mr-2 h-4 w-4" />
+            Nova Campanha IA
+          </Button>
+        </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
@@ -74,7 +77,7 @@ const CompanyAiCampaigns: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">12</div>
-            <p className="text-xs text-green-600">+5 com otimização geográfica</p>
+            <p className="text-xs text-green-600">Sistema baseado em créditos</p>
           </CardContent>
         </Card>
         <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
@@ -98,7 +101,7 @@ const CompanyAiCampaigns: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">525%</div>
-            <p className="text-xs text-green-600">+150% com IA completa</p>
+            <p className="text-xs text-green-600">Otimizado por IA com créditos</p>
           </CardContent>
         </Card>
       </div>
@@ -107,36 +110,68 @@ const CompanyAiCampaigns: React.FC = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Sparkles className="h-5 w-5" />
-            IA Conectada ao Sistema Completo
+            IA com Sistema de Créditos Inteligente
           </CardTitle>
         </CardHeader>
         <CardContent>
           <p className="mb-4">
-            Nossa IA analisa dados de localização, transações, comportamento e proximidade em tempo real. 
-            Detectamos que campanhas baseadas em localização têm 3x mais conversão quando combinadas com 
-            histórico de compras e padrões de fidelidade.
+            Nossa IA opera com um sistema de créditos fair-use. Cada sugestão gerada, insight analisado 
+            ou campanha aplicada consome créditos baseados na complexidade da operação. Isso garante 
+            uso eficiente e custos transparentes.
           </p>
           <div className="flex gap-2">
             <Button variant="secondary">
-              Ver Análise Completa
+              Ver Planos de Créditos
             </Button>
             <Button variant="ghost" className="text-white hover:bg-white/20">
-              Configurar Integração
+              Histórico de Uso
             </Button>
           </div>
         </CardContent>
       </Card>
 
       <Tabs defaultValue="suggestions" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="suggestions">Sugestões IA</TabsTrigger>
+          <TabsTrigger value="credits">Créditos</TabsTrigger>
           <TabsTrigger value="insights">Insights</TabsTrigger>
           <TabsTrigger value="campaigns">Campanhas</TabsTrigger>
           <TabsTrigger value="performance">Performance</TabsTrigger>
         </TabsList>
 
         <TabsContent value="suggestions" className="space-y-4">
-          <AICampaignSuggestions companyId={companyId} />
+          <AICampaignSuggestionsWithCredits companyId={companyId} />
+        </TabsContent>
+
+        <TabsContent value="credits" className="space-y-4">
+          <div className="grid gap-6 md:grid-cols-2">
+            <AICreditsBadge companyId={companyId} showDetails={true} />
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Histórico de Uso de Créditos</CardTitle>
+                <CardDescription>
+                  Acompanhe como seus créditos IA estão sendo utilizados
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center p-2 border rounded">
+                    <span className="text-sm">Sugestão aplicada - Campanha de Proximidade</span>
+                    <span className="text-sm font-medium text-red-600">-5 créditos</span>
+                  </div>
+                  <div className="flex justify-between items-center p-2 border rounded">
+                    <span className="text-sm">Geração de insights de localização</span>
+                    <span className="text-sm font-medium text-red-600">-3 créditos</span>
+                  </div>
+                  <div className="flex justify-between items-center p-2 border rounded">
+                    <span className="text-sm">Análise de padrões de retenção</span>
+                    <span className="text-sm font-medium text-red-600">-2 créditos</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
 
         <TabsContent value="insights" className="space-y-4">
@@ -217,7 +252,7 @@ const CompanyAiCampaigns: React.FC = () => {
             <CardHeader>
               <CardTitle>Performance Integrada</CardTitle>
               <CardDescription>
-                Análise completa do impacto da IA na performance de vendas, retenção e fidelidade
+                Análise completa do impacto da IA na performance com controle de créditos
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -226,22 +261,22 @@ const CompanyAiCampaigns: React.FC = () => {
                   <div className="p-4 border rounded-lg">
                     <h4 className="font-medium mb-2">Impacto em Vendas</h4>
                     <div className="text-2xl font-bold text-green-600">+89%</div>
-                    <p className="text-sm text-gray-600">Aumento médio com IA + localização</p>
+                    <p className="text-sm text-gray-600">Aumento com IA + créditos otimizados</p>
                   </div>
                   <div className="p-4 border rounded-lg">
-                    <h4 className="font-medium mb-2">Taxa de Retenção</h4>
+                    <h4 className="font-medium mb-2">Eficiência de Créditos</h4>
                     <div className="text-2xl font-bold text-blue-600">92%</div>
-                    <p className="text-sm text-gray-600">Clientes mantidos com campanhas IA</p>
+                    <p className="text-sm text-gray-600">Taxa de conversão por crédito usado</p>
                   </div>
                   <div className="p-4 border rounded-lg">
-                    <h4 className="font-medium mb-2">Fidelidade Aumentada</h4>
-                    <div className="text-2xl font-bold text-purple-600">+156%</div>
-                    <p className="text-sm text-gray-600">Frequência de compras</p>
+                    <h4 className="font-medium mb-2">ROI por Crédito</h4>
+                    <div className="text-2xl font-bold text-purple-600">R$ 15,60</div>
+                    <p className="text-sm text-gray-600">Retorno médio por crédito consumido</p>
                   </div>
                   <div className="p-4 border rounded-lg">
-                    <h4 className="font-medium mb-2">Eficiência Operacional</h4>
+                    <h4 className="font-medium mb-2">Economia vs Manual</h4>
                     <div className="text-2xl font-bold text-orange-600">+67%</div>
-                    <p className="text-sm text-gray-600">Redução de custos de aquisição</p>
+                    <p className="text-sm text-gray-600">Eficiência vs campanhas manuais</p>
                   </div>
                 </div>
               </div>
