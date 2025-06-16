@@ -3,140 +3,107 @@ import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { 
-  ArrowRight, 
-  Zap, 
-  Shield, 
-  TrendingUp, 
-  Users, 
-  Sparkles,
-  Star,
-  CheckCircle,
-  Wallet,
-  BarChart3,
-  Target,
-  Crown,
-  Globe,
-  Smartphone,
-  CreditCard,
-  Gift,
-  Rocket,
-  Award
-} from "lucide-react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import { ArrowRight, Zap, Shield, TrendingUp, Users, Sparkles, Star, CheckCircle, Wallet, BarChart3, Target, Crown, Globe, Smartphone, CreditCard, Gift, Rocket, Award } from "lucide-react";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import SalesSupport from "@/components/plugins/SalesSupport";
-
 const Home = () => {
-  const features = [
-    {
-      icon: Wallet,
-      title: "Cashback Inteligente",
-      description: "Ganhe dinheiro de volta em cada compra com nosso sistema avançado de recompensas.",
-      gradient: "from-green-500 to-emerald-600"
-    },
-    {
-      icon: BarChart3,
-      title: "Analytics Avançados",
-      description: "Acompanhe seu desempenho com relatórios detalhados e insights em tempo real.",
-      gradient: "from-blue-500 to-indigo-600"
-    },
-    {
-      icon: Target,
-      title: "Missões Gamificadas",
-      description: "Complete missões e desafios para ganhar recompensas extras e benefícios exclusivos.",
-      gradient: "from-purple-500 to-violet-600"
-    },
-    {
-      icon: Crown,
-      title: "Clube VIP",
-      description: "Acesse benefícios exclusivos, cashback maior e atendimento prioritário.",
-      gradient: "from-amber-500 to-orange-600"
-    }
-  ];
-
-  const stats = [
-    { number: "10K+", label: "Usuários Ativos", icon: Users, color: "text-blue-600" },
-    { number: "R$ 2M+", label: "Cashback Distribuído", icon: TrendingUp, color: "text-green-600" },
-    { number: "500+", label: "Empresas Parceiras", icon: Shield, color: "text-purple-600" },
-    { number: "99.9%", label: "Uptime", icon: Zap, color: "text-orange-600" }
-  ];
-
-  const testimonials = [
-    {
-      name: "Maria Silva",
-      role: "Empresária",
-      content: "O sistema revolucionou nosso programa de fidelidade. Aumento de 40% na retenção de clientes!",
-      rating: 5,
-      avatar: "MS",
-      company: "Silva & Associados"
-    },
-    {
-      name: "João Santos",
-      role: "Cliente",
-      content: "Já economizei mais de R$ 500 este ano só com cashback. Recomendo para todos!",
-      rating: 5,
-      avatar: "JS",
-      company: "Consumidor"
-    },
-    {
-      name: "Ana Costa",
-      role: "Gerente de Marketing",
-      content: "Os insights são incríveis. Conseguimos segmentar melhor nossa base de clientes.",
-      rating: 5,
-      avatar: "AC",
-      company: "TechCorp"
-    },
-    {
-      name: "Carlos Oliveira",
-      role: "E-commerce Manager",
-      content: "Integração perfeita com nossa loja. Vendas aumentaram 60% em 3 meses!",
-      rating: 5,
-      avatar: "CO",
-      company: "ShopOnline"
-    }
-  ];
-
-  const benefits = [
-    {
-      icon: Globe,
-      title: "Alcance Global",
-      description: "Conecte-se com milhares de parceiros em todo o país"
-    },
-    {
-      icon: Smartphone,
-      title: "App Mobile",
-      description: "Gerencie tudo pelo celular com nosso app intuitivo"
-    },
-    {
-      icon: CreditCard,
-      title: "Múltiplos Pagamentos",
-      description: "Aceite PIX, cartões e transferências bancárias"
-    },
-    {
-      icon: Gift,
-      title: "Recompensas Personalizadas",
-      description: "Crie campanhas únicas para cada tipo de cliente"
-    },
-    {
-      icon: Rocket,
-      title: "Setup Rápido",
-      description: "Configure em minutos e comece a vender hoje"
-    },
-    {
-      icon: Award,
-      title: "Suporte Premium",
-      description: "Atendimento especializado 24/7 para sua empresa"
-    }
-  ];
-
-  return (
-    <div className="min-h-screen overflow-hidden">
+  const features = [{
+    icon: Wallet,
+    title: "Cashback Inteligente",
+    description: "Ganhe dinheiro de volta em cada compra com nosso sistema avançado de recompensas.",
+    gradient: "from-green-500 to-emerald-600"
+  }, {
+    icon: BarChart3,
+    title: "Analytics Avançados",
+    description: "Acompanhe seu desempenho com relatórios detalhados e insights em tempo real.",
+    gradient: "from-blue-500 to-indigo-600"
+  }, {
+    icon: Target,
+    title: "Missões Gamificadas",
+    description: "Complete missões e desafios para ganhar recompensas extras e benefícios exclusivos.",
+    gradient: "from-purple-500 to-violet-600"
+  }, {
+    icon: Crown,
+    title: "Clube VIP",
+    description: "Acesse benefícios exclusivos, cashback maior e atendimento prioritário.",
+    gradient: "from-amber-500 to-orange-600"
+  }];
+  const stats = [{
+    number: "10K+",
+    label: "Usuários Ativos",
+    icon: Users,
+    color: "text-blue-600"
+  }, {
+    number: "R$ 2M+",
+    label: "Cashback Distribuído",
+    icon: TrendingUp,
+    color: "text-green-600"
+  }, {
+    number: "500+",
+    label: "Empresas Parceiras",
+    icon: Shield,
+    color: "text-purple-600"
+  }, {
+    number: "99.9%",
+    label: "Uptime",
+    icon: Zap,
+    color: "text-orange-600"
+  }];
+  const testimonials = [{
+    name: "Maria Silva",
+    role: "Empresária",
+    content: "O sistema revolucionou nosso programa de fidelidade. Aumento de 40% na retenção de clientes!",
+    rating: 5,
+    avatar: "MS",
+    company: "Silva & Associados"
+  }, {
+    name: "João Santos",
+    role: "Cliente",
+    content: "Já economizei mais de R$ 500 este ano só com cashback. Recomendo para todos!",
+    rating: 5,
+    avatar: "JS",
+    company: "Consumidor"
+  }, {
+    name: "Ana Costa",
+    role: "Gerente de Marketing",
+    content: "Os insights são incríveis. Conseguimos segmentar melhor nossa base de clientes.",
+    rating: 5,
+    avatar: "AC",
+    company: "TechCorp"
+  }, {
+    name: "Carlos Oliveira",
+    role: "E-commerce Manager",
+    content: "Integração perfeita com nossa loja. Vendas aumentaram 60% em 3 meses!",
+    rating: 5,
+    avatar: "CO",
+    company: "ShopOnline"
+  }];
+  const benefits = [{
+    icon: Globe,
+    title: "Alcance Global",
+    description: "Conecte-se com milhares de parceiros em todo o país"
+  }, {
+    icon: Smartphone,
+    title: "App Mobile",
+    description: "Gerencie tudo pelo celular com nosso app intuitivo"
+  }, {
+    icon: CreditCard,
+    title: "Múltiplos Pagamentos",
+    description: "Aceite PIX, cartões e transferências bancárias"
+  }, {
+    icon: Gift,
+    title: "Recompensas Personalizadas",
+    description: "Crie campanhas únicas para cada tipo de cliente"
+  }, {
+    icon: Rocket,
+    title: "Setup Rápido",
+    description: "Configure em minutos e comece a vender hoje"
+  }, {
+    icon: Award,
+    title: "Suporte Premium",
+    description: "Atendimento especializado 24/7 para sua empresa"
+  }];
+  return <div className="min-h-screen overflow-hidden">
       {/* Animated Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-background via-background to-muted/30 pt-20 pb-32">
         <div className="absolute inset-0 bg-grid-pattern opacity-5" />
@@ -194,8 +161,7 @@ const Home = () => {
 
             {/* Interactive floating cards */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 animate-fade-in-up animation-delay-600">
-              {stats.map((stat, index) => (
-                <Card key={stat.label} className="bg-background/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group">
+              {stats.map((stat, index) => <Card key={stat.label} className="bg-background/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group">
                   <CardContent className="pt-6 text-center">
                     <div className={`inline-flex p-3 rounded-full bg-gradient-to-r from-primary/10 to-accent/10 mb-4 group-hover:scale-110 transition-transform ${stat.color}`}>
                       <stat.icon className="w-6 h-6" />
@@ -203,8 +169,7 @@ const Home = () => {
                     <div className="text-2xl font-bold text-foreground mb-1">{stat.number}</div>
                     <div className="text-xs text-muted-foreground">{stat.label}</div>
                   </CardContent>
-                </Card>
-              ))}
+                </Card>)}
             </div>
           </div>
         </div>
@@ -228,8 +193,9 @@ const Home = () => {
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
-              <Card key={feature.title} className="group relative overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 animate-fade-in-up bg-background/80 backdrop-blur-sm" style={{ animationDelay: `${index * 150}ms` }}>
+            {features.map((feature, index) => <Card key={feature.title} className="group relative overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 animate-fade-in-up bg-background/80 backdrop-blur-sm" style={{
+            animationDelay: `${index * 150}ms`
+          }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <CardHeader className="relative z-10">
                   <div className={`w-14 h-14 rounded-xl bg-gradient-to-r ${feature.gradient} flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg`}>
@@ -245,8 +211,7 @@ const Home = () => {
                   </CardDescription>
                 </CardContent>
                 <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-accent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -261,8 +226,9 @@ const Home = () => {
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {benefits.map((benefit, index) => (
-              <div key={benefit.title} className="group p-6 rounded-xl border bg-card hover:bg-accent/5 transition-all duration-300 hover:scale-105 hover:shadow-lg animate-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
+            {benefits.map((benefit, index) => <div key={benefit.title} className="group p-6 rounded-xl border bg-card hover:bg-accent/5 transition-all duration-300 hover:scale-105 hover:shadow-lg animate-fade-in-up" style={{
+            animationDelay: `${index * 100}ms`
+          }}>
                 <div className="flex items-start gap-4">
                   <div className="p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
                     <benefit.icon className="w-6 h-6 text-primary" />
@@ -272,8 +238,7 @@ const Home = () => {
                     <p className="text-muted-foreground">{benefit.description}</p>
                   </div>
                 </div>
-              </div>
-            ))}
+              </div>)}
           </div>
         </div>
       </section>
@@ -297,8 +262,7 @@ const Home = () => {
           <div className="max-w-5xl mx-auto">
             <Carousel className="w-full">
               <CarouselContent>
-                {testimonials.map((testimonial, index) => (
-                  <CarouselItem key={testimonial.name} className="md:basis-1/2 lg:basis-1/3">
+                {testimonials.map((testimonial, index) => <CarouselItem key={testimonial.name} className="md:basis-1/2 lg:basis-1/3">
                     <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 bg-background/80 backdrop-blur-sm">
                       <CardHeader>
                         <div className="flex items-center gap-4 mb-4">
@@ -312,17 +276,14 @@ const Home = () => {
                           </div>
                         </div>
                         <div className="flex gap-1">
-                          {[...Array(testimonial.rating)].map((_, i) => (
-                            <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                          ))}
+                          {[...Array(testimonial.rating)].map((_, i) => <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />)}
                         </div>
                       </CardHeader>
                       <CardContent>
                         <p className="text-muted-foreground italic leading-relaxed">"{testimonial.content}"</p>
                       </CardContent>
                     </Card>
-                  </CarouselItem>
-                ))}
+                  </CarouselItem>)}
               </CarouselContent>
               <CarouselPrevious className="hover:bg-primary hover:text-white transition-colors" />
               <CarouselNext className="hover:bg-primary hover:text-white transition-colors" />
@@ -362,7 +323,7 @@ const Home = () => {
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
-              <Button size="xl" variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-primary transition-all duration-300 transform hover:scale-105">
+              <Button size="xl" variant="outline" className="border-2 border-white hover:bg-white transition-all duration-300 transform hover:scale-105 text-amber-400">
                 <Link to="/contact" className="flex items-center gap-2">
                   <Users className="w-5 h-5" />
                   Falar com Vendas
@@ -390,8 +351,6 @@ const Home = () => {
 
       {/* Sales Support Plugin */}
       <SalesSupport />
-    </div>
-  );
+    </div>;
 };
-
 export default Home;
