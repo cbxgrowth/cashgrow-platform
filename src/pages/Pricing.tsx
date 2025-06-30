@@ -229,7 +229,7 @@ const Pricing = () => {
                 {plan.highlighted && <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-accent" />}
                 
                 <CardHeader className="relative">
-                  {plan.highlighted && <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-primary text-white border-primary">
+                  {plan.highlighted && <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-primary text-white border-primary my-[20px]">
                       Recomendado
                     </Badge>}
                   
