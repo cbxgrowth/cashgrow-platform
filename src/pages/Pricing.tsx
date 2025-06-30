@@ -1,188 +1,105 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Link } from "react-router-dom";
-import { 
-  Check, 
-  Crown, 
-  Users, 
-  Building2, 
-  Sparkles, 
-  ArrowRight,
-  Star,
-  Zap,
-  Shield,
-  Target,
-  TrendingUp
-} from "lucide-react";
-
+import { Check, Crown, Users, Building2, Sparkles, ArrowRight, Star, Zap, Shield, Target, TrendingUp } from "lucide-react";
 const Pricing = () => {
   const [isAnnual, setIsAnnual] = useState(false);
-
-  const personalPlans = [
-    {
-      name: "Starter",
-      description: "Perfeito para quem está começando",
-      monthlyPrice: 0,
-      annualPrice: 0,
-      features: [
-        "Cashback básico até 2%",
-        "Até 5 transações por mês",
-        "Suporte por email",
-        "Dashboard básico",
-        "1 carteira digital"
-      ],
-      highlighted: false,
-      buttonText: "Começar Grátis",
-      buttonVariant: "outline" as const,
-      icon: Users,
-      gradient: "from-gray-500 to-gray-600"
-    },
-    {
-      name: "Premium",
-      description: "Para usuários que querem mais benefícios",
-      monthlyPrice: 29,
-      annualPrice: 290,
-      features: [
-        "Cashback até 5%",
-        "Transações ilimitadas",
-        "Missões gamificadas",
-        "Suporte prioritário",
-        "Analytics pessoais",
-        "Múltiplas carteiras",
-        "Recomendações IA"
-      ],
-      highlighted: true,
-      buttonText: "Assinar Premium",
-      buttonVariant: "default" as const,
-      icon: Crown,
-      gradient: "from-primary to-accent"
-    },
-    {
-      name: "VIP",
-      description: "Experiência premium completa",
-      monthlyPrice: 79,
-      annualPrice: 790,
-      features: [
-        "Cashback até 10%",
-        "Acesso ao Clube VIP",
-        "Gerente de conta dedicado",
-        "Benefícios exclusivos",
-        "Eventos especiais",
-        "Cashback instantâneo",
-        "Programa de indicação",
-        "Suporte 24/7"
-      ],
-      highlighted: false,
-      buttonText: "Tornar-se VIP",
-      buttonVariant: "premium" as const,
-      icon: Star,
-      gradient: "from-amber-500 to-orange-600"
-    }
-  ];
-
-  const businessPlans = [
-    {
-      name: "Básico",
-      description: "Ideal para pequenas empresas",
-      monthlyPrice: 99,
-      annualPrice: 990,
-      features: [
-        "Até 1.000 clientes",
-        "Dashboard básico",
-        "Relatórios mensais",
-        "Suporte por email",
-        "Integração básica",
-        "Cashback até 3%"
-      ],
-      highlighted: false,
-      buttonText: "Começar Teste",
-      buttonVariant: "outline" as const,
-      icon: Building2,
-      gradient: "from-blue-500 to-indigo-600"
-    },
-    {
-      name: "Profissional",
-      description: "Para empresas em crescimento",
-      monthlyPrice: 299,
-      annualPrice: 2990,
-      features: [
-        "Até 10.000 clientes",
-        "Analytics avançados",
-        "Relatórios personalizados",
-        "Suporte prioritário",
-        "APIs completas",
-        "Campanhas automatizadas",
-        "Multi-loja",
-        "Cashback até 5%"
-      ],
-      highlighted: true,
-      buttonText: "Assinar Profissional",
-      buttonVariant: "default" as const,
-      icon: TrendingUp,
-      gradient: "from-primary to-accent"
-    },
-    {
-      name: "Enterprise",
-      description: "Solução completa para grandes empresas",
-      monthlyPrice: 999,
-      annualPrice: 9990,
-      features: [
-        "Clientes ilimitados",
-        "BI e Analytics personalizados",
-        "Gerente de conta dedicado",
-        "SLA garantido",
-        "Integração personalizada",
-        "Whitelabel completo",
-        "Suporte 24/7",
-        "Cashback customizável",
-        "Treinamento da equipe"
-      ],
-      highlighted: false,
-      buttonText: "Falar com Vendas",
-      buttonVariant: "premium" as const,
-      icon: Crown,
-      gradient: "from-purple-500 to-violet-600"
-    }
-  ];
-
-  const features = [
-    {
-      icon: Zap,
-      title: "Processamento Instantâneo",
-      description: "Cashback processado em tempo real"
-    },
-    {
-      icon: Shield,
-      title: "Segurança Máxima",
-      description: "Criptografia de nível bancário"
-    },
-    {
-      icon: Target,
-      title: "Gamificação Avançada",
-      description: "Missões e conquistas personalizadas"
-    },
-    {
-      icon: TrendingUp,
-      title: "Analytics em Tempo Real",
-      description: "Insights e relatórios detalhados"
-    }
-  ];
-
+  const personalPlans = [{
+    name: "Starter",
+    description: "Perfeito para quem está começando",
+    monthlyPrice: 0,
+    annualPrice: 0,
+    features: ["Cashback básico até 2%", "Até 5 transações por mês", "Suporte por email", "Dashboard básico", "1 carteira digital"],
+    highlighted: false,
+    buttonText: "Começar Grátis",
+    buttonVariant: "outline" as const,
+    icon: Users,
+    gradient: "from-gray-500 to-gray-600"
+  }, {
+    name: "Premium",
+    description: "Para usuários que querem mais benefícios",
+    monthlyPrice: 29,
+    annualPrice: 290,
+    features: ["Cashback até 5%", "Transações ilimitadas", "Missões gamificadas", "Suporte prioritário", "Analytics pessoais", "Múltiplas carteiras", "Recomendações IA"],
+    highlighted: true,
+    buttonText: "Assinar Premium",
+    buttonVariant: "default" as const,
+    icon: Crown,
+    gradient: "from-primary to-accent"
+  }, {
+    name: "VIP",
+    description: "Experiência premium completa",
+    monthlyPrice: 79,
+    annualPrice: 790,
+    features: ["Cashback até 10%", "Acesso ao Clube VIP", "Gerente de conta dedicado", "Benefícios exclusivos", "Eventos especiais", "Cashback instantâneo", "Programa de indicação", "Suporte 24/7"],
+    highlighted: false,
+    buttonText: "Tornar-se VIP",
+    buttonVariant: "premium" as const,
+    icon: Star,
+    gradient: "from-amber-500 to-orange-600"
+  }];
+  const businessPlans = [{
+    name: "Básico",
+    description: "Ideal para pequenas empresas",
+    monthlyPrice: 99,
+    annualPrice: 990,
+    features: ["Até 1.000 clientes", "Dashboard básico", "Relatórios mensais", "Suporte por email", "Integração básica", "Cashback até 3%"],
+    highlighted: false,
+    buttonText: "Começar Teste",
+    buttonVariant: "outline" as const,
+    icon: Building2,
+    gradient: "from-blue-500 to-indigo-600"
+  }, {
+    name: "Profissional",
+    description: "Para empresas em crescimento",
+    monthlyPrice: 299,
+    annualPrice: 2990,
+    features: ["Até 10.000 clientes", "Analytics avançados", "Relatórios personalizados", "Suporte prioritário", "APIs completas", "Campanhas automatizadas", "Multi-loja", "Cashback até 5%"],
+    highlighted: true,
+    buttonText: "Assinar Profissional",
+    buttonVariant: "default" as const,
+    icon: TrendingUp,
+    gradient: "from-primary to-accent"
+  }, {
+    name: "Enterprise",
+    description: "Solução completa para grandes empresas",
+    monthlyPrice: 999,
+    annualPrice: 9990,
+    features: ["Clientes ilimitados", "BI e Analytics personalizados", "Gerente de conta dedicado", "SLA garantido", "Integração personalizada", "Whitelabel completo", "Suporte 24/7", "Cashback customizável", "Treinamento da equipe"],
+    highlighted: false,
+    buttonText: "Falar com Vendas",
+    buttonVariant: "premium" as const,
+    icon: Crown,
+    gradient: "from-purple-500 to-violet-600"
+  }];
+  const features = [{
+    icon: Zap,
+    title: "Processamento Instantâneo",
+    description: "Cashback processado em tempo real"
+  }, {
+    icon: Shield,
+    title: "Segurança Máxima",
+    description: "Criptografia de nível bancário"
+  }, {
+    icon: Target,
+    title: "Gamificação Avançada",
+    description: "Missões e conquistas personalizadas"
+  }, {
+    icon: TrendingUp,
+    title: "Analytics em Tempo Real",
+    description: "Insights e relatórios detalhados"
+  }];
   const getPrice = (plan: any) => {
     return isAnnual ? plan.annualPrice : plan.monthlyPrice;
   };
-
   const getSavings = (plan: any) => {
     if (plan.monthlyPrice === 0) return 0;
-    return Math.round(((plan.monthlyPrice * 12 - plan.annualPrice) / (plan.monthlyPrice * 12)) * 100);
+    return Math.round((plan.monthlyPrice * 12 - plan.annualPrice) / (plan.monthlyPrice * 12) * 100);
   };
-
-  return (
-    <div className="min-h-screen">
+  return <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-background via-background to-muted/30 pt-20 pb-20">
         <div className="absolute inset-0 bg-grid-pattern opacity-5" />
@@ -210,19 +127,13 @@ const Pricing = () => {
               <span className={`text-sm ${!isAnnual ? 'text-foreground font-semibold' : 'text-muted-foreground'}`}>
                 Mensal
               </span>
-              <Switch
-                checked={isAnnual}
-                onCheckedChange={setIsAnnual}
-                className="data-[state=checked]:bg-primary"
-              />
+              <Switch checked={isAnnual} onCheckedChange={setIsAnnual} className="data-[state=checked]:bg-primary" />
               <span className={`text-sm ${isAnnual ? 'text-foreground font-semibold' : 'text-muted-foreground'}`}>
                 Anual
               </span>
-              {isAnnual && (
-                <Badge className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
+              {isAnnual && <Badge className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
                   Economize até 30%
-                </Badge>
-              )}
+                </Badge>}
             </div>
           </div>
         </div>
@@ -244,18 +155,15 @@ const Pricing = () => {
           </div>
           
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {personalPlans.map((plan, index) => (
-              <Card key={plan.name} className={`relative hover-scale transition-all duration-300 ${plan.highlighted ? 'border-primary shadow-xl scale-105' : 'border-border shadow-lg'} animate-fade-in-up overflow-hidden`} style={{ animationDelay: `${index * 150}ms` }}>
-                {plan.highlighted && (
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-accent" />
-                )}
+            {personalPlans.map((plan, index) => <Card key={plan.name} className={`relative hover-scale transition-all duration-300 ${plan.highlighted ? 'border-primary shadow-xl scale-105' : 'border-border shadow-lg'} animate-fade-in-up overflow-hidden`} style={{
+            animationDelay: `${index * 150}ms`
+          }}>
+                {plan.highlighted && <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-accent" />}
                 
                 <CardHeader className="relative">
-                  {plan.highlighted && (
-                    <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-primary text-white border-primary">
+                  {plan.highlighted && <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-primary text-white border-primary">
                       Mais Popular
-                    </Badge>
-                  )}
+                    </Badge>}
                   
                   <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${plan.gradient} flex items-center justify-center mb-4`}>
                     <plan.icon className="w-6 h-6 text-white" />
@@ -273,37 +181,28 @@ const Pricing = () => {
                         /{isAnnual ? 'ano' : 'mês'}
                       </span>
                     </div>
-                    {isAnnual && plan.monthlyPrice > 0 && (
-                      <div className="text-sm text-green-600 font-medium">
+                    {isAnnual && plan.monthlyPrice > 0 && <div className="text-sm text-green-600 font-medium">
                         Economize {getSavings(plan)}% pagando anual
-                      </div>
-                    )}
+                      </div>}
                   </div>
                 </CardHeader>
                 
                 <CardContent className="space-y-4">
                   <ul className="space-y-3">
-                    {plan.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-3">
+                    {plan.features.map(feature => <li key={feature} className="flex items-start gap-3">
                         <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                         <span className="text-sm">{feature}</span>
-                      </li>
-                    ))}
+                      </li>)}
                   </ul>
                   
-                  <Button 
-                    variant={plan.buttonVariant} 
-                    className="w-full hover-scale"
-                    size="lg"
-                  >
+                  <Button variant={plan.buttonVariant} className="w-full hover-scale" size="lg">
                     <Link to="/auth/register" className="flex items-center gap-2">
                       {plan.buttonText}
                       <ArrowRight className="w-4 h-4" />
                     </Link>
                   </Button>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -324,18 +223,15 @@ const Pricing = () => {
           </div>
           
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {businessPlans.map((plan, index) => (
-              <Card key={plan.name} className={`relative hover-scale transition-all duration-300 ${plan.highlighted ? 'border-primary shadow-xl scale-105' : 'border-border shadow-lg'} animate-fade-in-up overflow-hidden`} style={{ animationDelay: `${index * 150}ms` }}>
-                {plan.highlighted && (
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-accent" />
-                )}
+            {businessPlans.map((plan, index) => <Card key={plan.name} className={`relative hover-scale transition-all duration-300 ${plan.highlighted ? 'border-primary shadow-xl scale-105' : 'border-border shadow-lg'} animate-fade-in-up overflow-hidden`} style={{
+            animationDelay: `${index * 150}ms`
+          }}>
+                {plan.highlighted && <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-accent" />}
                 
                 <CardHeader className="relative">
-                  {plan.highlighted && (
-                    <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-primary text-white border-primary">
+                  {plan.highlighted && <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-primary text-white border-primary">
                       Recomendado
-                    </Badge>
-                  )}
+                    </Badge>}
                   
                   <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${plan.gradient} flex items-center justify-center mb-4`}>
                     <plan.icon className="w-6 h-6 text-white" />
@@ -353,37 +249,28 @@ const Pricing = () => {
                         /{isAnnual ? 'ano' : 'mês'}
                       </span>
                     </div>
-                    {isAnnual && (
-                      <div className="text-sm text-green-600 font-medium">
+                    {isAnnual && <div className="text-sm text-green-600 font-medium">
                         Economize {getSavings(plan)}% pagando anual
-                      </div>
-                    )}
+                      </div>}
                   </div>
                 </CardHeader>
                 
                 <CardContent className="space-y-4">
                   <ul className="space-y-3">
-                    {plan.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-3">
+                    {plan.features.map(feature => <li key={feature} className="flex items-start gap-3">
                         <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                         <span className="text-sm">{feature}</span>
-                      </li>
-                    ))}
+                      </li>)}
                   </ul>
                   
-                  <Button 
-                    variant={plan.buttonVariant} 
-                    className="w-full hover-scale"
-                    size="lg"
-                  >
+                  <Button variant={plan.buttonVariant} className="w-full hover-scale" size="lg">
                     <Link to={plan.name === 'Enterprise' ? '/contact' : '/auth/register'} className="flex items-center gap-2">
                       {plan.buttonText}
                       <ArrowRight className="w-4 h-4" />
                     </Link>
                   </Button>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -401,8 +288,9 @@ const Pricing = () => {
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
-              <Card key={feature.title} className="text-center hover-scale border-0 shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
+            {features.map((feature, index) => <Card key={feature.title} className="text-center hover-scale border-0 shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up" style={{
+            animationDelay: `${index * 100}ms`
+          }}>
                 <CardHeader>
                   <div className="w-12 h-12 mx-auto rounded-lg bg-primary/10 flex items-center justify-center mb-4">
                     <feature.icon className="w-6 h-6 text-primary" />
@@ -412,8 +300,7 @@ const Pricing = () => {
                 <CardContent>
                   <CardDescription className="text-base">{feature.description}</CardDescription>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -482,15 +369,13 @@ const Pricing = () => {
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </Button>
-              <Button size="xl" variant="outline" className="hover-scale border-white text-white hover:bg-white hover:text-primary">
+              <Button size="xl" variant="outline" className="hover-scale border-white hover:bg-white text-purple-900">
                 <Link to="/contact">Falar com Especialista</Link>
               </Button>
             </div>
           </div>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 };
-
 export default Pricing;
