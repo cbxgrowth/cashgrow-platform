@@ -252,7 +252,7 @@ const ConsumerPlans = () => {
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </Button>
-              <Button size="xl" variant="outline" className="hover-scale border-white text-white hover:bg-white hover:text-primary">
+              <Button size="xl" variant="outline" className="hover-scale border-white hover:bg-white text-purple-900">
                 <Link to="/contact">Falar com Especialista</Link>
               </Button>
             </div>
