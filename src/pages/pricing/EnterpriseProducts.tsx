@@ -1,158 +1,88 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Link } from "react-router-dom";
-import { 
-  Check, 
-  Building2, 
-  Rocket, 
-  Crown, 
-  Zap, 
-  TrendingUp,
-  Users,
-  BarChart3,
-  Sparkles,
-  ArrowRight,
-  Shield,
-  Globe,
-  Headphones,
-  Settings,
-  Brain,
-  Database
-} from "lucide-react";
-
+import { Check, Building2, Rocket, Crown, Zap, TrendingUp, Users, BarChart3, Sparkles, ArrowRight, Shield, Globe, Headphones, Settings, Brain, Database } from "lucide-react";
 const EnterpriseProducts = () => {
   const [isAnnual, setIsAnnual] = useState(false);
-
-  const plans = [
-    {
-      name: "Starter Business",
-      description: "Ideal para pequenas empresas",
-      monthlyPrice: 299,
-      annualPrice: 2990,
-      icon: Building2,
-      features: [
-        "Até 1.000 clientes ativos",
-        "Dashboard básico",
-        "Relatórios mensais",
-        "Suporte por email",
-        "API básica",
-        "Campanhas simples",
-        "Integração com 2 sistemas"
-      ],
-      highlighted: false,
-      buttonText: "Começar Teste Grátis",
-      gradient: "from-blue-500 to-indigo-600"
-    },
-    {
-      name: "Professional",
-      description: "Para empresas em crescimento",
-      monthlyPrice: 599,
-      annualPrice: 5990,
-      icon: TrendingUp,
-      features: [
-        "Até 10.000 clientes ativos",
-        "Dashboard avançado",
-        "Relatórios em tempo real",
-        "Suporte prioritário",
-        "API completa",
-        "Campanhas com IA",
-        "Integrações ilimitadas",
-        "Análises preditivas",
-        "White-label básico"
-      ],
-      highlighted: true,
-      buttonText: "Escolher Professional",
-      gradient: "from-primary to-accent"
-    },
-    {
-      name: "Enterprise",
-      description: "Solução completa para grandes empresas",
-      monthlyPrice: 1299,
-      annualPrice: 12990,
-      icon: Crown,
-      features: [
-        "Clientes ilimitados",
-        "Dashboard customizado",
-        "Relatórios personalizados",
-        "Gerente de conta dedicado",
-        "API enterprise",
-        "IA personalizada",
-        "Integrações sob medida",
-        "SLA garantido 99.9%",
-        "White-label completo",
-        "Treinamento da equipe",
-        "Consultoria estratégica"
-      ],
-      highlighted: false,
-      buttonText: "Falar com Vendas",
-      gradient: "from-purple-500 to-violet-600"
-    }
-  ];
-
-  const products = [
-    {
-      icon: Brain,
-      title: "Cashback Engine",
-      description: "Motor de cashback com IA para otimização automática de campanhas",
-      features: ["IA avançada", "Otimização automática", "Análise preditiva"]
-    },
-    {
-      icon: Database,
-      title: "Customer Hub",
-      description: "CRM integrado com gestão completa do ciclo de vida do cliente",
-      features: ["CRM completo", "Automação", "Segmentação avançada"]
-    },
-    {
-      icon: BarChart3,
-      title: "Analytics Pro",
-      description: "Business Intelligence com insights em tempo real",
-      features: ["BI avançado", "Tempo real", "Relatórios personalizados"]
-    },
-    {
-      icon: Globe,
-      title: "Integration Suite",
-      description: "Conecte qualquer sistema com nossa suite de integrações",
-      features: ["APIs robustas", "Conectores prontos", "Webhooks"]
-    }
-  ];
-
-  const features = [
-    {
-      icon: Zap,
-      title: "Implementação Rápida",
-      description: "Setup completo em até 48 horas com nossa equipe especializada"
-    },
-    {
-      icon: Shield,
-      title: "Segurança Enterprise",
-      description: "Certificações SOC2, ISO 27001 e compliance LGPD/GDPR"
-    },
-    {
-      icon: Headphones,
-      title: "Suporte Dedicado",
-      description: "Equipe especializada 24/7 com SLA garantido"
-    },
-    {
-      icon: Settings,
-      title: "Personalização Total",
-      description: "Adaptamos a solução às necessidades específicas do seu negócio"
-    }
-  ];
-
+  const plans = [{
+    name: "Starter Business",
+    description: "Ideal para pequenas empresas",
+    monthlyPrice: 299,
+    annualPrice: 2990,
+    icon: Building2,
+    features: ["Até 1.000 clientes ativos", "Dashboard básico", "Relatórios mensais", "Suporte por email", "API básica", "Campanhas simples", "Integração com 2 sistemas"],
+    highlighted: false,
+    buttonText: "Começar Teste Grátis",
+    gradient: "from-blue-500 to-indigo-600"
+  }, {
+    name: "Professional",
+    description: "Para empresas em crescimento",
+    monthlyPrice: 599,
+    annualPrice: 5990,
+    icon: TrendingUp,
+    features: ["Até 10.000 clientes ativos", "Dashboard avançado", "Relatórios em tempo real", "Suporte prioritário", "API completa", "Campanhas com IA", "Integrações ilimitadas", "Análises preditivas", "White-label básico"],
+    highlighted: true,
+    buttonText: "Escolher Professional",
+    gradient: "from-primary to-accent"
+  }, {
+    name: "Enterprise",
+    description: "Solução completa para grandes empresas",
+    monthlyPrice: 1299,
+    annualPrice: 12990,
+    icon: Crown,
+    features: ["Clientes ilimitados", "Dashboard customizado", "Relatórios personalizados", "Gerente de conta dedicado", "API enterprise", "IA personalizada", "Integrações sob medida", "SLA garantido 99.9%", "White-label completo", "Treinamento da equipe", "Consultoria estratégica"],
+    highlighted: false,
+    buttonText: "Falar com Vendas",
+    gradient: "from-purple-500 to-violet-600"
+  }];
+  const products = [{
+    icon: Brain,
+    title: "Cashback Engine",
+    description: "Motor de cashback com IA para otimização automática de campanhas",
+    features: ["IA avançada", "Otimização automática", "Análise preditiva"]
+  }, {
+    icon: Database,
+    title: "Customer Hub",
+    description: "CRM integrado com gestão completa do ciclo de vida do cliente",
+    features: ["CRM completo", "Automação", "Segmentação avançada"]
+  }, {
+    icon: BarChart3,
+    title: "Analytics Pro",
+    description: "Business Intelligence com insights em tempo real",
+    features: ["BI avançado", "Tempo real", "Relatórios personalizados"]
+  }, {
+    icon: Globe,
+    title: "Integration Suite",
+    description: "Conecte qualquer sistema com nossa suite de integrações",
+    features: ["APIs robustas", "Conectores prontos", "Webhooks"]
+  }];
+  const features = [{
+    icon: Zap,
+    title: "Implementação Rápida",
+    description: "Setup completo em até 48 horas com nossa equipe especializada"
+  }, {
+    icon: Shield,
+    title: "Segurança Enterprise",
+    description: "Certificações SOC2, ISO 27001 e compliance LGPD/GDPR"
+  }, {
+    icon: Headphones,
+    title: "Suporte Dedicado",
+    description: "Equipe especializada 24/7 com SLA garantido"
+  }, {
+    icon: Settings,
+    title: "Personalização Total",
+    description: "Adaptamos a solução às necessidades específicas do seu negócio"
+  }];
   const getPrice = (plan: any) => {
     return isAnnual ? plan.annualPrice : plan.monthlyPrice;
   };
-
   const getSavings = (plan: any) => {
-    return Math.round(((plan.monthlyPrice * 12 - plan.annualPrice) / (plan.monthlyPrice * 12)) * 100);
+    return Math.round((plan.monthlyPrice * 12 - plan.annualPrice) / (plan.monthlyPrice * 12) * 100);
   };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-background">
+  return <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-background">
       {/* Header */}
       <section className="pt-20 pb-16">
         <div className="container mx-auto px-4">
@@ -178,45 +108,28 @@ const EnterpriseProducts = () => {
               <span className={`text-sm ${!isAnnual ? 'text-foreground font-semibold' : 'text-muted-foreground'}`}>
                 Mensal
               </span>
-              <Switch
-                checked={isAnnual}
-                onCheckedChange={setIsAnnual}
-                className="data-[state=checked]:bg-primary"
-              />
+              <Switch checked={isAnnual} onCheckedChange={setIsAnnual} className="data-[state=checked]:bg-primary" />
               <span className={`text-sm ${isAnnual ? 'text-foreground font-semibold' : 'text-muted-foreground'}`}>
                 Anual
               </span>
-              {isAnnual && (
-                <Badge className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
+              {isAnnual && <Badge className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
                   Economize até 30%
-                </Badge>
-              )}
+                </Badge>}
             </div>
           </div>
 
           {/* Plans Grid */}
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-20">
-            {plans.map((plan, index) => (
-              <Card 
-                key={plan.name} 
-                className={`relative hover-scale transition-all duration-300 overflow-hidden ${
-                  plan.highlighted 
-                    ? 'border-primary shadow-xl scale-105 ring-2 ring-primary/20' 
-                    : 'border-border shadow-lg hover:shadow-xl'
-                } animate-fade-in-up`} 
-                style={{ animationDelay: `${index * 150}ms` }}
-              >
-                {plan.highlighted && (
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-accent" />
-                )}
+            {plans.map((plan, index) => <Card key={plan.name} className={`relative hover-scale transition-all duration-300 overflow-hidden ${plan.highlighted ? 'border-primary shadow-xl scale-105 ring-2 ring-primary/20' : 'border-border shadow-lg hover:shadow-xl'} animate-fade-in-up`} style={{
+            animationDelay: `${index * 150}ms`
+          }}>
+                {plan.highlighted && <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-accent" />}
                 
                 <CardHeader className="relative pb-4">
-                  {plan.highlighted && (
-                    <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-primary to-accent text-white border-0 shadow-lg">
+                  {plan.highlighted && <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-primary to-accent text-white border-0 shadow-lg mx-0 my-[20px]">
                       <Sparkles className="h-3 w-3 mr-1" />
                       Recomendado
-                    </Badge>
-                  )}
+                    </Badge>}
                   
                   <div className={`w-14 h-14 rounded-xl bg-gradient-to-r ${plan.gradient} flex items-center justify-center mb-6 mx-auto`}>
                     <plan.icon className="w-7 h-7 text-white" />
@@ -234,42 +147,29 @@ const EnterpriseProducts = () => {
                         /{isAnnual ? 'ano' : 'mês'}
                       </span>
                     </div>
-                    {isAnnual && (
-                      <div className="text-sm text-green-600 font-medium">
+                    {isAnnual && <div className="text-sm text-green-600 font-medium">
                         Economize {getSavings(plan)}% no plano anual
-                      </div>
-                    )}
+                      </div>}
                     <p className="text-sm text-muted-foreground">30 dias grátis</p>
                   </div>
                 </CardHeader>
                 
                 <CardContent className="space-y-6">
                   <div className="space-y-3">
-                    {plan.features.map((feature, idx) => (
-                      <div key={idx} className="flex items-start gap-3">
+                    {plan.features.map((feature, idx) => <div key={idx} className="flex items-start gap-3">
                         <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                         <span className="text-sm">{feature}</span>
-                      </div>
-                    ))}
+                      </div>)}
                   </div>
                   
-                  <Button 
-                    className={`w-full hover-scale ${
-                      plan.highlighted 
-                        ? 'bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90' 
-                        : ''
-                    }`}
-                    variant={plan.highlighted ? 'default' : 'outline'}
-                    size="lg"
-                  >
+                  <Button className={`w-full hover-scale ${plan.highlighted ? 'bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90' : ''}`} variant={plan.highlighted ? 'default' : 'outline'} size="lg">
                     <Link to={plan.name === 'Enterprise' ? '/contact' : '/auth/register'} className="flex items-center gap-2">
                       {plan.buttonText}
                       <ArrowRight className="w-4 h-4" />
                     </Link>
                   </Button>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
 
           {/* Products Section */}
@@ -281,8 +181,9 @@ const EnterpriseProducts = () => {
               Soluções modulares que se adaptam ao seu negócio
             </p>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {products.map((product, index) => (
-                <Card key={index} className="hover-scale border-0 shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up group" style={{ animationDelay: `${index * 100}ms` }}>
+              {products.map((product, index) => <Card key={index} className="hover-scale border-0 shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up group" style={{
+              animationDelay: `${index * 100}ms`
+            }}>
                   <CardContent className="pt-6 space-y-4">
                     <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                       <product.icon className="w-6 h-6 text-primary" />
@@ -290,15 +191,12 @@ const EnterpriseProducts = () => {
                     <h4 className="font-semibold text-lg">{product.title}</h4>
                     <p className="text-muted-foreground text-sm">{product.description}</p>
                     <div className="flex flex-wrap gap-1">
-                      {product.features.map((feature, idx) => (
-                        <Badge key={idx} variant="secondary" className="text-xs">
+                      {product.features.map((feature, idx) => <Badge key={idx} variant="secondary" className="text-xs">
                           {feature}
-                        </Badge>
-                      ))}
+                        </Badge>)}
                     </div>
                   </CardContent>
-                </Card>
-              ))}
+                </Card>)}
             </div>
           </div>
 
@@ -308,8 +206,9 @@ const EnterpriseProducts = () => {
               Por que Empresas Escolhem Nossa <span className="text-primary">Plataforma</span>?
             </h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {features.map((feature, index) => (
-                <Card key={index} className="text-center hover-scale border-0 shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
+              {features.map((feature, index) => <Card key={index} className="text-center hover-scale border-0 shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up" style={{
+              animationDelay: `${index * 100}ms`
+            }}>
                   <CardContent className="pt-6 space-y-4">
                     <div className="w-12 h-12 mx-auto rounded-lg bg-primary/10 flex items-center justify-center">
                       <feature.icon className="w-6 h-6 text-primary" />
@@ -317,8 +216,7 @@ const EnterpriseProducts = () => {
                     <h4 className="font-semibold text-lg">{feature.title}</h4>
                     <p className="text-muted-foreground text-sm">{feature.description}</p>
                   </CardContent>
-                </Card>
-              ))}
+                </Card>)}
             </div>
           </div>
 
@@ -368,8 +266,6 @@ const EnterpriseProducts = () => {
           </div>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 };
-
 export default EnterpriseProducts;
