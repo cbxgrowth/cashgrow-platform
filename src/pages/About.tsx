@@ -1,109 +1,83 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
-import { 
-  Target, 
-  Users, 
-  TrendingUp, 
-  Shield, 
-  Sparkles, 
-  ArrowRight,
-  Heart,
-  Globe,
-  Award,
-  Zap,
-  Brain,
-  Handshake,
-  Building2,
-  Star
-} from "lucide-react";
-
+import { Target, Users, TrendingUp, Shield, Sparkles, ArrowRight, Heart, Globe, Award, Zap, Brain, Handshake, Building2, Star } from "lucide-react";
 const About: React.FC = () => {
-  const values = [
-    {
-      icon: Heart,
-      title: "Transparência",
-      description: "Somos transparentes em todas as nossas operações, desde as taxas até o funcionamento do nosso algoritmo de cashback."
-    },
-    {
-      icon: Shield,
-      title: "Segurança",
-      description: "Priorizamos a segurança dos dados e transações, utilizando as melhores práticas de criptografia e proteção."
-    },
-    {
-      icon: Users,
-      title: "Relacionamento",
-      description: "Construímos relacionamentos duradouros com clientes e parceiros, baseados na confiança e benefício mútuo."
-    },
-    {
-      icon: Zap,
-      title: "Inovação",
-      description: "Estamos sempre na vanguarda da tecnologia, implementando soluções inovadoras para melhorar a experiência."
-    }
-  ];
-
-  const team = [
-    {
-      name: "Carlos Silva",
-      role: "CEO & Fundador",
-      description: "15 anos de experiência em fintech e programas de fidelidade",
-      avatar: "CS"
-    },
-    {
-      name: "Ana Costa",
-      role: "CTO",
-      description: "Especialista em sistemas distribuídos e inteligência artificial",
-      avatar: "AC"
-    },
-    {
-      name: "Roberto Lima",
-      role: "Head de Produto",
-      description: "Designer de experiência com foco em gamificação e engagement",
-      avatar: "RL"
-    },
-    {
-      name: "Marina Santos",
-      role: "Head de Partnerships",
-      description: "Especialista em desenvolvimento de negócios e parcerias estratégicas",
-      avatar: "MS"
-    }
-  ];
-
-  const milestones = [
-    {
-      year: "2024",
-      title: "Fundação da CBX Growth",
-      description: "Início da jornada com foco em cashback inteligente"
-    },
-    {
-      year: "2024",
-      title: "Primeiros Parceiros",
-      description: "100+ empresas se juntaram à nossa plataforma"
-    },
-    {
-      year: "2024",
-      title: "10.000 Usuários",
-      description: "Marco de 10 mil usuários ativos na plataforma"
-    },
-    {
-      year: "2025",
-      title: "Expansão Nacional",
-      description: "Planos de expansão para todo o território brasileiro"
-    }
-  ];
-
-  const stats = [
-    { number: "10K+", label: "Usuários Ativos", icon: Users },
-    { number: "R$ 2M+", label: "Cashback Distribuído", icon: TrendingUp },
-    { number: "500+", label: "Empresas Parceiras", icon: Building2 },
-    { number: "4.9/5", label: "Avaliação dos Usuários", icon: Star }
-  ];
-
-  return (
-    <div className="min-h-screen">
+  const values = [{
+    icon: Heart,
+    title: "Transparência",
+    description: "Somos transparentes em todas as nossas operações, desde as taxas até o funcionamento do nosso algoritmo de cashback."
+  }, {
+    icon: Shield,
+    title: "Segurança",
+    description: "Priorizamos a segurança dos dados e transações, utilizando as melhores práticas de criptografia e proteção."
+  }, {
+    icon: Users,
+    title: "Relacionamento",
+    description: "Construímos relacionamentos duradouros com clientes e parceiros, baseados na confiança e benefício mútuo."
+  }, {
+    icon: Zap,
+    title: "Inovação",
+    description: "Estamos sempre na vanguarda da tecnologia, implementando soluções inovadoras para melhorar a experiência."
+  }];
+  const team = [{
+    name: "Carlos Silva",
+    role: "CEO & Fundador",
+    description: "15 anos de experiência em fintech e programas de fidelidade",
+    avatar: "CS"
+  }, {
+    name: "Ana Costa",
+    role: "CTO",
+    description: "Especialista em sistemas distribuídos e inteligência artificial",
+    avatar: "AC"
+  }, {
+    name: "Roberto Lima",
+    role: "Head de Produto",
+    description: "Designer de experiência com foco em gamificação e engagement",
+    avatar: "RL"
+  }, {
+    name: "Marina Santos",
+    role: "Head de Partnerships",
+    description: "Especialista em desenvolvimento de negócios e parcerias estratégicas",
+    avatar: "MS"
+  }];
+  const milestones = [{
+    year: "2024",
+    title: "Fundação da CBX Growth",
+    description: "Início da jornada com foco em cashback inteligente"
+  }, {
+    year: "2024",
+    title: "Primeiros Parceiros",
+    description: "100+ empresas se juntaram à nossa plataforma"
+  }, {
+    year: "2024",
+    title: "10.000 Usuários",
+    description: "Marco de 10 mil usuários ativos na plataforma"
+  }, {
+    year: "2025",
+    title: "Expansão Nacional",
+    description: "Planos de expansão para todo o território brasileiro"
+  }];
+  const stats = [{
+    number: "10K+",
+    label: "Usuários Ativos",
+    icon: Users
+  }, {
+    number: "R$ 2M+",
+    label: "Cashback Distribuído",
+    icon: TrendingUp
+  }, {
+    number: "500+",
+    label: "Empresas Parceiras",
+    icon: Building2
+  }, {
+    number: "4.9/5",
+    label: "Avaliação dos Usuários",
+    icon: Star
+  }];
+  return <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-background via-background to-muted/30 pt-20 pb-20">
         <div className="absolute inset-0 bg-grid-pattern opacity-5" />
@@ -133,8 +107,9 @@ const About: React.FC = () => {
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <Card key={stat.label} className="text-center hover-scale border-0 shadow-lg bg-gradient-to-br from-background to-muted/30 animate-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
+            {stats.map((stat, index) => <Card key={stat.label} className="text-center hover-scale border-0 shadow-lg bg-gradient-to-br from-background to-muted/30 animate-fade-in-up" style={{
+            animationDelay: `${index * 100}ms`
+          }}>
                 <CardContent className="pt-6">
                   <div className="flex justify-center mb-4">
                     <div className="p-3 rounded-full bg-primary/10">
@@ -144,8 +119,7 @@ const About: React.FC = () => {
                   <div className="text-3xl font-bold text-foreground mb-2">{stat.number}</div>
                   <div className="text-sm text-muted-foreground">{stat.label}</div>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -243,8 +217,9 @@ const About: React.FC = () => {
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => (
-              <Card key={value.title} className="text-center hover-scale border-0 shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up" style={{ animationDelay: `${index * 150}ms` }}>
+            {values.map((value, index) => <Card key={value.title} className="text-center hover-scale border-0 shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up" style={{
+            animationDelay: `${index * 150}ms`
+          }}>
                 <CardHeader>
                   <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-primary to-accent flex items-center justify-center mb-4">
                     <value.icon className="w-8 h-8 text-white" />
@@ -256,8 +231,7 @@ const About: React.FC = () => {
                     {value.description}
                   </CardDescription>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -279,8 +253,9 @@ const About: React.FC = () => {
           
           <div className="max-w-4xl mx-auto">
             <div className="space-y-8">
-              {milestones.map((milestone, index) => (
-                <div key={milestone.year} className="flex gap-8 items-start animate-fade-in-up" style={{ animationDelay: `${index * 200}ms` }}>
+              {milestones.map((milestone, index) => <div key={milestone.year} className="flex gap-8 items-start animate-fade-in-up" style={{
+              animationDelay: `${index * 200}ms`
+            }}>
                   <div className="flex-shrink-0">
                     <div className="w-16 h-16 rounded-full bg-gradient-to-r from-primary to-accent flex items-center justify-center text-white font-bold">
                       {milestone.year}
@@ -294,8 +269,7 @@ const About: React.FC = () => {
                       <p className="text-muted-foreground">{milestone.description}</p>
                     </CardContent>
                   </Card>
-                </div>
-              ))}
+                </div>)}
             </div>
           </div>
         </div>
@@ -317,8 +291,9 @@ const About: React.FC = () => {
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {team.map((member, index) => (
-              <Card key={member.name} className="text-center hover-scale border-0 shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up" style={{ animationDelay: `${index * 150}ms` }}>
+            {team.map((member, index) => <Card key={member.name} className="text-center hover-scale border-0 shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up" style={{
+            animationDelay: `${index * 150}ms`
+          }}>
                 <CardHeader>
                   <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-r from-primary to-accent flex items-center justify-center text-white text-xl font-bold mb-4">
                     {member.avatar}
@@ -331,8 +306,7 @@ const About: React.FC = () => {
                     {member.description}
                   </p>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -402,15 +376,13 @@ const About: React.FC = () => {
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </Button>
-              <Button size="xl" variant="outline" className="hover-scale border-white text-white hover:bg-white hover:text-primary">
+              <Button size="xl" variant="outline" className="hover-scale border-white hover:bg-white text-purple-800">
                 <Link to="/contact">Falar Conosco</Link>
               </Button>
             </div>
           </div>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 };
-
 export default About;
