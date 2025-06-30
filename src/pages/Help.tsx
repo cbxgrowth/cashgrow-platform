@@ -1,94 +1,56 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { 
-  Search, 
-  BookOpen, 
-  Video, 
-  MessageCircle, 
-  Phone, 
-  Mail,
-  FileText,
-  Settings,
-  CreditCard,
-  Shield,
-  Users,
-  Zap,
-  ArrowRight,
-  ExternalLink,
-  Star
-} from "lucide-react";
-
+import { Search, BookOpen, Video, MessageCircle, Phone, Mail, FileText, Settings, CreditCard, Shield, Users, Zap, ArrowRight, ExternalLink, Star } from "lucide-react";
 const Help = () => {
-  const popularTopics = [
-    {
-      icon: CreditCard,
-      title: "Como receber cashback",
-      description: "Aprenda como ganhar e resgatar suas recompensas",
-      articles: 15,
-      category: "Cashback"
-    },
-    {
-      icon: Settings,
-      title: "Configurações da conta",
-      description: "Gerencie seu perfil e preferências",
-      articles: 8,
-      category: "Conta"
-    },
-    {
-      icon: Shield,
-      title: "Segurança e privacidade",
-      description: "Proteja sua conta e dados pessoais",
-      articles: 12,
-      category: "Segurança"
-    },
-    {
-      icon: Users,
-      title: "Programa de indicação",
-      description: "Ganhe mais indicando amigos",
-      articles: 6,
-      category: "Indicação"
-    }
-  ];
-
-  const supportOptions = [
-    {
-      icon: MessageCircle,
-      title: "Chat ao Vivo",
-      description: "Fale conosco em tempo real",
-      availability: "24/7",
-      action: "Iniciar Chat"
-    },
-    {
-      icon: Mail,
-      title: "Email",
-      description: "Envie sua dúvida por email",
-      availability: "Resposta em 2h",
-      action: "Enviar Email"
-    },
-    {
-      icon: Phone,
-      title: "Telefone",
-      description: "Ligue para nosso suporte",
-      availability: "Seg-Sex 8h-18h",
-      action: "Ver Número"
-    }
-  ];
-
-  const quickLinks = [
-    "Como funciona o cashback",
-    "Primeiros passos",
-    "Política de reembolso",
-    "Termos de uso",
-    "Política de privacidade",
-    "FAQ - Perguntas frequentes"
-  ];
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-background">
+  const popularTopics = [{
+    icon: CreditCard,
+    title: "Como receber cashback",
+    description: "Aprenda como ganhar e resgatar suas recompensas",
+    articles: 15,
+    category: "Cashback"
+  }, {
+    icon: Settings,
+    title: "Configurações da conta",
+    description: "Gerencie seu perfil e preferências",
+    articles: 8,
+    category: "Conta"
+  }, {
+    icon: Shield,
+    title: "Segurança e privacidade",
+    description: "Proteja sua conta e dados pessoais",
+    articles: 12,
+    category: "Segurança"
+  }, {
+    icon: Users,
+    title: "Programa de indicação",
+    description: "Ganhe mais indicando amigos",
+    articles: 6,
+    category: "Indicação"
+  }];
+  const supportOptions = [{
+    icon: MessageCircle,
+    title: "Chat ao Vivo",
+    description: "Fale conosco em tempo real",
+    availability: "24/7",
+    action: "Iniciar Chat"
+  }, {
+    icon: Mail,
+    title: "Email",
+    description: "Envie sua dúvida por email",
+    availability: "Resposta em 2h",
+    action: "Enviar Email"
+  }, {
+    icon: Phone,
+    title: "Telefone",
+    description: "Ligue para nosso suporte",
+    availability: "Seg-Sex 8h-18h",
+    action: "Ver Número"
+  }];
+  const quickLinks = ["Como funciona o cashback", "Primeiros passos", "Política de reembolso", "Termos de uso", "Política de privacidade", "FAQ - Perguntas frequentes"];
+  return <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-background">
       {/* Hero Section */}
       <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
@@ -108,10 +70,7 @@ const Help = () => {
           {/* Search Bar */}
           <div className="relative max-w-2xl mx-auto mb-8">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
-            <Input 
-              placeholder="Pesquisar artigos, tutoriais..." 
-              className="pl-12 h-14 text-lg border-2 focus:border-primary"
-            />
+            <Input placeholder="Pesquisar artigos, tutoriais..." className="pl-12 h-14 text-lg border-2 focus:border-primary" />
             <Button className="absolute right-2 top-2 h-10">
               Buscar
             </Button>
@@ -127,8 +86,7 @@ const Help = () => {
           </h2>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {popularTopics.map((topic, index) => (
-              <Card key={index} className="hover:shadow-lg transition-all duration-300 hover:scale-105 cursor-pointer">
+            {popularTopics.map((topic, index) => <Card key={index} className="hover:shadow-lg transition-all duration-300 hover:scale-105 cursor-pointer">
                 <CardHeader>
                   <div className="flex items-center justify-between mb-4">
                     <div className="p-3 rounded-lg bg-primary/10">
@@ -145,8 +103,7 @@ const Help = () => {
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -164,8 +121,7 @@ const Help = () => {
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
-            {supportOptions.map((option, index) => (
-              <Card key={index} className="text-center hover:shadow-xl transition-all duration-300">
+            {supportOptions.map((option, index) => <Card key={index} className="text-center hover:shadow-xl transition-all duration-300">
                 <CardHeader>
                   <div className="mx-auto w-16 h-16 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center mb-4">
                     <option.icon className="h-8 w-8 text-white" />
@@ -181,8 +137,7 @@ const Help = () => {
                     {option.action}
                   </Button>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -195,14 +150,12 @@ const Help = () => {
           </h2>
           
           <div className="grid md:grid-cols-2 gap-4">
-            {quickLinks.map((link, index) => (
-              <Card key={index} className="hover:bg-accent/50 transition-colors cursor-pointer">
+            {quickLinks.map((link, index) => <Card key={index} className="hover:bg-accent/50 transition-colors cursor-pointer">
                 <CardContent className="flex items-center justify-between p-4">
                   <span className="font-medium">{link}</span>
                   <ExternalLink className="h-4 w-4 text-muted-foreground" />
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -220,14 +173,12 @@ const Help = () => {
             <Button size="lg" variant="secondary">
               Falar com Suporte
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
+            <Button size="lg" variant="outline" className="border-white hover:bg-white text-purple-900">
               Sugerir Melhoria
             </Button>
           </div>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 };
-
 export default Help;
