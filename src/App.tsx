@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -29,6 +28,13 @@ import AICampaigns from "./pages/company/ai-campaigns";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import EnhancedNavbar from "./components/navigation/EnhancedNavbar";
 import { supabase } from "@/integrations/supabase/client";
+
+import ClientAnalytics from "./pages/client/analytics";
+import VIPClub from "./pages/client/vip-club";
+import CompanyAnalytics from "./pages/company/analytics";
+import APIIntegration from "./pages/company/api-integration";
+import ClientImport from "./pages/company/imports/clients";
+import ProductImport from "./pages/company/imports/products";
 
 const queryClient = new QueryClient();
 
@@ -133,12 +139,18 @@ const App = () => (
             <Route path="/client" element={<DashboardLayout userType="client" />}>
               <Route path="dashboard" element={<ClientDashboard />} />
               <Route path="plans" element={<ClientPlans />} />
+              <Route path="analytics" element={<ClientAnalytics />} />
+              <Route path="vip-club" element={<VIPClub />} />
             </Route>
 
             {/* Company routes */}
             <Route path="/company" element={<DashboardLayout userType="company" />}>
               <Route path="dashboard" element={<CompanyDashboard />} />
               <Route path="clients" element={<CompanyClients />} />
+              <Route path="analytics" element={<CompanyAnalytics />} />
+              <Route path="api-integration" element={<APIIntegration />} />
+              <Route path="imports/clients" element={<ClientImport />} />
+              <Route path="imports/products" element={<ProductImport />} />
               <Route path="settings" element={<CompanySettings />} />
               <Route path="profile" element={<CompanyProfile />} />
               <Route path="ai-campaigns" element={<AICampaigns />} />

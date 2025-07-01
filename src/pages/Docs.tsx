@@ -1,348 +1,422 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
-import { Search, Book, Code, Zap, Shield, Globe, ArrowRight, ExternalLink, Copy, CheckCircle } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { 
+  Book, 
+  Search, 
+  Code2, 
+  Zap, 
+  Shield, 
+  Users,
+  DollarSign,
+  Smartphone,
+  Globe,
+  ArrowRight,
+  ExternalLink,
+  Copy,
+  CheckCircle
+} from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const Docs = () => {
-  const apiEndpoints = [
-    {
-      method: "GET",
-      endpoint: "/api/v1/cashback/calculate",
-      description: "Calcula o cashback para uma transação",
-      params: ["amount", "store_id", "user_id"]
-    },
-    {
-      method: "POST",
-      endpoint: "/api/v1/transactions",
-      description: "Registra uma nova transação",
-      params: ["amount", "store_id", "user_id", "product_data"]
-    },
-    {
-      method: "GET",
-      endpoint: "/api/v1/user/balance",
-      description: "Consulta saldo do usuário",
-      params: ["user_id"]
-    }
-  ];
+  const [searchTerm, setSearchTerm] = useState('');
+  const { toast } = useToast();
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast({
+      title: "Código copiado!",
+      description: "O código foi copiado para sua área de transferência.",
+    });
+  };
 
   const quickStart = [
     {
-      step: 1,
-      title: "Obtenha sua API Key",
-      description: "Acesse o painel e gere sua chave de API",
-      icon: Shield
+      title: 'Cadastro e Configuração',
+      description: 'Configure sua conta e comece a usar',
+      icon: Users,
+      time: '5 min',
+      steps: ['Criar conta', 'Verificar email', 'Configurar perfil']
     },
     {
-      step: 2,
-      title: "Configure Headers",
-      description: "Adicione autenticação às suas requisições",
-      icon: Code
+      title: 'Primeira Integração',
+      description: 'Conecte sua loja em minutos',
+      icon: Zap,
+      time: '10 min',
+      steps: ['Obter API key', 'Configurar webhook', 'Testar integração']
     },
     {
-      step: 3,
-      title: "Faça sua primeira chamada",
-      description: "Teste a API com nossa documentação interativa",
-      icon: Zap
+      title: 'Configurar Cashback',
+      description: 'Defina suas regras de cashback',
+      icon: DollarSign,
+      time: '15 min',
+      steps: ['Criar regras', 'Definir percentuais', 'Ativar sistema']
     }
   ];
 
-  const sdks = [
+  const sections = [
     {
-      name: "JavaScript/Node.js",
-      description: "SDK oficial para aplicações web e Node.js",
-      version: "v2.1.0",
-      install: "npm install @cbxgrowth/sdk"
+      id: 'getting-started',
+      title: 'Começando',
+      description: 'Tudo que você precisa para começar',
+      icon: Book,
+      articles: [
+        'Visão Geral da Plataforma',
+        'Criando sua Primeira Conta',
+        'Configurações Iniciais',
+        'Primeiros Passos'
+      ]
     },
     {
-      name: "Python",
-      description: "SDK para aplicações Python e Django",
-      version: "v1.8.0",
-      install: "pip install cbxgrowth-python"
+      id: 'api',
+      title: 'API Reference',
+      description: 'Documentação completa da API',
+      icon: Code2,
+      articles: [
+        'Autenticação',
+        'Endpoints de Transações',
+        'Webhooks',
+        'Rate Limiting',
+        'Códigos de Erro'
+      ]
     },
     {
-      name: "PHP",
-      description: "SDK para aplicações PHP e Laravel",
-      version: "v1.5.0",
-      install: "composer require cbxgrowth/php-sdk"
+      id: 'integrations',
+      title: 'Integrações',
+      description: 'Conecte com suas ferramentas',
+      icon: Globe,
+      articles: [
+        'WooCommerce Plugin',
+        'Shopify App',
+        'Magento Extension',
+        'API RESTful',
+        'Webhook Configuration'
+      ]
+    },
+    {
+      id: 'mobile',
+      title: 'SDK Mobile',
+      description: 'SDKs para iOS e Android',
+      icon: Smartphone,
+      articles: [
+        'iOS SDK Setup',
+        'Android SDK Setup',
+        'React Native',
+        'Flutter Plugin',
+        'Mobile Webhooks'
+      ]
+    },
+    {
+      id: 'security',
+      title: 'Segurança',
+      description: 'Boas práticas de segurança',
+      icon: Shield,
+      articles: [
+        'Autenticação Segura',
+        'Webhook Signing',
+        'IP Whitelisting',
+        'SSL/TLS Configuration',
+        'Compliance'
+      ]
     }
   ];
+
+  const codeExamples = {
+    transaction: `// Criar nova transação
+const transaction = await fetch('/api/v1/transactions', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    customer_id: 'customer_123',
+    amount: 100.00,
+    currency: 'BRL',
+    description: 'Compra online'
+  })
+});
+
+const result = await transaction.json();
+console.log(result);`,
+
+    webhook: `// Configurar webhook
+const webhook = {
+  url: 'https://seu-site.com/webhook',
+  events: ['transaction.created', 'cashback.paid'],
+  secret: 'webhook_secret_key'
+};
+
+const response = await fetch('/api/v1/webhooks', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(webhook)
+});`,
+
+    cashback: `// Calcular cashback
+const cashback = await fetch('/api/v1/cashback/calculate', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    customer_id: 'customer_123',
+    amount: 250.00,
+    category: 'eletronicos'
+  })
+});
+
+const result = await cashback.json();
+// { cashback_amount: 12.50, percentage: 5.0 }`
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-background">
-      {/* Header */}
-      <section className="pt-20 pb-16">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16 space-y-6">
-            <Badge className="bg-primary/10 text-primary border-primary/20 animate-fade-in">
-              <Book className="h-3 w-3 mr-1" />
-              Documentação
-            </Badge>
-            
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight animate-fade-in-up">
-              Documentação{" "}
-              <span className="text-gradient bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Técnica
-              </span>
-            </h1>
-            
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto animate-fade-in-up animation-delay-200">
-              Tudo que você precisa para integrar nossa API de cashback em seu sistema. Guias, exemplos e referências completas.
-            </p>
-
-            {/* Search Bar */}
-            <div className="max-w-md mx-auto animate-fade-in-up animation-delay-400">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input 
-                  placeholder="Buscar na documentação..." 
-                  className="pl-10 bg-background border-2 hover:border-primary/20 focus:border-primary"
-                />
-              </div>
-            </div>
+      <div className="container mx-auto px-4 py-16">
+        {/* Header */}
+        <div className="text-center mb-16 space-y-4">
+          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+            Documentação
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Guias, tutoriais e referências para integrar nossa plataforma de cashback
+          </p>
+          
+          {/* Search */}
+          <div className="max-w-md mx-auto relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input 
+              placeholder="Pesquisar na documentação..." 
+              className="pl-10"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
+        </div>
 
-          <div className="grid lg:grid-cols-4 gap-8">
-            {/* Main Content */}
-            <div className="lg:col-span-3 space-y-8">
-              {/* Quick Start */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Zap className="h-5 w-5 text-primary" />
-                    Início Rápido
-                  </CardTitle>
-                  <CardDescription>
-                    Comece a usar nossa API em poucos minutos
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid md:grid-cols-3 gap-6">
-                    {quickStart.map((item) => (
-                      <div key={item.step} className="text-center p-4 border rounded-lg hover:shadow-lg transition-shadow">
-                        <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
-                          <item.icon className="h-6 w-6 text-primary" />
-                        </div>
-                        <div className="bg-primary text-primary-foreground w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold mx-auto mb-2">
-                          {item.step}
-                        </div>
-                        <h3 className="font-semibold mb-2">{item.title}</h3>
-                        <p className="text-sm text-muted-foreground">{item.description}</p>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+        <Tabs defaultValue="overview" className="space-y-8">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="overview">Visão Geral</TabsTrigger>
+            <TabsTrigger value="quickstart">Início Rápido</TabsTrigger>
+            <TabsTrigger value="api">API</TabsTrigger>
+            <TabsTrigger value="examples">Exemplos</TabsTrigger>
+          </TabsList>
 
-              {/* API Reference */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Code className="h-5 w-5 text-primary" />
-                    Endpoints da API
-                  </CardTitle>
-                  <CardDescription>
-                    Principais endpoints para integração
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {apiEndpoints.map((endpoint, index) => (
-                    <div key={index} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="flex items-center gap-3">
-                          <Badge 
-                            variant={endpoint.method === 'GET' ? 'default' : 'secondary'}
-                            className="font-mono"
-                          >
-                            {endpoint.method}
-                          </Badge>
-                          <code className="text-sm bg-muted px-2 py-1 rounded">
-                            {endpoint.endpoint}
-                          </code>
+          <TabsContent value="overview" className="space-y-8">
+            {/* Quick Start Cards */}
+            <section>
+              <h2 className="text-2xl font-bold mb-6">Comece Agora</h2>
+              <div className="grid gap-6 md:grid-cols-3">
+                {quickStart.map((item, index) => (
+                  <Card key={index} className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                    <CardHeader>
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="p-2 rounded-lg bg-primary/10">
+                          <item.icon className="h-5 w-5 text-primary" />
                         </div>
-                        <Button variant="ghost" size="sm">
-                          <ExternalLink className="h-4 w-4" />
-                        </Button>
+                        <Badge variant="outline">{item.time}</Badge>
                       </div>
-                      <p className="text-sm text-muted-foreground mb-2">{endpoint.description}</p>
-                      <div className="flex flex-wrap gap-2">
-                        {endpoint.params.map((param) => (
-                          <Badge key={param} variant="outline" className="text-xs">
-                            {param}
-                          </Badge>
+                      <CardTitle className="text-lg">{item.title}</CardTitle>
+                      <CardDescription>{item.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-2 mb-4">
+                        {item.steps.map((step, stepIndex) => (
+                          <div key={stepIndex} className="flex items-center gap-2 text-sm">
+                            <CheckCircle className="h-3 w-3 text-green-600" />
+                            {step}
+                          </div>
                         ))}
                       </div>
-                    </div>
-                  ))}
-                </CardContent>
-              </Card>
+                      <Button className="w-full">
+                        Começar
+                        <ArrowRight className="h-4 w-4 ml-1" />
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </section>
 
-              {/* Code Example */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Exemplo de Código</CardTitle>
-                  <CardDescription>
-                    Implementação básica em JavaScript
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="bg-gray-900 text-gray-100 p-4 rounded-lg relative">
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className="absolute top-2 right-2 text-gray-300 hover:text-white"
-                    >
-                      <Copy className="h-4 w-4" />
-                    </Button>
-                    <pre className="text-sm overflow-x-auto">
-{`// Configuração inicial
-const CBXGrowth = require('@cbxgrowth/sdk');
-
-const client = new CBXGrowth({
-  apiKey: 'sua-api-key-aqui',
-  environment: 'production' // ou 'sandbox'
-});
-
-// Calcular cashback
-async function calculateCashback(amount, storeId, userId) {
-  try {
-    const response = await client.cashback.calculate({
-      amount: amount,
-      store_id: storeId,
-      user_id: userId
-    });
-    
-    console.log('Cashback calculado:', response.data);
-    return response.data;
-  } catch (error) {
-    console.error('Erro:', error.message);
-  }
-}
-
-// Registrar transação
-async function createTransaction(transactionData) {
-  try {
-    const response = await client.transactions.create(transactionData);
-    console.log('Transação criada:', response.data);
-    return response.data;
-  } catch (error) {
-    console.error('Erro:', error.message);
-  }
-}`}
-                    </pre>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* SDKs */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Globe className="h-5 w-5 text-primary" />
-                    SDKs Oficiais
-                  </CardTitle>
-                  <CardDescription>
-                    Bibliotecas oficiais para diferentes linguagens
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid md:grid-cols-3 gap-4">
-                    {sdks.map((sdk, index) => (
-                      <div key={index} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                        <h3 className="font-semibold mb-2">{sdk.name}</h3>
-                        <p className="text-sm text-muted-foreground mb-3">{sdk.description}</p>
-                        <Badge variant="outline" className="mb-3">
-                          {sdk.version}
-                        </Badge>
-                        <div className="bg-muted p-2 rounded text-sm font-mono">
-                          {sdk.install}
-                        </div>
+            {/* Documentation Sections */}
+            <section>
+              <h2 className="text-2xl font-bold mb-6">Seções da Documentação</h2>
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {sections.map((section) => (
+                  <Card key={section.id} className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                    <CardHeader>
+                      <div className="flex items-center gap-3 mb-2">
+                        <section.icon className="h-6 w-6 text-primary" />
+                        <CardTitle className="text-lg">{section.title}</CardTitle>
                       </div>
-                    ))}
+                      <CardDescription>{section.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-2">
+                        {section.articles.map((article, index) => (
+                          <div key={index} className="flex items-center justify-between p-2 rounded hover:bg-muted/50 cursor-pointer">
+                            <span className="text-sm">{article}</span>
+                            <ExternalLink className="h-3 w-3 text-muted-foreground" />
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </section>
+          </TabsContent>
+
+          <TabsContent value="quickstart" className="space-y-8">
+            <Card>
+              <CardHeader>
+                <CardTitle>Guia de Início Rápido</CardTitle>
+                <CardDescription>Configure sua integração em 3 passos simples</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="space-y-4">
+                  <div className="flex gap-4">
+                    <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center font-bold">1</div>
+                    <div className="flex-1">
+                      <h3 className="font-semibold mb-2">Obtenha sua API Key</h3>
+                      <p className="text-muted-foreground mb-3">
+                        Após criar sua conta, acesse o painel de desenvolvedores para gerar sua chave de API.
+                      </p>
+                      <Button variant="outline">Ir para Dashboard</Button>
+                    </div>
+                  </div>
+                  
+                  <div className="flex gap-4">
+                    <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center font-bold">2</div>
+                    <div className="flex-1">
+                      <h3 className="font-semibold mb-2">Configure o Webhook</h3>
+                      <p className="text-muted-foreground mb-3">
+                        Configure uma URL para receber notificações em tempo real sobre transações.
+                      </p>
+                      <div className="bg-muted p-3 rounded-lg font-mono text-sm">
+                        POST /api/v1/webhooks<br />
+                        {`{ "url": "https://seu-site.com/webhook" }`}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4">
+                    <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center font-bold">3</div>
+                    <div className="flex-1">
+                      <h3 className="font-semibold mb-2">Primeira Transação</h3>
+                      <p className="text-muted-foreground mb-3">
+                        Teste sua integração criando uma transação de exemplo.
+                      </p>
+                      <Button>Ver Exemplo Completo</Button>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="api" className="space-y-8">
+            <div className="grid gap-6 lg:grid-cols-2">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Endpoints Principais</CardTitle>
+                  <CardDescription>URLs e métodos mais utilizados</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="p-3 border rounded-lg">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Badge>POST</Badge>
+                        <code className="text-sm">/api/v1/transactions</code>
+                      </div>
+                      <p className="text-xs text-muted-foreground">Criar nova transação</p>
+                    </div>
+                    <div className="p-3 border rounded-lg">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Badge variant="outline">GET</Badge>
+                        <code className="text-sm">/api/v1/customers</code>
+                      </div>
+                      <p className="text-xs text-muted-foreground">Listar clientes</p>
+                    </div>
+                    <div className="p-3 border rounded-lg">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Badge>POST</Badge>
+                        <code className="text-sm">/api/v1/cashback/calculate</code>
+                      </div>
+                      <p className="text-xs text-muted-foreground">Calcular cashback</p>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
-            </div>
 
-            {/* Sidebar */}
-            <div className="space-y-6">
-              {/* Navigation */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Navegação</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                  <Link to="#getting-started" className="block p-2 rounded hover:bg-muted/50 text-sm">
-                    Começando
-                  </Link>
-                  <Link to="#authentication" className="block p-2 rounded hover:bg-muted/50 text-sm">
-                    Autenticação
-                  </Link>
-                  <Link to="#api-reference" className="block p-2 rounded hover:bg-muted/50 text-sm">
-                    Referência da API
-                  </Link>
-                  <Link to="#webhooks" className="block p-2 rounded hover:bg-muted/50 text-sm">
-                    Webhooks
-                  </Link>
-                  <Link to="#sdks" className="block p-2 rounded hover:bg-muted/50 text-sm">
-                    SDKs
-                  </Link>
-                  <Link to="#examples" className="block p-2 rounded hover:bg-muted/50 text-sm">
-                    Exemplos
-                  </Link>
-                  <Link to="#errors" className="block p-2 rounded hover:bg-muted/50 text-sm">
-                    Códigos de Erro
-                  </Link>
-                </CardContent>
-              </Card>
-
-              {/* Status */}
               <Card>
                 <CardHeader>
                   <CardTitle>Status da API</CardTitle>
+                  <CardDescription>Monitoramento em tempo real</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                    <span className="text-sm font-medium">Operacional</span>
-                  </div>
-                  <p className="text-xs text-muted-foreground mb-3">
-                    Todos os sistemas funcionando normalmente
-                  </p>
-                  <Button variant="outline" size="sm" className="w-full">
-                    <ExternalLink className="h-3 w-3 mr-1" />
-                    Status Page
-                  </Button>
-                </CardContent>
-              </Card>
-
-              {/* Support */}
-              <Card className="bg-gradient-to-br from-primary/10 to-accent/10">
-                <CardContent className="p-6 text-center">
-                  <h3 className="font-bold mb-2">Precisa de Ajuda?</h3>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Nossa equipe está pronta para ajudar com sua integração.
-                  </p>
-                  <div className="space-y-2">
-                    <Button variant="outline" size="sm" className="w-full">
-                      <Link to="/contact">
-                        Falar com Suporte
-                      </Link>
-                    </Button>
-                    <Button variant="ghost" size="sm" className="w-full">
-                      <ExternalLink className="h-3 w-3 mr-1" />
-                      Abrir Ticket
-                    </Button>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <span>Status Geral</span>
+                      <Badge className="bg-green-100 text-green-700">Operacional</Badge>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span>Uptime</span>
+                      <span className="font-bold">99.9%</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span>Tempo de Resposta</span>
+                      <span className="font-bold">127ms</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span>Rate Limit</span>
+                      <span className="font-bold">1000/min</span>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
             </div>
-          </div>
-        </div>
-      </section>
+          </TabsContent>
+
+          <TabsContent value="examples" className="space-y-8">
+            <div className="space-y-6">
+              {Object.entries(codeExamples).map(([key, code]) => (
+                <Card key={key}>
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="capitalize">
+                        {key === 'transaction' ? 'Criar Transação' : 
+                         key === 'webhook' ? 'Configurar Webhook' : 'Calcular Cashback'}
+                      </CardTitle>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => copyToClipboard(code)}
+                      >
+                        <Copy className="h-3 w-3 mr-1" />
+                        Copiar
+                      </Button>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-sm">
+                      <code>{code}</code>
+                    </pre>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 };
