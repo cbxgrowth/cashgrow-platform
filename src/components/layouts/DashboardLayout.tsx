@@ -63,6 +63,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
     { icon: Users, title: 'Clientes', url: '/company/clients' },
     { icon: History, title: 'Transações', url: '/company/transactions' },
     { icon: BarChart3, title: 'Analytics', url: '/company/analytics' },
+    { icon: BarChart3, title: 'Relatórios', url: '/company/reports' },
     { icon: TrendingUp, title: 'Performance', url: '/company/performance' },
     { icon: Zap, title: 'Campanhas IA', url: '/company/ai-campaigns' },
     { icon: Building2, title: 'Corporativo', url: '/company/corporate' },

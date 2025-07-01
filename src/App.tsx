@@ -38,6 +38,9 @@ import ProductImport from "./pages/company/imports/products";
 import TestDataManager from "./components/admin/TestDataManager";
 import ClientLocationPage from "./pages/client/location";
 import CompanyProximityPage from "./pages/company/proximity";
+import ClientWalletPage from "./pages/client/wallet";
+import ClientTransactionsPage from "./pages/client/transactions";
+import ClientNotificationsPage from "./pages/client/notifications";
 
 // Inicializar limpeza de dados se solicitado
 import { TestDataService } from "@/services/testData.service";
@@ -159,17 +162,22 @@ const App = () => (
             {/* Client routes */}
             <Route path="/client" element={<DashboardLayout userType="client" />}>
               <Route path="dashboard" element={<ClientDashboard />} />
+              <Route path="wallet" element={<ClientWalletPage />} />
+              <Route path="transactions" element={<ClientTransactionsPage />} />
               <Route path="plans" element={<ClientPlans />} />
               <Route path="analytics" element={<ClientAnalytics />} />
               <Route path="vip-club" element={<VIPClub />} />
               <Route path="location" element={<ClientLocationPage />} />
+              <Route path="notifications" element={<ClientNotificationsPage />} />
             </Route>
 
             {/* Company routes */}
             <Route path="/company" element={<DashboardLayout userType="company" />}>
               <Route path="dashboard" element={<CompanyDashboard />} />
               <Route path="clients" element={<CompanyClients />} />
+              <Route path="products" element={<CompanyProductsPage />} />
               <Route path="analytics" element={<CompanyAnalytics />} />
+              <Route path="reports" element={<CompanyReportsPage />} />
               <Route path="api-integration" element={<APIIntegration />} />
               <Route path="imports/clients" element={<ClientImport />} />
               <Route path="imports/products" element={<ProductImport />} />

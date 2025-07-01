@@ -1,14 +1,15 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
-import { MapPin, Shield, Users } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { MapPin, Shield, Bell, Users, Info } from 'lucide-react';
 import { useUserLocation } from '@/hooks/useUserLocation';
 import { useToast } from '@/hooks/use-toast';
 
 export const UserLocationConsent: React.FC = () => {
+  const { toast } = useToast();
   const { 
     privacyConsent, 
     hasLocationStored, 
@@ -18,46 +19,44 @@ export const UserLocationConsent: React.FC = () => {
     hasGeolocation,
     geoError
   } = useUserLocation();
-  const { toast } = useToast();
 
-  const handleConsentChange = async (consent: boolean) => {
-    if (consent) {
-      if (!hasGeolocation) {
-        toast({
-          title: "Localização não disponível",
-          description: "Permita o acesso à localização para continuar",
-          variant: "destructive"
-        });
-        return;
-      }
+  const [isUpdating, setIsUpdating] = useState(false);
 
-      const { error } = await updateUserLocation(true);
-      if (error) {
-        toast({
-          title: "Erro",
-          description: error,
-          variant: "destructive"
-        });
+  const handleConsentToggle = async (enabled: boolean) => {
+    setIsUpdating(true);
+    
+    try {
+      if (enabled) {
+        const result = await updateUserLocation(true);
+        if (result.error) {
+          toast({
+            title: "Erro",
+            description: result.error,
+            variant: "destructive"
+          });
+        } else {
+          toast({
+            title: "Consentimento concedido",
+            description: "Sua localização será usada para enviar notificações personalizadas."
+          });
+        }
       } else {
-        toast({
-          title: "Sucesso",
-          description: "Localização compartilhada com segurança!"
-        });
+        const result = await revokeLocationConsent();
+        if (result.error) {
+          toast({
+            title: "Erro",
+            description: result.error,
+            variant: "destructive"
+          });
+        } else {
+          toast({
+            title: "Consentimento revogado",
+            description: "Não receberá mais notificações baseadas em localização."
+          });
+        }
       }
-    } else {
-      const { error } = await revokeLocationConsent();
-      if (error) {
-        toast({
-          title: "Erro",
-          description: error,
-          variant: "destructive"
-        });
-      } else {
-        toast({
-          title: "Consentimento revogado",
-          description: "Sua localização não será mais compartilhada"
-        });
-      }
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -65,7 +64,10 @@ export const UserLocationConsent: React.FC = () => {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Compartilhar Localização</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <Shield className="h-5 w-5" />
+            Consentimento de Localização
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="animate-pulse space-y-3">
@@ -81,67 +83,109 @@ export const UserLocationConsent: React.FC = () => {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <MapPin className="h-5 w-5" />
-          Compartilhar Localização
+          <Shield className="h-5 w-5" />
+          Consentimento de Localização
         </CardTitle>
         <CardDescription>
-          Ajude empresas próximas a entender melhor sua região
+          Gerencie como seus dados de localização são utilizados
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4">
-        {geoError && (
-          <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-sm text-red-800">
-              ⚠️ Erro ao acessar localização: {geoError}
-            </p>
-          </div>
-        )}
-
-        <div className="flex items-center justify-between">
-          <div className="space-y-0.5">
-            <Label htmlFor="location-consent">Compartilhar localização</Label>
+      <CardContent className="space-y-6">
+        {/* Status atual */}
+        <div className="flex items-center justify-between p-4 border rounded-lg">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <p className="font-medium">Compartilhar localização</p>
+              <Badge variant={privacyConsent ? "default" : "secondary"}>
+                {privacyConsent ? "Ativo" : "Inativo"}
+              </Badge>
+            </div>
             <p className="text-sm text-muted-foreground">
-              Permite que empresas vejam estatísticas de usuários na região
+              Permite receber notificações de empresas próximas
             </p>
           </div>
-          <Switch
-            id="location-consent"
+          <Switch 
             checked={privacyConsent}
-            onCheckedChange={handleConsentChange}
-            disabled={!hasGeolocation}
+            onCheckedChange={handleConsentToggle}
+            disabled={isUpdating || !hasGeolocation}
           />
         </div>
 
-        {/* Benefícios */}
+        {/* Informações de status */}
         <div className="space-y-3">
-          <h4 className="text-sm font-medium flex items-center gap-2">
-            <Users className="h-4 w-4" />
-            Benefícios do compartilhamento:
-          </h4>
-          <ul className="text-sm text-muted-foreground space-y-1 ml-6">
-            <li>• Empresas podem oferecer promoções regionais</li>
-            <li>• Melhor experiência de cashback na sua área</li>
-            <li>• Dados são completamente anônimos</li>
-            <li>• Você pode revogar a qualquer momento</li>
-          </ul>
-        </div>
-
-        {/* Informações de privacidade */}
-        <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
-          <div className="flex items-start gap-2">
-            <Shield className="h-4 w-4 text-blue-600 mt-0.5" />
-            <div>
-              <p className="text-sm font-medium text-blue-900">Sua privacidade está protegida</p>
-              <p className="text-xs text-blue-800 mt-1">
-                Apenas dados agregados e anônimos são compartilhados. Nenhuma informação pessoal ou localização exata é revelada às empresas.
-              </p>
+          <h4 className="font-medium">Status do Sistema</h4>
+          <div className="grid gap-2">
+            <div className="flex items-center gap-2">
+              <div className={`w-2 h-2 rounded-full ${hasGeolocation ? 'bg-green-500' : 'bg-red-500'}`} />
+              <span className="text-sm">
+                GPS: {hasGeolocation ? 'Disponível' : 'Indisponível'}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className={`w-2 h-2 rounded-full ${hasLocationStored ? 'bg-green-500' : 'bg-gray-400'}`} />
+              <span className="text-sm">
+                Localização: {hasLocationStored ? 'Armazenada' : 'Não armazenada'}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className={`w-2 h-2 rounded-full ${privacyConsent ? 'bg-green-500' : 'bg-gray-400'}`} />
+              <span className="text-sm">
+                Notificações: {privacyConsent ? 'Ativas' : 'Inativas'}
+              </span>
             </div>
           </div>
         </div>
 
-        {hasLocationStored && (
-          <div className="text-xs text-muted-foreground">
-            Status: {privacyConsent ? '✅ Compartilhando localização' : '❌ Localização não compartilhada'}
+        {/* Benefícios */}
+        {privacyConsent && (
+          <div className="space-y-3">
+            <h4 className="font-medium flex items-center gap-2">
+              <Bell className="h-4 w-4" />
+              Benefícios Ativos
+            </h4>
+            <div className="grid gap-2 text-sm">
+              <div className="flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-blue-600" />
+                <span>Notificações quando próximo de empresas parceiras</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Users className="h-4 w-4 text-green-600" />
+                <span>Ofertas personalizadas baseadas na sua região</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Bell className="h-4 w-4 text-purple-600" />
+                <span>Alertas de cashback em tempo real</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Informações de privacidade */}
+        <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <div className="flex items-start gap-2">
+            <Info className="h-4 w-4 text-blue-600 mt-0.5" />
+            <div>
+              <p className="text-sm font-medium text-blue-800">Como protegemos seus dados</p>
+              <ul className="text-xs text-blue-700 mt-1 space-y-1">
+                <li>• Sua localização é armazenada de forma anônima</li>
+                <li>• Dados são usados apenas para notificações de proximidade</li>
+                <li>• Você pode revogar o consentimento a qualquer momento</li>
+                <li>• Conformidade total com a LGPD</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Erro de geolocalização */}
+        {geoError && (
+          <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+            <div className="flex items-start gap-2">
+              <Info className="h-4 w-4 text-red-600 mt-0.5" />
+              <div>
+                <p className="text-sm font-medium text-red-800">Erro de Localização</p>
+                <p className="text-xs text-red-700 mt-1">{geoError}</p>
+              </div>
+            </div>
           </div>
         )}
       </CardContent>

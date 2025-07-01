@@ -8,49 +8,74 @@ interface GeolocationState {
   loading: boolean;
 }
 
-export const useGeolocation = () => {
-  const [location, setLocation] = useState<GeolocationState>({
+export const useGeolocation = (enableHighAccuracy = true, timeout = 10000, maximumAge = 300000) => {
+  const [state, setState] = useState<GeolocationState>({
     latitude: null,
     longitude: null,
     error: null,
-    loading: true,
+    loading: true
   });
 
   useEffect(() => {
     if (!navigator.geolocation) {
-      setLocation(prev => ({
+      setState(prev => ({
         ...prev,
         error: 'Geolocalização não é suportada neste navegador',
-        loading: false,
+        loading: false
       }));
       return;
     }
 
-    const watchId = navigator.geolocation.watchPosition(
-      (position) => {
-        setLocation({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          error: null,
-          loading: false,
-        });
-      },
-      (error) => {
-        setLocation(prev => ({
-          ...prev,
-          error: error.message,
-          loading: false,
-        }));
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 60000, // Cache por 1 minuto
+    const options: PositionOptions = {
+      enableHighAccuracy,
+      timeout,
+      maximumAge
+    };
+
+    const handleSuccess = (position: GeolocationPosition) => {
+      setState({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        error: null,
+        loading: false
+      });
+    };
+
+    const handleError = (error: GeolocationPositionError) => {
+      let errorMessage = 'Erro ao obter localização';
+      
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          errorMessage = 'Permissão de localização negada pelo usuário';
+          break;
+        case error.POSITION_UNAVAILABLE:
+          errorMessage = 'Informações de localização indisponíveis';
+          break;
+        case error.TIMEOUT:
+          errorMessage = 'Tempo limite para obter localização excedido';
+          break;
       }
+
+      setState(prev => ({
+        ...prev,
+        error: errorMessage,
+        loading: false
+      }));
+    };
+
+    navigator.geolocation.getCurrentPosition(handleSuccess, handleError, options);
+
+    // Opcional: monitorar mudanças de posição
+    const watchId = navigator.geolocation.watchPosition(
+      handleSuccess,
+      handleError,
+      { ...options, maximumAge: 60000 } // Atualiza a cada minuto
     );
 
-    return () => navigator.geolocation.clearWatch(watchId);
-  }, []);
+    return () => {
+      navigator.geolocation.clearWatch(watchId);
+    };
+  }, [enableHighAccuracy, timeout, maximumAge]);
 
-  return location;
+  return state;
 };
