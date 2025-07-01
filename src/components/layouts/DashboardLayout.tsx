@@ -52,6 +52,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
     { icon: Crown, title: 'Planos', url: '/client/plans' },
     { icon: Crown, title: 'Clube VIP', url: '/client/vip-club' },
     { icon: Building2, title: 'Empresas', url: '/client/companies' },
+    { icon: MapPin, title: 'Localização', url: '/client/location' },
     { icon: Bell, title: 'Notificações', url: '/client/notifications' },
     { icon: User, title: 'Perfil', url: '/client/profile' },
   ];

@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -37,6 +36,8 @@ import APIIntegration from "./pages/company/api-integration";
 import ClientImport from "./pages/company/imports/clients";
 import ProductImport from "./pages/company/imports/products";
 import TestDataManager from "./components/admin/TestDataManager";
+import ClientLocationPage from "./pages/client/location";
+import CompanyProximityPage from "./pages/company/proximity";
 
 // Inicializar limpeza de dados se solicitado
 import { TestDataService } from "@/services/testData.service";
@@ -161,6 +162,7 @@ const App = () => (
               <Route path="plans" element={<ClientPlans />} />
               <Route path="analytics" element={<ClientAnalytics />} />
               <Route path="vip-club" element={<VIPClub />} />
+              <Route path="location" element={<ClientLocationPage />} />
             </Route>
 
             {/* Company routes */}
@@ -171,6 +173,7 @@ const App = () => (
               <Route path="api-integration" element={<APIIntegration />} />
               <Route path="imports/clients" element={<ClientImport />} />
               <Route path="imports/products" element={<ProductImport />} />
+              <Route path="proximity" element={<CompanyProximityPage />} />
               <Route path="settings" element={<CompanySettings />} />
               <Route path="profile" element={<CompanyProfile />} />
               <Route path="ai-campaigns" element={<AICampaigns />} />

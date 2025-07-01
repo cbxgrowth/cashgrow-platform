@@ -12,13 +12,20 @@ export const useUserLocation = () => {
   const checkStoredLocation = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      if (!user) {
+        setLoading(false);
+        return;
+      }
 
       const { data, error } = await supabase
         .from('user_proximity_data')
         .select('*')
         .eq('user_id', user.id)
-        .single();
+        .maybeSingle();
+
+      if (error && error.code !== 'PGRST116') {
+        console.error('Erro ao verificar localização:', error);
+      }
 
       if (data) {
         setHasLocationStored(true);
