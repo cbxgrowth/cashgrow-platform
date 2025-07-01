@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -35,6 +36,22 @@ import CompanyAnalytics from "./pages/company/analytics";
 import APIIntegration from "./pages/company/api-integration";
 import ClientImport from "./pages/company/imports/clients";
 import ProductImport from "./pages/company/imports/products";
+import TestDataManager from "./components/admin/TestDataManager";
+
+// Inicializar limpeza de dados se solicitado
+import { TestDataService } from "@/services/testData.service";
+
+// Executar limpeza automaticamente ao carregar a aplicação
+if (typeof window !== 'undefined') {
+  // Verificar se é a primeira vez carregando ou se reset foi solicitado
+  const shouldReset = !localStorage.getItem('system-initialized') || 
+                     window.location.search.includes('reset=true');
+  
+  if (shouldReset) {
+    TestDataService.initializeCleanSystem();
+    localStorage.setItem('system-initialized', 'true');
+  }
+}
 
 const queryClient = new QueryClient();
 
@@ -76,6 +93,9 @@ const App = () => (
                 <Docs />
               </>
             } />
+            
+            {/* Test Data Manager - Hidden route for development */}
+            <Route path="/admin/test-data" element={<TestDataManager />} />
             
             {/* Pricing routes */}
             <Route path="/pricing" element={

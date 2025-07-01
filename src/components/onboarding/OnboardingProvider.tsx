@@ -1,87 +1,59 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { CompactOnboardingFlow } from './CompactOnboardingFlow';
+import CompactOnboardingFlow from './CompactOnboardingFlow';
 import { UserType } from '@/types/auth';
 
 interface OnboardingContextType {
-  showOnboarding: boolean;
-  startOnboarding: () => void;
-  completeOnboarding: () => void;
-  skipOnboarding: () => void;
   isOnboardingComplete: boolean;
+  completeOnboarding: () => void;
+  resetOnboarding: () => void;
 }
 
-const OnboardingContext = createContext<OnboardingContextType>({
-  showOnboarding: false,
-  startOnboarding: () => {},
-  completeOnboarding: () => {},
-  skipOnboarding: () => {},
-  isOnboardingComplete: false,
-});
+const OnboardingContext = createContext<OnboardingContextType | undefined>(undefined);
 
-export const useOnboarding = () => useContext(OnboardingContext);
+export const useOnboarding = () => {
+  const context = useContext(OnboardingContext);
+  if (!context) {
+    throw new Error('useOnboarding must be used within OnboardingProvider');
+  }
+  return context;
+};
 
 interface OnboardingProviderProps {
   children: React.ReactNode;
   userType: UserType;
 }
 
-export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({ 
-  children, 
-  userType 
-}) => {
-  const [showOnboarding, setShowOnboarding] = useState(false);
+export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({ children, userType }) => {
   const [isOnboardingComplete, setIsOnboardingComplete] = useState(false);
 
   useEffect(() => {
-    // Check if user has completed onboarding
-    const hasCompletedOnboarding = localStorage.getItem(`onboarding_completed_${userType}`);
-    const isComplete = hasCompletedOnboarding === 'true';
-    
-    setIsOnboardingComplete(isComplete);
-    
-    if (!isComplete) {
-      // Show onboarding after a small delay for better UX
-      const timer = setTimeout(() => {
-        setShowOnboarding(true);
-      }, 1500);
-      return () => clearTimeout(timer);
-    }
+    // Check if onboarding was completed before
+    const completed = localStorage.getItem(`onboarding-${userType}-complete`);
+    setIsOnboardingComplete(completed === 'true');
   }, [userType]);
 
-  const startOnboarding = () => {
-    setShowOnboarding(true);
-    setIsOnboardingComplete(false);
-  };
-
   const completeOnboarding = () => {
-    localStorage.setItem(`onboarding_completed_${userType}`, 'true');
-    setShowOnboarding(false);
     setIsOnboardingComplete(true);
+    localStorage.setItem(`onboarding-${userType}-complete`, 'true');
   };
 
-  const skipOnboarding = () => {
-    localStorage.setItem(`onboarding_completed_${userType}`, 'true');
-    setShowOnboarding(false);
-    setIsOnboardingComplete(true);
+  const resetOnboarding = () => {
+    setIsOnboardingComplete(false);
+    localStorage.removeItem(`onboarding-${userType}-complete`);
   };
 
   return (
-    <OnboardingContext.Provider
-      value={{
-        showOnboarding,
-        startOnboarding,
-        completeOnboarding,
-        skipOnboarding,
-        isOnboardingComplete,
-      }}
-    >
+    <OnboardingContext.Provider value={{
+      isOnboardingComplete,
+      completeOnboarding,
+      resetOnboarding
+    }}>
       {children}
-      {showOnboarding && (
-        <CompactOnboardingFlow
-          userType={userType}
+      {!isOnboardingComplete && (
+        <CompactOnboardingFlow 
+          userType={userType} 
           onComplete={completeOnboarding}
-          onSkip={skipOnboarding}
         />
       )}
     </OnboardingContext.Provider>
