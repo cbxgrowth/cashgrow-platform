@@ -9,7 +9,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Blog from "./pages/Blog";
 import Docs from "./pages/Docs";
-import AuthLayout from "./components/auth/AuthLayout";
+import AuthLayout from "./components/layouts/AuthLayout";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import ConsumerPlans from "./pages/pricing/ConsumerPlans";
@@ -17,27 +17,23 @@ import BusinessPlans from "./pages/pricing/BusinessPlans";
 import PersonalPlans from "./pages/pricing/PersonalPlans";
 import EnterpriseProducts from "./pages/pricing/EnterpriseProducts";
 import MissionsPage from "./pages/solutions/consumer/MissionsPage";
-import ConsumerSolutions from "./pages/solutions/consumer/ConsumerSolutions";
-import BusinessSolutions from "./pages/solutions/business/BusinessSolutions";
-import ClientDashboard from "./pages/client/dashboard";
+import ConsumerSolutions from "./pages/solutions/ConsumerSolutions";
+import BusinessSolutions from "./pages/solutions/BusinessSolutions";
+import ClientDashboard from "./pages/client/ClientDashboard";
 import ClientPlans from "./pages/client/plans";
-import CompanyDashboard from "./pages/company/dashboard";
+import CompanyDashboard from "./pages/company/CompanyDashboard";
 import CompanyClients from "./pages/company/clients";
-import CompanyInvitations from "./pages/company/invitations";
 import CompanySettings from "./pages/company/settings";
 import CompanyProfile from "./pages/company/profile";
 import AICampaigns from "./pages/company/ai-campaigns";
-import ClientLayout from "./components/layouts/ClientLayout";
-import CompanyLayout from "./components/layouts/CompanyLayout";
+import DashboardLayout from "./components/layouts/DashboardLayout";
 import EnhancedNavbar from "./components/navigation/EnhancedNavbar";
-import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { supabase } from "@/integrations/supabase/client";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <SessionContextProvider supabaseClient={supabase}>
       <TooltipProvider>
         <Toaster />
         <Sonner />
@@ -134,16 +130,15 @@ const App = () => (
             </Route>
 
             {/* Client routes */}
-            <Route path="/client" element={<ClientLayout />}>
+            <Route path="/client" element={<DashboardLayout userType="client" />}>
               <Route path="dashboard" element={<ClientDashboard />} />
               <Route path="plans" element={<ClientPlans />} />
             </Route>
 
             {/* Company routes */}
-            <Route path="/company" element={<CompanyLayout />}>
+            <Route path="/company" element={<DashboardLayout userType="company" />}>
               <Route path="dashboard" element={<CompanyDashboard />} />
               <Route path="clients" element={<CompanyClients />} />
-              <Route path="invitations" element={<CompanyInvitations />} />
               <Route path="settings" element={<CompanySettings />} />
               <Route path="profile" element={<CompanyProfile />} />
               <Route path="ai-campaigns" element={<AICampaigns />} />
@@ -151,7 +146,6 @@ const App = () => (
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
-    </SessionContextProvider>
   </QueryClientProvider>
 );
 
