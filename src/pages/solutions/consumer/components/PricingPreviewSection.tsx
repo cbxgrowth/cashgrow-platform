@@ -45,7 +45,7 @@ export const PricingPreviewSection = () => {
             <CardHeader>
               <Badge className="mb-2">Mais Popular</Badge>
               <CardTitle>Premium</CardTitle>
-              <div className="text-2xl font-bold">R$ 19<span className="text-sm font-normal">/mês</span></div>
+              <div className="text-2xl font-bold">R$ 29<span className="text-sm font-normal">/mês</span></div>
             </CardHeader>
             <CardContent>
               <ul className="space-y-2 text-sm">
@@ -67,8 +67,8 @@ export const PricingPreviewSection = () => {
           
           <Card className="border-2">
             <CardHeader>
-              <CardTitle>VIP</CardTitle>
-              <div className="text-2xl font-bold">R$ 49<span className="text-sm font-normal">/mês</span></div>
+              <CardTitle>VIP Elite</CardTitle>
+              <div className="text-2xl font-bold">R$ 79<span className="text-sm font-normal">/mês</span></div>
             </CardHeader>
             <CardContent>
               <ul className="space-y-2 text-sm">

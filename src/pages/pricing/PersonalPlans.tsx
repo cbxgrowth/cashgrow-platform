@@ -39,7 +39,7 @@ const PersonalPlans = () => {
     },
     {
       name: 'Premium',
-      price: 'R$ 19,90',
+      price: 'R$ 29,00',
       period: '/mês',
       description: 'Mais cashback e benefícios',
       icon: Star,
@@ -59,7 +59,7 @@ const PersonalPlans = () => {
     },
     {
       name: 'VIP Elite',
-      price: 'R$ 39,90',
+      price: 'R$ 79,00',
       period: '/mês',
       description: 'Máximo cashback e exclusividade',
       icon: Crown,

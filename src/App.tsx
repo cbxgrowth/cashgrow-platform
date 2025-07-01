@@ -1,147 +1,158 @@
 
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ThemeProvider } from '@/components/ui/theme-provider';
-import { Toaster } from '@/components/ui/sonner';
-import PWAInstallPrompt from '@/components/pwa/PWAInstallPrompt';
-
-// Layouts
-import MainLayout from '@/components/layouts/MainLayout';
-import AuthLayout from '@/components/layouts/AuthLayout';
-import DashboardLayout from '@/components/layouts/DashboardLayout';
-import { AdminLayout } from '@/components/admin/AdminLayout';
-import { AdminProtectedRoute } from '@/components/admin/AdminProtectedRoute';
-
-// Public Pages
-import Home from '@/pages/Home';
-import About from '@/pages/About';
-import Features from '@/pages/Features';
-import Contact from '@/pages/Contact';
-import Pricing from '@/pages/Pricing';
-import ConsumerPlans from '@/pages/pricing/ConsumerPlans';
-import EnterpriseProducts from '@/pages/pricing/EnterpriseProducts';
-import Help from '@/pages/Help';
-import ApiDocs from '@/pages/docs/ApiDocs';
-import Community from '@/pages/Community';
-
-// Solutions Pages
-import SolutionsIndex from '@/pages/solutions/index';
-import ConsumerSolutions from '@/pages/solutions/ConsumerSolutions';
-import BusinessSolutions from '@/pages/solutions/BusinessSolutions';
-
-// Auth Pages
-import Login from '@/pages/auth/Login';
-import Register from '@/pages/auth/Register';
-import AuthCallback from '@/pages/auth/callback';
-
-// Client Pages
-import ClientDashboard from '@/pages/client/ClientDashboard';
-import ClientPlans from '@/pages/client/plans';
-
-// Company Pages
-import CompanyDashboard from '@/pages/company/CompanyDashboard';
-import CompanyProducts from '@/pages/company/products';
-import CompanyClients from '@/pages/company/clients';
-import CompanyTransactions from '@/pages/company/transactions';
-import CompanyReports from '@/pages/company/reports';
-import CompanyPerformance from '@/pages/company/performance';
-import CompanyAiCampaigns from '@/pages/company/ai-campaigns';
-import CompanyCorporate from '@/pages/company/corporate';
-import CompanyCashbackRules from '@/pages/company/cashback-rules';
-import CompanyIntegrations from '@/pages/company/integrations';
-import CompanyProfile from '@/pages/company/profile';
-import CompanySettings from '@/pages/company/settings';
-
-// Admin Pages
-import AdminDashboard from '@/pages/admin/AdminDashboard';
-import AdminUsers from '@/pages/admin/AdminUsers';
-import AdminCompanies from '@/pages/admin/AdminCompanies';
-import AdminSettings from '@/pages/admin/AdminSettings';
-
-import NotFound from '@/pages/NotFound';
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Index from "./pages/Index";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Blog from "./pages/Blog";
+import Docs from "./pages/Docs";
+import AuthLayout from "./components/auth/AuthLayout";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import ConsumerPlans from "./pages/pricing/ConsumerPlans";
+import BusinessPlans from "./pages/pricing/BusinessPlans";
+import PersonalPlans from "./pages/pricing/PersonalPlans";
+import EnterpriseProducts from "./pages/pricing/EnterpriseProducts";
+import MissionsPage from "./pages/solutions/consumer/MissionsPage";
+import ConsumerSolutions from "./pages/solutions/consumer/ConsumerSolutions";
+import BusinessSolutions from "./pages/solutions/business/BusinessSolutions";
+import ClientDashboard from "./pages/client/dashboard";
+import ClientPlans from "./pages/client/plans";
+import CompanyDashboard from "./pages/company/dashboard";
+import CompanyClients from "./pages/company/clients";
+import CompanyInvitations from "./pages/company/invitations";
+import CompanySettings from "./pages/company/settings";
+import CompanyProfile from "./pages/company/profile";
+import AICampaigns from "./pages/company/ai-campaigns";
+import ClientLayout from "./components/layouts/ClientLayout";
+import CompanyLayout from "./components/layouts/CompanyLayout";
+import EnhancedNavbar from "./components/navigation/EnhancedNavbar";
+import { SessionContextProvider } from "@supabase/auth-helpers-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const queryClient = new QueryClient();
 
-function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-        <div className="no-pull-refresh">
-          <Router>
-            <Routes>
-              {/* Public Routes */}
-              <Route path="/" element={<MainLayout />}>
-                <Route index element={<Home />} />
-                <Route path="about" element={<About />} />
-                <Route path="features" element={<Features />} />
-                <Route path="contact" element={<Contact />} />
-                <Route path="pricing" element={<Pricing />} />
-                <Route path="pricing/consumer" element={<ConsumerPlans />} />
-                <Route path="pricing/enterprise" element={<EnterpriseProducts />} />
-                <Route path="help" element={<Help />} />
-                <Route path="docs/api" element={<ApiDocs />} />
-                <Route path="community" element={<Community />} />
-                <Route path="solutions" element={<SolutionsIndex />} />
-                <Route path="solutions/consumer" element={<ConsumerSolutions />} />
-                <Route path="solutions/business" element={<BusinessSolutions />} />
-              </Route>
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <SessionContextProvider supabaseClient={supabase}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            {/* Public routes with navbar */}
+            <Route path="/" element={
+              <>
+                <EnhancedNavbar />
+                <Index />
+              </>
+            } />
+            <Route path="/about" element={
+              <>
+                <EnhancedNavbar />
+                <About />
+              </>
+            } />
+            <Route path="/contact" element={
+              <>
+                <EnhancedNavbar />
+                <Contact />
+              </>
+            } />
+            <Route path="/blog" element={
+              <>
+                <EnhancedNavbar />
+                <Blog />
+              </>
+            } />
+            <Route path="/docs" element={
+              <>
+                <EnhancedNavbar />
+                <Docs />
+              </>
+            } />
+            
+            {/* Pricing routes */}
+            <Route path="/pricing" element={
+              <>
+                <EnhancedNavbar />
+                <ConsumerPlans />
+              </>
+            } />
+            <Route path="/pricing/consumer" element={
+              <>
+                <EnhancedNavbar />
+                <ConsumerPlans />
+              </>
+            } />
+            <Route path="/pricing/business" element={
+              <>
+                <EnhancedNavbar />
+                <BusinessPlans />
+              </>
+            } />
+            <Route path="/pricing/personal" element={
+              <>
+                <EnhancedNavbar />
+                <PersonalPlans />
+              </>
+            } />
+            <Route path="/pricing/enterprise" element={
+              <>
+                <EnhancedNavbar />
+                <EnterpriseProducts />
+              </>
+            } />
+            
+            {/* Solutions routes */}
+            <Route path="/solutions/consumer" element={
+              <>
+                <EnhancedNavbar />
+                <ConsumerSolutions />
+              </>
+            } />
+            <Route path="/solutions/consumer/missions" element={
+              <>
+                <EnhancedNavbar />
+                <MissionsPage />
+              </>
+            } />
+            <Route path="/solutions/business" element={
+              <>
+                <EnhancedNavbar />
+                <BusinessSolutions />
+              </>
+            } />
 
-              {/* Auth Routes */}
-              <Route path="/auth" element={<AuthLayout />}>
-                <Route path="login" element={<Login />} />
-                <Route path="register" element={<Register />} />
-                <Route path="callback" element={<AuthCallback />} />
-              </Route>
+            {/* Auth routes */}
+            <Route path="/auth" element={<AuthLayout />}>
+              <Route path="login" element={<Login />} />
+              <Route path="register" element={<Register />} />
+            </Route>
 
-              {/* Client Dashboard Routes */}
-              <Route path="/client/*" element={<DashboardLayout userType="client" />}>
-                <Route path="dashboard" element={<ClientDashboard />} />
-                <Route path="plans" element={<ClientPlans />} />
-                {/* Add more client routes here */}
-              </Route>
+            {/* Client routes */}
+            <Route path="/client" element={<ClientLayout />}>
+              <Route path="dashboard" element={<ClientDashboard />} />
+              <Route path="plans" element={<ClientPlans />} />
+            </Route>
 
-              {/* Company Dashboard Routes */}
-              <Route path="/company/*" element={<DashboardLayout userType="company" />}>
-                <Route path="dashboard" element={<CompanyDashboard />} />
-                <Route path="products" element={<CompanyProducts />} />
-                <Route path="clients" element={<CompanyClients />} />
-                <Route path="transactions" element={<CompanyTransactions />} />
-                <Route path="reports" element={<CompanyReports />} />
-                <Route path="performance" element={<CompanyPerformance />} />
-                <Route path="ai-campaigns" element={<CompanyAiCampaigns />} />
-                <Route path="corporate" element={<CompanyCorporate />} />
-                <Route path="cashback-rules" element={<CompanyCashbackRules />} />
-                <Route path="integrations" element={<CompanyIntegrations />} />
-                <Route path="profile" element={<CompanyProfile />} />
-                <Route path="settings" element={<CompanySettings />} />
-              </Route>
-
-              {/* Admin Routes */}
-              <Route path="/admin/*" element={
-                <AdminProtectedRoute>
-                  <AdminLayout />
-                </AdminProtectedRoute>
-              }>
-                <Route path="dashboard" element={<AdminDashboard />} />
-                <Route path="users" element={<AdminUsers />} />
-                <Route path="companies" element={<AdminCompanies />} />
-                <Route path="settings" element={<AdminSettings />} />
-                <Route path="analytics" element={<AdminDashboard />} />
-                <Route path="audit-logs" element={<AdminDashboard />} />
-              </Route>
-
-              {/* Fallback Routes */}
-              <Route path="/dashboard" element={<Navigate to="/client/dashboard" replace />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Router>
-          <PWAInstallPrompt />
-          <Toaster />
-        </div>
-      </ThemeProvider>
-    </QueryClientProvider>
-  );
-}
+            {/* Company routes */}
+            <Route path="/company" element={<CompanyLayout />}>
+              <Route path="dashboard" element={<CompanyDashboard />} />
+              <Route path="clients" element={<CompanyClients />} />
+              <Route path="invitations" element={<CompanyInvitations />} />
+              <Route path="settings" element={<CompanySettings />} />
+              <Route path="profile" element={<CompanyProfile />} />
+              <Route path="ai-campaigns" element={<AICampaigns />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </SessionContextProvider>
+  </QueryClientProvider>
+);
 
 export default App;

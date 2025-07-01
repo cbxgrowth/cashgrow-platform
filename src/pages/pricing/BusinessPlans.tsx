@@ -19,9 +19,11 @@ import {
 const BusinessPlans = () => {
   const plans = [
     {
-      name: 'Starter',
+      name: 'Starter Business',
       price: 'R$ 299',
       period: '/mês',
+      setupPrice: 'R$ 1.799',
+      originalSetupPrice: 'R$ 2.557',
       description: 'Ideal para pequenas empresas',
       icon: Building2,
       features: [
@@ -30,7 +32,8 @@ const BusinessPlans = () => {
         'Relatórios mensais',
         'Suporte por email',
         'API básica',
-        'Campanhas simples'
+        'Campanhas simples',
+        'Implementação incluída'
       ],
       cta: 'Começar Teste Grátis',
       popular: false,
@@ -40,6 +43,8 @@ const BusinessPlans = () => {
       name: 'Professional',
       price: 'R$ 599',
       period: '/mês',
+      setupPrice: 'R$ 3.799',
+      originalSetupPrice: 'R$ 4.615',
       description: 'Para empresas em crescimento',
       icon: TrendingUp,
       features: [
@@ -51,7 +56,8 @@ const BusinessPlans = () => {
         'Campanhas IA',
         'Integrações avançadas',
         'Análises preditivas',
-        'White-label básico'
+        'White-label básico',
+        'Implementação premium incluída'
       ],
       cta: 'Escolher Professional',
       popular: true,
@@ -59,8 +65,10 @@ const BusinessPlans = () => {
     },
     {
       name: 'Enterprise',
-      price: 'Personalizado',
-      period: '',
+      price: 'R$ 1.299',
+      period: '/mês',
+      setupPrice: 'R$ 6.799',
+      originalSetupPrice: 'R$ 8.615',
       description: 'Solução completa para grandes empresas',
       icon: Crown,
       features: [
@@ -71,9 +79,11 @@ const BusinessPlans = () => {
         'API enterprise',
         'IA personalizada',
         'Integrações sob medida',
-        'SLA garantido',
+        'SLA garantido 99.9%',
         'White-label completo',
-        'Treinamento da equipe'
+        'Treinamento da equipe',
+        'Consultoria estratégica',
+        'Implementação completa incluída'
       ],
       cta: 'Falar com Vendas',
       popular: false,
@@ -117,7 +127,7 @@ const BusinessPlans = () => {
             Impulsione seu Negócio
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Aumente a fidelização, otimize campanhas com IA e maximize o ROI dos seus investimentos em marketing
+            Aumente a fidelização, otimize campanhas com IA e maximize o ROI com implementação completa incluída
           </p>
         </div>
 
@@ -157,14 +167,22 @@ const BusinessPlans = () => {
                   <p className="text-muted-foreground">{plan.description}</p>
                 </div>
                 
-                <div className="space-y-1">
+                <div className="space-y-2">
                   <div className="flex items-baseline justify-center gap-1">
                     <span className="text-4xl font-bold">{plan.price}</span>
                     <span className="text-muted-foreground">{plan.period}</span>
                   </div>
-                  {plan.name !== 'Enterprise' && (
-                    <p className="text-sm text-muted-foreground">30 dias grátis</p>
-                  )}
+                  <p className="text-sm text-muted-foreground">17% desconto no contrato anual</p>
+                  
+                  {/* Setup Price */}
+                  <div className="bg-muted/30 rounded-lg p-3 mt-4">
+                    <p className="text-sm font-medium">Implementação:</p>
+                    <div className="flex items-center justify-center gap-2">
+                      <span className="text-lg font-bold text-green-600">{plan.setupPrice}</span>
+                      <span className="text-sm text-muted-foreground line-through">{plan.originalSetupPrice}</span>
+                    </div>
+                    <p className="text-xs text-green-600">Economia na implementação!</p>
+                  </div>
                 </div>
               </CardHeader>
               

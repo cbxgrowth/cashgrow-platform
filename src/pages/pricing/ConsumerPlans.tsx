@@ -5,40 +5,75 @@ import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Link } from "react-router-dom";
 import { Check, Star, Crown, Zap, Gift, Target, Shield, Sparkles, ArrowRight, Users, TrendingUp, Calendar, Wallet } from "lucide-react";
+
 const ConsumerPlans = () => {
   const [isAnnual, setIsAnnual] = useState(false);
-  const plans = [{
-    name: "Gratuito",
-    description: "Perfeito para começar",
-    monthlyPrice: 0,
-    annualPrice: 0,
-    icon: Gift,
-    features: ["Cashback básico de 1%", "Até 5 transações por mês", "Suporte por email", "Dashboard básico", "1 carteira digital"],
-    limitations: ["Sem acesso ao Clube VIP", "Retirada mínima R$ 50"],
-    highlighted: false,
-    buttonText: "Começar Grátis",
-    gradient: "from-gray-500 to-gray-600"
-  }, {
-    name: "Premium",
-    description: "Para usuários que querem mais benefícios",
-    monthlyPrice: 29,
-    annualPrice: 290,
-    icon: Star,
-    features: ["Cashback premium até 5%", "Transações ilimitadas", "Missões gamificadas", "Suporte prioritário", "Analytics pessoais", "Múltiplas carteiras", "Clube VIP básico", "Retirada instantânea"],
-    highlighted: true,
-    buttonText: "Assinar Premium",
-    gradient: "from-primary to-accent"
-  }, {
-    name: "VIP Elite",
-    description: "Experiência premium completa",
-    monthlyPrice: 79,
-    annualPrice: 790,
-    icon: Crown,
-    features: ["Cashback elite até 10%", "Acesso antecipado a promoções", "Gerente de conta dedicado", "Benefícios exclusivos", "Eventos especiais", "Cashback instantâneo", "Programa de indicação premium", "Suporte 24/7", "Análises avançadas"],
-    highlighted: false,
-    buttonText: "Tornar-se VIP",
-    gradient: "from-amber-500 to-orange-600"
-  }];
+  
+  const plans = [
+    {
+      name: "Gratuito",
+      description: "Perfeito para começar",
+      monthlyPrice: 0,
+      annualPrice: 0,
+      icon: Gift,
+      features: [
+        "Cashback básico de 1%",
+        "Até 5 transações por mês",
+        "Suporte por email",
+        "Dashboard básico",
+        "1 carteira digital"
+      ],
+      limitations: [
+        "Sem acesso ao Clube VIP",
+        "Retirada mínima R$ 50"
+      ],
+      highlighted: false,
+      buttonText: "Começar Grátis",
+      gradient: "from-gray-500 to-gray-600"
+    },
+    {
+      name: "Premium",
+      description: "Para usuários que querem mais benefícios",
+      monthlyPrice: 29,
+      annualPrice: 290,
+      icon: Star,
+      features: [
+        "Cashback premium até 5%",
+        "Transações ilimitadas",
+        "Missões gamificadas",
+        "Suporte prioritário",
+        "Analytics pessoais",
+        "Múltiplas carteiras",
+        "Clube VIP básico",
+        "Retirada instantânea"
+      ],
+      highlighted: true,
+      buttonText: "Assinar Premium",
+      gradient: "from-primary to-accent"
+    },
+    {
+      name: "VIP Elite",
+      description: "Experiência premium completa",
+      monthlyPrice: 79,
+      annualPrice: 790,
+      icon: Crown,
+      features: [
+        "Cashback elite até 10%",
+        "Acesso antecipado a promoções",
+        "Gerente de conta dedicado",
+        "Benefícios exclusivos",
+        "Eventos especiais",
+        "Cashback instantâneo",
+        "Programa de indicação premium",
+        "Suporte 24/7",
+        "Análises avançadas"
+      ],
+      highlighted: false,
+      buttonText: "Tornar-se VIP",
+      gradient: "from-amber-500 to-orange-600"
+    }
+  ];
+
   const benefits = [{
     icon: Zap,
     title: "Cashback Instantâneo",
@@ -56,13 +91,16 @@ const ConsumerPlans = () => {
     title: "Carteira Digital",
     description: "Gerencie seus cashbacks em um só lugar"
   }];
+
   const getPrice = (plan: any) => {
     return isAnnual ? plan.annualPrice : plan.monthlyPrice;
   };
+
   const getSavings = (plan: any) => {
     if (plan.monthlyPrice === 0) return 0;
     return Math.round((plan.monthlyPrice * 12 - plan.annualPrice) / (plan.monthlyPrice * 12) * 100);
   };
+
   return <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-background">
       {/* Header */}
       <section className="pt-20 pb-16">
@@ -261,4 +299,5 @@ const ConsumerPlans = () => {
       </section>
     </div>;
 };
+
 export default ConsumerPlans;
