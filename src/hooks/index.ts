@@ -1,7 +1,6 @@
 
 // Common hooks
 export * from './common/useErrorHandling';
-export * from './common/useRepository';
 export * from './common/useDebounce';
 export * from './common/useLocalStorage';
 
