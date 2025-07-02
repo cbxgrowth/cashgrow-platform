@@ -1,62 +1,42 @@
 
-import React, { useState } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import PersonalInfoTab from './components/PersonalInfoTab';
-import SecurityTab from './components/SecurityTab';
-import PaymentTab from './components/PaymentTab';
-import { ProximityNotificationSettings } from '@/components/proximity/ProximityNotificationSettings';
+import React from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { PersonalInfoTab } from './components/PersonalInfoTab';
+import { PaymentTab } from './components/PaymentTab';
+import { SecurityTab } from './components/SecurityTab';
 
-const ClientProfile: React.FC = () => {
+const ClientProfilePage: React.FC = () => {
   return (
     <div className="container max-w-4xl mx-auto py-8 space-y-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Perfil</h1>
-        <p className="text-muted-foreground">
-          Gerencie suas informações pessoais e configurações da conta
+        <p className="text-muted-foreground mt-2">
+          Gerencie suas informações pessoais e configurações
         </p>
       </div>
 
       <Tabs defaultValue="personal" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="personal">Dados Pessoais</TabsTrigger>
-          <TabsTrigger value="security">Segurança</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="personal">Informações Pessoais</TabsTrigger>
           <TabsTrigger value="payment">Pagamento</TabsTrigger>
-          <TabsTrigger value="notifications">Notificações</TabsTrigger>
+          <TabsTrigger value="security">Segurança</TabsTrigger>
         </TabsList>
 
         <TabsContent value="personal">
           <PersonalInfoTab />
         </TabsContent>
 
-        <TabsContent value="security">
-          <SecurityTab />
-        </TabsContent>
-
         <TabsContent value="payment">
           <PaymentTab />
         </TabsContent>
 
-        <TabsContent value="notifications" className="space-y-6">
-          <ProximityNotificationSettings />
-          
-          <Card>
-            <CardHeader>
-              <CardTitle>Outras Notificações</CardTitle>
-              <CardDescription>
-                Configure outros tipos de alertas e comunicações
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Configurações adicionais de notificação em breve...
-              </p>
-            </CardContent>
-          </Card>
+        <TabsContent value="security">
+          <SecurityTab />
         </TabsContent>
       </Tabs>
     </div>
   );
 };
 
-export default ClientProfile;
+export default ClientProfilePage;

@@ -1,109 +1,102 @@
 
-import React, { useState } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { ActionButtons } from './components/ActionButtons';
-import { RecommendationCards } from './components/RecommendationCards';
-import { 
-  personalizedRecommendations, 
-  trendingRecommendations, 
-  upcomingRecommendations 
-} from './data/recommendationData';
-import { Tag, TrendingUp, Clock, ShoppingBag, Gift, TagIcon } from "lucide-react";
+import React from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Lightbulb, TrendingUp, MapPin, Star, ExternalLink } from 'lucide-react';
 
-const RecommendationsPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('personalized');
-  
-  const tabTitle = {
-    personalized: "Recomendações Personalizadas",
-    trending: "Ofertas em Destaque",
-    upcoming: "Previsões de Compra",
-    products: "Produtos com Cashback"
-  };
-  
-  const tabIcon = {
-    personalized: <Tag className="h-5 w-5 mr-2" />,
-    trending: <TrendingUp className="h-5 w-5 mr-2" />,
-    upcoming: <Clock className="h-5 w-5 mr-2" />,
-    products: <Gift className="h-5 w-5 mr-2" />
-  };
-  
-  const TabDescription = () => {
-    switch(activeTab) {
-      case 'personalized':
-        return "Recomendações baseadas no seu histórico de compras e preferências.";
-      case 'trending':
-        return "Ofertas limitadas com cashback ampliado nas lojas participantes.";
-      case 'upcoming':
-        return "Previsões de compras futuras com cashback especial.";
-      case 'products':
-        return "Produtos disponíveis nas lojas com cashback exclusivo para você.";
-      default:
-        return "";
+const ClientRecommendationsPage: React.FC = () => {
+  const recommendations = [
+    {
+      id: 1,
+      type: 'cashback',
+      title: 'Maximize seu Cashback',
+      description: 'Compre na TechStore hoje e ganhe 15% de cashback em eletrônicos',
+      cashback: 15,
+      category: 'Eletrônicos',
+      urgent: true,
+      location: 'Shopping Center - 2km'
+    },
+    {
+      id: 2,
+      type: 'nearby',
+      title: 'Loja Próxima',
+      description: 'Fashion Plus está oferecendo 20% de desconto + 8% cashback',
+      cashback: 8,
+      category: 'Moda',
+      urgent: false,
+      location: 'Centro - 1.5km'
+    },
+    {
+      id: 3,
+      type: 'trending',
+      title: 'Tendência Popular',
+      description: 'SuperMercado XYZ - produtos orgânicos com 12% de cashback',
+      cashback: 12,
+      category: 'Alimentação',
+      urgent: false,
+      location: 'Bairro Norte - 3km'
     }
-  };
+  ];
 
   return (
-    <div className="space-y-6 container py-6">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">
-            {tabIcon[activeTab as keyof typeof tabIcon]} {tabTitle[activeTab as keyof typeof tabTitle]}
-          </h1>
-          <p className="text-muted-foreground mt-1">
-            <TabDescription />
-          </p>
-        </div>
-        
-        <div className="flex flex-wrap gap-2">
-          <Button variant="outline" size="sm" className="hidden md:flex">
-            <ShoppingBag className="h-4 w-4 mr-2" /> Todas as Lojas
-          </Button>
-          <Button variant="outline" size="sm" className="hidden md:flex">
-            <TagIcon className="h-4 w-4 mr-2" /> Categorias
-          </Button>
-          <Button size="sm">
-            <Gift className="h-4 w-4 mr-2" /> Resgatar Cashback
-          </Button>
-        </div>
+    <div className="container max-w-6xl mx-auto py-8 space-y-6">
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">Recomendações</h1>
+        <p className="text-muted-foreground mt-2">
+          Ofertas personalizadas baseadas no seu perfil
+        </p>
       </div>
-      
-      <ActionButtons />
-      
-      <Tabs defaultValue="personalized" value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid grid-cols-2 md:grid-cols-4 mb-6">
-          <TabsTrigger value="personalized">
-            <Tag className="h-4 w-4 mr-2" /> Para Você
-          </TabsTrigger>
-          <TabsTrigger value="trending">
-            <TrendingUp className="h-4 w-4 mr-2" /> Em Alta
-          </TabsTrigger>
-          <TabsTrigger value="upcoming">
-            <Clock className="h-4 w-4 mr-2" /> Proximamente
-          </TabsTrigger>
-          <TabsTrigger value="products">
-            <Gift className="h-4 w-4 mr-2" /> Produtos
-          </TabsTrigger>
-        </TabsList>
-        
-        <TabsContent value="personalized">
-          <RecommendationCards recommendations={personalizedRecommendations} type="personalized" />
-        </TabsContent>
-        
-        <TabsContent value="trending">
-          <RecommendationCards recommendations={trendingRecommendations} type="trending" />
-        </TabsContent>
-        
-        <TabsContent value="upcoming">
-          <RecommendationCards recommendations={upcomingRecommendations} type="upcoming" />
-        </TabsContent>
-        
-        <TabsContent value="products">
-          <RecommendationCards recommendations={[...personalizedRecommendations, ...trendingRecommendations]} type="products" />
-        </TabsContent>
-      </Tabs>
+
+      <div className="grid gap-6">
+        {recommendations.map((rec) => (
+          <Card key={rec.id} className={`${rec.urgent ? 'border-orange-200 bg-orange-50' : ''}`}>
+            <CardHeader>
+              <div className="flex items-start justify-between">
+                <div className="flex items-center gap-3">
+                  {rec.type === 'cashback' && <Lightbulb className="h-6 w-6 text-yellow-600" />}
+                  {rec.type === 'nearby' && <MapPin className="h-6 w-6 text-blue-600" />}
+                  {rec.type === 'trending' && <TrendingUp className="h-6 w-6 text-green-600" />}
+                  <div>
+                    <CardTitle className="text-xl">{rec.title}</CardTitle>
+                    <CardDescription className="mt-1">{rec.description}</CardDescription>
+                  </div>
+                </div>
+                {rec.urgent && <Badge variant="destructive">Urgente</Badge>}
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-green-600">{rec.cashback}%</div>
+                    <div className="text-sm text-muted-foreground">Cashback</div>
+                  </div>
+                  <div>
+                    <Badge variant="outline">{rec.category}</Badge>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      <MapPin className="h-3 w-3 inline mr-1" />
+                      {rec.location}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm">
+                    <Star className="h-4 w-4 mr-2" />
+                    Salvar
+                  </Button>
+                  <Button size="sm">
+                    <ExternalLink className="h-4 w-4 mr-2" />
+                    Ver Oferta
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 };
 
-export default RecommendationsPage;
+export default ClientRecommendationsPage;

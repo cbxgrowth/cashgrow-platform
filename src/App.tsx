@@ -97,7 +97,7 @@ const App = () => (
             } />
             <Route path="/blog" element={
               <>
-                <EnhancedNavbar />
+                <EnhancedNavbar />  
                 <Blog />
               </>
             } />
@@ -174,11 +174,15 @@ const App = () => (
               <Route path="dashboard" element={<ClientDashboard />} />
               <Route path="wallet" element={<ClientWalletPage />} />
               <Route path="transactions" element={<ClientTransactionsPage />} />
+              <Route path="missions" element={<ClientMissionsPage />} />
               <Route path="plans" element={<ClientPlans />} />
               <Route path="analytics" element={<ClientAnalytics />} />
+              <Route path="recommendations" element={<ClientRecommendationsPage />} />
               <Route path="vip-club" element={<VIPClub />} />
+              <Route path="companies" element={<ClientCompaniesPage />} />
               <Route path="location" element={<ClientLocationPage />} />
               <Route path="notifications" element={<ClientNotificationsPage />} />
+              <Route path="profile" element={<ClientProfilePage />} />
             </Route>
 
             {/* Company routes */}
@@ -186,15 +190,19 @@ const App = () => (
               <Route path="dashboard" element={<CompanyDashboard />} />
               <Route path="clients" element={<CompanyClients />} />
               <Route path="products" element={<CompanyProductsPage />} />
+              <Route path="transactions" element={<CompanyTransactionsPage />} />
               <Route path="analytics" element={<CompanyAnalytics />} />
               <Route path="reports" element={<CompanyReportsPage />} />
+              <Route path="performance" element={<CompanyPerformancePage />} />
+              <Route path="ai-campaigns" element={<AICampaigns />} />
+              <Route path="corporate" element={<CompanyCorporatePage />} />
+              <Route path="cashback-rules" element={<CashbackRules />} />
               <Route path="api-integration" element={<APIIntegration />} />
               <Route path="imports/clients" element={<ClientImport />} />
               <Route path="imports/products" element={<ProductImport />} />
               <Route path="proximity" element={<CompanyProximityPage />} />
               <Route path="settings" element={<CompanySettings />} />
               <Route path="profile" element={<CompanyProfile />} />
-              <Route path="ai-campaigns" element={<AICampaigns />} />
             </Route>
           </Routes>
         </BrowserRouter>
