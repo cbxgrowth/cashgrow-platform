@@ -29,53 +29,53 @@ export interface CreateClientData {
 
 export class ClientRepository extends BaseRepository {
   async findByCompanyId(companyId: string): Promise<RepositoryResult<ClientData[]>> {
-    const query = this.supabase
+    const queryBuilder = this.supabase
       .from('company_clients')
       .select('*')
       .eq('company_id', companyId)
       .order('created_at', { ascending: false });
 
-    return this.executeQuery(query);
+    return this.executeQuery<ClientData[]>(queryBuilder);
   }
 
   async findById(id: string): Promise<RepositoryResult<ClientData>> {
-    const query = this.supabase
+    const queryBuilder = this.supabase
       .from('company_clients')
       .select('*')
       .eq('id', id)
       .single();
 
-    return this.executeQuery(query);
+    return this.executeQuery<ClientData>(queryBuilder);
   }
 
   async create(data: CreateClientData): Promise<RepositoryResult<ClientData>> {
-    const query = this.supabase
+    const queryBuilder = this.supabase
       .from('company_clients')
       .insert(data)
       .select()
       .single();
 
-    return this.executeQuery(query);
+    return this.executeQuery<ClientData>(queryBuilder);
   }
 
   async update(id: string, data: Partial<ClientData>): Promise<RepositoryResult<ClientData>> {
-    const query = this.supabase
+    const queryBuilder = this.supabase
       .from('company_clients')
       .update({ ...data, updated_at: new Date().toISOString() })
       .eq('id', id)
       .select()
       .single();
 
-    return this.executeQuery(query);
+    return this.executeQuery<ClientData>(queryBuilder);
   }
 
   async delete(id: string): Promise<RepositoryResult<boolean>> {
-    const query = this.supabase
+    const queryBuilder = this.supabase
       .from('company_clients')
       .delete()
       .eq('id', id);
 
-    const result = await this.executeQuery(query);
+    const result = await this.executeQuery<any>(queryBuilder);
     return {
       success: result.success,
       data: result.success,

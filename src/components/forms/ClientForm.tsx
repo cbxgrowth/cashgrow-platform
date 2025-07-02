@@ -33,7 +33,14 @@ export const ClientForm: React.FC<ClientFormProps> = ({
     setValue,
     watch
   } = useForm<ClientFormData>({
-    resolver: zodResolver(clientFormSchema)
+    resolver: zodResolver(clientFormSchema),
+    defaultValues: {
+      full_name: '',
+      email: '',
+      cpf: '',
+      phone: '',
+      birth_date: ''
+    }
   });
 
   const watchCPF = watch('cpf');
@@ -56,9 +63,14 @@ export const ClientForm: React.FC<ClientFormProps> = ({
   }, [watchPhone, setValue]);
 
   const onSubmit = async (data: ClientFormData) => {
+    // Ensure required fields are present
     const clientData: CreateClientData = {
-      ...data,
-      company_id: companyId
+      company_id: companyId,
+      full_name: data.full_name,
+      email: data.email,
+      cpf: data.cpf,
+      phone: data.phone || undefined,
+      birth_date: data.birth_date || undefined
     };
 
     const result = await execute(

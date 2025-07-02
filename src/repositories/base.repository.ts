@@ -30,10 +30,10 @@ export class BaseRepository {
   }
 
   protected async executeQuery<T>(
-    queryPromise: Promise<{ data: T | null; error: PostgrestError | null }>
+    queryBuilder: any
   ): Promise<RepositoryResult<T>> {
     try {
-      const { data, error } = await queryPromise;
+      const { data, error } = await queryBuilder;
       
       if (error) {
         return {

@@ -9,7 +9,7 @@ interface UseRepositoryOptions {
   successMessage?: string;
 }
 
-export const useRepository = <T>(options: UseRepositoryOptions = {}) => {
+export const useRepository = <T = any>(options: UseRepositoryOptions = {}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<T | null>(null);
@@ -20,7 +20,7 @@ export const useRepository = <T>(options: UseRepositoryOptions = {}) => {
     successMessage = 'Operação realizada com sucesso'
   } = options;
 
-  const execute = useCallback(async <R>(
+  const execute = useCallback(async <R = T>(
     repositoryCall: () => Promise<RepositoryResult<R>>,
     customOptions?: {
       onSuccess?: (data: R) => void;
@@ -35,7 +35,7 @@ export const useRepository = <T>(options: UseRepositoryOptions = {}) => {
       const result = await repositoryCall();
 
       if (result.success && result.data) {
-        setData(result.data as T);
+        setData(result.data as unknown as T);
         
         if (showSuccessToast) {
           toast.success(customOptions?.successMessage || successMessage);
