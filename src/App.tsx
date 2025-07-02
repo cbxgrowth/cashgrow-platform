@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -45,6 +44,16 @@ import ClientTransactionsPage from "./pages/client/transactions";
 import ClientNotificationsPage from "./pages/client/notifications";
 import CompanyProductsPage from "./pages/company/products";
 import CompanyReportsPage from "./pages/company/reports";
+
+// Import the new pages
+import ClientMissionsPage from "./pages/client/missions";
+import ClientRecommendationsPage from "./pages/client/recommendations";
+import ClientCompaniesPage from "./pages/client/companies";
+import ClientProfilePage from "./pages/client/profile";
+import CompanyTransactionsPage from "./pages/company/transactions";
+import CompanyPerformancePage from "./pages/company/performance";
+import CompanyCorporatePage from "./pages/company/corporate";
+import CashbackRules from "./pages/company/CashbackRules";
 
 // Inicializar limpeza de dados se solicitado
 import { TestDataService } from "@/services/testData.service";

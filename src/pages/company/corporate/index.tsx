@@ -1,212 +1,159 @@
 
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Building2, Users, TrendingUp, Award, Download, FileText } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Building2, Users, TrendingUp, Star, Shield, Zap } from 'lucide-react';
 
 const CompanyCorporatePage: React.FC = () => {
-  const corporateData = {
-    summary: {
-      totalEmployees: 1250,
-      activePlans: 3,
-      monthlySpend: 89500.00,
-      totalSavings: 12750.00
+  const corporateFeatures = [
+    {
+      icon: Building2,
+      title: 'Multi-Filiais',
+      description: 'Gerencie múltiplas filiais em uma única plataforma',
+      status: 'active'
     },
-    plans: [
-      {
-        id: 1,
-        name: 'Plano Corporativo Premium',
-        employees: 850,
-        discount: 15,
-        monthlyFee: 4250.00,
-        status: 'active'
-      },
-      {
-        id: 2,
-        name: 'Plano Executivo',
-        employees: 250,
-        discount: 20,
-        monthlyFee: 2500.00,
-        status: 'active'
-      },
-      {
-        id: 3,
-        name: 'Plano Básico',
-        employees: 150,
-        discount: 10,
-        monthlyFee: 750.00,
-        status: 'active'
-      }
-    ],
-    benefits: [
-      'Descontos exclusivos para funcionários',
-      'Gestão centralizada de benefícios',
-      'Relatórios detalhados de uso',
-      'Suporte dedicado 24/7',
-      'Integração com folha de pagamento'
-    ]
-  };
+    {
+      icon: Users,
+      title: 'Gestão de Equipes',
+      description: 'Controle de acesso e permissões por usuário',
+      status: 'active'
+    },
+    {
+      icon: TrendingUp,
+      title: 'Analytics Avançados',
+      description: 'Relatórios detalhados e insights de performance',
+      status: 'premium'
+    },
+    {
+      icon: Shield,
+      title: 'Segurança Enterprise',
+      description: 'Autenticação avançada e compliance corporativo',
+      status: 'premium'
+    }
+  ];
+
+  const integrations = [
+    {
+      name: 'SAP',
+      description: 'Integração com sistemas SAP',
+      status: 'available'
+    },
+    {
+      name: 'Oracle',
+      description: 'Conectividade com bancos Oracle',
+      status: 'available'
+    },
+    {
+      name: 'Microsoft Dynamics',
+      description: 'Sincronização com Dynamics 365',
+      status: 'coming-soon'
+    },
+    {
+      name: 'Salesforce',
+      description: 'Integração com CRM Salesforce',
+      status: 'coming-soon'
+    }
+  ];
 
   return (
     <div className="container max-w-6xl mx-auto py-8 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Corporativo</h1>
-          <p className="text-muted-foreground mt-2">
-            Gerencie planos corporativos e benefícios para funcionários
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="outline">
-            <FileText className="h-4 w-4 mr-2" />
-            Relatórios
-          </Button>
-          <Button>
-            <Download className="h-4 w-4 mr-2" />
-            Exportar
-          </Button>
-        </div>
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">Soluções Corporativas</h1>
+        <p className="text-muted-foreground mt-2">
+          Recursos avançados para empresas de grande porte
+        </p>
       </div>
 
-      {/* Cards de Resumo */}
-      <div className="grid gap-4 md:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Funcionários</CardTitle>
-            <Users className="h-4 w-4 text-blue-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{corporateData.summary.totalEmployees.toLocaleString()}</div>
-            <p className="text-xs text-muted-foreground">+12% este mês</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Planos Ativos</CardTitle>
-            <Building2 className="h-4 w-4 text-green-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{corporateData.summary.activePlans}</div>
-            <p className="text-xs text-muted-foreground">Todos funcionando</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Gasto Mensal</CardTitle>
-            <TrendingUp className="h-4 w-4 text-orange-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              R$ {corporateData.summary.monthlySpend.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-            </div>
-            <p className="text-xs text-muted-foreground">-5% vs mês anterior</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Economia Total</CardTitle>
-            <Award className="h-4 w-4 text-purple-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">
-              R$ {corporateData.summary.totalSavings.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-            </div>
-            <p className="text-xs text-muted-foreground">Este mês</p>
-          </CardContent>
-        </Card>
+      {/* Recursos Corporativos */}
+      <div className="grid gap-6 md:grid-cols-2">
+        {corporateFeatures.map((feature, index) => (
+          <Card key={index}>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <feature.icon className="h-8 w-8 text-primary" />
+                <Badge variant={feature.status === 'premium' ? 'default' : 'secondary'}>
+                  {feature.status === 'premium' ? 'Premium' : 'Ativo'}
+                </Badge>
+              </div>
+              <CardTitle className="text-lg">{feature.title}</CardTitle>
+              <CardDescription>{feature.description}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button 
+                variant={feature.status === 'premium' ? 'default' : 'outline'}
+                className="w-full"
+              >
+                {feature.status === 'premium' ? 'Fazer Upgrade' : 'Configurar'}
+              </Button>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
-      <Tabs defaultValue="plans" className="space-y-6">
-        <TabsList>
-          <TabsTrigger value="plans">Planos Corporativos</TabsTrigger>
-          <TabsTrigger value="benefits">Benefícios</TabsTrigger>
-          <TabsTrigger value="reports">Relatórios</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="plans">
-          <Card>
-            <CardHeader>
-              <CardTitle>Planos Corporativos Ativos</CardTitle>
-              <CardDescription>
-                Gerencie os planos corporativos da sua empresa
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {corporateData.plans.map((plan) => (
-                  <div key={plan.id} className="flex items-center justify-between p-4 border rounded-lg">
-                    <div>
-                      <h4 className="font-medium">{plan.name}</h4>
-                      <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
-                        <span>{plan.employees} funcionários</span>
-                        <span>{plan.discount}% de desconto</span>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="font-bold">
-                        R$ {plan.monthlyFee.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                      </div>
-                      <div className="text-sm text-muted-foreground">por mês</div>
-                      <Badge variant="default" className="mt-1">
-                        {plan.status === 'active' ? 'Ativo' : 'Inativo'}
-                      </Badge>
-                    </div>
-                  </div>
-                ))}
+      {/* Integrações Enterprise */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Integrações Enterprise</CardTitle>
+          <CardDescription>
+            Conecte seus sistemas corporativos existentes
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4 md:grid-cols-2">
+            {integrations.map((integration, index) => (
+              <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
+                <div>
+                  <h4 className="font-medium">{integration.name}</h4>
+                  <p className="text-sm text-muted-foreground">{integration.description}</p>
+                </div>
+                <div>
+                  {integration.status === 'available' ? (
+                    <Button size="sm">Conectar</Button>
+                  ) : (
+                    <Badge variant="outline">Em Breve</Badge>
+                  )}
+                </div>
               </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
 
-        <TabsContent value="benefits">
-          <Card>
-            <CardHeader>
-              <CardTitle>Benefícios Corporativos</CardTitle>
-              <CardDescription>
-                Vantagens do plano corporativo para sua empresa
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-4 md:grid-cols-2">
-                {corporateData.benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-center gap-3 p-3 border rounded-lg">
-                    <Award className="h-5 w-5 text-primary flex-shrink-0" />
-                    <span>{benefit}</span>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="reports">
-          <Card>
-            <CardHeader>
-              <CardTitle>Relatórios Corporativos</CardTitle>
-              <CardDescription>
-                Relatórios detalhados sobre o uso dos benefícios
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center py-12">
-                <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-lg font-medium mb-2">Relatórios em Desenvolvimento</h3>
-                <p className="text-muted-foreground mb-4">
-                  Os relatórios corporativos estarão disponíveis em breve.
-                </p>
-                <Button variant="outline">
-                  Solicitar Acesso Antecipado
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+      {/* Suporte Dedicado */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Star className="h-6 w-6 text-yellow-500" />
+            Suporte Dedicado
+          </CardTitle>
+          <CardDescription>
+            Atendimento especializado para clientes corporativos
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid gap-4 md:grid-cols-3">
+            <div className="text-center">
+              <Zap className="h-8 w-8 text-primary mx-auto mb-2" />
+              <h4 className="font-medium">Resposta Rápida</h4>
+              <p className="text-sm text-muted-foreground">SLA de 2 horas</p>
+            </div>
+            <div className="text-center">
+              <Users className="h-8 w-8 text-primary mx-auto mb-2" />
+              <h4 className="font-medium">Account Manager</h4>
+              <p className="text-sm text-muted-foreground">Gerente dedicado</p>
+            </div>
+            <div className="text-center">
+              <Shield className="h-8 w-8 text-primary mx-auto mb-2" />
+              <h4 className="font-medium">Suporte 24/7</h4>
+              <p className="text-sm text-muted-foreground">Disponível sempre</p>
+            </div>
+          </div>
+          <div className="flex justify-center pt-4">
+            <Button>Falar com Especialista</Button>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

@@ -2,9 +2,9 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { PersonalInfoTab } from './components/PersonalInfoTab';
-import { PaymentTab } from './components/PaymentTab';
-import { SecurityTab } from './components/SecurityTab';
+import PersonalInfoTab from './components/PersonalInfoTab';
+import PaymentTab from './components/PaymentTab';
+import SecurityTab from './components/SecurityTab';
 
 const ClientProfilePage: React.FC = () => {
   return (
