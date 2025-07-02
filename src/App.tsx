@@ -41,6 +41,8 @@ import CompanyProximityPage from "./pages/company/proximity";
 import ClientWalletPage from "./pages/client/wallet";
 import ClientTransactionsPage from "./pages/client/transactions";
 import ClientNotificationsPage from "./pages/client/notifications";
+import CompanyProductsPage from "./pages/company/products";
+import CompanyReportsPage from "./pages/company/reports";
 
 // Inicializar limpeza de dados se solicitado
 import { TestDataService } from "@/services/testData.service";
