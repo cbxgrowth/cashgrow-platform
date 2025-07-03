@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { User, Building2 } from "lucide-react";
+import { User, Building2, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { solutionsForConsumers, solutionsForBusiness, mainNavigationLinks } from '../data/navigationData';
 
@@ -103,6 +103,16 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, setIsOpen }
                   <Building2 className="h-3 w-3 text-primary" />
                 </div>
                 <span className="group-hover:text-primary transition-colors">Planos Empresariais</span>
+              </Link>
+              <Link
+                to="/pricing/compare"
+                className="flex items-center gap-3 px-3 py-2 text-sm transition-all duration-200 hover:bg-accent/20 rounded-lg group"
+                onClick={() => setIsOpen(false)}
+              >
+                <div className="p-1 rounded bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                  <BarChart3 className="h-3 w-3 text-primary" />
+                </div>
+                <span className="group-hover:text-primary transition-colors">Comparar Todos</span>
               </Link>
             </div>
           </div>

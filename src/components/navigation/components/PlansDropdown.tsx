@@ -13,19 +13,19 @@ export const PlansDropdown = () => {
   const plansItems = [
     {
       title: "Planos Pessoais",
-      href: "/pricing/consumer",
+      href: "/pricing/personal",
       description: "Para consumidores que querem economizar",
       icon: Users
     },
     {
       title: "Planos Empresariais", 
-      href: "/pricing/enterprise",
+      href: "/pricing/business",
       description: "Soluções completas para empresas",
       icon: Building2
     },
     {
       title: "Comparar Todos",
-      href: "/pricing",
+      href: "/pricing/compare",
       description: "Compare todos os planos disponíveis",
       icon: BarChart3
     }

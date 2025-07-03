@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -35,6 +34,17 @@ import MissionsPage from "@/pages/solutions/consumer/MissionsPage";
 import AnalyticsPage from "@/pages/solutions/business/AnalyticsPage";
 import ApiPage from "@/pages/solutions/business/ApiPage";
 
+// Pricing pages
+import PersonalPlans from "@/pages/pricing/PersonalPlans";
+import BusinessPlans from "@/pages/pricing/BusinessPlans";
+import ComparePlans from "@/pages/pricing/ComparePlans";
+
+// Client pages
+import ClientAnalytics from "@/pages/client/analytics/index";
+import VIPClub from "@/pages/client/vip-club/index";
+import Community from "@/pages/client/community/index";
+import ClientPlans from "@/pages/client/plans/index";
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -60,6 +70,9 @@ const AppContent = () => {
         <Route path="home" element={<Home />} />
         <Route path="features" element={<Features />} />
         <Route path="pricing" element={<Pricing />} />
+        <Route path="pricing/personal" element={<PersonalPlans />} />
+        <Route path="pricing/business" element={<BusinessPlans />} />
+        <Route path="pricing/compare" element={<ComparePlans />} />
         <Route path="about" element={<About />} />
         <Route path="contact" element={<Contact />} />
         <Route path="blog" element={<Blog />} />
@@ -87,6 +100,10 @@ const AppContent = () => {
       {user && userType === 'client' && (
         <Route path="/client" element={<DashboardLayout userType="client" />}>
           <Route path="dashboard" element={<ClientDashboard />} />
+          <Route path="analytics" element={<ClientAnalytics />} />
+          <Route path="vip-club" element={<VIPClub />} />
+          <Route path="community" element={<Community />} />
+          <Route path="plans" element={<ClientPlans />} />
         </Route>
       )}
 
