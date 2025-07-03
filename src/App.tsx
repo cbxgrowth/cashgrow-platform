@@ -27,6 +27,14 @@ import DashboardLayout from "@/components/layouts/DashboardLayout";
 import { useAuth } from "@/hooks/auth/useAuth";
 import { useEffect } from "react";
 
+// Soluções páginas
+import SolutionsIndex from "@/pages/solutions/index";
+import ConsumerSolutions from "@/pages/solutions/ConsumerSolutions";
+import BusinessSolutions from "@/pages/solutions/BusinessSolutions";
+import MissionsPage from "@/pages/solutions/consumer/MissionsPage";
+import AnalyticsPage from "@/pages/solutions/business/AnalyticsPage";
+import ApiPage from "@/pages/solutions/business/ApiPage";
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -56,6 +64,14 @@ const AppContent = () => {
         <Route path="contact" element={<Contact />} />
         <Route path="blog" element={<Blog />} />
         <Route path="help" element={<Help />} />
+        
+        {/* Soluções Routes */}
+        <Route path="solutions" element={<SolutionsIndex />} />
+        <Route path="solutions/consumer" element={<ConsumerSolutions />} />
+        <Route path="solutions/consumer/missions" element={<MissionsPage />} />
+        <Route path="solutions/business" element={<BusinessSolutions />} />
+        <Route path="solutions/business/analytics" element={<AnalyticsPage />} />
+        <Route path="solutions/business/api" element={<ApiPage />} />
       </Route>
 
       {/* Auth Routes */}
