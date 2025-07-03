@@ -13,81 +13,83 @@ import {
   Users,
   BarChart3,
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  AlertCircle
 } from 'lucide-react';
 
 const BusinessPlans = () => {
   const plans = [
     {
-      name: 'Starter Business',
-      price: 'R$ 299',
+      name: 'START',
+      price: 'R$ 279',
       period: '/mês',
-      setupPrice: 'R$ 1.799',
+      setupPrice: 'R$ 1.999',
       originalSetupPrice: 'R$ 2.557',
-      description: 'Ideal para pequenas empresas',
+      description: 'O jeito mais rápido e econômico de fidelizar seus clientes!',
       icon: Building2,
       features: [
-        'Até 1.000 clientes ativos',
-        'Dashboard básico',
-        'Relatórios mensais',
-        'Suporte por email',
-        'API básica',
-        'Campanhas simples',
+        'Até 5.000 clientes cadastrados',
+        'Integrações nativas',
+        'Campanhas promocionais eficazes',
+        'Suporte via Email',
+        'Gatilhos Mentais',
+        'Cashback ou Pontos',
+        'Estratégia de Prêmios',
+        '10 Créditos IA',
         'Implementação incluída'
       ],
       cta: 'Começar Teste Grátis',
       popular: false,
-      color: 'border-gray-200'
+      color: 'border-gray-200',
+      note: 'O Plano START não inclui API. Para integrações personalizadas com sistemas externos, opte pelo Plano Pro ou Growth.'
     },
     {
-      name: 'Professional',
-      price: 'R$ 599',
+      name: 'PRO',
+      price: 'R$ 399',
       period: '/mês',
-      setupPrice: 'R$ 3.799',
-      originalSetupPrice: 'R$ 4.615',
-      description: 'Para empresas em crescimento',
+      setupPrice: 'R$ 3.890',
+      originalSetupPrice: 'R$ 4.917',
+      description: 'Para empresas em crescimento que buscam a solução completa.',
       icon: TrendingUp,
       features: [
-        'Até 10.000 clientes ativos',
-        'Dashboard avançado',
-        'Relatórios em tempo real',
-        'Suporte prioritário',
-        'API completa',
-        'Campanhas IA',
-        'Integrações avançadas',
-        'Análises preditivas',
-        'White-label básico',
-        'Implementação premium incluída'
+        'Processo completo de criação e desenvolvimento',
+        'Estratégia única para seu nicho',
+        'Configuração completa da plataforma',
+        'Suporte total à API',
+        'Até 25.000 clientes cadastrados',
+        'Funcionalidades avançadas',
+        '40 Créditos IA',
+        'Mentoria incluída',
+        'Primeira mensalidade incluída na implementação'
       ],
-      cta: 'Escolher Professional',
+      cta: 'Escolher PRO',
       popular: true,
-      color: 'border-blue-500'
+      color: 'border-blue-500',
+      note: 'A implementação já inclui a primeira mensalidade e Mentoria.'
     },
     {
-      name: 'Enterprise',
-      price: 'R$ 1.299',
+      name: 'GROWTH',
+      price: 'R$ 1.849',
       period: '/mês',
-      setupPrice: 'R$ 6.799',
-      originalSetupPrice: 'R$ 8.615',
-      description: 'Solução completa para grandes empresas',
+      setupPrice: 'R$ 4.799',
+      originalSetupPrice: 'R$ 6.615',
+      description: 'Solução completa com automação via WhatsApp Oficial, aplicativos iOS e Android personalizados e mentoria.',
       icon: Crown,
       features: [
-        'Clientes ilimitados',
-        'Dashboard customizado',
-        'Relatórios personalizados',
-        'Gerente de conta dedicado',
-        'API enterprise',
-        'IA personalizada',
-        'Integrações sob medida',
-        'SLA garantido 99.9%',
-        'White-label completo',
-        'Treinamento da equipe',
-        'Consultoria estratégica',
-        'Implementação completa incluída'
+        'Até 100.000 clientes (expansível)',
+        'Infraestrutura dedicada',
+        'API completa',
+        'Automação via WhatsApp Oficial',
+        'Aplicativos iOS e Android personalizados',
+        'Customização total',
+        '100 Créditos IA',
+        'Mentoria para implementação',
+        'Solução adaptável ao seu negócio'
       ],
       cta: 'Falar com Vendas',
       popular: false,
-      color: 'border-purple-500'
+      color: 'border-purple-500',
+      note: 'Combina todos os recursos avançados para excelência no gerenciamento de programas de fidelidade.'
     }
   ];
 
@@ -152,19 +154,19 @@ const BusinessPlans = () => {
               <CardHeader className="text-center space-y-4">
                 <div className="flex justify-center">
                   <div className={`p-3 rounded-full ${
-                    plan.name === 'Enterprise' ? 'bg-purple-100' :
-                    plan.name === 'Professional' ? 'bg-blue-100' : 'bg-gray-100'
+                    plan.name === 'GROWTH' ? 'bg-purple-100' :
+                    plan.name === 'PRO' ? 'bg-blue-100' : 'bg-gray-100'
                   }`}>
                     <plan.icon className={`h-8 w-8 ${
-                      plan.name === 'Enterprise' ? 'text-purple-600' :
-                      plan.name === 'Professional' ? 'text-blue-600' : 'text-gray-600'
+                      plan.name === 'GROWTH' ? 'text-purple-600' :
+                      plan.name === 'PRO' ? 'text-blue-600' : 'text-gray-600'
                     }`} />
                   </div>
                 </div>
                 
                 <div>
-                  <CardTitle className="text-2xl">{plan.name}</CardTitle>
-                  <p className="text-muted-foreground">{plan.description}</p>
+                  <CardTitle className="text-2xl">PLANO {plan.name}</CardTitle>
+                  <p className="text-muted-foreground mt-2">{plan.description}</p>
                 </div>
                 
                 <div className="space-y-2">
@@ -172,7 +174,6 @@ const BusinessPlans = () => {
                     <span className="text-4xl font-bold">{plan.price}</span>
                     <span className="text-muted-foreground">{plan.period}</span>
                   </div>
-                  <p className="text-sm text-muted-foreground">17% desconto no contrato anual</p>
                   
                   {/* Setup Price */}
                   <div className="bg-muted/30 rounded-lg p-3 mt-4">
@@ -187,14 +188,29 @@ const BusinessPlans = () => {
               </CardHeader>
               
               <CardContent className="space-y-6">
-                <div className="space-y-3">
-                  {plan.features.map((feature, idx) => (
-                    <div key={idx} className="flex items-center gap-3">
-                      <Check className="h-4 w-4 text-green-600 flex-shrink-0" />
-                      <span className="text-sm">{feature}</span>
-                    </div>
-                  ))}
+                <div>
+                  <h4 className="font-semibold mb-3">Principais Benefícios:</h4>
+                  <div className="space-y-3">
+                    {plan.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-start gap-3">
+                        <Check className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
+                        <span className="text-sm">{feature}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
+
+                {/* Note */}
+                {plan.note && (
+                  <div className="bg-orange-50 border border-orange-200 rounded-lg p-3">
+                    <div className="flex items-start gap-2">
+                      <AlertCircle className="h-4 w-4 text-orange-600 flex-shrink-0 mt-0.5" />
+                      <p className="text-xs text-orange-800">
+                        <strong>Observação:</strong> {plan.note}
+                      </p>
+                    </div>
+                  </div>
+                )}
                 
                 <Button 
                   className={`w-full ${
@@ -205,7 +221,7 @@ const BusinessPlans = () => {
                   variant={plan.popular ? 'default' : 'outline'}
                 >
                   {plan.cta}
-                  {plan.name !== 'Enterprise' && <ArrowRight className="h-4 w-4 ml-2" />}
+                  {plan.name !== 'GROWTH' && <ArrowRight className="h-4 w-4 ml-2" />}
                 </Button>
               </CardContent>
             </Card>
