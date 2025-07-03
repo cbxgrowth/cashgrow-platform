@@ -7,6 +7,7 @@ interface OnboardingContextType {
   isOnboardingComplete: boolean;
   completeOnboarding: () => void;
   resetOnboarding: () => void;
+  showOnboarding: () => void;
 }
 
 const OnboardingContext = createContext<OnboardingContextType | undefined>(undefined);
@@ -26,31 +27,46 @@ interface OnboardingProviderProps {
 
 export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({ children, userType }) => {
   const [isOnboardingComplete, setIsOnboardingComplete] = useState(false);
+  const [showOnboardingFlow, setShowOnboardingFlow] = useState(false);
 
   useEffect(() => {
-    // Check if onboarding was completed before
     const completed = localStorage.getItem(`onboarding-${userType}-complete`);
+    const shouldShow = completed !== 'true';
     setIsOnboardingComplete(completed === 'true');
+    
+    if (shouldShow) {
+      const timer = setTimeout(() => {
+        setShowOnboardingFlow(true);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
   }, [userType]);
 
   const completeOnboarding = () => {
     setIsOnboardingComplete(true);
+    setShowOnboardingFlow(false);
     localStorage.setItem(`onboarding-${userType}-complete`, 'true');
   };
 
   const resetOnboarding = () => {
     setIsOnboardingComplete(false);
+    setShowOnboardingFlow(true);
     localStorage.removeItem(`onboarding-${userType}-complete`);
+  };
+
+  const showOnboarding = () => {
+    setShowOnboardingFlow(true);
   };
 
   return (
     <OnboardingContext.Provider value={{
       isOnboardingComplete,
       completeOnboarding,
-      resetOnboarding
+      resetOnboarding,
+      showOnboarding
     }}>
       {children}
-      {!isOnboardingComplete && (
+      {showOnboardingFlow && !isOnboardingComplete && (
         <CompactOnboardingFlow 
           userType={userType} 
           onComplete={completeOnboarding}

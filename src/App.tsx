@@ -1,5 +1,3 @@
-
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -46,6 +44,29 @@ import ClientAnalytics from "@/pages/client/analytics/index";
 import VIPClub from "@/pages/client/vip-club/index";
 import Community from "@/pages/client/community/index";
 import ClientPlans from "@/pages/client/plans/index";
+import ClientWallet from "@/pages/client/wallet/index";
+import ClientTransactions from "@/pages/client/transactions/index";
+import ClientMissions from "@/pages/client/missions/index";
+import ClientRecommendations from "@/pages/client/recommendations/index";
+import ClientCompanies from "@/pages/client/companies/index";
+import ClientLocation from "@/pages/client/location/index";
+import ClientNotifications from "@/pages/client/notifications/index";
+import ClientProfile from "@/pages/client/profile/index";
+
+// Company pages
+import CompanyProducts from "@/pages/company/products/index";
+import CompanyClients from "@/pages/company/clients/index";
+import CompanyTransactions from "@/pages/company/transactions/index";
+import CompanyAnalytics from "@/pages/company/analytics/index";
+import CompanyReports from "@/pages/company/reports/index";
+import CompanyPerformance from "@/pages/company/performance/index";
+import CompanyAICampaigns from "@/pages/company/ai-campaigns/index";
+import CompanyCorporate from "@/pages/company/corporate/index";
+import CompanyCashbackRules from "@/pages/company/cashback-rules/index";
+import CompanyProximity from "@/pages/company/proximity/index";
+import CompanyAPIIntegration from "@/pages/company/api-integration/index";
+import CompanyProfile from "@/pages/company/profile/index";
+import CompanySettings from "@/pages/company/settings/index";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -60,7 +81,6 @@ const AppContent = () => {
   const { user, userType } = useAuth();
 
   useEffect(() => {
-    // Initialize any app-wide settings here
     console.log('App initialized');
   }, []);
 
@@ -101,15 +121,36 @@ const AppContent = () => {
       {/* Client Dashboard Routes */}
       <Route path="/client" element={<DashboardLayout userType="client" />}>
         <Route path="dashboard" element={<ClientDashboard />} />
+        <Route path="wallet" element={<ClientWallet />} />
+        <Route path="transactions" element={<ClientTransactions />} />
+        <Route path="missions" element={<ClientMissions />} />
         <Route path="analytics" element={<ClientAnalytics />} />
-        <Route path="vip-club" element={<VIPClub />} />
-        <Route path="community" element={<Community />} />
+        <Route path="recommendations" element={<ClientRecommendations />} />
         <Route path="plans" element={<ClientPlans />} />
+        <Route path="vip-club" element={<VIPClub />} />
+        <Route path="companies" element={<ClientCompanies />} />
+        <Route path="location" element={<ClientLocation />} />
+        <Route path="notifications" element={<ClientNotifications />} />
+        <Route path="community" element={<Community />} />
+        <Route path="profile" element={<ClientProfile />} />
       </Route>
 
       {/* Company Dashboard Routes */}
       <Route path="/company" element={<DashboardLayout userType="company" />}>
         <Route path="dashboard" element={<CompanyDashboard />} />
+        <Route path="products" element={<CompanyProducts />} />
+        <Route path="clients" element={<CompanyClients />} />
+        <Route path="transactions" element={<CompanyTransactions />} />
+        <Route path="analytics" element={<CompanyAnalytics />} />
+        <Route path="reports" element={<CompanyReports />} />
+        <Route path="performance" element={<CompanyPerformance />} />
+        <Route path="ai-campaigns" element={<CompanyAICampaigns />} />
+        <Route path="corporate" element={<CompanyCorporate />} />
+        <Route path="cashback-rules" element={<CompanyCashbackRules />} />
+        <Route path="proximity" element={<CompanyProximity />} />
+        <Route path="api-integration" element={<CompanyAPIIntegration />} />
+        <Route path="profile" element={<CompanyProfile />} />
+        <Route path="settings" element={<CompanySettings />} />
       </Route>
 
       {/* 404 Route */}
@@ -133,4 +174,3 @@ const App = () => (
 );
 
 export default App;
-
