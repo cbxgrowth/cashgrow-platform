@@ -1,5 +1,6 @@
+
 import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
+import { Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -97,22 +98,18 @@ const AppContent = () => {
       </Route>
 
       {/* Client Dashboard Routes */}
-      {user && userType === 'client' && (
-        <Route path="/client" element={<DashboardLayout userType="client" />}>
-          <Route path="dashboard" element={<ClientDashboard />} />
-          <Route path="analytics" element={<ClientAnalytics />} />
-          <Route path="vip-club" element={<VIPClub />} />
-          <Route path="community" element={<Community />} />
-          <Route path="plans" element={<ClientPlans />} />
-        </Route>
-      )}
+      <Route path="/client" element={<DashboardLayout userType="client" />}>
+        <Route path="dashboard" element={<ClientDashboard />} />
+        <Route path="analytics" element={<ClientAnalytics />} />
+        <Route path="vip-club" element={<VIPClub />} />
+        <Route path="community" element={<Community />} />
+        <Route path="plans" element={<ClientPlans />} />
+      </Route>
 
       {/* Company Dashboard Routes */}
-      {user && userType === 'company' && (
-        <Route path="/company" element={<DashboardLayout userType="company" />}>
-          <Route path="dashboard" element={<CompanyDashboard />} />
-        </Route>
-      )}
+      <Route path="/company" element={<DashboardLayout userType="company" />}>
+        <Route path="dashboard" element={<CompanyDashboard />} />
+      </Route>
 
       {/* 404 Route */}
       <Route path="*" element={<NotFound />} />
