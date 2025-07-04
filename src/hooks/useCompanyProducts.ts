@@ -41,7 +41,7 @@ export const useCompanyProducts = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setProducts(data || []);
+      setProducts(data as CompanyProduct[] || []);
     } catch (error: any) {
       console.error('Erro ao buscar produtos:', error);
       toast.error('Erro ao carregar produtos');

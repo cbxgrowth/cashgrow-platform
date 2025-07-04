@@ -391,6 +391,65 @@ export type Database = {
           },
         ]
       }
+      company_products: {
+        Row: {
+          cashback_percentage: number
+          category: string
+          company_id: string
+          created_at: string
+          created_by_integration: boolean
+          description: string | null
+          id: string
+          integration_source: string | null
+          is_active: boolean
+          name: string
+          price: number
+          sku: string
+          stock_quantity: number
+          updated_at: string
+        }
+        Insert: {
+          cashback_percentage?: number
+          category: string
+          company_id: string
+          created_at?: string
+          created_by_integration?: boolean
+          description?: string | null
+          id?: string
+          integration_source?: string | null
+          is_active?: boolean
+          name: string
+          price?: number
+          sku: string
+          stock_quantity?: number
+          updated_at?: string
+        }
+        Update: {
+          cashback_percentage?: number
+          category?: string
+          company_id?: string
+          created_at?: string
+          created_by_integration?: boolean
+          description?: string | null
+          id?: string
+          integration_source?: string | null
+          is_active?: boolean
+          name?: string
+          price?: number
+          sku?: string
+          stock_quantity?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_company_products_company_id"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       company_users: {
         Row: {
           company_id: string | null
