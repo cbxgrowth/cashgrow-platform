@@ -19,7 +19,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
       <EnhancedDashboardHeader userType={userType} menuItems={menuItems} />
       
       <div className="flex">
-        <DashboardSidebar userType={userType} menuItems={menuItems} />
+        <DashboardSidebar userType={userType} isCollapsed={false} onToggle={() => {}} />
         
         <main className="flex-1 overflow-hidden">
           <div className="h-full overflow-y-auto">

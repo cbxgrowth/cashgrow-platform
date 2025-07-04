@@ -6,7 +6,12 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Search, Calendar } from 'lucide-react';
 
-const TransactionsFilter: React.FC = () => {
+interface TransactionsFilterProps {
+  filters?: any;
+  onFiltersChange?: (filters: any) => void;
+}
+
+const TransactionsFilter: React.FC<TransactionsFilterProps> = ({ filters, onFiltersChange }) => {
   return (
     <Card className="shadow-md">
       <CardHeader>

@@ -2,10 +2,10 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { TransactionsHeader } from './components/TransactionsHeader';
-import { StatsSummary } from './components/StatsSummary';
-import { TransactionsFilter } from './components/TransactionsFilter';
-import { TransactionsTable } from './components/TransactionsTable';
+import TransactionsHeader from './components/TransactionsHeader';
+import StatsSummary from './components/StatsSummary';
+import TransactionsFilter from './components/TransactionsFilter';
+import TransactionsTable from './components/TransactionsTable';
 import { useTransactions } from './hooks/useTransactions';
 import CreateTransactionDialog from './CreateTransactionDialog';
 

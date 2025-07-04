@@ -5,10 +5,35 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { FileText, Download, User, Check, X } from 'lucide-react';
-import { useTransactions } from '../hooks/useTransactions';
 
-const TransactionsTable: React.FC = () => {
-  const { transactions } = useTransactions();
+interface Transaction {
+  id: string;
+  date: string;
+  client: string;
+  clientId: string;
+  amount: string;
+  cashback: string;
+  cashbackPercentage: string;
+  status: 'approved' | 'pending' | 'rejected';
+}
+
+interface TransactionsTableProps {
+  transactions: Transaction[];
+  loading?: boolean;
+}
+
+const TransactionsTable: React.FC<TransactionsTableProps> = ({ transactions, loading }) => {
+  if (loading) {
+    return (
+      <Card className="shadow-md">
+        <CardContent className="p-8">
+          <div className="flex items-center justify-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className="shadow-md">

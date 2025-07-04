@@ -12,7 +12,28 @@ interface Transaction {
   status: 'approved' | 'pending' | 'rejected';
 }
 
+interface TransactionFilters {
+  search: string;
+  status: string;
+  dateFrom: string;
+  dateTo: string;
+}
+
+interface TransactionStats {
+  totalTransactions: number;
+  totalVolume: number;
+  totalCashback: number;
+}
+
 export const useTransactions = () => {
+  const [loading, setLoading] = useState(false);
+  const [filters, setFilters] = useState<TransactionFilters>({
+    search: '',
+    status: '',
+    dateFrom: '',
+    dateTo: ''
+  });
+
   // Dados simulados para transações - no futuro, estes dados poderiam vir de uma API
   const [transactions] = useState<Transaction[]>([
     {
@@ -107,9 +128,21 @@ export const useTransactions = () => {
     },
   ]);
 
-  // Poderia adicionar mais funcionalidades aqui como paginação, ordenação, filtros, etc.
-  
+  const stats: TransactionStats = {
+    totalTransactions: transactions.length,
+    totalVolume: 1695.00, // Calculado baseado nos dados simulados
+    totalCashback: 84.75 // Calculado baseado nos dados simulados
+  };
+
+  const updateFilters = (newFilters: Partial<TransactionFilters>) => {
+    setFilters(prev => ({ ...prev, ...newFilters }));
+  };
+
   return {
     transactions,
+    loading,
+    filters,
+    updateFilters,
+    stats
   };
 };
