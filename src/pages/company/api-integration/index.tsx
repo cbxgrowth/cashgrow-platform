@@ -2,291 +2,402 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  Code2, 
-  Zap, 
-  Shield, 
-  Key, 
-  Database, 
-  Globe, 
-  Copy, 
-  Eye, 
-  EyeOff,
-  CheckCircle,
-  AlertCircle,
-  Settings,
-  Book
-} from "lucide-react";
+import { Code, Key, Zap, Shield, Globe, Copy, Check, ExternalLink } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 
-const APIIntegration = () => {
-  const [showApiKey, setShowApiKey] = useState(false);
-  const [apiKey] = useState('sk_live_1234567890abcdef...');
+const CompanyAPIIntegration: React.FC = () => {
   const { toast } = useToast();
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const [apiKey] = useState("sk_test_1234567890abcdef1234567890abcdef");
 
-  const copyToClipboard = (text: string) => {
+  const copyToClipboard = (text: string, type: string) => {
     navigator.clipboard.writeText(text);
+    setCopiedKey(type);
     toast({
       title: "Copiado!",
-      description: "Código copiado para a área de transferência.",
+      description: `${type} copiado para a área de transferência`,
     });
+    setTimeout(() => setCopiedKey(null), 2000);
   };
 
   const apiEndpoints = [
     {
-      method: 'POST',
-      endpoint: '/api/v1/transactions',
-      description: 'Criar nova transação',
-      status: 'active'
+      method: "GET",
+      endpoint: "/api/v1/transactions",
+      description: "Listar todas as transações",
+      params: "page, limit, status"
     },
     {
-      method: 'GET',
-      endpoint: '/api/v1/customers',
-      description: 'Listar clientes',
-      status: 'active'
+      method: "POST", 
+      endpoint: "/api/v1/transactions",
+      description: "Criar nova transação",
+      params: "client_id, amount, description"
     },
     {
-      method: 'POST',
-      endpoint: '/api/v1/cashback/calculate',
-      description: 'Calcular cashback',
-      status: 'active'
+      method: "GET",
+      endpoint: "/api/v1/clients",
+      description: "Listar clientes",
+      params: "page, limit, search"
     },
     {
-      method: 'GET',
-      endpoint: '/api/v1/reports/sales',
-      description: 'Relatórios de vendas',
-      status: 'beta'
+      method: "POST",
+      endpoint: "/api/v1/clients",
+      description: "Criar novo cliente",
+      params: "name, email, cpf, phone"
+    },
+    {
+      method: "GET",
+      endpoint: "/api/v1/products",
+      description: "Listar produtos",
+      params: "category, active"
+    },
+    {
+      method: "GET",
+      endpoint: "/api/v1/analytics",
+      description: "Dados de analytics",
+      params: "period, metrics"
     }
   ];
 
-  const integrationOptions = [
-    {
-      name: 'E-commerce Plugin',
-      description: 'Plugin para WooCommerce, Shopify, Magento',
-      icon: Globe,
-      status: 'available',
-      difficulty: 'Fácil'
-    },
-    {
-      name: 'ERP Integration',
-      description: 'Integração com SAP, Oracle, TOTVS',
-      icon: Database,
-      status: 'available',
-      difficulty: 'Avançado'
-    },
-    {
-      name: 'API RESTful',
-      description: 'Integração completa via API REST',
-      icon: Code2,
-      status: 'available',
-      difficulty: 'Intermediário'
-    },
-    {
-      name: 'Webhook Events',
-      description: 'Receba eventos em tempo real',
-      icon: Zap,
-      status: 'beta',
-      difficulty: 'Fácil'
-    }
+  const webhookEvents = [
+    { event: "transaction.created", description: "Nova transação criada" },
+    { event: "transaction.updated", description: "Transação atualizada" },
+    { event: "client.created", description: "Novo cliente cadastrado" },
+    { event: "client.updated", description: "Cliente atualizado" },
+    { event: "product.created", description: "Produto criado" },
+    { event: "cashback.processed", description: "Cashback processado" }
   ];
 
   const codeExamples = {
-    curl: `curl -X POST "https://api.cashback.com/v1/transactions" \\
-  -H "Authorization: Bearer ${apiKey}" \\
-  -H "Content-Type: application/json" \\
-  -d '{
-    "customer_id": "customer_123",
-    "amount": 100.00,
-    "currency": "BRL",
-    "description": "Compra online"
-  }'`,
-    javascript: `const response = await fetch('https://api.cashback.com/v1/transactions', {
-  method: 'POST',
-  headers: {
-    'Authorization': 'Bearer ${apiKey}',
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    customer_id: 'customer_123',
-    amount: 100.00,
-    currency: 'BRL',
-    description: 'Compra online'
-  })
-});
+    javascript: `// Exemplo de integração com JavaScript
+const apiKey = 'sk_test_your_api_key';
+const baseURL = 'https://api.cashback.com/v1';
 
-const data = await response.json();
-console.log(data);`,
-    python: `import requests
+// Criar uma nova transação
+const createTransaction = async (transactionData) => {
+  const response = await fetch(\`\${baseURL}/transactions\`, {
+    method: 'POST',
+    headers: {
+      'Authorization': \`Bearer \${apiKey}\`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(transactionData)
+  });
+  
+  return response.json();
+};
+
+// Listar transações
+const getTransactions = async () => {
+  const response = await fetch(\`\${baseURL}/transactions\`, {
+    headers: {
+      'Authorization': \`Bearer \${apiKey}\`
+    }
+  });
+  
+  return response.json();
+};`,
+    python: `# Exemplo de integração com Python
+import requests
+
+API_KEY = 'sk_test_your_api_key'
+BASE_URL = 'https://api.cashback.com/v1'
 
 headers = {
-    'Authorization': 'Bearer ${apiKey}',
+    'Authorization': f'Bearer {API_KEY}',
     'Content-Type': 'application/json'
 }
 
-data = {
-    'customer_id': 'customer_123',
-    'amount': 100.00,
-    'currency': 'BRL',
-    'description': 'Compra online'
-}
+# Criar uma nova transação
+def create_transaction(transaction_data):
+    response = requests.post(
+        f'{BASE_URL}/transactions',
+        headers=headers,
+        json=transaction_data
+    )
+    return response.json()
 
-response = requests.post(
-    'https://api.cashback.com/v1/transactions',
-    headers=headers,
-    json=data
-)
+# Listar transações
+def get_transactions():
+    response = requests.get(
+        f'{BASE_URL}/transactions',
+        headers=headers
+    )
+    return response.json()`,
+    curl: `# Exemplo com cURL
 
-print(response.json())`
+# Criar nova transação
+curl -X POST https://api.cashback.com/v1/transactions \\
+  -H "Authorization: Bearer sk_test_your_api_key" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "client_id": "client_123",
+    "amount": 100.00,
+    "description": "Compra de produto"
+  }'
+
+# Listar transações
+curl -X GET https://api.cashback.com/v1/transactions \\
+  -H "Authorization: Bearer sk_test_your_api_key"`
   };
 
   return (
-    <div className="space-y-6 p-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
-            <Code2 className="h-8 w-8 text-primary" />
-            Integração API
-          </h1>
-          <p className="text-muted-foreground">Conecte seus sistemas com nossa API poderosa</p>
+          <h1 className="text-3xl font-bold tracking-tight">API & Integrações</h1>
+          <p className="text-muted-foreground">
+            Integre nosso sistema com suas aplicações
+          </p>
         </div>
-        <Button className="bg-gradient-primary">
-          <Book className="mr-2 h-4 w-4" />
-          Documentação
+        <Button>
+          <ExternalLink className="mr-2 h-4 w-4" />
+          Documentação Completa
         </Button>
       </div>
 
-      {/* API Status */}
-      <div className="grid gap-4 md:grid-cols-3">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <CheckCircle className="h-4 w-4 text-green-600" />
-              Status da API
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">Operacional</div>
-            <p className="text-xs text-muted-foreground">99.9% uptime</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Requisições/mês</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">24.7K</div>
-            <p className="text-xs text-green-600">+18% vs mês anterior</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Tempo Resposta</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">127ms</div>
-            <p className="text-xs text-blue-600">Média global</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      <Tabs defaultValue="overview" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="overview">Visão Geral</TabsTrigger>
+      <Tabs defaultValue="keys" className="space-y-4">
+        <TabsList className="grid w-full grid-cols-5">
+          <TabsTrigger value="keys">Chaves API</TabsTrigger>
           <TabsTrigger value="endpoints">Endpoints</TabsTrigger>
+          <TabsTrigger value="webhooks">Webhooks</TabsTrigger>
           <TabsTrigger value="examples">Exemplos</TabsTrigger>
-          <TabsTrigger value="settings">Configurações</TabsTrigger>
+          <TabsTrigger value="testing">Testes</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="overview" className="space-y-6">
-          <div className="grid gap-6 lg:grid-cols-2">
+        <TabsContent value="keys" className="space-y-4">
+          <div className="grid gap-6 md:grid-cols-2">
             <Card>
               <CardHeader>
-                <CardTitle>Opções de Integração</CardTitle>
-                <CardDescription>Escolha a melhor forma de integrar seu sistema</CardDescription>
+                <CardTitle className="flex items-center gap-2">
+                  <Key className="h-5 w-5" />
+                  Chaves de API
+                </CardTitle>
+                <CardDescription>
+                  Gerencie suas chaves de acesso à API
+                </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {integrationOptions.map((option, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50">
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 rounded-lg bg-primary/10">
-                          <option.icon className="h-5 w-5 text-primary" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold">{option.name}</h4>
-                          <p className="text-sm text-muted-foreground">{option.description}</p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <Badge variant={option.status === 'available' ? 'default' : 'secondary'}>
-                          {option.status === 'available' ? 'Disponível' : 'Beta'}
-                        </Badge>
-                        <p className="text-xs text-muted-foreground mt-1">{option.difficulty}</p>
-                      </div>
-                    </div>
-                  ))}
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <Label>Chave de Teste</Label>
+                  <div className="flex gap-2">
+                    <Input 
+                      value={apiKey}
+                      readOnly
+                      className="font-mono text-sm"
+                    />
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      onClick={() => copyToClipboard(apiKey, "Chave de Teste")}
+                    >
+                      {copiedKey === "Chave de Teste" ? 
+                        <Check className="h-4 w-4" /> : 
+                        <Copy className="h-4 w-4" />
+                      }
+                    </Button>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Use esta chave para testes e desenvolvimento
+                  </p>
                 </div>
+
+                <div className="space-y-2">
+                  <Label>Chave de Produção</Label>
+                  <div className="flex gap-2">
+                    <Input 
+                      value="sk_live_••••••••••••••••••••••••••••••••"
+                      readOnly
+                      className="font-mono text-sm"
+                    />
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      onClick={() => copyToClipboard("sk_live_production_key", "Chave de Produção")}
+                    >
+                      {copiedKey === "Chave de Produção" ? 
+                        <Check className="h-4 w-4" /> : 
+                        <Copy className="h-4 w-4" />
+                      }
+                    </Button>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Chave para ambiente de produção (oculta por segurança)
+                  </p>
+                </div>
+
+                <Button className="w-full">
+                  Gerar Nova Chave
+                </Button>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Shield className="h-5 w-5 text-green-600" />
-                  Segurança & Autenticação
+                  <Shield className="h-5 w-5" />
+                  Configurações de Segurança
                 </CardTitle>
-                <CardDescription>Suas credenciais de acesso à API</CardDescription>
+                <CardDescription>
+                  Configure as opções de segurança da API
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div>
-                  <Label htmlFor="api-key">Chave da API</Label>
-                  <div className="flex items-center gap-2 mt-1">
-                    <Input
-                      id="api-key"
-                      type={showApiKey ? "text" : "password"}
-                      value={apiKey}
-                      readOnly
-                      className="font-mono"
-                    />
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      onClick={() => setShowApiKey(!showApiKey)}
-                    >
-                      {showApiKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      onClick={() => copyToClipboard(apiKey)}
-                    >
-                      <Copy className="h-4 w-4" />
-                    </Button>
+                <div className="space-y-2">
+                  <Label>IPs Permitidos</Label>
+                  <Textarea 
+                    placeholder="192.168.1.1&#10;203.0.113.0/24"
+                    className="font-mono text-sm"
+                    rows={3}
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    Lista de IPs ou ranges permitidos (um por linha)
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Rate Limiting</Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <Input placeholder="1000" />
+                      <p className="text-xs text-muted-foreground mt-1">Requests/hora</p>
+                    </div>
+                    <div>
+                      <Input placeholder="100" />
+                      <p className="text-xs text-muted-foreground mt-1">Requests/minuto</p>
+                    </div>
                   </div>
                 </div>
-                
+
+                <Button className="w-full">
+                  Salvar Configurações
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="endpoints" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Endpoints Disponíveis</CardTitle>
+              <CardDescription>
+                Lista completa de endpoints da API REST
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {apiEndpoints.map((endpoint, index) => (
+                  <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <Badge variant={
+                          endpoint.method === 'GET' ? 'secondary' :
+                          endpoint.method === 'POST' ? 'default' :
+                          endpoint.method === 'PUT' ? 'outline' : 'destructive'
+                        }>
+                          {endpoint.method}
+                        </Badge>
+                        <code className="text-sm bg-muted px-2 py-1 rounded">
+                          {endpoint.endpoint}
+                        </code>
+                      </div>
+                      <p className="text-sm text-muted-foreground mb-1">
+                        {endpoint.description}
+                      </p>
+                      {endpoint.params && (
+                        <p className="text-xs text-muted-foreground">
+                          Parâmetros: {endpoint.params}
+                        </p>
+                      )}
+                    </div>
+                    <Button size="sm" variant="outline">
+                      Testar
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="webhooks" className="space-y-4">
+          <div className="grid gap-6 md:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Zap className="h-5 w-5" />
+                  Configurar Webhooks
+                </CardTitle>
+                <CardDescription>
+                  Receba notificações em tempo real
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <h4 className="font-medium">Recursos de Segurança</h4>
-                  <div className="grid grid-cols-2 gap-2 text-sm">
-                    <div className="flex items-center gap-2">
-                      <CheckCircle className="h-3 w-3 text-green-600" />
-                      HTTPS/TLS 1.3
+                  <Label>URL do Webhook</Label>
+                  <Input placeholder="https://seu-site.com/webhook" />
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Eventos</Label>
+                  <div className="space-y-2 max-h-48 overflow-y-auto">
+                    {webhookEvents.map((webhook, index) => (
+                      <div key={index} className="flex items-center space-x-2">
+                        <input type="checkbox" id={`webhook-${index}`} />
+                        <label htmlFor={`webhook-${index}`} className="text-sm">
+                          <code className="bg-muted px-1 rounded text-xs">
+                            {webhook.event}
+                          </code>
+                          <span className="ml-2 text-muted-foreground">
+                            {webhook.description}
+                          </span>
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Secret Key (Opcional)</Label>
+                  <Input placeholder="Chave secreta para validação" />
+                  <p className="text-xs text-muted-foreground">
+                    Usado para validar a origem dos webhooks
+                  </p>
+                </div>
+
+                <Button className="w-full">
+                  Salvar Webhook
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Webhooks Configurados</CardTitle>
+                <CardDescription>
+                  Webhooks ativos na sua conta
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="p-4 border rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <code className="text-sm">https://api.exemplo.com/webhook</code>
+                      <Badge className="bg-green-100 text-green-800">Ativo</Badge>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <CheckCircle className="h-3 w-3 text-green-600" />
-                      Rate Limiting
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <CheckCircle className="h-3 w-3 text-green-600" />
-                      IP Whitelist
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <CheckCircle className="h-3 w-3 text-green-600" />
-                      Webhook Signing
+                    <p className="text-xs text-muted-foreground mb-2">
+                      Eventos: transaction.created, client.created
+                    </p>
+                    <div className="flex gap-2">
+                      <Button size="sm" variant="outline">Editar</Button>
+                      <Button size="sm" variant="outline">Testar</Button>
+                      <Button size="sm" variant="destructive">Remover</Button>
                     </div>
                   </div>
                 </div>
@@ -295,49 +406,21 @@ print(response.json())`
           </div>
         </TabsContent>
 
-        <TabsContent value="endpoints" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Endpoints Disponíveis</CardTitle>
-              <CardDescription>Lista completa de endpoints da nossa API</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {apiEndpoints.map((endpoint, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
-                    <div className="flex items-center gap-3">
-                      <Badge variant={endpoint.method === 'GET' ? 'outline' : 'default'}>
-                        {endpoint.method}
-                      </Badge>
-                      <code className="font-mono text-sm">{endpoint.endpoint}</code>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm text-muted-foreground">{endpoint.description}</span>
-                      <Badge variant={endpoint.status === 'active' ? 'default' : 'secondary'}>
-                        {endpoint.status === 'active' ? 'Ativo' : 'Beta'}
-                      </Badge>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="examples" className="space-y-6">
+        <TabsContent value="examples" className="space-y-4">
           <Card>
             <CardHeader>
               <CardTitle>Exemplos de Código</CardTitle>
-              <CardDescription>Veja como integrar em diferentes linguagens</CardDescription>
+              <CardDescription>
+                Exemplos práticos de integração
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              <Tabs defaultValue="curl" className="space-y-4">
+              <Tabs defaultValue="javascript" className="w-full">
                 <TabsList className="grid w-full grid-cols-3">
-                  <TabsTrigger value="curl">cURL</TabsTrigger>
                   <TabsTrigger value="javascript">JavaScript</TabsTrigger>
                   <TabsTrigger value="python">Python</TabsTrigger>
+                  <TabsTrigger value="curl">cURL</TabsTrigger>
                 </TabsList>
-                
                 {Object.entries(codeExamples).map(([lang, code]) => (
                   <TabsContent key={lang} value={lang}>
                     <div className="relative">
@@ -345,12 +428,15 @@ print(response.json())`
                         <code>{code}</code>
                       </pre>
                       <Button
-                        variant="outline"
                         size="sm"
+                        variant="outline"
                         className="absolute top-2 right-2"
-                        onClick={() => copyToClipboard(code)}
+                        onClick={() => copyToClipboard(code, `Código ${lang}`)}
                       >
-                        <Copy className="h-3 w-3" />
+                        {copiedKey === `Código ${lang}` ? 
+                          <Check className="h-3 w-3" /> : 
+                          <Copy className="h-3 w-3" />
+                        }
                       </Button>
                     </div>
                   </TabsContent>
@@ -360,64 +446,76 @@ print(response.json())`
           </Card>
         </TabsContent>
 
-        <TabsContent value="settings" className="space-y-6">
-          <div className="grid gap-6 lg:grid-cols-2">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Settings className="h-5 w-5" />
-                  Configurações da API
-                </CardTitle>
-                <CardDescription>Personalize o comportamento da API</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label htmlFor="rate-limit">Rate Limit (req/min)</Label>
-                  <Input id="rate-limit" type="number" defaultValue="1000" />
+        <TabsContent value="testing" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Globe className="h-5 w-5" />
+                Playground da API
+              </CardTitle>
+              <CardDescription>
+                Teste os endpoints diretamente no navegador
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="space-y-2">
+                  <Label>Método</Label>
+                  <select className="w-full p-2 border rounded">
+                    <option>GET</option>
+                    <option>POST</option>
+                    <option>PUT</option>
+                    <option>DELETE</option>
+                  </select>
                 </div>
-                <div>
-                  <Label htmlFor="webhook-url">URL do Webhook</Label>
-                  <Input id="webhook-url" placeholder="https://seu-site.com/webhook" />
+                <div className="space-y-2">
+                  <Label>Endpoint</Label>
+                  <Input placeholder="/api/v1/transactions" />
                 </div>
-                <div>
-                  <Label htmlFor="ip-whitelist">IPs Permitidos</Label>
-                  <Input id="ip-whitelist" placeholder="192.168.1.1, 10.0.0.1" />
-                </div>
-                <Button>Salvar Configurações</Button>
-              </CardContent>
-            </Card>
+              </div>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>Logs da API</CardTitle>
-                <CardDescription>Últimas requisições à API</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2 text-sm font-mono">
-                  <div className="flex justify-between p-2 bg-green-50 rounded">
-                    <span>POST /api/v1/transactions</span>
-                    <span className="text-green-600">200 OK</span>
-                  </div>
-                  <div className="flex justify-between p-2 bg-green-50 rounded">
-                    <span>GET /api/v1/customers</span>
-                    <span className="text-green-600">200 OK</span>
-                  </div>
-                  <div className="flex justify-between p-2 bg-yellow-50 rounded">
-                    <span>POST /api/v1/cashback/calculate</span>
-                    <span className="text-yellow-600">429 Rate Limited</span>
-                  </div>
-                  <div className="flex justify-between p-2 bg-green-50 rounded">
-                    <span>GET /api/v1/reports/sales</span>
-                    <span className="text-green-600">200 OK</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+              <div className="space-y-2">
+                <Label>Headers</Label>
+                <Textarea 
+                  placeholder='{"Authorization": "Bearer your_api_key", "Content-Type": "application/json"}'
+                  rows={3}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label>Body (JSON)</Label>
+                <Textarea 
+                  placeholder='{"client_id": "123", "amount": 100.00}'
+                  rows={4}
+                />
+              </div>
+
+              <Button className="w-full">
+                Executar Requisição
+              </Button>
+
+              <div className="space-y-2">
+                <Label>Resposta</Label>
+                <pre className="bg-muted p-4 rounded-lg text-sm">
+                  <code>
+{`{
+  "status": "success",
+  "data": {
+    "id": "tx_123456",
+    "amount": 100.00,
+    "cashback": 5.00,
+    "created_at": "2024-01-15T10:30:00Z"
+  }
+}`}
+                  </code>
+                </pre>
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>
   );
 };
 
-export default APIIntegration;
+export default CompanyAPIIntegration;
