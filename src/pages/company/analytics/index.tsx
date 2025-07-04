@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BarChart3, TrendingUp, Users, DollarSign, Calendar, Target, Award, Activity } from 'lucide-react';
-import { InteractiveChart } from '@/components/dashboard/InteractiveChart';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const CompanyAnalytics: React.FC = () => {
   const analyticsData = {
@@ -64,6 +64,18 @@ const CompanyAnalytics: React.FC = () => {
     }
   ];
 
+  const SimpleChart = ({ data }: { data: { name: string; value: number }[] }) => (
+    <ResponsiveContainer width="100%" height={300}>
+      <BarChart data={data}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Bar dataKey="value" fill="#8884d8" />
+      </BarChart>
+    </ResponsiveContainer>
+  );
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -113,7 +125,7 @@ const CompanyAnalytics: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <InteractiveChart data={analyticsData.revenue} />
+              <SimpleChart data={analyticsData.revenue} />
             </CardContent>
           </Card>
         </TabsContent>
@@ -127,7 +139,7 @@ const CompanyAnalytics: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <InteractiveChart data={analyticsData.customers} />
+              <SimpleChart data={analyticsData.customers} />
             </CardContent>
           </Card>
         </TabsContent>
@@ -141,7 +153,7 @@ const CompanyAnalytics: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <InteractiveChart data={analyticsData.transactions} />
+              <SimpleChart data={analyticsData.transactions} />
             </CardContent>
           </Card>
         </TabsContent>
