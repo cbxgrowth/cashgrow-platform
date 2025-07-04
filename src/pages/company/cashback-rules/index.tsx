@@ -1,223 +1,291 @@
 
 import React, { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Switch } from "@/components/ui/switch";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { CreditCard, Percent, Calendar, Users, Plus, Settings } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { Plus, Edit, Trash2, Percent, Calendar, Users, Package } from 'lucide-react';
+import { toast } from 'sonner';
+
+interface CashbackRule {
+  id: string;
+  name: string;
+  type: 'category' | 'customer' | 'product' | 'date';
+  percentage: number;
+  condition: string;
+  isActive: boolean;
+  priority: number;
+}
 
 const CompanyCashbackRules: React.FC = () => {
-  const [rules, setRules] = useState([
-    { id: 1, name: 'Cashback Geral', category: 'Todas', percentage: 5, active: true, minValue: 50 },
-    { id: 2, name: 'Eletrônicos Premium', category: 'Eletrônicos', percentage: 8, active: true, minValue: 200 },
-    { id: 3, name: 'Moda Sazonal', category: 'Moda', percentage: 12, active: false, minValue: 100 },
-    { id: 4, name: 'Cliente VIP', category: 'VIP', percentage: 15, active: true, minValue: 0 },
+  const [rules, setRules] = useState<CashbackRule[]>([
+    {
+      id: '1',
+      name: 'Cashback Eletrônicos',
+      type: 'category',
+      percentage: 5,
+      condition: 'Categoria = Eletrônicos',
+      isActive: true,
+      priority: 1
+    },
+    {
+      id: '2',
+      name: 'Cliente VIP',
+      type: 'customer',
+      percentage: 8,
+      condition: 'Total gasto > R$ 1000',
+      isActive: true,
+      priority: 2
+    },
+    {
+      id: '3',
+      name: 'Black Friday',
+      type: 'date',
+      percentage: 15,
+      condition: '24/11/2024 - 30/11/2024',
+      isActive: false,
+      priority: 3
+    }
   ]);
 
-  const toggleRule = (id: number) => {
+  const [isCreating, setIsCreating] = useState(false);
+  const [newRule, setNewRule] = useState({
+    name: '',
+    type: 'category' as const,
+    percentage: 0,
+    condition: ''
+  });
+
+  const getRuleIcon = (type: string) => {
+    switch (type) {
+      case 'category': return Package;
+      case 'customer': return Users;
+      case 'product': return Package;
+      case 'date': return Calendar;
+      default: return Percent;
+    }
+  };
+
+  const getRuleTypeLabel = (type: string) => {
+    switch (type) {
+      case 'category': return 'Categoria';
+      case 'customer': return 'Cliente';
+      case 'product': return 'Produto';
+      case 'date': return 'Data';
+      default: return 'Geral';
+    }
+  };
+
+  const handleCreateRule = () => {
+    if (!newRule.name || !newRule.condition || newRule.percentage <= 0) {
+      toast.error('Preencha todos os campos obrigatórios');
+      return;
+    }
+
+    const rule: CashbackRule = {
+      id: Date.now().toString(),
+      name: newRule.name,
+      type: newRule.type,
+      percentage: newRule.percentage,
+      condition: newRule.condition,
+      isActive: true,
+      priority: rules.length + 1
+    };
+
+    setRules([...rules, rule]);
+    setNewRule({ name: '', type: 'category', percentage: 0, condition: '' });
+    setIsCreating(false);
+    toast.success('Regra criada com sucesso!');
+  };
+
+  const toggleRuleStatus = (id: string) => {
     setRules(rules.map(rule => 
-      rule.id === id ? { ...rule, active: !rule.active } : rule
+      rule.id === id ? { ...rule, isActive: !rule.isActive } : rule
     ));
+    toast.success('Status da regra atualizado!');
+  };
+
+  const deleteRule = (id: string) => {
+    setRules(rules.filter(rule => rule.id !== id));
+    toast.success('Regra removida com sucesso!');
   };
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
-            <CreditCard className="h-8 w-8 text-primary" />
-            Regras de Cashback
-          </h1>
-          <p className="text-muted-foreground">Configure as regras de cashback para seus produtos</p>
+          <h1 className="text-3xl font-bold tracking-tight">Regras de Cashback</h1>
+          <p className="text-muted-foreground">Configure as regras de cashback para seus clientes</p>
         </div>
-        <Button className="bg-gradient-primary">
+        <Button onClick={() => setIsCreating(true)}>
           <Plus className="mr-2 h-4 w-4" />
           Nova Regra
         </Button>
       </div>
 
+      {/* Estatísticas */}
       <div className="grid gap-4 md:grid-cols-4">
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">Regras Ativas</CardTitle>
-            <Settings className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">8</div>
-            <p className="text-xs text-green-600">+2 esta semana</p>
+            <div className="text-2xl font-bold">{rules.filter(r => r.isActive).length}</div>
+            <p className="text-xs text-green-600">De {rules.length} total</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">Cashback Médio</CardTitle>
-            <Percent className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">7.5%</div>
-            <p className="text-xs text-green-600">Otimizado</p>
+            <div className="text-2xl font-bold text-green-600">
+              {rules.length > 0 ? (rules.reduce((sum, r) => sum + r.percentage, 0) / rules.length).toFixed(1) : 0}%
+            </div>
+            <p className="text-xs text-green-600">Taxa média</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Campanhas Ativas</CardTitle>
-            <Calendar className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Regra Máxima</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">3</div>
-            <p className="text-xs text-blue-600">2 terminam em breve</p>
+            <div className="text-2xl font-bold text-blue-600">
+              {rules.length > 0 ? Math.max(...rules.map(r => r.percentage)) : 0}%
+            </div>
+            <p className="text-xs text-green-600">Maior cashback</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Clientes Impactados</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Por Categoria</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">1.247</div>
-            <p className="text-xs text-green-600">100% da base</p>
+            <div className="text-2xl font-bold">{rules.filter(r => r.type === 'category').length}</div>
+            <p className="text-xs text-green-600">Regras ativas</p>
           </CardContent>
         </Card>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Configuração Global</CardTitle>
-          <CardDescription>Defina as configurações gerais do programa de cashback</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="minPurchase">Valor Mínimo de Compra (R$)</Label>
-              <Input id="minPurchase" type="number" placeholder="50.00" />
+      {/* Formulário de criação */}
+      {isCreating && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Nova Regra de Cashback</CardTitle>
+            <CardDescription>Configure uma nova regra para seus clientes</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="name">Nome da Regra</Label>
+                  <Input
+                    id="name"
+                    value={newRule.name}
+                    onChange={(e) => setNewRule(prev => ({ ...prev, name: e.target.value }))}
+                    placeholder="Ex: Cashback Eletrônicos"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="type">Tipo</Label>
+                  <select
+                    id="type"
+                    value={newRule.type}
+                    onChange={(e) => setNewRule(prev => ({ ...prev, type: e.target.value as any }))}
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    <option value="category">Categoria</option>
+                    <option value="customer">Cliente</option>
+                    <option value="product">Produto</option>
+                    <option value="date">Data</option>
+                  </select>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="percentage">Percentual de Cashback (%)</Label>
+                  <Input
+                    id="percentage"
+                    type="number"
+                    step="0.1"
+                    value={newRule.percentage}
+                    onChange={(e) => setNewRule(prev => ({ ...prev, percentage: parseFloat(e.target.value) }))}
+                    placeholder="5.0"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="condition">Condição</Label>
+                  <Input
+                    id="condition"
+                    value={newRule.condition}
+                    onChange={(e) => setNewRule(prev => ({ ...prev, condition: e.target.value }))}
+                    placeholder="Ex: Categoria = Eletrônicos"
+                  />
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <Button onClick={handleCreateRule}>Criar Regra</Button>
+                <Button variant="outline" onClick={() => setIsCreating(false)}>Cancelar</Button>
+              </div>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="maxCashback">Cashback Máximo por Transação (R$)</Label>
-              <Input id="maxCashback" type="number" placeholder="500.00" />
-            </div>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="expireDays">Validade do Cashback (dias)</Label>
-              <Input id="expireDays" type="number" placeholder="365" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="minRedeem">Valor Mínimo para Resgate (R$)</Label>
-              <Input id="minRedeem" type="number" placeholder="10.00" />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      )}
 
+      {/* Lista de regras */}
       <Card>
         <CardHeader>
-          <CardTitle>Regras por Categoria</CardTitle>
-          <CardDescription>Gerencie as regras específicas para cada categoria de produto</CardDescription>
+          <CardTitle>Regras Configuradas</CardTitle>
+          <CardDescription>Gerencie todas as suas regras de cashback</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {rules.map((rule) => (
-              <div key={rule.id} className="border rounded-lg p-4">
-                <div className="flex justify-between items-start mb-3">
-                  <div>
-                    <h3 className="font-semibold flex items-center gap-2">
-                      {rule.name}
-                      <Badge variant="outline">{rule.category}</Badge>
-                    </h3>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {rule.percentage}% de cashback • Valor mínimo: R$ {rule.minValue}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Switch
-                      checked={rule.active}
-                      onCheckedChange={() => toggleRule(rule.id)}
-                    />
-                    <span className="text-sm">
-                      {rule.active ? 'Ativo' : 'Inativo'}
-                    </span>
-                  </div>
-                </div>
-                
-                <div className="grid gap-3 md:grid-cols-3">
-                  <div>
-                    <Label className="text-xs text-muted-foreground">Percentual</Label>
-                    <div className="flex items-center gap-2 mt-1">
-                      <Input
-                        type="number"
-                        value={rule.percentage}
-                        className="h-8"
-                        min="0"
-                        max="100"
-                      />
-                      <span className="text-sm">%</span>
+            {rules.map((rule) => {
+              const Icon = getRuleIcon(rule.type);
+              return (
+                <div key={rule.id} className="flex items-center justify-between p-4 border rounded-lg">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center">
+                      <Icon className="h-5 w-5 text-white" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-medium">{rule.name}</h3>
+                        <Badge variant="outline">{getRuleTypeLabel(rule.type)}</Badge>
+                        <Badge variant={rule.isActive ? 'default' : 'secondary'}>
+                          {rule.isActive ? 'Ativa' : 'Inativa'}
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-muted-foreground">{rule.condition}</p>
                     </div>
                   </div>
-                  <div>
-                    <Label className="text-xs text-muted-foreground">Valor Mínimo</Label>
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className="text-sm">R$</span>
-                      <Input
-                        type="number"
-                        value={rule.minValue}
-                        className="h-8"
-                        min="0"
+                  <div className="flex items-center gap-4">
+                    <div className="text-right">
+                      <div className="text-lg font-bold text-green-600">{rule.percentage}%</div>
+                      <div className="text-xs text-muted-foreground">Cashback</div>
+                    </div>
+                    <Separator orientation="vertical" className="h-8" />
+                    <div className="flex items-center gap-2">
+                      <Switch
+                        checked={rule.isActive}
+                        onCheckedChange={() => toggleRuleStatus(rule.id)}
                       />
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => deleteRule(rule.id)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
                     </div>
                   </div>
-                  <div className="flex items-end gap-2">
-                    <Button variant="outline" size="sm" className="h-8">
-                      Editar
-                    </Button>
-                    <Button variant="ghost" size="sm" className="h-8">
-                      Excluir
-                    </Button>
-                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Calendar className="h-5 w-5" />
-            Campanhas Especiais
-          </CardTitle>
-          <CardDescription>Configure promoções e campanhas temporárias</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="border rounded-lg p-4 bg-orange-50 border-orange-200">
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="font-semibold text-orange-900">Black Friday 2024</h3>
-                  <p className="text-sm text-orange-700">Cashback em dobro para toda a loja</p>
-                  <p className="text-xs text-orange-600 mt-1">Válida de 25/11 a 29/11</p>
-                </div>
-                <Badge className="bg-orange-100 text-orange-800">Agendada</Badge>
-              </div>
-            </div>
-            
-            <div className="border rounded-lg p-4 bg-green-50 border-green-200">
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="font-semibold text-green-900">Dia das Mães</h3>
-                  <p className="text-sm text-green-700">15% de cashback em produtos de beleza</p>
-                  <p className="text-xs text-green-600 mt-1">Válida de 01/05 a 15/05</p>
-                </div>
-                <Badge className="bg-green-100 text-green-800">Ativa</Badge>
-              </div>
-            </div>
-          </div>
-          
-          <Button variant="outline" className="w-full mt-4">
-            <Plus className="mr-2 h-4 w-4" />
-            Criar Nova Campanha
-          </Button>
         </CardContent>
       </Card>
     </div>

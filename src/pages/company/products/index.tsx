@@ -1,17 +1,22 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Plus, Search, Package, DollarSign, Upload, TrendingUp } from "lucide-react";
+import { Plus, Search, Package, DollarSign, Upload, TrendingUp, Edit, Trash2 } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
-import { useCompanyProducts } from '@/hooks/useCompanyProducts';
+import { useCompanyProducts, CompanyProduct } from '@/hooks/useCompanyProducts';
+import CreateProductDialog from './CreateProductDialog';
+import EditProductDialog from './EditProductDialog';
+import { toast } from 'sonner';
 
 const CompanyProducts: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<CompanyProduct | null>(null);
   const navigate = useNavigate();
-  const { products, loading } = useCompanyProducts();
+  const { products, loading, updateProduct } = useCompanyProducts();
 
   const filteredProducts = products.filter(product =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -23,6 +28,20 @@ const CompanyProducts: React.FC = () => {
   const averageCashback = products.length > 0 
     ? (products.reduce((sum, p) => sum + p.cashback_percentage, 0) / products.length).toFixed(1)
     : '0.0';
+
+  const handleEditProduct = (product: CompanyProduct) => {
+    setSelectedProduct(product);
+    setEditDialogOpen(true);
+  };
+
+  const handleToggleStatus = async (product: CompanyProduct) => {
+    try {
+      await updateProduct(product.id, { is_active: !product.is_active });
+      toast.success(`Produto ${product.is_active ? 'desativado' : 'ativado'} com sucesso!`);
+    } catch (error) {
+      toast.error('Erro ao alterar status do produto');
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -40,7 +59,7 @@ const CompanyProducts: React.FC = () => {
             <Upload className="h-4 w-4" />
             Importar CSV
           </Button>
-          <Button className="bg-gradient-primary">
+          <Button className="bg-gradient-primary" onClick={() => setCreateDialogOpen(true)}>
             <Plus className="mr-2 h-4 w-4" />
             Novo Produto
           </Button>
@@ -166,7 +185,11 @@ const CompanyProducts: React.FC = () => {
                         </span>
                       </td>
                       <td className="p-4">
-                        <Badge variant={product.is_active ? 'default' : 'outline'}>
+                        <Badge 
+                          variant={product.is_active ? 'default' : 'outline'}
+                          className="cursor-pointer"
+                          onClick={() => handleToggleStatus(product)}
+                        >
                           {product.is_active ? 'Ativo' : 'Inativo'}
                         </Badge>
                       </td>
@@ -177,8 +200,17 @@ const CompanyProducts: React.FC = () => {
                       </td>
                       <td className="p-4">
                         <div className="flex gap-2">
-                          <Button variant="outline" size="sm">Editar</Button>
-                          <Button variant="ghost" size="sm">Ver</Button>
+                          <Button variant="outline" size="sm" onClick={() => handleEditProduct(product)}>
+                            <Edit className="h-3 w-3 mr-1" />
+                            Editar
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            onClick={() => handleToggleStatus(product)}
+                          >
+                            {product.is_active ? 'Desativar' : 'Ativar'}
+                          </Button>
                         </div>
                       </td>
                     </tr>
@@ -189,6 +221,17 @@ const CompanyProducts: React.FC = () => {
           )}
         </CardContent>
       </Card>
+
+      <CreateProductDialog 
+        open={createDialogOpen} 
+        onOpenChange={setCreateDialogOpen} 
+      />
+      
+      <EditProductDialog 
+        open={editDialogOpen} 
+        onOpenChange={setEditDialogOpen}
+        product={selectedProduct}
+      />
     </div>
   );
 };

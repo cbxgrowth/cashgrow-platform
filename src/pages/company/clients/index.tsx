@@ -4,21 +4,26 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Plus, Search, Users, Mail, Phone, Calendar, Upload } from "lucide-react";
-import { useCompanyClients } from '@/hooks/useCompanyClients';
-import AddClientDialog from '@/components/company/AddClientDialog';
+import { Plus, Search, Users, Upload, Calendar, Mail, Phone, DollarSign } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
+import { useCompanyClients } from '@/hooks/useCompanyClients';
+import CreateClientDialog from './CreateClientDialog';
 
 const CompanyClients: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [showAddDialog, setShowAddDialog] = useState(false);
-  const { clients, loading } = useCompanyClients();
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const navigate = useNavigate();
+  const { clients, loading } = useCompanyClients();
 
   const filteredClients = clients.filter(client =>
     client.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    client.email.toLowerCase().includes(searchTerm.toLowerCase())
+    client.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    client.cpf.includes(searchTerm)
   );
+
+  const activeClients = clients.filter(c => c.account_status === 'active');
+  const totalSpent = clients.reduce((sum, c) => sum + c.total_spent, 0);
+  const totalCashback = clients.reduce((sum, c) => sum + c.total_cashback, 0);
 
   return (
     <div className="space-y-6">
@@ -36,10 +41,7 @@ const CompanyClients: React.FC = () => {
             <Upload className="h-4 w-4" />
             Importar CSV
           </Button>
-          <Button 
-            className="bg-gradient-primary"
-            onClick={() => setShowAddDialog(true)}
-          >
+          <Button className="bg-gradient-primary" onClick={() => setCreateDialogOpen(true)}>
             <Plus className="mr-2 h-4 w-4" />
             Novo Cliente
           </Button>
@@ -53,7 +55,7 @@ const CompanyClients: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{clients.length}</div>
-            <p className="text-xs text-green-600">+{clients.filter(c => c.created_by_integration).length} por integração</p>
+            <p className="text-xs text-green-600">Base completa</p>
           </CardContent>
         </Card>
         <Card>
@@ -61,30 +63,30 @@ const CompanyClients: React.FC = () => {
             <CardTitle className="text-sm font-medium">Clientes Ativos</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{clients.filter(c => c.account_status === 'active').length}</div>
-            <p className="text-xs text-green-600">Status ativo</p>
+            <div className="text-2xl font-bold">{activeClients.length}</div>
+            <p className="text-xs text-green-600">{clients.length > 0 ? Math.round((activeClients.length / clients.length) * 100) : 0}% ativos</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Gasto Total</CardTitle>
+            <CardTitle className="text-sm font-medium">Total Gasto</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              R$ {clients.reduce((sum, c) => sum + (c.total_spent || 0), 0).toFixed(2)}
+            <div className="text-2xl font-bold text-blue-600">
+              R$ {totalSpent.toFixed(2)}
             </div>
-            <p className="text-xs text-green-600">Valor acumulado</p>
+            <p className="text-xs text-green-600">Volume total</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Cashback Total</CardTitle>
+            <CardTitle className="text-sm font-medium">Cashback Pago</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-green-600">
-              R$ {clients.reduce((sum, c) => sum + (c.total_cashback || 0), 0).toFixed(2)}
+              R$ {totalCashback.toFixed(2)}
             </div>
-            <p className="text-xs text-green-600">Cashback pago</p>
+            <p className="text-xs text-green-600">Valor retornado</p>
           </CardContent>
         </Card>
       </div>
@@ -93,7 +95,7 @@ const CompanyClients: React.FC = () => {
         <CardHeader>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-              <CardTitle>Lista de Clientes</CardTitle>
+              <CardTitle>Base de Clientes</CardTitle>
               <CardDescription>Todos os seus clientes cadastrados</CardDescription>
             </div>
             <div className="relative w-full sm:w-auto">
@@ -112,7 +114,7 @@ const CompanyClients: React.FC = () => {
             <div className="text-center py-8">Carregando clientes...</div>
           ) : filteredClients.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
-              Nenhum cliente encontrado
+              {clients.length === 0 ? 'Nenhum cliente cadastrado' : 'Nenhum cliente encontrado'}
             </div>
           ) : (
             <div className="overflow-x-auto">
@@ -121,9 +123,11 @@ const CompanyClients: React.FC = () => {
                   <tr className="border-b">
                     <th className="text-left p-4">Cliente</th>
                     <th className="text-left p-4">Contato</th>
+                    <th className="text-left p-4">CPF</th>
                     <th className="text-left p-4">Total Gasto</th>
                     <th className="text-left p-4">Cashback</th>
                     <th className="text-left p-4">Status</th>
+                    <th className="text-left p-4">Última Compra</th>
                     <th className="text-left p-4">Origem</th>
                   </tr>
                 </thead>
@@ -138,7 +142,12 @@ const CompanyClients: React.FC = () => {
                           <div>
                             <span className="font-medium">{client.full_name}</span>
                             <div className="text-sm text-muted-foreground">
-                              CPF: {client.cpf}
+                              {client.birth_date && (
+                                <span className="flex items-center gap-1">
+                                  <Calendar className="h-3 w-3" />
+                                  {new Date(client.birth_date).toLocaleDateString('pt-BR')}
+                                </span>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -157,16 +166,32 @@ const CompanyClients: React.FC = () => {
                           )}
                         </div>
                       </td>
-                      <td className="p-4">R$ {(client.total_spent || 0).toFixed(2)}</td>
-                      <td className="p-4 text-green-600">R$ {(client.total_cashback || 0).toFixed(2)}</td>
                       <td className="p-4">
-                        <Badge variant={
-                          client.account_status === 'active' ? 'default' : 
-                          client.account_status === 'pending' ? 'secondary' : 'outline'
-                        }>
-                          {client.account_status === 'active' ? 'Ativo' : 
-                           client.account_status === 'pending' ? 'Pendente' : 'Inativo'}
+                        <span className="font-mono text-sm">{client.cpf}</span>
+                      </td>
+                      <td className="p-4">
+                        <div className="flex items-center gap-1">
+                          <DollarSign className="h-3 w-3" />
+                          R$ {client.total_spent.toFixed(2)}
+                        </div>
+                      </td>
+                      <td className="p-4">
+                        <div className="text-green-600 font-medium">
+                          R$ {client.total_cashback.toFixed(2)}
+                        </div>
+                      </td>
+                      <td className="p-4">
+                        <Badge variant={client.account_status === 'active' ? 'default' : 'outline'}>
+                          {client.account_status === 'active' ? 'Ativo' : 'Pendente'}
                         </Badge>
+                      </td>
+                      <td className="p-4">
+                        <span className="text-sm">
+                          {client.last_purchase_at 
+                            ? new Date(client.last_purchase_at).toLocaleDateString('pt-BR')
+                            : 'Nunca'
+                          }
+                        </span>
                       </td>
                       <td className="p-4">
                         <Badge variant="outline">
@@ -182,9 +207,9 @@ const CompanyClients: React.FC = () => {
         </CardContent>
       </Card>
 
-      <AddClientDialog 
-        open={showAddDialog} 
-        onOpenChange={setShowAddDialog} 
+      <CreateClientDialog 
+        open={createDialogOpen} 
+        onOpenChange={setCreateDialogOpen} 
       />
     </div>
   );

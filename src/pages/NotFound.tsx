@@ -1,38 +1,77 @@
 
-import React, { useEffect } from "react";
-import { useLocation, Link } from "react-router-dom";
+import React from 'react';
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Home, ArrowLeft, Search } from "lucide-react";
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/hooks/auth/useAuth';
 
 const NotFound: React.FC = () => {
-  const location = useLocation();
+  const navigate = useNavigate();
+  const { user, userType } = useAuth();
 
-  useEffect(() => {
-    console.error(
-      "404 Error: User attempted to access non-existent route:",
-      location.pathname
-    );
-  }, [location.pathname]);
+  const handleGoHome = () => {
+    if (user && userType) {
+      navigate(userType === 'company' ? '/company/dashboard' : '/client/dashboard');
+    } else {
+      navigate('/');
+    }
+  };
+
+  const handleGoBack = () => {
+    navigate(-1);
+  };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-muted/30 p-4">
-      <div className="text-center space-y-6 max-w-md">
-        <div className="flex justify-center">
-          <div className="flex items-center justify-center w-24 h-24 rounded-full bg-primary/10">
-            <h1 className="text-6xl font-bold text-primary">404</h1>
-          </div>
-        </div>
-        <h2 className="text-2xl font-bold">Página não encontrada</h2>
-        <p className="text-muted-foreground">
-          Desculpe, não conseguimos encontrar a página que você está procurando.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Link to="/">
-            <Button variant="default">Voltar para a Home</Button>
-          </Link>
-          <Link to="/contact">
-            <Button variant="outline">Contato</Button>
-          </Link>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background flex items-center justify-center p-4">
+      <div className="max-w-md w-full text-center">
+        <Card className="shadow-2xl border-0 bg-white/80 backdrop-blur-sm">
+          <CardContent className="p-8">
+            <div className="mb-6">
+              <div className="text-8xl font-bold text-primary mb-2">404</div>
+              <h1 className="text-2xl font-bold text-foreground mb-2">
+                Página não encontrada
+              </h1>
+              <p className="text-muted-foreground mb-6">
+                Ops! A página que você está procurando não existe ou foi movida.
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              <Button 
+                onClick={handleGoHome}
+                className="w-full bg-gradient-primary"
+              >
+                <Home className="mr-2 h-4 w-4" />
+                Ir para o início
+              </Button>
+
+              <Button 
+                variant="outline" 
+                onClick={handleGoBack}
+                className="w-full"
+              >
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Voltar
+              </Button>
+
+              <Button 
+                variant="ghost" 
+                onClick={() => navigate('/')}
+                className="w-full"
+              >
+                <Search className="mr-2 h-4 w-4" />
+                Explorar o site
+              </Button>
+            </div>
+
+            <div className="mt-8 pt-6 border-t border-muted">
+              <p className="text-sm text-muted-foreground">
+                Se você acredita que isso é um erro, entre em contato conosco.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
