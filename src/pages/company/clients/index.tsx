@@ -4,17 +4,21 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Plus, Search, Users, Mail, Phone, Calendar } from "lucide-react";
+import { Plus, Search, Users, Mail, Phone, Calendar, Upload } from "lucide-react";
+import { useCompanyClients } from '@/hooks/useCompanyClients';
+import AddClientDialog from '@/components/company/AddClientDialog';
+import { useNavigate } from 'react-router-dom';
 
 const CompanyClients: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [showAddDialog, setShowAddDialog] = useState(false);
+  const { clients, loading } = useCompanyClients();
+  const navigate = useNavigate();
 
-  const clients = [
-    { id: 1, name: 'Ana Silva', email: 'ana@email.com', phone: '(11) 99999-9999', totalSpent: 2450.00, lastPurchase: '2024-06-10', status: 'Ativo' },
-    { id: 2, name: 'Carlos Santos', email: 'carlos@email.com', phone: '(11) 88888-8888', totalSpent: 1200.00, lastPurchase: '2024-06-08', status: 'Ativo' },
-    { id: 3, name: 'Mariana Costa', email: 'mariana@email.com', phone: '(11) 77777-7777', totalSpent: 850.00, lastPurchase: '2024-05-15', status: 'Inativo' },
-    { id: 4, name: 'Pedro Lima', email: 'pedro@email.com', phone: '(11) 66666-6666', totalSpent: 3200.00, lastPurchase: '2024-06-12', status: 'VIP' },
-  ];
+  const filteredClients = clients.filter(client =>
+    client.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    client.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="space-y-6">
@@ -23,10 +27,23 @@ const CompanyClients: React.FC = () => {
           <h1 className="text-3xl font-bold tracking-tight">Clientes</h1>
           <p className="text-muted-foreground">Gerencie sua base de clientes</p>
         </div>
-        <Button className="bg-gradient-primary">
-          <Plus className="mr-2 h-4 w-4" />
-          Novo Cliente
-        </Button>
+        <div className="flex gap-2">
+          <Button 
+            variant="outline" 
+            onClick={() => navigate('/company/imports/clients')}
+            className="flex items-center gap-2"
+          >
+            <Upload className="h-4 w-4" />
+            Importar CSV
+          </Button>
+          <Button 
+            className="bg-gradient-primary"
+            onClick={() => setShowAddDialog(true)}
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            Novo Cliente
+          </Button>
+        </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-4">
@@ -35,8 +52,8 @@ const CompanyClients: React.FC = () => {
             <CardTitle className="text-sm font-medium">Total de Clientes</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">1.247</div>
-            <p className="text-xs text-green-600">+12% este mês</p>
+            <div className="text-2xl font-bold">{clients.length}</div>
+            <p className="text-xs text-green-600">+{clients.filter(c => c.created_by_integration).length} por integração</p>
           </CardContent>
         </Card>
         <Card>
@@ -44,26 +61,30 @@ const CompanyClients: React.FC = () => {
             <CardTitle className="text-sm font-medium">Clientes Ativos</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">892</div>
-            <p className="text-xs text-green-600">+8% este mês</p>
+            <div className="text-2xl font-bold">{clients.filter(c => c.account_status === 'active').length}</div>
+            <p className="text-xs text-green-600">Status ativo</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Novos Clientes</CardTitle>
+            <CardTitle className="text-sm font-medium">Gasto Total</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">156</div>
-            <p className="text-xs text-green-600">+24% este mês</p>
+            <div className="text-2xl font-bold">
+              R$ {clients.reduce((sum, c) => sum + (c.total_spent || 0), 0).toFixed(2)}
+            </div>
+            <p className="text-xs text-green-600">Valor acumulado</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Ticket Médio</CardTitle>
+            <CardTitle className="text-sm font-medium">Cashback Total</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">R$ 189</div>
-            <p className="text-xs text-green-600">+5% este mês</p>
+            <div className="text-2xl font-bold text-green-600">
+              R$ {clients.reduce((sum, c) => sum + (c.total_cashback || 0), 0).toFixed(2)}
+            </div>
+            <p className="text-xs text-green-600">Cashback pago</p>
           </CardContent>
         </Card>
       </div>
@@ -87,69 +108,84 @@ const CompanyClients: React.FC = () => {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b">
-                  <th className="text-left p-4">Cliente</th>
-                  <th className="text-left p-4">Contato</th>
-                  <th className="text-left p-4">Total Gasto</th>
-                  <th className="text-left p-4">Última Compra</th>
-                  <th className="text-left p-4">Status</th>
-                  <th className="text-left p-4">Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                {clients.map((client) => (
-                  <tr key={client.id} className="border-b hover:bg-muted/50">
-                    <td className="p-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center">
-                          <Users className="h-5 w-5 text-white" />
-                        </div>
-                        <span className="font-medium">{client.name}</span>
-                      </div>
-                    </td>
-                    <td className="p-4">
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-1 text-sm">
-                          <Mail className="h-3 w-3" />
-                          {client.email}
-                        </div>
-                        <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                          <Phone className="h-3 w-3" />
-                          {client.phone}
-                        </div>
-                      </div>
-                    </td>
-                    <td className="p-4">R$ {client.totalSpent.toFixed(2)}</td>
-                    <td className="p-4">
-                      <div className="flex items-center gap-1 text-sm">
-                        <Calendar className="h-3 w-3" />
-                        {new Date(client.lastPurchase).toLocaleDateString('pt-BR')}
-                      </div>
-                    </td>
-                    <td className="p-4">
-                      <Badge variant={
-                        client.status === 'Ativo' ? 'default' : 
-                        client.status === 'VIP' ? 'secondary' : 'outline'
-                      }>
-                        {client.status}
-                      </Badge>
-                    </td>
-                    <td className="p-4">
-                      <div className="flex gap-2">
-                        <Button variant="outline" size="sm">Ver Perfil</Button>
-                        <Button variant="ghost" size="sm">Histórico</Button>
-                      </div>
-                    </td>
+          {loading ? (
+            <div className="text-center py-8">Carregando clientes...</div>
+          ) : filteredClients.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              Nenhum cliente encontrado
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b">
+                    <th className="text-left p-4">Cliente</th>
+                    <th className="text-left p-4">Contato</th>
+                    <th className="text-left p-4">Total Gasto</th>
+                    <th className="text-left p-4">Cashback</th>
+                    <th className="text-left p-4">Status</th>
+                    <th className="text-left p-4">Origem</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {filteredClients.map((client) => (
+                    <tr key={client.id} className="border-b hover:bg-muted/50">
+                      <td className="p-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center">
+                            <Users className="h-5 w-5 text-white" />
+                          </div>
+                          <div>
+                            <span className="font-medium">{client.full_name}</span>
+                            <div className="text-sm text-muted-foreground">
+                              CPF: {client.cpf}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="p-4">
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-1 text-sm">
+                            <Mail className="h-3 w-3" />
+                            {client.email}
+                          </div>
+                          {client.phone && (
+                            <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                              <Phone className="h-3 w-3" />
+                              {client.phone}
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                      <td className="p-4">R$ {(client.total_spent || 0).toFixed(2)}</td>
+                      <td className="p-4 text-green-600">R$ {(client.total_cashback || 0).toFixed(2)}</td>
+                      <td className="p-4">
+                        <Badge variant={
+                          client.account_status === 'active' ? 'default' : 
+                          client.account_status === 'pending' ? 'secondary' : 'outline'
+                        }>
+                          {client.account_status === 'active' ? 'Ativo' : 
+                           client.account_status === 'pending' ? 'Pendente' : 'Inativo'}
+                        </Badge>
+                      </td>
+                      <td className="p-4">
+                        <Badge variant="outline">
+                          {client.created_by_integration ? client.integration_source || 'Integração' : 'Manual'}
+                        </Badge>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </CardContent>
       </Card>
+
+      <AddClientDialog 
+        open={showAddDialog} 
+        onOpenChange={setShowAddDialog} 
+      />
     </div>
   );
 };

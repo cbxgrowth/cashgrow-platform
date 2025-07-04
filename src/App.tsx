@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -67,6 +68,10 @@ import CompanyProximity from "@/pages/company/proximity/index";
 import CompanyAPIIntegration from "@/pages/company/api-integration/index";
 import CompanyProfile from "@/pages/company/profile/index";
 import CompanySettings from "@/pages/company/settings/index";
+
+// Import pages
+import ClientImport from "@/pages/company/imports/clients/index";
+import ProductImport from "@/pages/company/imports/products/index";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -151,6 +156,10 @@ const AppContent = () => {
         <Route path="api-integration" element={<CompanyAPIIntegration />} />
         <Route path="profile" element={<CompanyProfile />} />
         <Route path="settings" element={<CompanySettings />} />
+        
+        {/* Import Routes */}
+        <Route path="imports/clients" element={<ClientImport />} />
+        <Route path="imports/products" element={<ProductImport />} />
       </Route>
 
       {/* 404 Route */}
