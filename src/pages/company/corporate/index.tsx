@@ -312,7 +312,7 @@ const CompanyCorporate: React.FC = () => {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
                     <span className="font-medium">Tempo de Resposta</span>
-                    <Badge className="bg-green-100 text-green-800">< 2 horas</Badge>
+                    <Badge className="bg-green-100 text-green-800">menos de 2 horas</Badge>
                   </div>
                   <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
                     <span className="font-medium">Disponibilidade</span>
