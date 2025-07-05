@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -65,6 +64,7 @@ import CompanyAICampaigns from "@/pages/company/ai-campaigns/index";
 import CompanyCorporate from "@/pages/company/corporate/index";
 import CompanyCashbackRules from "@/pages/company/cashback-rules/index";
 import CompanyProximity from "@/pages/company/proximity/index";
+import CompanyIntegrations from "@/pages/company/integrations/index";
 import CompanyAPIIntegration from "@/pages/company/api-integration/index";
 import CompanyProfile from "@/pages/company/profile/index";
 import CompanySettings from "@/pages/company/settings/index";
@@ -153,6 +153,7 @@ const AppContent = () => {
         <Route path="corporate" element={<CompanyCorporate />} />
         <Route path="cashback-rules" element={<CompanyCashbackRules />} />
         <Route path="proximity" element={<CompanyProximity />} />
+        <Route path="integrations" element={<CompanyIntegrations />} />
         <Route path="api-integration" element={<CompanyAPIIntegration />} />
         <Route path="profile" element={<CompanyProfile />} />
         <Route path="settings" element={<CompanySettings />} />
