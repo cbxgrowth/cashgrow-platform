@@ -78,7 +78,7 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
 
   return (
     <div className={cn(
-      "bg-background border-r border-border h-screen flex flex-col transition-all duration-300 fixed left-0 top-0 z-40 shadow-lg",
+      "bg-background border-r border-border h-screen flex flex-col transition-all duration-300 fixed left-0 top-0 z-30 shadow-lg",
       isCollapsed ? "w-16" : "w-64"
     )}>
       {/* Header */}

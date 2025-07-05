@@ -21,7 +21,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
       <div className="flex">
         <DashboardSidebar userType={userType} isCollapsed={false} onToggle={() => {}} />
         
-        <main className="flex-1 overflow-hidden">
+        <main className="flex-1 ml-64 lg:ml-64 overflow-hidden">
           <div className="h-full overflow-y-auto">
             <div className="container mx-auto p-4 sm:p-6 lg:p-8">
               <Outlet />
