@@ -25,6 +25,7 @@ import AuthLayout from "@/components/layouts/AuthLayout";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import { useAuth } from "@/hooks/auth/useAuth";
 import { useEffect } from "react";
+import ExampleNotifications from "@/pages/notifications/ExampleNotifications";
 
 // Soluções páginas
 import SolutionsIndex from "@/pages/solutions/index";
