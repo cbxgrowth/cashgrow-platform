@@ -136,6 +136,7 @@ const AppContent = () => {
         <Route path="companies" element={<ClientCompanies />} />
         <Route path="location" element={<ClientLocation />} />
         <Route path="notifications" element={<ClientNotifications />} />
+        <Route path="notifications/examples" element={<ExampleNotifications />} />
         <Route path="community" element={<Community />} />
         <Route path="profile" element={<ClientProfile />} />
       </Route>
@@ -155,6 +156,8 @@ const AppContent = () => {
         <Route path="proximity" element={<CompanyProximity />} />
         <Route path="integrations" element={<CompanyIntegrations />} />
         <Route path="api-integration" element={<CompanyAPIIntegration />} />
+        <Route path="notifications" element={<ClientNotifications />} />
+        <Route path="notifications/examples" element={<ExampleNotifications />} />
         <Route path="profile" element={<CompanyProfile />} />
         <Route path="settings" element={<CompanySettings />} />
         

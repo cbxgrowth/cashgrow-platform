@@ -14,25 +14,37 @@ const ExampleNotifications: React.FC = () => {
   const clientExamples = [
     {
       title: 'Cashback Recebido',
-      message: 'Você ganhou R$ 15,50 de cashback na sua última compra!',
+      message: 'Você ganhou R$ 22,50 de cashback na sua compra no Mercado Verde!',
+      type: 'success' as const,
+      link: '/client/transactions'
+    },
+    {
+      title: 'Resgate Processado',
+      message: 'Seu resgate de R$ 100,00 via PIX foi processado com sucesso.',
       type: 'success' as const,
       link: '/client/wallet'
     },
     {
-      title: 'Nova Promoção',
-      message: 'Triplo cashback no Supermercado ABC este fim de semana!',
+      title: 'Compra Confirmada',
+      message: 'Sua compra de R$ 89,90 na Farmácia Saúde foi confirmada. Cashback será creditado em até 24h.',
       type: 'info' as const,
+      link: '/client/transactions'
+    },
+    {
+      title: 'Promoção Especial',
+      message: 'Dobro de cashback em todos os supermercados parceiros até domingo!',
+      type: 'warning' as const,
       link: '/client/companies'
     },
     {
-      title: 'Nível Aumentado',
-      message: 'Parabéns! Você subiu para o nível Prata e ganhou benefícios exclusivos.',
+      title: 'Nível Atualizado',
+      message: 'Parabéns! Você subiu para o nível Gold e agora tem 12% de cashback.',
       type: 'success' as const,
       link: '/client/vip-club'
     },
     {
-      title: 'Resgate Disponível',
-      message: 'Você tem R$ 50,00 disponíveis para resgate via PIX.',
+      title: 'Limite de Resgate',
+      message: 'Você atingiu 80% do seu limite mensal de resgate PIX.',
       type: 'warning' as const,
       link: '/client/wallet'
     }
@@ -40,27 +52,39 @@ const ExampleNotifications: React.FC = () => {
 
   const companyExamples = [
     {
-      title: 'Novo Cliente',
-      message: 'Maria Santos se cadastrou e fez sua primeira compra de R$ 120,00.',
+      title: 'Nova Venda Registrada',
+      message: 'Cliente Ana Costa realizou uma compra de R$ 245,80 com cashback de R$ 29,50.',
+      type: 'success' as const,
+      link: '/company/transactions'
+    },
+    {
+      title: 'Cliente Cadastrado',
+      message: 'Pedro Oliveira se cadastrou e já realizou 3 compras totalizando R$ 567,20.',
       type: 'success' as const,
       link: '/company/clients'
     },
     {
-      title: 'Meta Atingida',
-      message: 'Sua empresa atingiu 200 transações este mês! Meta superada em 25%.',
+      title: 'Meta de Vendas Atingida',
+      message: 'Parabéns! Sua empresa atingiu 1.000 transações este mês, superando a meta em 35%.',
       type: 'success' as const,
       link: '/company/performance'
     },
     {
-      title: 'Relatório Disponível',
-      message: 'Seu relatório mensal de cashback está pronto para download.',
+      title: 'Cashback Alto Detectado',
+      message: 'Cliente VIP realizou compra de R$ 1.200,00 gerando R$ 180,00 de cashback.',
+      type: 'info' as const,
+      link: '/company/transactions'
+    },
+    {
+      title: 'Relatório Mensal Pronto',
+      message: 'Seu relatório de performance mensal está disponível para download.',
       type: 'info' as const,
       link: '/company/reports'
     },
     {
-      title: 'Integração Requerida',
-      message: 'Atualize sua integração ERP para continuar sincronizando dados.',
-      type: 'warning' as const,
+      title: 'Integração Requer Atenção',
+      message: 'Sua integração ERP apresentou erro na última sincronização.',
+      type: 'error' as const,
       link: '/company/integrations'
     }
   ];
@@ -119,6 +143,7 @@ const ExampleNotifications: React.FC = () => {
                 <span className={`px-2 py-1 rounded text-xs ${
                   example.type === 'success' ? 'bg-green-100 text-green-800' :
                   example.type === 'warning' ? 'bg-yellow-100 text-yellow-800' :
+                  example.type === 'error' ? 'bg-red-100 text-red-800' :
                   'bg-blue-100 text-blue-800'
                 }`}>
                   {example.type}
@@ -132,21 +157,38 @@ const ExampleNotifications: React.FC = () => {
 
       <Card className="mt-8">
         <CardHeader>
-          <CardTitle>Como Funciona</CardTitle>
+          <CardTitle>Notificações Específicas por Tipo de Usuário</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-2">
-          <p className="text-sm text-muted-foreground">
-            • <strong>Clientes</strong> recebem notificações sobre cashback, promoções, níveis e resgates
-          </p>
-          <p className="text-sm text-muted-foreground">
-            • <strong>Empresas</strong> recebem notificações sobre novos clientes, metas, relatórios e integrações
-          </p>
-          <p className="text-sm text-muted-foreground">
-            • As notificações são filtradas automaticamente pelo tipo de usuário logado
-          </p>
-          <p className="text-sm text-muted-foreground">
-            • Cada notificação pode ter links específicos para páginas relevantes do painel
-          </p>
+        <CardContent className="space-y-3">
+          <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
+            <p className="text-sm font-medium text-blue-900 mb-1">
+              <User className="h-4 w-4 inline mr-2" />
+              Clientes recebem notificações sobre:
+            </p>
+            <ul className="text-xs text-blue-800 ml-6 list-disc space-y-1">
+              <li>Cashback recebido e confirmado</li>
+              <li>Compras processadas e status</li>
+              <li>Resgates via PIX realizados</li>
+              <li>Promoções e ofertas especiais</li>
+              <li>Mudanças de nível VIP</li>
+              <li>Limites de resgate atingidos</li>
+            </ul>
+          </div>
+          
+          <div className="p-3 bg-green-50 rounded-lg border border-green-200">
+            <p className="text-sm font-medium text-green-900 mb-1">
+              <Building2 className="h-4 w-4 inline mr-2" />
+              Empresas recebem notificações sobre:
+            </p>
+            <ul className="text-xs text-green-800 ml-6 list-disc space-y-1">
+              <li>Novas vendas e transações registradas</li>
+              <li>Clientes cadastrados e atividade</li>
+              <li>Metas de vendas atingidas</li>
+              <li>Cashback gerado e distribuído</li>
+              <li>Relatórios de performance disponíveis</li>
+              <li>Status de integrações e sincronizações</li>
+            </ul>
+          </div>
         </CardContent>
       </Card>
     </div>

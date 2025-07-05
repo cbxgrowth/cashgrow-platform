@@ -41,74 +41,123 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
           id: '1',
           userId,
           userType: 'client',
-          title: 'Bem-vindo ao sistema de cashback!',
-          message: 'Comece a explorar empresas parceiras e ganhe cashback em suas compras.',
-          type: 'info',
+          title: 'Cashback Confirmado!',
+          message: 'Você recebeu R$ 15,50 de cashback da sua compra no Supermercado ABC.',
+          type: 'success',
           isRead: false,
           createdAt: new Date().toISOString(),
-          metadata: { category: 'system' }
+          link: '/client/transactions',
+          metadata: { category: 'transaction', priority: 'medium' }
         },
         {
           id: '2',
           userId,
           userType: 'client',
-          title: 'Cashback disponível',
-          message: 'Você tem R$ 25,00 em cashback disponível para resgate.',
-          type: 'success',
+          title: 'Resgate Disponível',
+          message: 'Você tem R$ 45,00 disponíveis para resgate via PIX.',
+          type: 'info',
           isRead: false,
-          createdAt: new Date(Date.now() - 86400000).toISOString(),
-          link: '/client/dashboard',
-          metadata: { category: 'transaction' }
+          createdAt: new Date(Date.now() - 3600000).toISOString(),
+          link: '/client/wallet',
+          metadata: { category: 'account', priority: 'high' }
         },
         {
           id: '3',
           userId,
           userType: 'client',
-          title: 'Nova promoção disponível!',
-          message: 'Dobro de cashback no Mercado Verde até domingo!',
+          title: 'Promoção Especial!',
+          message: 'Triplo cashback na Farmácia Saúde até domingo!',
+          type: 'info',
+          isRead: false,
+          createdAt: new Date(Date.now() - 7200000).toISOString(),
+          link: '/client/companies',
+          metadata: { category: 'promotion', priority: 'medium' }
+        },
+        {
+          id: '4',
+          userId,
+          userType: 'client',
+          title: 'Nível VIP Desbloqueado!',
+          message: 'Parabéns! Você atingiu o nível VIP e agora tem 15% de cashback em todas as compras.',
+          type: 'success',
+          isRead: true,
+          createdAt: new Date(Date.now() - 86400000).toISOString(),
+          link: '/client/vip-club',
+          metadata: { category: 'account', priority: 'high' }
+        },
+        {
+          id: '5',
+          userId,
+          userType: 'client',
+          title: 'Compra Processada',
+          message: 'Sua compra de R$ 89,90 foi processada e o cashback será creditado em até 24h.',
           type: 'info',
           isRead: true,
           createdAt: new Date(Date.now() - 172800000).toISOString(),
-          link: '/client/companies',
-          metadata: { category: 'promotion' }
+          metadata: { category: 'transaction', priority: 'low' }
         }
       );
     } else if (userType === 'company') {
       baseNotifications.push(
         {
-          id: '4',
-          userId,
-          userType: 'company',
-          title: 'Novo cliente cadastrado',
-          message: 'João Silva se cadastrou em sua empresa e já realizou a primeira compra.',
-          type: 'success',
-          isRead: false,
-          createdAt: new Date().toISOString(),
-          link: '/company/clients',
-          metadata: { category: 'client-management' }
-        },
-        {
-          id: '5',
-          userId,
-          userType: 'company',
-          title: 'Relatório de performance disponível',
-          message: 'Seu relatório mensal de cashback está pronto para análise.',
-          type: 'info',
-          isRead: false,
-          createdAt: new Date(Date.now() - 3600000).toISOString(),
-          link: '/company/reports',
-          metadata: { category: 'performance' }
-        },
-        {
           id: '6',
           userId,
           userType: 'company',
-          title: 'Meta de transações atingida',
-          message: 'Parabéns! Você atingiu a meta de 100 transações este mês.',
+          title: 'Nova Venda Registrada',
+          message: 'Cliente Maria Silva realizou uma compra de R$ 156,80 com 12% de cashback aplicado.',
           type: 'success',
+          isRead: false,
+          createdAt: new Date().toISOString(),
+          link: '/company/transactions',
+          metadata: { category: 'client-management', priority: 'medium' }
+        },
+        {
+          id: '7',
+          userId,
+          userType: 'company',
+          title: 'Novo Cliente Cadastrado',
+          message: 'João Santos se cadastrou em sua empresa e já realizou a primeira compra.',
+          type: 'success',
+          isRead: false,
+          createdAt: new Date(Date.now() - 1800000).toISOString(),
+          link: '/company/clients',
+          metadata: { category: 'client-management', priority: 'high' }
+        },
+        {
+          id: '8',
+          userId,
+          userType: 'company',
+          title: 'Meta Mensal Atingida',
+          message: 'Parabéns! Sua empresa atingiu 500 transações este mês, superando a meta em 25%.',
+          type: 'success',
+          isRead: false,
+          createdAt: new Date(Date.now() - 3600000).toISOString(),
+          link: '/company/performance',
+          metadata: { category: 'performance', priority: 'high' }
+        },
+        {
+          id: '9',
+          userId,
+          userType: 'company',
+          title: 'Relatório de Cashback Disponível',
+          message: 'Seu relatório semanal de cashback está pronto para download.',
+          type: 'info',
           isRead: true,
           createdAt: new Date(Date.now() - 86400000).toISOString(),
-          metadata: { category: 'performance' }
+          link: '/company/reports',
+          metadata: { category: 'performance', priority: 'medium' }
+        },
+        {
+          id: '10',
+          userId,
+          userType: 'company',
+          title: 'Integração ERP Pendente',
+          message: 'Sua integração com o sistema ERP precisa ser atualizada para continuar sincronizando.',
+          type: 'warning',
+          isRead: true,
+          createdAt: new Date(Date.now() - 172800000).toISOString(),
+          link: '/company/integrations',
+          metadata: { category: 'system', priority: 'high' }
         }
       );
     }
