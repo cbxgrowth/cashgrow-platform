@@ -89,7 +89,11 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
             variant="ghost"
             size="icon"
             onClick={onToggle}
-            className="ml-auto hover:bg-accent/20 touch-target"
+            className={cn(
+              "hover:bg-accent/20 touch-target transition-all duration-200",
+              isCollapsed ? "ml-0" : "ml-auto"
+            )}
+            title={isCollapsed ? "Expandir menu" : "Recolher menu"}
           >
             {isCollapsed ? (
               <ChevronRight className="h-4 w-4" />
@@ -111,7 +115,7 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
                   <Link
                     to={item.href}
                     className={cn(
-                      "flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-all duration-200 touch-target",
+                      "flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-all duration-200 touch-target group",
                       isActive
                         ? "bg-primary text-primary-foreground shadow-md"
                         : "text-muted-foreground hover:text-foreground hover:bg-muted/80",
@@ -121,6 +125,11 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
                   >
                     <item.icon className="h-5 w-5 flex-shrink-0" />
                     {!isCollapsed && <span className="truncate">{item.label}</span>}
+                    {isCollapsed && (
+                      <div className="absolute left-16 bg-background border border-border px-2 py-1 rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
+                        <span className="text-xs whitespace-nowrap">{item.label}</span>
+                      </div>
+                    )}
                   </Link>
                 </li>
               );

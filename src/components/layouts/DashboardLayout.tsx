@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { EnhancedDashboardHeader } from './dashboard/EnhancedDashboardHeader';
 import { DashboardSidebar } from './dashboard/DashboardSidebar';
@@ -12,16 +12,27 @@ interface DashboardLayoutProps {
 }
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const menuItems = getMenuItems(userType);
+
+  const handleToggleSidebar = () => {
+    setIsCollapsed(!isCollapsed);
+  };
 
   return (
     <div className="min-h-screen bg-background">
       <EnhancedDashboardHeader userType={userType} menuItems={menuItems} />
       
       <div className="flex">
-        <DashboardSidebar userType={userType} isCollapsed={false} onToggle={() => {}} />
+        <DashboardSidebar 
+          userType={userType} 
+          isCollapsed={isCollapsed} 
+          onToggle={handleToggleSidebar} 
+        />
         
-        <main className="flex-1 ml-64 lg:ml-64 overflow-hidden">
+        <main className={`flex-1 overflow-hidden transition-all duration-300 ${
+          isCollapsed ? 'ml-16' : 'ml-64'
+        }`}>
           <div className="h-full overflow-y-auto">
             <div className="container mx-auto p-4 sm:p-6 lg:p-8">
               <Outlet />
