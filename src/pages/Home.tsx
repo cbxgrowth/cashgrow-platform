@@ -5,7 +5,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Zap, Shield, TrendingUp, Users, Sparkles, Star, CheckCircle, Wallet, BarChart3, Target, Crown, Globe, Smartphone, CreditCard, Gift, Rocket, Award } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import SalesSupport from "@/components/plugins/SalesSupport";
 const Home = () => {
   const features = [{
     icon: Wallet,
@@ -348,9 +347,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-      {/* Sales Support Plugin */}
-      <SalesSupport />
     </div>;
 };
 export default Home;
