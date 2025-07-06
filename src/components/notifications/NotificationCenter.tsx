@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Bell, X, Check, CheckAll } from 'lucide-react';
+import { Bell, X, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -65,7 +65,7 @@ export const NotificationCenter: React.FC = () => {
                     onClick={markAllAsRead}
                     className="h-8 px-2 text-xs"
                   >
-                    <CheckAll className="h-3 w-3 mr-1" />
+                    <Check className="h-3 w-3 mr-1" />
                     Marcar todas
                   </Button>
                 )}

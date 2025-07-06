@@ -2,7 +2,7 @@
 import React from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import NotificationList from './NotificationList';
-import NotificationBell from './NotificationBell';
+import { NotificationBell } from './NotificationBell';
 import { Button } from '@/components/ui/button';
 import { useNavigate, useLocation } from 'react-router-dom';
 
