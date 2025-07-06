@@ -1,34 +1,26 @@
 
 import React from 'react';
-import { Button } from '@/components/ui/button';
 import { Bell } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { useNotifications } from '@/contexts/NotificationContext';
 
-interface NotificationBellProps {
-  onClick?: () => void;
-}
-
-const NotificationBell: React.FC<NotificationBellProps> = ({ onClick }) => {
+export const NotificationBell: React.FC = () => {
   const { unreadCount } = useNotifications();
 
   return (
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={onClick}
-      className="relative"
-      aria-label="Notifications"
-    >
-      <Bell className="h-5 w-5" />
-      {unreadCount > 0 && (
-        <div className="absolute top-0 right-0 -mt-1 -mr-1 w-4 h-4 rounded-full bg-primary flex items-center justify-center">
-          <span className="text-[10px] text-primary-foreground font-bold">
-            {unreadCount > 9 ? '9+' : unreadCount}
-          </span>
-        </div>
-      )}
-    </Button>
+    <div className="relative">
+      <Button variant="ghost" size="icon" className="relative">
+        <Bell className="h-5 w-5" />
+        {unreadCount > 0 && (
+          <Badge 
+            variant="destructive" 
+            className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs"
+          >
+            {unreadCount > 99 ? '99+' : unreadCount}
+          </Badge>
+        )}
+      </Button>
+    </div>
   );
 };
-
-export default NotificationBell;

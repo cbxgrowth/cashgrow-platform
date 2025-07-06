@@ -1,51 +1,59 @@
 
-import { 
-  MessageCircle, 
-  Phone, 
-  Calendar,
-  Zap,
-  Crown,
-  Users,
-  CheckCircle
-} from "lucide-react";
-
-export const salesOptions = [
+export const salesTeam = [
   {
-    icon: MessageCircle,
-    title: "Chat com Vendas",
-    description: "Fale com um especialista agora",
-    action: "Iniciar Chat",
-    gradient: "from-blue-500 to-indigo-600",
-    availability: "Online agora"
+    id: '1',
+    name: 'Ana Silva',
+    role: 'Especialista em Vendas',
+    email: 'ana.silva@cashback.com',
+    phone: '(11) 98765-4321',
+    specialties: ['E-commerce', 'Varejo'],
+    rating: 4.9,
+    clientsHelped: 150
   },
   {
-    icon: Phone,
-    title: "Ligação Gratuita",
-    description: "Agende uma demonstração",
-    action: "Agendar Ligação",
-    gradient: "from-green-500 to-emerald-600",
-    availability: "Disponível"
+    id: '2',
+    name: 'Carlos Santos',
+    role: 'Consultor Sênior',
+    email: 'carlos.santos@cashback.com',
+    phone: '(11) 98765-4322',
+    specialties: ['Enterprise', 'Integrações'],
+    rating: 4.8,
+    clientsHelped: 200
   },
   {
-    icon: Calendar,
-    title: "Demo Personalizada",
-    description: "Demonstração do produto",
-    action: "Agendar Demo",
-    gradient: "from-purple-500 to-violet-600",
-    availability: "15 min"
+    id: '3',
+    name: 'Marina Costa',
+    role: 'Account Manager',
+    email: 'marina.costa@cashback.com',
+    phone: '(11) 98765-4323',
+    specialties: ['Pequenas Empresas', 'Onboarding'],
+    rating: 5.0,
+    clientsHelped: 120
   }
 ];
 
-export const benefits = [
-  { icon: Zap, text: "Setup em 5 minutos", color: "text-yellow-500" },
-  { icon: Crown, text: "Suporte premium 24/7", color: "text-purple-500" },
-  { icon: Users, text: "Treinamento gratuito", color: "text-blue-500" },
-  { icon: CheckCircle, text: "ROI garantido em 30 dias", color: "text-green-500" }
+export const salesFAQ = [
+  {
+    question: 'Qual o tempo de implementação?',
+    answer: 'O tempo varia de 2-7 dias dependendo da complexidade da integração.'
+  },
+  {
+    question: 'Vocês oferecem suporte técnico?',
+    answer: 'Sim, oferecemos suporte técnico 24/7 para todos os planos pagos.'
+  },
+  {
+    question: 'É possível fazer teste gratuito?',
+    answer: 'Sim, oferecemos 14 dias de teste gratuito com todos os recursos.'
+  },
+  {
+    question: 'Como funciona a integração?',
+    answer: 'Nossa equipe técnica realiza toda a integração, você não precisa se preocupar.'
+  }
 ];
 
-export const urgencyFeatures = [
-  "🔥 Oferta limitada - 50% OFF no primeiro mês",
-  "⚡ Implementação express em 24h",
-  "🎯 Consultoria estratégica gratuita",
-  "💎 Acesso antecipado a novas funcionalidades"
-];
+export const salesStats = {
+  totalClients: 2500,
+  averageROI: '340%',
+  implementationTime: '5 dias',
+  satisfactionRate: '98%'
+};

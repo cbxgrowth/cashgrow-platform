@@ -1,169 +1,154 @@
 
 import React, { useState } from 'react';
-import { Bell, X, Check, AlertCircle, Info, Gift } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Bell, X, Check, CheckAll } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-
-interface Notification {
-  id: string;
-  type: 'cashback' | 'promotion' | 'system' | 'achievement';
-  title: string;
-  message: string;
-  time: string;
-  read: boolean;
-  actionUrl?: string;
-}
-
-const mockNotifications: Notification[] = [
-  {
-    id: '1',
-    type: 'cashback',
-    title: 'Cashback Recebido!',
-    message: 'Você ganhou R$ 12,50 de cashback na Farmácia Saúde',
-    time: '2 min atrás',
-    read: false,
-    actionUrl: '/client/transactions'
-  },
-  {
-    id: '2',
-    type: 'promotion',
-    title: 'Promoção Especial',
-    message: 'Dobro de cashback no Mercado Verde até domingo!',
-    time: '1 hora atrás',
-    read: false,
-    actionUrl: '/client/companies'
-  },
-  {
-    id: '3',
-    type: 'achievement',
-    title: 'Nível Gold Desbloqueado!',
-    message: 'Parabéns! Você atingiu o nível Gold e agora tem 10% de cashback',
-    time: '2 horas atrás',
-    read: true,
-    actionUrl: '/client/vip-club'
-  },
-  {
-    id: '4',
-    type: 'system',
-    title: 'Manutenção Programada',
-    message: 'Sistema estará em manutenção amanhã das 2h às 4h',
-    time: '1 dia atrás',
-    read: true
-  }
-];
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { useNotifications } from '@/contexts/NotificationContext';
+import { formatDistanceToNow } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import { Link } from 'react-router-dom';
 
 export const NotificationCenter: React.FC = () => {
-  const [notifications, setNotifications] = useState(mockNotifications);
+  const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
   const [isOpen, setIsOpen] = useState(false);
 
-  const unreadCount = notifications.filter(n => !n.read).length;
-
-  const markAsRead = (id: string) => {
-    setNotifications(prev => 
-      prev.map(n => n.id === id ? { ...n, read: true } : n)
-    );
+  const handleNotificationClick = (id: string, link?: string) => {
+    markAsRead(id);
+    if (link) {
+      setIsOpen(false);
+    }
   };
 
-  const markAllAsRead = () => {
-    setNotifications(prev => prev.map(n => ({ ...n, read: true })));
-  };
-
-  const getIcon = (type: string) => {
+  const getNotificationIcon = (type: string) => {
     switch (type) {
-      case 'cashback':
-        return <Gift className="h-4 w-4 text-green-600" />;
-      case 'promotion':
-        return <AlertCircle className="h-4 w-4 text-orange-600" />;
-      case 'achievement':
-        return <Check className="h-4 w-4 text-purple-600" />;
+      case 'success':
+        return '✅';
+      case 'warning':
+        return '⚠️';
+      case 'error':
+        return '❌';
+      case 'info':
       default:
-        return <Info className="h-4 w-4 text-blue-600" />;
+        return 'ℹ️';
     }
   };
 
   return (
-    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
-      <DropdownMenuTrigger asChild>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
+      <PopoverTrigger asChild>
         <Button variant="ghost" size="icon" className="relative">
           <Bell className="h-5 w-5" />
           {unreadCount > 0 && (
             <Badge 
               variant="destructive" 
-              className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs animate-pulse"
+              className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs"
             >
-              {unreadCount}
+              {unreadCount > 99 ? '99+' : unreadCount}
             </Badge>
           )}
         </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-80 p-0">
-        <Card className="border-0 shadow-lg">
+      </PopoverTrigger>
+      
+      <PopoverContent className="w-80 p-0" align="end">
+        <Card className="border-0 shadow-none">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <CardTitle className="text-base">Notificações</CardTitle>
-              {unreadCount > 0 && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={markAllAsRead}
-                  className="text-xs"
+              <div className="flex items-center gap-2">
+                {unreadCount > 0 && (
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={markAllAsRead}
+                    className="h-8 px-2 text-xs"
+                  >
+                    <CheckAll className="h-3 w-3 mr-1" />
+                    Marcar todas
+                  </Button>
+                )}
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  onClick={() => setIsOpen(false)}
+                  className="h-8 w-8"
                 >
-                  Marcar todas como lidas
+                  <X className="h-3 w-3" />
                 </Button>
-              )}
+              </div>
             </div>
           </CardHeader>
+          
           <CardContent className="p-0">
             <ScrollArea className="h-96">
-              <div className="space-y-1 p-4">
-                {notifications.map((notification) => (
-                  <div
-                    key={notification.id}
-                    className={`p-3 rounded-lg border transition-all cursor-pointer hover:bg-muted/50 ${
-                      !notification.read ? 'bg-primary/5 border-primary/20' : 'bg-background'
-                    }`}
-                    onClick={() => {
-                      markAsRead(notification.id);
-                      if (notification.actionUrl) {
-                        window.location.href = notification.actionUrl;
-                      }
-                    }}
-                  >
-                    <div className="flex items-start gap-3">
-                      <div className="mt-1">
-                        {getIcon(notification.type)}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between mb-1">
-                          <p className="text-sm font-medium truncate">
-                            {notification.title}
+              {notifications.length === 0 ? (
+                <div className="p-4 text-center text-muted-foreground">
+                  <Bell className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                  <p className="text-sm">Nenhuma notificação</p>
+                </div>
+              ) : (
+                <div className="space-y-1">
+                  {notifications.map((notification) => (
+                    <div
+                      key={notification.id}
+                      className={`p-3 border-l-2 hover:bg-muted/50 cursor-pointer transition-colors ${
+                        !notification.isRead 
+                          ? 'bg-blue-50/50 border-l-blue-500' 
+                          : 'border-l-transparent'
+                      }`}
+                      onClick={() => handleNotificationClick(notification.id, notification.link)}
+                    >
+                      <div className="flex items-start gap-3">
+                        <span className="text-lg flex-shrink-0 mt-0.5">
+                          {getNotificationIcon(notification.type)}
+                        </span>
+                        
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between mb-1">
+                            <h4 className={`text-sm font-medium truncate ${
+                              !notification.isRead ? 'text-foreground' : 'text-muted-foreground'
+                            }`}>
+                              {notification.title}
+                            </h4>
+                            {!notification.isRead && (
+                              <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0 ml-2" />
+                            )}
+                          </div>
+                          
+                          <p className="text-xs text-muted-foreground line-clamp-2 mb-2">
+                            {notification.message}
                           </p>
-                          {!notification.read && (
-                            <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
-                          )}
+                          
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs text-muted-foreground">
+                              {formatDistanceToNow(new Date(notification.createdAt), { 
+                                addSuffix: true,
+                                locale: ptBR 
+                              })}
+                            </span>
+                            
+                            {notification.link && (
+                              <Link 
+                                to={notification.link}
+                                className="text-xs text-primary hover:underline"
+                                onClick={() => setIsOpen(false)}
+                              >
+                                Ver detalhes
+                              </Link>
+                            )}
+                          </div>
                         </div>
-                        <p className="text-xs text-muted-foreground mb-1">
-                          {notification.message}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {notification.time}
-                        </p>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </ScrollArea>
           </CardContent>
         </Card>
-      </DropdownMenuContent>
-    </DropdownMenu>
+      </PopoverContent>
+    </Popover>
   );
 };
