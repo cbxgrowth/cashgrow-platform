@@ -42,14 +42,37 @@ const EditProductDialog: React.FC<EditProductDialogProps> = ({ open, onOpenChang
   });
 
   const categories = [
-    'Eletrônicos',
-    'Roupas',
-    'Casa e Jardim',
-    'Esportes',
-    'Beleza',
-    'Livros',
-    'Alimentação',
-    'Automóveis',
+    'Eletrônicos e Tecnologia',
+    'Roupas e Acessórios',
+    'Casa e Decoração',
+    'Esportes e Lazer',
+    'Beleza e Cuidados Pessoais',
+    'Livros e Educação',
+    'Alimentação e Bebidas',
+    'Saúde e Bem-estar',
+    'Automóveis e Veículos',
+    'Móveis e Eletrodomésticos',
+    'Instrumentos Musicais',
+    'Brinquedos e Jogos',
+    'Jardinagem e Plantas',
+    'Ferramentas e Construção',
+    'Arte e Artesanato',
+    'Pets e Animais',
+    'Viagens e Turismo',
+    'Serviços Profissionais',
+    'Consultoria e Assessoria',
+    'Manutenção e Reparos',
+    'Transporte e Logística',
+    'Eventos e Entretenimento',
+    'Cursos e Treinamentos',
+    'Software e Aplicativos',
+    'Marketing e Publicidade',
+    'Financeiro e Contábil',
+    'Jurídico e Legal',
+    'Imobiliário',
+    'Seguros',
+    'Telecomunicações',
+    'Energia e Sustentabilidade',
     'Outros'
   ];
 
@@ -94,7 +117,7 @@ const EditProductDialog: React.FC<EditProductDialogProps> = ({ open, onOpenChang
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Editar Produto</DialogTitle>
           <DialogDescription>
@@ -142,7 +165,7 @@ const EditProductDialog: React.FC<EditProductDialogProps> = ({ open, onOpenChang
                 <SelectTrigger>
                   <SelectValue placeholder="Selecione uma categoria" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="max-h-[200px] overflow-y-auto">
                   {categories.map((category) => (
                     <SelectItem key={category} value={category}>
                       {category}

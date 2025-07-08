@@ -28,7 +28,7 @@ const ProductCatalog: React.FC = () => {
     {
       id: 1,
       name: 'Smartphone Galaxy S24',
-      category: 'Eletrônicos',
+      category: 'Eletrônicos e Tecnologia',
       price: 2299.90,
       originalPrice: 2499.90,
       cashbackPercentage: 8,
@@ -39,7 +39,7 @@ const ProductCatalog: React.FC = () => {
     {
       id: 2,
       name: 'Notebook Dell Inspiron',
-      category: 'Eletrônicos',
+      category: 'Eletrônicos e Tecnologia',
       price: 3299.90,
       cashbackPercentage: 10,
       stock: 8,
@@ -49,7 +49,7 @@ const ProductCatalog: React.FC = () => {
     {
       id: 3,
       name: 'Tênis Nike Air Max',
-      category: 'Moda',
+      category: 'Roupas e Acessórios',
       price: 499.90,
       originalPrice: 599.90,
       cashbackPercentage: 12,
@@ -60,7 +60,7 @@ const ProductCatalog: React.FC = () => {
     {
       id: 4,
       name: 'Cafeteira Nespresso',
-      category: 'Casa',
+      category: 'Casa e Decoração',
       price: 789.90,
       cashbackPercentage: 6,
       stock: 0,
@@ -69,7 +69,21 @@ const ProductCatalog: React.FC = () => {
     }
   ];
 
-  const categories = ['all', 'Eletrônicos', 'Moda', 'Casa', 'Beleza', 'Esportes'];
+  const categories = [
+    'all',
+    'Eletrônicos e Tecnologia',
+    'Roupas e Acessórios',
+    'Casa e Decoração',
+    'Esportes e Lazer',
+    'Beleza e Cuidados Pessoais',
+    'Livros e Educação',
+    'Alimentação e Bebidas',
+    'Saúde e Bem-estar',
+    'Automóveis e Veículos',
+    'Móveis e Eletrodomésticos',
+    'Serviços Profissionais',
+    'Outros'
+  ];
 
   const filteredProducts = products.filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
